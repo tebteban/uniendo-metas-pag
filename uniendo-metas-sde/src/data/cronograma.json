@@ -1,0 +1,30 @@
+[
+    {
+        "dia": "Agosto: Inicio",
+        "actividades": [
+            { "fecha": "12/08", "titulo": "1º Cap. Autoridades", "lugar": "Col. La Asunción (17:30 hs)", "tipo": "capacitacion" },
+            { "fecha": "21/08", "titulo": "Lanzamiento y 1º Cap. Delegados", "lugar": "Paraninfo UNSE (08:30 hs)", "tipo": "general" },
+            { "fecha": "23/08", "titulo": "Sorteo de Países", "lugar": "Sede a confirmar", "tipo": "especial" },
+            { "fecha": "28/08", "titulo": "2º Cap. Autoridades", "lugar": "Col. La Asunción (17:30 hs)", "tipo": "capacitacion" }
+        ]
+    },
+    {
+        "dia": "Septiembre: Formación",
+        "actividades": [
+            { "fecha": "01/09", "titulo": "2º Cap. Delegados", "lugar": "Nodo Tecnológico (08:30 hs)", "tipo": "capacitacion" },
+            { "fecha": "04/09", "titulo": "3º Cap. Autoridades", "lugar": "Col. La Asunción (17:30 hs)", "tipo": "capacitacion" },
+            { "fecha": "08/09", "titulo": "3º Cap. Delegados", "lugar": "Nodo Tecnológico (08:30 hs)", "tipo": "capacitacion" },
+            { "fecha": "10/09", "titulo": "4º Cap. Autoridades", "lugar": "Col. La Asunción (17:30 hs)", "tipo": "capacitacion" },
+            { "fecha": "25/09", "titulo": "Examen de Autoridades", "lugar": "Evaluación", "tipo": "examen" },
+            { "fecha": "29/09", "titulo": "4º Cap. Delegados", "lugar": "Nodo Tecnológico (08:30 hs)", "tipo": "capacitacion" }
+        ]
+    },
+    {
+        "dia": "Octubre: El Modelo",
+        "actividades": [
+            { "fecha": "08/10", "titulo": "Convivencia Autoridades", "lugar": "Actividad Social", "tipo": "social" },
+            { "fecha": "09/10", "titulo": "MODELO ONU - DÍA 1", "lugar": "Jornada Completa", "tipo": "modelo" },
+            { "fecha": "10/10", "titulo": "MODELO ONU - DÍA 2", "lugar": "Cierre y Premiación", "tipo": "modelo" }
+        ]
+    }
+]

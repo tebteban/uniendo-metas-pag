@@ -1,0 +1,27 @@
+{
+    "titulo": "¿Qué es Uniendo Metas?",
+    "subtitulo": "Formando a los líderes del mañana",
+    "descripcion": "Uniendo Metas es un programa de Asociación Conciencia que simula el funcionamiento de las Naciones Unidas. A través de esta experiencia educativa, estudiantes de nivel secundario asumen el rol de diplomáticos de diferentes países para debatir y resolver problemáticas mundiales.",
+    "pilares": [
+        {
+            "titulo": "Liderazgo",
+            "icono": "🚀",
+            "texto": "Desarrollamos habilidades de oratoria, negociación y toma de decisiones en escenarios complejos."
+        },
+        {
+            "titulo": "Empatía",
+            "icono": "🤝",
+            "texto": "Fomentamos el respeto por la diversidad cultural y la búsqueda de consensos pacíficos."
+        },
+        {
+            "titulo": "Ciudadanía",
+            "icono": "🏛️",
+            "texto": "Involucramos a los jóvenes en la realidad global, transformándolos en agentes de cambio."
+        }
+    ],
+    "stats": [
+        { "numero": "+25", "texto": "Años de Trayectoria" },
+        { "numero": "+500", "texto": "Alumnos por Edición" },
+        { "numero": "15", "texto": "Ediciones en SDE" }
+    ]
+}

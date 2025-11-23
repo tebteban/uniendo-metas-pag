@@ -1,0 +1,46 @@
+/* Definimos las variables del Brandbook aquí, igual que antes */
+:root {
+    --color-bordo: #A02140;
+    --color-verde: #73A950;
+    --color-amarillo: #FFB819;
+    --color-naranja: #E15829;
+    --color-celeste: #61B4E4;
+    --color-gris: #8A8A8D;
+    --font-primary: 'Montserrat', sans-serif;
+}
+
+/* Estilos para la grilla dinámica */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.organ-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.organ-card:hover {
+    transform: translateY(-5px);
+}
+
+.btn-descarga {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 20px;
+    border: 2px solid; /* El color viene inline desde el EJS */
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: background 0.3s;
+}
+
+.btn-descarga:hover {
+    background-color: #f4f4f4;
+}
