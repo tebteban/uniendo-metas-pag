@@ -44,3 +44,43 @@
 .btn-descarga:hover {
     background-color: #f4f4f4;
 }
+.impacto-section {
+    padding: 60px 0;
+    background-color: #f8f9fa; /* Gris muy claro para separar */
+    border-bottom: 4px solid #cecece; /* Un borde sutil abajo */
+}
+
+.stat-item {
+    padding: 10px;
+}
+
+.counter-number {
+    font-size: 3.5rem; /* Números bien grandes */
+    font-weight: 800;
+    margin-bottom: 0px;
+    line-height: 1;
+}
+
+/* Colores institucionales de Uniendo Metas */
+.color-rojo { color: #d9304e; }
+.color-azul { color: #007bb6; }
+.color-verde { color: #6da641; }
+.color-amarillo { color: #f5a623; }
+
+/* El símbolo + se agrega con CSS para que no rompa la animación */
+.counter-number::before {
+    content: "+";
+    font-size: 2rem;
+    vertical-align: middle;
+    color: #555;
+    margin-right: 5px;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #555;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}

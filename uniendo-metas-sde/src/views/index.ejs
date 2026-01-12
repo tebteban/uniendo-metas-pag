@@ -6,12 +6,12 @@
 
     <%- include('./partials/navbar') %>
 
-<section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden polygonal-bg">
+    <section id="inicio" class="relative pt-32 pb-24 lg:pt-48 lg:pb-40 overflow-hidden polygonal-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
                 
                 <span class="inline-block py-1 px-4 rounded-full bg-red-50 text-brand-red font-bold text-xs tracking-widest mb-6 border border-red-100">
-                    XV EDICIÓN - SANTIAGO DEL ESTERO
+                    XI EDICIÓN - SANTIAGO DEL ESTERO
                 </span>
                 
                 <h1 class="text-5xl md:text-7xl font-black tracking-tight text-brand-dark mb-6 leading-tight">
@@ -35,7 +35,6 @@
                     <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-20"></div>
 
                     <div class="animate-scroll flex gap-6">
-                        
                         <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-2 hover:rotate-0 transition duration-300" alt="Debate">
                         <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md -rotate-2 hover:rotate-0 transition duration-300" alt="Asamblea">
                         <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-1 hover:rotate-0 transition duration-300" alt="Delegados">
@@ -47,7 +46,6 @@
                         <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-1 hover:rotate-0 transition duration-300" alt="Delegados">
                         <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md -rotate-1 hover:rotate-0 transition duration-300" alt="Equipo">
                         <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-3 hover:rotate-0 transition duration-300" alt="Conferencia">
-                        
                     </div>
                 </div>
 
@@ -58,7 +56,76 @@
         <div class="absolute top-40 right-10 w-40 h-40 bg-brand-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
     </section>
 
-<section id="cronograma" class="py-24 bg-gray-50 relative overflow-hidden">
+<section id="impacto" class="relative z-20 mt-[-50px] overflow-hidden h-[350px]">
+    
+    <div class="absolute inset-0 z-0">
+        <img id="fondo-movil" src="/img/fondo-impacto.png" 
+             class="w-full h-full object-cover object-center scale-105 will-change-transform" 
+             alt="Fondo Impacto">
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-center">
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center w-full">
+            
+            <div class="flex flex-col items-center justify-center p-2">
+                <h3 class="text-7xl font-black mb-0 leading-none" style="color: #f5a623; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
+                    <span class="counter-animate" data-target="10">0</span>
+                </h3>
+                <p class="font-black uppercase tracking-widest text-sm mt-1" style="color: #4b5563;">
+                    Ediciones SDE
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center justify-center p-2">
+                <h3 class="text-7xl font-black mb-0 leading-none" style="color: #6da641; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
+                    +<span class="counter-animate" data-target="500">0</span>
+                </h3>
+                <p class="font-black uppercase tracking-widest text-sm mt-1" style="color: #4b5563;">
+                    Alumnos
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center justify-center p-2">
+                <h3 class="text-7xl font-black mb-0 leading-none" style="color: #38b6ff; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
+                    +<span class="counter-animate" data-target="20">0</span>
+                </h3>
+                <p class="font-black uppercase tracking-widest text-sm mt-1" style="color: #4b5563;">
+                    Escuelas
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center justify-center p-2">
+                <h3 class="text-7xl font-black mb-0 leading-none" style="color: #800020; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
+                    +<span class="counter-animate" data-target="40">0</span>
+                </h3>
+                <p class="font-black uppercase tracking-widest text-sm mt-1" style="color: #4b5563;">
+                    Voluntarios
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('scroll', function() {
+        const imagen = document.getElementById('fondo-movil');
+        const seccion = document.getElementById('impacto');
+        
+        const rect = seccion.getBoundingClientRect();
+        
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            // Velocidad 0.05 (muy suave para que no maree con la imagen tan justa)
+            const velocidad = 0.10;
+            const movimientoX = window.scrollY * velocidad;
+            
+            // scale(1.05) para coincidir con el HTML
+            imagen.style.transform = `scale(1.10) translate3d(${movimientoX}px, 0, 0)`;
+        }
+    });
+</script>
+    <section id="cronograma" class="py-24 bg-gray-50 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <div class="text-center mb-16" data-aos="fade-up">
@@ -78,7 +145,6 @@
                            let todasLasActividades = [];
                            cronograma.forEach(mes => {
                                mes.actividades.forEach(act => {
-                                   // Agregamos el mes al objeto actividad para mostrarlo
                                    act.mesNombre = mes.dia.split(':')[0]; 
                                    todasLasActividades.push(act);
                                });
@@ -152,8 +218,6 @@
 
         </div>
     </section>
-
-
 
     <section id="organos" class="py-24 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -282,28 +346,17 @@
         </div>
     </section>
 
-
-
     <%- include('./partials/footer') %>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ once: true, offset: 50, duration: 800 });
-    </script>
-
-<!-- ================= MODAL DE INSCRIPCIÓN ================= -->
     <div id="modal-inscripcion" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         
-        <!-- Fondo oscuro con desenfoque -->
         <div class="fixed inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity" onclick="closeModal('modal-inscripcion')"></div>
 
         <div class="fixed inset-0 z-10 overflow-y-auto">
             <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
                 
-                <!-- Panel Principal -->
                 <div class="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-4xl border-t-8 border-brand-red">
                     
-                    <!-- Botón Cerrar (X) -->
                     <div class="absolute top-4 right-4 z-10">
                         <button type="button" class="rounded-full bg-gray-100 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition" onclick="closeModal('modal-inscripcion')">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -316,10 +369,8 @@
                             <p class="text-gray-500">¿Cómo quieres participar en esta edición?</p>
                         </div>
 
-                        <!-- Grilla de Opciones -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             
-                            <!-- OPCIÓN 1: DELEGADO (Rojo) -->
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSeFHC3jGFA4kOCdC06cIKxWNJfZpdh6BUFkhw29Qgsnehy3Lw/viewform?usp=dialog" target="_blank" class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-red hover:shadow-xl transition-all duration-300 bg-white overflow-hidden">
                                 <div class="absolute right-0 top-0 h-full w-2 bg-brand-red transition-all duration-300 group-hover:w-full opacity-5"></div>
                                 <div class="h-16 w-16 bg-red-50 rounded-full flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-brand-red">
@@ -334,7 +385,6 @@
                                 </div>
                             </a>
 
-                            <!-- OPCIÓN 2: AUTORIDAD (Azul) -->
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdDiFVyhvPano9W9MKM6V6nNLOTZdMPgGI1zQ90Kj4EIJdB4Q/viewform?usp=dialog" target="_blank" class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-blue hover:shadow-xl transition-all duration-300 bg-white overflow-hidden">
                                 <div class="absolute right-0 top-0 h-full w-2 bg-brand-blue transition-all duration-300 group-hover:w-full opacity-5"></div>
                                 <div class="h-16 w-16 bg-blue-50 rounded-full flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-brand-blue">
@@ -349,7 +399,6 @@
                                 </div>
                             </a>
 
-                            <!-- OPCIÓN 3: VOLUNTARIO (Verde) -->
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfPKDW0V7oQ9Nba7RZ1yKp3oZbc9ZFNOjF-p5iAoZ2Yeqd0ZQ/viewform?usp=publish-editor" target="_blank" class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-green hover:shadow-xl transition-all duration-300 bg-white overflow-hidden">
                                 <div class="absolute right-0 top-0 h-full w-2 bg-brand-green transition-all duration-300 group-hover:w-full opacity-5"></div>
                                 <div class="h-16 w-16 bg-green-50 rounded-full flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-brand-green">
@@ -364,7 +413,6 @@
                                 </div>
                             </a>
 
-                            <!-- OPCIÓN 4: COLEGIO (Amarillo) -->
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLScBvif1_S3oE4uV8iPiSe0MFtdTjHP0mFZii5cDENA6oszokA/viewform?usp=publish-editor" target="_blank" class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-yellow hover:shadow-xl transition-all duration-300 bg-white overflow-hidden">
                                 <div class="absolute right-0 top-0 h-full w-2 bg-brand-yellow transition-all duration-300 group-hover:w-full opacity-5"></div>
                                 <div class="h-16 w-16 bg-yellow-50 rounded-full flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-brand-yellow">
@@ -382,7 +430,6 @@
                         </div>
                     </div>
                     
-                    <!-- Footer del Modal -->
                     <div class="bg-gray-50 px-4 py-4 sm:flex sm:flex-row-reverse sm:px-6 text-center">
                         <p class="text-xs text-gray-400 w-full">Al inscribirte aceptas los términos y condiciones del Modelo Uniendo Metas.</p>
                     </div>
@@ -392,32 +439,24 @@
     </div>
 
     <script>
-        // Función para ABRIR cualquier modal por su ID
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('hidden');
-                // Bloquear el scroll del cuerpo para que no se mueva el fondo
                 document.body.style.overflow = 'hidden';
-            } else {
-                console.error('No se encontró el modal con ID:', modalId);
             }
         }
 
-        // Función para CERRAR cualquier modal por su ID
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.add('hidden');
-                // Reactivar el scroll del cuerpo
                 document.body.style.overflow = 'auto';
             }
         }
 
-        // Cerrar modal al presionar la tecla ESC
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
-                // Cierra todos los modales posibles
                 const modales = document.querySelectorAll('[id^="modal-"]');
                 modales.forEach(modal => {
                     if (!modal.classList.contains('hidden')) {
@@ -430,11 +469,45 @@
     </script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
         AOS.init({ once: true, offset: 50, duration: 800 });
-    </script>
-</body>
-</html>
 
+        // Lógica para animar los números de la sección de impacto
+        const counters = document.querySelectorAll('.counter-animate');
+        const speed = 200; 
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.disconnect(); 
+                }
+            });
+        });
+
+        const impactoSection = document.getElementById('impacto');
+        if(impactoSection) {
+            observer.observe(impactoSection);
+        }
+    </script>
 </body>
 </html>
