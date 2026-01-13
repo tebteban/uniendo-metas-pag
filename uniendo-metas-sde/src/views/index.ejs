@@ -6,51 +6,67 @@
 
     <%- include('./partials/navbar') %>
 
-    <section id="inicio" class="relative pt-32 pb-24 lg:pt-48 lg:pb-40 overflow-hidden polygonal-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
-                
-                <span class="inline-block py-1 px-4 rounded-full bg-red-50 text-brand-red font-bold text-xs tracking-widest mb-6 border border-red-100">
-                    XI EDICIÓN - SANTIAGO DEL ESTERO
+    <section id="inicio" class="relative pt-28 pb-16 lg:pt-48 lg:pb-40 overflow-hidden bg-white">
+    
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-red-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-5xl mx-auto" data-aos="fade-up">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 shadow-sm mb-6 hover:shadow-md transition cursor-default">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-red"></span>
                 </span>
-                
-                <h1 class="text-5xl md:text-7xl font-black tracking-tight text-brand-dark mb-6 leading-tight">
-                    JÓVENES PARA <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-brand-orange to-brand-yellow">EL FUTURO</span>
-                </h1>
-                
-                <p class="mt-4 text-xl text-gray-500 mb-10 max-w-2xl mx-auto font-medium">
-                    "Tu voz tiene poder. Úsala para debatir, proponer y construir el futuro que queremos."
-                </p>
-                
-                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-                    <a href="#organos" class="btn-primary text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl transform hover:-translate-y-1 transition">
-                        Ver Órganos
-                    </a>
-                </div>
+                <span class="text-[10px] md:text-xs font-bold tracking-widest text-gray-600 uppercase">
+                    XI Edición • Santiago
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight text-brand-dark mb-4 leading-[0.95]">
+                JÓVENES PARA <br>
+                <span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-brand-orange to-brand-yellow pb-1 md:pb-2">
+                    EL FUTURO
+                    <svg class="absolute w-full h-2 md:h-3 -bottom-1 left-0 text-brand-yellow opacity-60" viewBox="0 0 200 9" fill="none"><path d="M2.00025 6.99997C2.00025 6.99997 64.9197 -3.53509 101.956 2.39999C138.992 8.33508 198.001 2.99997 198.001 2.99997" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                </span>
+            </h1>
+            
+            <p class="mt-4 text-base md:text-2xl text-gray-500 mb-8 max-w-xl mx-auto font-medium leading-relaxed px-2">
+                "Tu voz tiene poder. Úsala para debatir, proponer y construir el futuro."
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-3 mb-12 px-4">
+                <a href="#organos" class="w-full sm:w-auto px-8 py-3.5 bg-brand-red rounded-full text-white font-bold text-base shadow-lg hover:bg-brand-orange transition-all">
+                    Ver Órganos
+                </a>
+                <a href="#cronograma" class="w-full sm:w-auto px-8 py-3.5 bg-white text-gray-700 border border-gray-200 rounded-full font-bold text-base shadow-sm hover:bg-gray-50 transition-all">
+                    Ver Cronograma
+                </a>
+            </div>
 
-                <div class="relative w-full overflow-hidden">
-                    <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-20"></div>
-                    <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-20"></div>
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 left-0 w-16 md:w-40 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none"></div>
+                <div class="absolute inset-y-0 right-0 w-16 md:w-40 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none"></div>
 
-                    <div class="animate-scroll flex gap-6">
-                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-2 hover:rotate-0 transition duration-300" alt="Debate">
-                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md -rotate-2 hover:rotate-0 transition duration-300" alt="Asamblea">
-                        <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-1 hover:rotate-0 transition duration-300" alt="Delegados">
-                        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md -rotate-1 hover:rotate-0 transition duration-300" alt="Equipo">
-                        <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-3 hover:rotate-0 transition duration-300" alt="Conferencia">
-                        
-                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-2 hover:rotate-0 transition duration-300" alt="Debate">
-                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md -rotate-2 hover:rotate-0 transition duration-300" alt="Asamblea">
-                        <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-1 hover:rotate-0 transition duration-300" alt="Delegados">
-                        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md -rotate-1 hover:rotate-0 transition duration-300" alt="Equipo">
-                        <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?w=400&q=80" class="h-48 w-72 object-cover rounded-xl shadow-md rotate-3 hover:rotate-0 transition duration-300" alt="Conferencia">
+                <div class="w-full overflow-hidden py-2">
+                    <div class="animate-scroll flex gap-4 md:gap-6 w-max items-center">
+                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
                     </div>
                 </div>
-
             </div>
+
         </div>
-        
+    </div>
+</section>
         <div class="absolute top-20 left-10 w-32 h-32 bg-brand-yellow rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
         <div class="absolute top-40 right-10 w-40 h-40 bg-brand-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
     </section>
@@ -307,59 +323,189 @@
         </div>
     </section>
 
-    <section id="organos" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-black text-gray-900 uppercase tracking-tight">Órganos y Tópicos</h2>
-                <div class="h-1 w-20 bg-brand-red mx-auto mt-4 rounded-full"></div>
-                <p class="text-gray-500 mt-4 text-lg">Elige tu lugar en el debate global.</p>
+    <section id="organos" class="pt-10 pb-24 bg-gray-50 relative overflow-hidden">
+    
+    <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="text-center mb-20" data-aos="fade-up">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-dark/5 text-brand-dark font-bold text-[10px] tracking-[0.2em] uppercase mb-4 border border-brand-dark/10">
+                El corazón del debate
+            </span>
+            <h2 class="text-5xl md:text-6xl font-black text-gray-900 tracking-tight mb-6">
+                Órganos y <span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-orange">Tópicos</span>
+            </h2>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
+                Elegí tu lugar en el debate global.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-8">
+
+            <div class="w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-2rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#A02140]/20 transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute -top-20 -right-20 w-60 h-60 bg-[#A02140] rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"></div>
+                
+                <div class="mb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-[#A02140] text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-[#A02140]/30 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6">
+                        C
+                    </div>
+
+                    <h3 class="text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-[#A02140] transition-colors">
+                        Consejo de <br> Seguridad
+                    </h3>
+                    
+                    <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                        Mantener la paz y la seguridad internacionales.
+                    </p>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="bg-[#A02140]/5 border-l-4 border-[#A02140] p-4 rounded-r-xl mb-6">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
+                        <p class="text-gray-900 font-bold text-sm leading-snug">
+                            Situación en Medio Oriente
+                        </p>
+                    </div>
+
+                    <a href="#" class="inline-flex items-center justify-between w-full px-6 py-4 bg-gray-50 rounded-2xl text-gray-600 font-bold text-sm hover:bg-[#A02140] hover:text-white transition-all duration-300 group/btn">
+                        <span>Descargar Reglamento</span>
+                        <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <% if (organos && organos.length > 0) { %>
-                    <% organos.forEach(function(organo, index) { %>
-                        <% let cardColor = organo.color || '#8A8A8D'; %>
-                        <div class="bg-white rounded-3xl border border-gray-100 shadow-lg hover:shadow-2xl card-hover relative overflow-hidden group flex flex-col h-full" 
-                             data-aos="fade-up" 
-                             data-aos-delay="<%= index * 100 %>">
-                            <div class="h-3 w-full" style="background-color: <%= cardColor %>;"></div>
-                            <div class="p-8 flex flex-col flex-grow">
-                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-2xl font-bold text-white shadow-md" 
-                                     style="background-color: <%= cardColor %>;">
-                                    <%= organo.nombre.charAt(0) %>
-                                </div>
-                                <h3 class="text-2xl font-extrabold mb-3 leading-tight" style="color: <%= cardColor %>;">
-                                    <%= organo.nombre %>
-                                </h3>
-                                <p class="text-gray-500 text-sm leading-relaxed mb-6 flex-grow border-b border-gray-100 pb-4">
-                                    <%= organo.descripcion %>
-                                </p>
-                                <div class="mb-6">
-                                    <span class="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">Tópico a debatir</span>
-                                    <p class="font-semibold text-gray-800 text-sm bg-gray-50 p-3 rounded-lg border-l-4" 
-                                       style="border-color: <%= cardColor %>;">
-                                        <%= organo.topico %>
-                                    </p>
-                                </div>
-                                <a href="<%= organo.link_reglamento %>" download 
-                                   class="group flex items-center justify-between w-full py-3 px-5 rounded-xl bg-white border-2 transition font-bold text-sm" 
-                                   style="border-color: <%= cardColor %>; color: <%= cardColor %>;"
-                                   onmouseover="this.style.backgroundColor='<%= cardColor %>'; this.style.color='white';"
-                                   onmouseout="this.style.backgroundColor='white'; this.style.color='<%= cardColor %>';">
-                                    <span>Descargar Reglamento</span>
-                                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                </a>
-                            </div>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="col-span-3 text-center py-10">
-                        <p class="text-gray-500">No hay órganos cargados aún.</p>
+            <div class="w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-2rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#73A950]/20 transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute -top-20 -right-20 w-60 h-60 bg-[#73A950] rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"></div>
+                
+                <div class="mb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-[#73A950] text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-[#73A950]/30 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6">
+                        A
                     </div>
-                <% } %>
+
+                    <h3 class="text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-[#73A950] transition-colors">
+                        Asamblea <br> General
+                    </h3>
+                    
+                    <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                        El único órgano con representación universal.
+                    </p>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="bg-[#73A950]/5 border-l-4 border-[#73A950] p-4 rounded-r-xl mb-6">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
+                        <p class="text-gray-900 font-bold text-sm leading-snug">
+                            Inteligencia Artificial y Ética
+                        </p>
+                    </div>
+
+                    <a href="#" class="inline-flex items-center justify-between w-full px-6 py-4 bg-gray-50 rounded-2xl text-gray-600 font-bold text-sm hover:bg-[#73A950] hover:text-white transition-all duration-300 group/btn">
+                        <span>Descargar Reglamento</span>
+                        <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
+                </div>
             </div>
+
+            <div class="w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-2rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#E15829]/20 transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="300">
+                <div class="absolute -top-20 -right-20 w-60 h-60 bg-[#E15829] rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"></div>
+                
+                <div class="mb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-[#E15829] text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-[#E15829]/30 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6">
+                        E
+                    </div>
+
+                    <h3 class="text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-[#E15829] transition-colors">
+                        ECOSOC
+                    </h3>
+                    
+                    <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                        Promover el desarrollo sostenible (económico, social y ambiental).
+                    </p>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="bg-[#E15829]/5 border-l-4 border-[#E15829] p-4 rounded-r-xl mb-6">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
+                        <p class="text-gray-900 font-bold text-sm leading-snug">
+                            Economía Circular
+                        </p>
+                    </div>
+
+                    <a href="#" class="inline-flex items-center justify-between w-full px-6 py-4 bg-gray-50 rounded-2xl text-gray-600 font-bold text-sm hover:bg-[#E15829] hover:text-white transition-all duration-300 group/btn">
+                        <span>Descargar Reglamento</span>
+                        <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-2rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#FFB819]/20 transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="400">
+                <div class="absolute -top-20 -right-20 w-60 h-60 bg-[#FFB819] rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"></div>
+                
+                <div class="mb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-[#FFB819] text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-[#FFB819]/30 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6">
+                        S
+                    </div>
+
+                    <h3 class="text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-[#FFB819] transition-colors">
+                        Sala de <br> Tratados
+                    </h3>
+                    
+                    <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                        Negociación directa bilateral y multilateral entre embajadores.
+                    </p>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="bg-[#FFB819]/5 border-l-4 border-[#FFB819] p-4 rounded-r-xl mb-6">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
+                        <p class="text-gray-900 font-bold text-sm leading-snug">
+                            Tratados Internacionales
+                        </p>
+                    </div>
+
+                    <a href="#" class="inline-flex items-center justify-between w-full px-6 py-4 bg-gray-50 rounded-2xl text-gray-600 font-bold text-sm hover:bg-[#FFB819] hover:text-white transition-all duration-300 group/btn">
+                        <span>Descargar Reglamento</span>
+                        <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-2rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#61B4E4]/20 transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="500">
+                <div class="absolute -top-20 -right-20 w-60 h-60 bg-[#61B4E4] rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"></div>
+                
+                <div class="mb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-[#61B4E4] text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-[#61B4E4]/30 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6">
+                        D
+                    </div>
+
+                    <h3 class="text-3xl font-black text-gray-900 mb-3 leading-tight group-hover:text-[#61B4E4] transition-colors">
+                        Derechos <br> Humanos
+                    </h3>
+                    
+                    <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                        Fortalecer la promoción y protección de los derechos humanos.
+                    </p>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="bg-[#61B4E4]/5 border-l-4 border-[#61B4E4] p-4 rounded-r-xl mb-6">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
+                        <p class="text-gray-900 font-bold text-sm leading-snug">
+                            Crisis Migratorias
+                        </p>
+                    </div>
+
+                    <a href="#" class="inline-flex items-center justify-between w-full px-6 py-4 bg-gray-50 rounded-2xl text-gray-600 font-bold text-sm hover:bg-[#61B4E4] hover:text-white transition-all duration-300 group/btn">
+                        <span>Descargar Reglamento</span>
+                        <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <section id="nosotros" class="py-24 bg-white relative overflow-hidden">
         <div class="absolute top-0 right-0 w-96 h-96 bg-gray-50 rounded-bl-full -z-10 opacity-50"></div>
@@ -469,6 +615,7 @@
         </div>
     </div>
 </section>
+
 
     <%- include('./partials/footer') %>
 
@@ -693,6 +840,23 @@
                 }
             }
         });
+        // MENÚ MÓVIL
+const btn = document.getElementById('mobile-menu-button');
+const menu = document.getElementById('mobile-menu');
+const links = document.querySelectorAll('.mobile-link');
+
+if(btn && menu) {
+    btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+    
+    // Cerrar menú al hacer click en un link
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            menu.classList.add('hidden');
+        });
+    });
+}
     </script>
 </body>
 </html>
