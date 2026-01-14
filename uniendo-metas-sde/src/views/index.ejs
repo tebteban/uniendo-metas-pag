@@ -237,91 +237,134 @@
     </div>
 </section>
 
-    <section id="cronograma" class="py-24 bg-gray-50 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<section id="cronograma" class="py-24 bg-white border-y border-gray-200 relative overflow-hidden">    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-black text-brand-dark uppercase tracking-tight">Cronograma 2026</h2>
+            <div class="h-1 w-20 bg-brand-blue mx-auto mt-4 rounded-full"></div>
+            <p class="text-gray-500 mt-4 text-lg">El camino hacia el modelo.</p>
+        </div>
+
+        <div class="relative" data-aos="fade-up">
             
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-black text-brand-dark uppercase tracking-tight">Cronograma 2026</h2>
-                <div class="h-1 w-20 bg-brand-blue mx-auto mt-4 rounded-full"></div>
-                <p class="text-gray-500 mt-4 text-lg">El camino hacia el modelo.</p>
-            </div>
+            <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-100 -translate-y-1/2 z-0"></div>
 
-            <div class="relative" data-aos="fade-up">
+            <div id="scroll-container" class="flex overflow-x-auto pb-12 gap-8 md:gap-12 snap-x snap-mandatory hide-scrollbar py-10 px-4 scroll-smooth">
                 
-                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 z-0"></div>
-
-                <div class="flex overflow-x-auto pb-12 gap-8 md:gap-12 snap-x snap-mandatory hide-scrollbar py-10 px-4">
-                    
-                    <% if (cronograma && cronograma.length > 0) { %>
-                        <% 
-                           let todasLasActividades = [];
-                           cronograma.forEach(mes => {
-                               mes.actividades.forEach(act => {
-                                   act.mesNombre = mes.dia.split(':')[0]; 
-                                   todasLasActividades.push(act);
-                               });
+                <% if (cronograma && cronograma.length > 0) { %>
+                    <% 
+                       let todasLasActividades = [];
+                       cronograma.forEach(mes => {
+                           mes.actividades.forEach(act => {
+                               act.mesNombre = mes.dia.split(':')[0]; 
+                               todasLasActividades.push(act);
                            });
+                       });
+                       
+                       // Banderas para marcar solo el PRIMER evento de cada tipo
+                       let firstCap = true;
+                       let firstMod = true;
+                       let firstExa = true;
+                       let firstGen = true;
+                    %>
+
+                    <% todasLasActividades.forEach((actividad, index) => { %>
+                        <% 
+                            let cardBorderColor = 'border-gray-200';
+                            let dotColor = 'bg-gray-400';
+                            let targetId = ''; 
+                            
+                            if(actividad.tipo === 'modelo') { 
+                                dotColor = 'bg-brand-red'; 
+                                cardBorderColor = 'border-brand-red';
+                                if(firstMod) { targetId = 'target-modelo'; firstMod = false; }
+
+                            } else if(actividad.tipo === 'capacitacion') { 
+                                dotColor = 'bg-brand-blue'; 
+                                cardBorderColor = 'border-brand-blue';
+                                if(firstCap) { targetId = 'target-capacitacion'; firstCap = false; }
+
+                            } else if(actividad.tipo === 'examen' || actividad.tipo === 'especial') { 
+                                dotColor = 'bg-brand-yellow'; 
+                                cardBorderColor = 'border-brand-yellow';
+                                if(firstExa) { targetId = 'target-examen'; firstExa = false; }
+
+                            } else if(actividad.tipo === 'general') { 
+                                dotColor = 'bg-brand-green'; 
+                                cardBorderColor = 'border-brand-green';
+                                if(firstGen) { targetId = 'target-general'; firstGen = false; }
+                            }
                         %>
 
-                        <% todasLasActividades.forEach((actividad, index) => { %>
-                            <% 
-                                let cardBorderColor = 'border-gray-400';
-                                let dotColor = 'bg-gray-400';
-                                
-                                if(actividad.tipo === 'modelo') { 
-                                    dotColor = 'bg-brand-red'; 
-                                    cardBorderColor = 'border-brand-red';
-                                } else if(actividad.tipo === 'capacitacion') { 
-                                    dotColor = 'bg-brand-blue'; 
-                                    cardBorderColor = 'border-brand-blue';
-                                } else if(actividad.tipo === 'examen' || actividad.tipo === 'especial') { 
-                                    dotColor = 'bg-brand-yellow'; 
-                                    cardBorderColor = 'border-brand-yellow';
-                                } else if(actividad.tipo === 'general') { 
-                                    dotColor = 'bg-brand-green'; 
-                                    cardBorderColor = 'border-brand-green';
-                                }
-                            %>
-
-                            <div class="relative flex-shrink-0 w-72 md:w-80 snap-center flex flex-col items-center group">
-                                <div class="w-6 h-6 rounded-full border-4 border-white shadow-md z-10 mb-6 transition-transform transform group-hover:scale-125 <%= dotColor %>"></div>
-                                <div class="w-full bg-white p-6 rounded-2xl shadow-lg border-t-4 <%= cardBorderColor %> hover:shadow-xl transition-shadow duration-300">
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="text-xs font-bold uppercase tracking-wider text-gray-400">
-                                            <%= actividad.mesNombre %>
-                                        </span>
-                                        <span class="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-md">
-                                            <%= actividad.fecha %>
-                                        </span>
-                                    </div>
-                                    <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
-                                        <%= actividad.titulo %>
-                                    </h3>
-                                    <% if (actividad.lugar) { %>
-                                        <div class="flex items-start gap-2 mt-3 text-sm text-gray-500">
-                                            <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                            <span><%= actividad.lugar %></span>
-                                        </div>
-                                    <% } %>
+                        <div id="<%= targetId %>" class="relative flex-shrink-0 w-72 md:w-80 snap-center flex flex-col items-center group">
+                            <div class="w-6 h-6 rounded-full border-4 border-white shadow-md z-10 mb-6 transition-transform transform group-hover:scale-125 <%= dotColor %>"></div>
+                            <div class="w-full bg-white p-6 rounded-2xl shadow-lg border border-gray-100 border-t-4 <%= cardBorderColor %> hover:shadow-xl transition-shadow duration-300">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-gray-400">
+                                        <%= actividad.mesNombre %>
+                                    </span>
+                                    <span class="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-md">
+                                        <%= actividad.fecha %>
+                                    </span>
                                 </div>
-                                <div class="md:hidden absolute top-6 bottom-0 w-0.5 bg-gray-200 -z-10"></div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug">
+                                    <%= actividad.titulo %>
+                                </h3>
+                                <% if (actividad.lugar) { %>
+                                    <div class="flex items-start gap-2 mt-3 text-sm text-gray-500">
+                                        <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                        <span><%= actividad.lugar %></span>
+                                    </div>
+                                <% } %>
                             </div>
-                        <% }); %>
-                    <% } else { %>
-                        <p class="w-full text-center text-gray-500">Cronograma a confirmar.</p>
-                    <% } %>
-                    <div class="w-4 flex-shrink-0"></div>
-                </div>
-            </div>
-
-            <div class="mt-8 flex flex-wrap justify-center gap-4 md:gap-8 text-xs text-gray-500 font-medium">
-                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-brand-blue"></span> Capacitaciones</div>
-                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-brand-red"></span> Modelo Oficial</div>
-                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-brand-yellow"></span> Exámenes/Sorteos</div>
-                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-brand-green"></span> General</div>
+                            <div class="md:hidden absolute top-6 bottom-0 w-0.5 bg-gray-100 -z-10"></div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="w-full text-center text-gray-500">Cronograma a confirmar.</p>
+                <% } %>
+                <div class="w-4 flex-shrink-0"></div>
             </div>
         </div>
-    </section>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-4 md:gap-8 text-xs text-gray-500 font-medium">
+            <button onclick="scrollToEvent('target-capacitacion')" class="flex items-center gap-2 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer group">
+                <span class="w-3 h-3 rounded-full bg-brand-blue group-hover:scale-125 transition-transform"></span> 
+                Capacitaciones
+            </button>
+            
+            <button onclick="scrollToEvent('target-modelo')" class="flex items-center gap-2 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer group">
+                <span class="w-3 h-3 rounded-full bg-brand-red group-hover:scale-125 transition-transform"></span> 
+                Modelo Oficial
+            </button>
+            
+            <button onclick="scrollToEvent('target-examen')" class="flex items-center gap-2 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer group">
+                <span class="w-3 h-3 rounded-full bg-brand-yellow group-hover:scale-125 transition-transform"></span> 
+                Exámenes/Sorteos
+            </button>
+            
+            <button onclick="scrollToEvent('target-general')" class="flex items-center gap-2 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer group">
+                <span class="w-3 h-3 rounded-full bg-brand-green group-hover:scale-125 transition-transform"></span> 
+                General
+            </button>
+        </div>
+    </div>
+</section>
+
+<script>
+    function scrollToEvent(elementId) {
+        const container = document.getElementById('scroll-container');
+        const target = document.getElementById(elementId);
+        
+        if (container && target) {
+            const scrollLeft = target.offsetLeft - container.offsetLeft - 20;
+            container.scrollTo({
+                left: scrollLeft,
+                behavior: 'smooth'
+            });
+        }
+    }
+</script>
 
     <section id="organos" class="pt-10 pb-24 bg-gray-50 relative overflow-hidden">
 
@@ -538,63 +581,6 @@
             </div>
         </div>
     </section>
-
-    <section id="faq" class="py-24 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-black text-brand-dark uppercase tracking-tight">Preguntas Frecuentes</h2>
-        </div>
-
-        <div class="space-y-4">
-            
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq1')">
-                    <span class="font-bold text-gray-800 text-base">¿Tiene algún costo la inscripción?</span>
-                    <svg id="icon-faq1" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq1" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    <span class="font-bold text-brand-green">¡No! La inscripción es 100% gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los estudiantes que deseen participar.
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq2')">
-                    <span class="font-bold text-gray-800 text-base">¿Participo solo o en pareja?</span>
-                    <svg id="icon-faq2" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq2" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    Depende del órgano que elijas:
-                    <ul class="list-disc list-inside mt-2 space-y-1 ml-2">
-                        <li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de Seguridad.</li>
-                        <li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq3')">
-                    <span class="font-bold text-gray-800 text-base">¿Necesito experiencia previa?</span>
-                    <svg id="icon-faq3" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq3" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    ¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo necesario. Lo único que necesitas son ganas de aprender y debatir.
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq4')">
-                    <span class="font-bold text-gray-800 text-base">Soy docente, ¿cómo inscribo a mi colegio?</span>
-                    <svg id="icon-faq4" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq4" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    Debes completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE. Luego nos contactaremos contigo para coordinar los cupos.
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
 <section id="recursos" class="py-20 bg-white border-t border-gray-100 relative overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-rS from-brand-red via-brand-blue to-brand-green opacity-30"></div>
     
@@ -662,6 +648,63 @@
         </div>
     </div>
 </section>
+    <section id="faq" class="py-24 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-black text-brand-dark uppercase tracking-tight">Preguntas Frecuentes</h2>
+        </div>
+
+        <div class="space-y-4">
+            
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq1')">
+                    <span class="font-bold text-gray-800 text-base">¿Tiene algún costo la inscripción?</span>
+                    <svg id="icon-faq1" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="faq1" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                    <span class="font-bold text-brand-green">¡No! La inscripción es 100% gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los estudiantes que deseen participar.
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq2')">
+                    <span class="font-bold text-gray-800 text-base">¿Participo solo o en pareja?</span>
+                    <svg id="icon-faq2" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="faq2" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                    Depende del órgano que elijas:
+                    <ul class="list-disc list-inside mt-2 space-y-1 ml-2">
+                        <li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de Seguridad.</li>
+                        <li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq3')">
+                    <span class="font-bold text-gray-800 text-base">¿Necesito experiencia previa?</span>
+                    <svg id="icon-faq3" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="faq3" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                    ¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo necesario. Lo único que necesitas son ganas de aprender y debatir.
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq4')">
+                    <span class="font-bold text-gray-800 text-base">Soy docente, ¿cómo inscribo a mi colegio?</span>
+                    <svg id="icon-faq4" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="faq4" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                    Debes completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE. Luego nos contactaremos contigo para coordinar los cupos.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
     <%- include('./partials/footer') %>
 
     <div id="modal-inscripcion" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">

@@ -8,4 +8,11 @@ const mainController = require('../controllers/mainController');
 // Cuando el usuario entra a '/', ejecutamos el método 'index' del controlador
 router.get('/', mainController.index);
 
+// Ruta para la página de Autoridades
+router.get('/autoridades', (req, res) => {
+    res.render('autoridades', {
+        title: 'Autoridades | Uniendo Metas' // (Opcional) Por si tu head.ejs usa una variable título
+    }); 
+});
+
 module.exports = router;
