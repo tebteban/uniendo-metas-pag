@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<%- include('./partials/head') %>
+
+<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-brand-red selection:text-white">
+
+    <%- include('./partials/navbar') %>
+
+    <section class="relative pt-48 pb-32 overflow-hidden bg-slate-900">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-r from-brand-blue via-brand-red to-brand-yellow opacity-20 blur-[120px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+            <h1 class="text-6xl md:text-8xl font-black text-white mb-6 tracking-tighter" data-aos="zoom-in">
+                EL <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow to-brand-red">MOTOR.</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto font-light mb-10">
+                Conoce a las personas que hacen posible lo imposible.
+            </p>
+            <div class="h-1 w-24 bg-white/20 mx-auto rounded-full"></div>
+        </div>
+    </section>
+
+    <section class="relative -mt-24 mb-24 z-20 px-4">
+        <div class="max-w-4xl mx-auto" data-aos="fade-up">
+            <div class="bg-white rounded-[3rem] p-8 md:p-12 shadow-2xl shadow-slate-900/10 flex flex-col md:flex-row items-center gap-10 border border-gray-100">
+                
+                <div class="w-full md:w-1/2">
+                    <div class="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-lg group">
+                        <div class="absolute inset-0 bg-brand-red/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="/img/equipo/foto_sol.jpg" 
+                             onerror="this.src='https://ui-avatars.com/api/?name=Sol+Basualdo&size=600&background=random'" 
+                             class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                             alt="Sol Basualdo">
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <span class="inline-block py-1 px-4 rounded-full bg-brand-red text-white text-xs font-bold tracking-widest uppercase mb-4">Liderazgo</span>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-2">Sol Basualdo</h2>
+                    <p class="text-xl text-gray-400 font-medium mb-6 uppercase tracking-wide">Coordinadora General</p>
+                    <p class="text-gray-500 leading-relaxed mb-8">
+                        Liderando con el ejemplo y la pasión que caracteriza a Uniendo Metas Santiago. Encargada de guiar a todo el equipo de voluntarios hacia el éxito del modelo.
+                    </p>
+                    <div class="h-1 w-20 bg-brand-red rounded-full mx-auto md:mx-0"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 space-y-32">
+
+        <div data-aos="fade-up">
+            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-blue/10 pb-4">
+                <h3 class="text-5xl font-black text-brand-blue/20">01.</h3>
+                <h3 class="text-4xl font-black text-slate-900">Asamblea General</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <%- leaderCard('Leandro Segura', 'Jefe de Órgano', 'foto_leandro.jpg', 'blue') %>
+                
+                <%- memberCard('Salvador Navarrete', 'Secretario', 'foto_salvador.jpg') %>
+                <%- memberCard('Mariana Carreras', 'Sub Sec.', 'foto_mariana.jpg') %>
+                <%- memberCard('Lautaro Vera', 'Staff', 'foto_lautaro.jpg') %>
+                <%- memberCard('Mica Ledesma', 'Staff', 'foto_mica.jpg') %>
+                <%- memberCard('Aye Banegas', 'Staff', 'foto_aye.jpg') %>
+                <%- memberCard('Flori Juarez', 'Staff', 'foto_flori.jpg') %>
+                <%- memberCard('Morena Paz', 'Staff', 'foto_morena.jpg') %>
+                <%- memberCard('Ana V. Quiroga', 'Staff', 'foto_ana.jpg') %>
+                <%- memberCard('Aldana Lopez', 'Staff', 'foto_aldana.jpg') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-green/10 pb-4">
+                <h3 class="text-5xl font-black text-brand-green/20">02.</h3>
+                <h3 class="text-4xl font-black text-slate-900">ECOSOC</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <%- leaderCard('Karim Jorge', 'Jefe de Órgano', 'foto_karim.jpg', 'green') %>
+                <%- memberCard('Martina Basualdo', 'Secretaria', 'foto_martina.jpg') %>
+                <%- memberCard('Lourdes Maguicha', 'Sub Sec.', 'foto_lourdes.jpg') %>
+                <%- memberCard('Silvi Chaparro', 'Staff', 'foto_silvi.jpg') %>
+                <%- memberCard('Exequiel Rosetti', 'Staff', 'foto_exequiel.jpg') %>
+                <%- memberCard('Mariana Maguicha', 'Staff', 'foto_mariana_m.jpg') %>
+                <%- memberCard('Rodri Montenegro', 'Staff', 'foto_rodri.jpg') %>
+                <%- memberCard('Martin Veliz', 'Staff', 'foto_martin.jpg') %>
+                <%- memberCard('Yana Garcia', 'Staff', 'foto_yana.jpg') %>
+                <%- memberCard('Sofia Beltran', 'Staff', 'foto_sofia.jpg') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-red/10 pb-4">
+                <h3 class="text-5xl font-black text-brand-red/20">03.</h3>
+                <h3 class="text-4xl font-black text-slate-900">Consejo de Seguridad</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <%- leaderCard('Francesco Doffo', 'Jefe de Órgano', 'foto_francesco.jpg', 'red') %>
+                <%- memberCard('Kadir Catan', 'Secretario', 'foto_kadir.jpg') %>
+                <%- memberCard('Joaquin Maguna', 'Staff', 'foto_joaquin_m.jpg') %>
+                <%- memberCard('Ibrahim Franjieh', 'Staff', 'foto_ibrahim.jpg') %>
+                <%- memberCard('Cami Diaz', 'Staff', 'foto_cami.jpg') %>
+                <%- memberCard('Roman Reinoso', 'Staff', 'foto_roman.jpg') %>
+                <%- memberCard('Maite Queirolo', 'Staff', 'foto_maite.jpg') %>
+                <%- memberCard('Martina Salas', 'Staff', 'foto_susi.jpg') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="flex items-end gap-4 mb-12 border-b-2 border-purple-100 pb-4">
+                <h3 class="text-5xl font-black text-purple-200">04.</h3>
+                <h3 class="text-4xl font-black text-slate-900">Sala de Tratados</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <%- leaderCard('Guillermo Alvarez', 'Jefe de Órgano', 'foto_guille.jpg', 'purple') %>
+                <%- memberCard('Consti Carbajal', 'Secretaria', 'foto_consti.jpg') %>
+                <%- memberCard('Josefina Jorge', 'Sub Sec.', 'foto_josefina.jpg') %>
+                <%- memberCard('Julian Avila', 'Staff', 'foto_julian.jpg') %>
+                <%- memberCard('Luli Abdala', 'Staff', 'foto_luli.jpg') %>
+                <%- memberCard('Marianella Fernandez', 'Staff', 'foto_marianella.jpg') %>
+                <%- memberCard('More Ruiz', 'Staff', 'foto_more_r.jpg') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-yellow/20 pb-4">
+                <h3 class="text-5xl font-black text-brand-yellow/30">05.</h3>
+                <h3 class="text-4xl font-black text-slate-900">Derechos Humanos</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <%- leaderCard('Jeremias Cabrera', 'Jefe de Órgano', 'foto_jere.jpg', 'yellow') %>
+                <%- memberCard('Lauti Marottoli', 'Sub Secretario', 'foto_lauti.jpg') %>
+                <%- memberCard('Vale Campagna', 'Staff', 'foto_vale.jpg') %>
+                <%- memberCard('Denis Cardenas', 'Staff', 'foto_denis.jpg') %>
+                <%- memberCard('Fede Chaparro', 'Staff', 'foto_fede.jpg') %>
+                <%- memberCard('Leo Vasquez', 'Staff', 'foto_leo.jpg') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="flex items-end gap-4 mb-12 border-b-2 border-pink-100 pb-4">
+                <h3 class="text-5xl font-black text-pink-200">06.</h3>
+                <h3 class="text-4xl font-black text-slate-900">Prensa Oficial</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <%- leaderCard('Joaquin Rivas', 'Jefe de Prensa', 'foto_joaco_rivas.jpg', 'pink') %>
+                <%- memberCard('Mechi Leoni', 'Secretaria', 'foto_mechi.jpg') %>
+                <%- memberCard('Lean Segura', 'Prensa', 'foto_lean_prensa.jpg') %>
+                <%- memberCard('Esteban Cejas', 'Prensa', 'foto_esteban.jpg') %>
+                <%- memberCard('Luchi Ledesma', 'Prensa', 'foto_luchi.jpg') %>
+                <%- memberCard('Marco Nofal', 'Prensa', 'foto_marco.jpg') %>
+            </div>
+        </div>
+
+    </div>
+
+    <section class="bg-slate-900 py-24 text-center relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl mx-auto px-4">
+            <h2 class="text-4xl font-black text-white mb-6">¿Te animás a ser parte?</h2>
+            <a href="https://docs.google.com/forms/d/e/TU-LINK-DE-VOLUNTARIOS" target="_blank" class="inline-block px-10 py-4 bg-white text-slate-900 font-black rounded-full hover:scale-105 transition-transform duration-300">
+                SUMATE AL STAFF 2026
+            </a>
+        </div>
+    </section>
+
+    <%- include('./partials/footer') %>
+
+    <% 
+    // Tarjeta Jefe
+    function leaderCard(name, role, img, color) {
+        let bgClass = 'bg-slate-100';
+        let textClass = 'text-slate-900';
+        if(color === 'blue') { bgClass = 'bg-brand-blue'; textClass = 'text-white'; }
+        if(color === 'red') { bgClass = 'bg-brand-red'; textClass = 'text-white'; }
+        if(color === 'green') { bgClass = 'bg-brand-green'; textClass = 'text-white'; }
+        if(color === 'yellow') { bgClass = 'bg-brand-yellow'; textClass = 'text-slate-900'; }
+        if(color === 'purple') { bgClass = 'bg-purple-600'; textClass = 'text-white'; }
+        if(color === 'pink') { bgClass = 'bg-pink-500'; textClass = 'text-white'; }
+
+        return `
+        <div class="col-span-1 md:col-span-2 relative h-64 rounded-[2rem] overflow-hidden shadow-xl group cursor-pointer">
+            <img src="/img/equipo/${img}" 
+                 onerror="this.src='https://ui-avatars.com/api/?name=${name}&size=400&background=random'" 
+                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                 alt="${name}">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-8">
+                <span class="${bgClass} ${textClass} text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-2 inline-block shadow-md">
+                    ${role}
+                </span>
+                <h4 class="text-3xl font-black text-white leading-none">${name}</h4>
+            </div>
+        </div>
+        `;
+    }
+
+    // Tarjeta Staff (Minimalista y Pro)
+    function memberCard(name, role, img) {
+        return `
+        <div class="bg-white rounded-[2rem] p-3 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div class="aspect-square rounded-[1.5rem] overflow-hidden mb-4 bg-gray-100 relative">
+                <img src="/img/equipo/${img}" 
+                     onerror="this.src='https://ui-avatars.com/api/?name=${name}&size=300&background=f1f5f9&color=334155'" 
+                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                     alt="${name}">
+            </div>
+            <div class="px-2 pb-2 text-center">
+                <h4 class="font-bold text-slate-800 leading-tight text-lg mb-1">${name}</h4>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${role}</p>
+            </div>
+        </div>
+        `;
+    }
+    %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50, duration: 800 });
+    </script>
+</body>
+</html>

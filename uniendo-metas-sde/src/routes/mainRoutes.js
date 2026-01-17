@@ -1,18 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
-// Importamos el controlador (que ya tiene la lógica de los órganos)
+// Importamos el controlador
 const mainController = require('../controllers/mainController');
 
-// Definimos la ruta principal (Home)
-// Cuando el usuario entra a '/', ejecutamos el método 'index' del controlador
+// Ruta Principal
 router.get('/', mainController.index);
 
-// Ruta para la página de Autoridades
+// Ruta Autoridades
 router.get('/autoridades', (req, res) => {
     res.render('autoridades', {
-        title: 'Autoridades | Uniendo Metas' // (Opcional) Por si tu head.ejs usa una variable título
+        title: 'Autoridades | Uniendo Metas' 
     }); 
+});
+router.get('/voluntarios', (req, res) => {
+    res.render('voluntarios', { 
+        title: 'Voluntariado | Uniendo Metas Santiago',
+        path: '/voluntarios' 
+    });
 });
 
 module.exports = router;
