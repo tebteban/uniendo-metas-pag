@@ -4,6 +4,7 @@
 
 <body class="bg-gray-50 text-gray-600 antialiased overflow-x-hidden font-sans">
 
+
     <%- include('./partials/navbar') %>
 
     <section id="inicio" class="relative pt-28 pb-16 lg:pt-48 lg:pb-40 overflow-hidden bg-white">
@@ -661,6 +662,63 @@
             </div>
         </div>
     </section>
+
+<section id="participación" class="py-20 bg-white border-t border-gray-100 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">Guía de Inscripción</span>
+            <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2 mb-4">¿Cómo sumarte al Encuentro?</h2>
+            <p class="text-lg text-gray-500 max-w-3xl mx-auto">
+                La inscripción consta de <strong>tres pasos dependientes</strong>. Los participantes no podrán inscribirse si los pasos previos no están completos.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            
+            <div class="relative bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center group hover:border-brand-green transition-colors duration-300" data-aos="fade-up" data-aos-delay="0">
+                <div class="w-12 h-12 bg-green-100 text-brand-green rounded-full flex items-center justify-center text-xl font-black mb-4 group-hover:scale-110 transition-transform">1</div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Inscripción del Establecimiento</h3>
+                <p class="text-sm text-gray-500">
+                    La escuela debe completar su registro institucional. Puede participar cualquier escuela secundaria (pública o privada).
+                </p>
+            </div>
+
+            <div class="relative bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center group hover:border-brand-blue transition-colors duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-12 h-12 bg-blue-100 text-brand-blue rounded-full flex items-center justify-center text-xl font-black mb-4 group-hover:scale-110 transition-transform">2</div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Inscripción del Docente</h3>
+                <p class="text-sm text-gray-500">
+                    El docente referente debe registrarse una vez que la escuela esté dada de alta. Él será el nexo con la organización.
+                </p>
+            </div>
+
+            <div class="relative bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center group hover:border-brand-red transition-colors duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-12 h-12 bg-red-100 text-brand-red rounded-full flex items-center justify-center text-xl font-black mb-4 group-hover:scale-110 transition-transform">3</div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Inscripción de Participantes</h3>
+                <p class="text-sm text-gray-500">
+                    Finalmente, se inscriben los alumnos (Delegados/Autoridades) y los adultos acompañantes.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="bg-brand-blue/5 border-l-4 border-brand-blue p-6 rounded-r-xl max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-4" data-aos="fade-up">
+            <svg class="w-8 h-8 text-brand-blue flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="flex-1">
+                <h4 class="font-bold text-brand-blue mb-1">¿Tu escuela nunca participó?</h4>
+                <p class="text-sm text-gray-600">
+                    Si tenés dudas sobre si tu institución está registrada o con quién comunicarte, escribinos a 
+                    <a href="mailto:umsantiago@conciencia.org" class="font-bold underline hover:text-brand-blue">umsantiago@conciencia.org</a>.
+                </p>
+            </div>
+            <button onclick="openModal('modal-inscripcion')" class="px-6 py-2 bg-brand-blue text-white font-bold rounded-full text-sm hover:bg-blue-700 transition shadow-md whitespace-nowrap">
+                Inscribirme Ahora
+            </button>
+        </div>
+
+    </div>
+</section>
+
 <section id="recursos" class="py-20 bg-white border-t border-gray-100 relative overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-rS from-brand-red via-brand-blue to-brand-green opacity-30"></div>
     
@@ -729,56 +787,102 @@
     </div>
 </section>
     <section id="faq" class="py-24 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center mb-16">
             <h2 class="text-3xl font-black text-brand-dark uppercase tracking-tight">Preguntas Frecuentes</h2>
+            <p class="text-gray-500 mt-2">Todo lo que necesitas saber para sumarte</p>
         </div>
 
-        <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq1')">
-                    <span class="font-bold text-gray-800 text-base">¿Tiene algún costo la inscripción?</span>
-                    <svg id="icon-faq1" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq1" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    <span class="font-bold text-brand-green">¡No! La inscripción es 100% gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los estudiantes que deseen participar.
+            <div class="space-y-6">
+                
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq1')">
+                        <span class="font-bold text-gray-800 text-base pr-4">¿Cuándo abre el período de inscripciones?</span>
+                        <svg id="icon-faq1" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq1" class="hidden px-6 pt-5 pb-6 text-gray-600 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        Aún no hay fechas definidas para las inscripciones del XI Encuentro Uniendo Metas Santiago del Estero. Enterate de todas las novedades siguiendo nuestro Instagram oficial: 
+                        <a href="https://instagram.com/umsantiagodelestero" target="_blank" class="text-brand-red font-bold hover:underline">@umsantiagodelestero</a>.
+                    </div>
                 </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq2')">
+                        <span class="font-bold text-gray-800 text-base pr-4">¿Cómo sé si mi escuela puede participar?</span>
+                        <svg id="icon-faq2" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq2" class="hidden px-6 pt-5 pb-6 text-gray-600 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        Pueden participar del Encuentro cualquier <strong>escuela secundaria</strong> que complete todos los pasos de la inscripción, indiferentemente de su tipo de gestión (pública, privada, técnica, etc.).
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq3')">
+                        <span class="font-bold text-gray-800 text-base pr-4">¿Cuáles son los pasos para inscribir a una delegación?</span>
+                        <svg id="icon-faq3" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq3" class="hidden px-6 pt-5 pb-6 text-gray-600 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        <p class="mb-2">La inscripción consta de <strong>tres pasos dependientes</strong>:</p>
+                        <ol class="list-decimal list-inside space-y-1 ml-1 font-medium mb-3">
+                            <li>Inscripción del establecimiento.</li>
+                            <li>Inscripción del docente referente.</li>
+                            <li>Inscripción de participantes y adultos acompañantes.</li>
+                        </ol>
+                        <p><strong>Importante:</strong> Los participantes no podrán inscribirse si los pasos previos no están completos. Para inscribirse, usen el botón <span class="text-brand-red font-bold">"Inscribirse"</span> en el menú superior.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq7')">
+                        <span class="font-bold text-gray-800 text-base pr-4">Soy docente, ¿cómo inscribo a mi colegio?</span>
+                        <svg id="icon-faq7" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq7" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        Debes completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE (Paso 1 y 2). Si tu institución nunca participó, escribinos a <a href="mailto:umsantiago@conciencia.org" class="text-brand-blue font-bold">umsantiago@conciencia.org</a>.
+                    </div>
+                </div>
+
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq2')">
-                    <span class="font-bold text-gray-800 text-base">¿Participo solo o en pareja?</span>
-                    <svg id="icon-faq2" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq2" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    Depende del órgano que elijas:
-                    <ul class="list-disc list-inside mt-2 space-y-1 ml-2">
-                        <li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de Seguridad.</li>
-                        <li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li>
-                    </ul>
-                </div>
-            </div>
+            <div class="space-y-6">
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq3')">
-                    <span class="font-bold text-gray-800 text-base">¿Necesito experiencia previa?</span>
-                    <svg id="icon-faq3" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq3" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    ¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo necesario. Lo único que necesitas son ganas de aprender y debatir.
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq4')">
+                        <span class="font-bold text-gray-800 text-base pr-4">¿Tiene algún costo la inscripción?</span>
+                        <svg id="icon-faq4" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq4" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        <span class="font-bold text-brand-green">¡No! La inscripción es 100% gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los estudiantes que deseen participar.
+                    </div>
                 </div>
-            </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq4')">
-                    <span class="font-bold text-gray-800 text-base">Soy docente, ¿cómo inscribo a mi colegio?</span>
-                    <svg id="icon-faq4" class="w-5 h-5 text-brand-red transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="faq4" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                    Debes completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE. Luego nos contactaremos contigo para coordinar los cupos.
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq5')">
+                        <span class="font-bold text-gray-800 text-base pr-4">¿Participo solo o en pareja?</span>
+                        <svg id="icon-faq5" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq5" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        Depende del órgano que elijas:
+                        <ul class="list-disc list-inside mt-2 space-y-1 ml-2">
+                            <li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de Seguridad.</li>
+                            <li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li>
+                        </ul>
+                    </div>
                 </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition" onclick="toggleFaq('faq6')">
+                        <span class="font-bold text-gray-800 text-base pr-4">¿Necesito experiencia previa?</span>
+                        <svg id="icon-faq6" class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div id="faq6" class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
+                        ¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo necesario. Lo único que necesitas son ganas de aprender y debatir.
+                    </div>
+                </div>
+
             </div>
 
         </div>

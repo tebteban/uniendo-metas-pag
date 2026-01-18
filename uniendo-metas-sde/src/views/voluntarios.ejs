@@ -47,20 +47,23 @@
                 </span>
             </div>
 
-            <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">
+            <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight" data-aos="fade-up">
                 El equipo detrás <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-red">
                     de la experiencia.
                 </span>
             </h1>
-            <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
+
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8" data-aos="fade-up" data-aos-delay="100">
                 Un grupo humano comprometido con la educación y el liderazgo joven. Cada voluntario aporta su tiempo y pasión para construir Uniendo Metas Santiago.
             </p>
             
-            <a href="https://docs.google.com/forms/d/e/TU-LINK-DE-VOLUNTARIOS" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-700 transition-all shadow-lg hover:shadow-red-200 hover:-translate-y-1">
-                Sumate al equipo
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </a>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <a href="https://docs.google.com/forms/d/e/TU-LINK-DE-VOLUNTARIOS" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-700 transition-all shadow-lg hover:shadow-red-200 hover:-translate-y-1">
+                    Sumate al equipo
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -285,7 +288,6 @@
                 <% const fotos = ['grupo2024.jpg', 'grupo2023.jpg', 'grupo2022.jpg']; %>
                 
                 <script>
-                    // Genera un array JS limpio con las rutas correctas
                     const galleryImages = <%- JSON.stringify(fotos.map(f => '/img/Voluntarios/' + f)) %>;
                 </script>
 
@@ -372,17 +374,16 @@
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
 
-        <button class="absolute left-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none" onclick="prevImage()">
+        <button id="lightbox-prev" class="absolute left-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none" onclick="prevImage()">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
 
         <img id="lightbox-img" src="" alt="Galería" class="max-h-[90vh] max-w-[90vw] object-contain shadow-2xl rounded-lg">
 
-        <button class="absolute right-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none" onclick="nextImage()">
+        <button id="lightbox-next" class="absolute right-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none" onclick="nextImage()">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
     </div>
-    
 
     <%- include('./partials/footer') %>
 
@@ -477,6 +478,10 @@
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) closeGallery();
         });
+
+        // Event Listeners para los botones de flecha (Agregado para Voluntarios)
+        document.getElementById('lightbox-next').addEventListener('click', nextImage);
+        document.getElementById('lightbox-prev').addEventListener('click', prevImage);
 
 
         // --- LÓGICA DEL BUSCADOR DE NOMBRES ---
