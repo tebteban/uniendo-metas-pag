@@ -13,10 +13,22 @@ router.get('/autoridades', (req, res) => {
         title: 'Autoridades | Uniendo Metas' 
     }); 
 });
+
+// Ruta Voluntarios
 router.get('/voluntarios', (req, res) => {
     res.render('voluntarios', { 
         title: 'Voluntariado | Uniendo Metas Santiago',
         path: '/voluntarios' 
+    });
+});
+
+// --- MANEJO DE ERROR 404 ---
+// ¡IMPORTANTE! Esto debe ir SIEMPRE al final de todas las rutas.
+// Si ninguna de las de arriba coincide, entra aquí.
+// En lugar de router.get('*', ...) usa esto:
+router.get(/(.*)/, (req, res) => {
+    res.status(404).render('404', {
+        title: 'Página no encontrada | Uniendo Metas'
     });
 });
 
