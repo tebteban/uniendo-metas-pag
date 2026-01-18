@@ -2,213 +2,384 @@
 <html lang="es" class="scroll-smooth">
 <%- include('./partials/head') %>
 
-<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-brand-red selection:text-white">
+<style>
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-scroll {
+        animation: scroll 40s linear infinite;
+    }
+    .animate-scroll:hover {
+        animation-play-state: paused;
+    }
+    
+    /* Scrollbar fino y elegante para las cajas de años */
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+</style>
+
+<body class="bg-white text-slate-700 antialiased font-sans">
 
     <%- include('./partials/navbar') %>
 
-    <section class="relative pt-48 pb-32 overflow-hidden bg-slate-900">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-r from-brand-blue via-brand-red to-brand-yellow opacity-20 blur-[120px]"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
-            <h1 class="text-6xl md:text-8xl font-black text-white mb-6 tracking-tighter" data-aos="zoom-in">
-                EL <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow to-brand-red">MOTOR.</span>
+    <section class="relative pt-32 pb-16 overflow-hidden">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-red/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/2"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center flex flex-col items-center">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-8 backdrop-blur-sm cursor-default hover:shadow-md transition-all" data-aos="fade-down">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
+                </span>
+                <span class="text-xs font-bold tracking-widest text-gray-500 uppercase">
+                    Staff 2026
+                </span>
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">
+                El equipo detrás <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-red">
+                    de la experiencia.
+                </span>
             </h1>
-            <p class="text-xl text-slate-400 max-w-2xl mx-auto font-light mb-10">
-                Conoce a las personas que hacen posible lo imposible.
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
+                Un grupo humano comprometido con la educación y el liderazgo joven. Cada voluntario aporta su tiempo y pasión para construir Uniendo Metas Santiago.
             </p>
-            <div class="h-1 w-24 bg-white/20 mx-auto rounded-full"></div>
+            
+            <a href="https://docs.google.com/forms/d/e/TU-LINK-DE-VOLUNTARIOS" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-700 transition-all shadow-lg hover:shadow-red-200 hover:-translate-y-1">
+                Sumate al equipo
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
         </div>
     </section>
 
-    <section class="relative -mt-24 mb-24 z-20 px-4">
-        <div class="max-w-4xl mx-auto" data-aos="fade-up">
-            <div class="bg-white rounded-[3rem] p-8 md:p-12 shadow-2xl shadow-slate-900/10 flex flex-col md:flex-row items-center gap-10 border border-gray-100">
+    <section class="py-20 bg-gray-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 
-                <div class="w-full md:w-1/2">
-                    <div class="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-lg group">
-                        <div class="absolute inset-0 bg-brand-red/10 group-hover:bg-transparent transition-colors z-10"></div>
-                        <img src="/img/equipo/foto_sol.jpg" 
-                             onerror="this.src='https://ui-avatars.com/api/?name=Sol+Basualdo&size=600&background=random'" 
-                             class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
-                             alt="Sol Basualdo">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl font-black text-slate-900 mb-6">
+                        ¿Por qué unirte a <br>nuestra familia?
+                    </h2>
+                    <p class="text-gray-500 text-lg leading-relaxed mb-6">
+                        Ser voluntario no es solo trabajar; es crecer. Es el lugar donde desarrollas habilidades que no se aprenden en un aula: liderazgo bajo presión, empatía, logística y trabajo en equipo real.
+                    </p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 w-5 h-5 rounded-full bg-brand-green/10 text-brand-green flex items-center justify-center text-xs font-bold">✓</div>
+                            <span class="text-gray-600 font-medium">Haces amigos para toda la vida.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 w-5 h-5 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center text-xs font-bold">✓</div>
+                            <span class="text-gray-600 font-medium">Impactas en la educación de cientos de jóvenes.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 w-5 h-5 rounded-full bg-brand-red/10 text-brand-red flex items-center justify-center text-xs font-bold">✓</div>
+                            <span class="text-gray-600 font-medium">Certificado oficial de Asociación Conciencia.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="relative" data-aos="fade-left">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="/img/Voluntarios/foto_vol_1.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80'" class="rounded-2xl shadow-lg w-full h-64 object-cover transform translate-y-8 hover:scale-105 transition-all duration-500" alt="Voluntarios trabajando">
+                        <img src="/img/Voluntarios/foto_vol_2.jpg" onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80'" class="rounded-2xl shadow-lg w-full h-64 object-cover hover:scale-105 transition-all duration-500" alt="Staff reunido">
                     </div>
                 </div>
 
-                <div class="w-full md:w-1/2 text-center md:text-left">
-                    <span class="inline-block py-1 px-4 rounded-full bg-brand-red text-white text-xs font-bold tracking-widest uppercase mb-4">Liderazgo</span>
-                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-2">Sol Basualdo</h2>
-                    <p class="text-xl text-gray-400 font-medium mb-6 uppercase tracking-wide">Coordinadora General</p>
-                    <p class="text-gray-500 leading-relaxed mb-8">
-                        Liderando con el ejemplo y la pasión que caracteriza a Uniendo Metas Santiago. Encargada de guiar a todo el equipo de voluntarios hacia el éxito del modelo.
-                    </p>
-                    <div class="h-1 w-20 bg-brand-red rounded-full mx-auto md:mx-0"></div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 space-y-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-24 relative z-10">
+
+        <div class="text-center mb-10" data-aos="fade-up">
+            <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">Estructura 2025</span>
+            <h2 class="text-4xl font-black text-slate-900 mt-2">Nuestro Organigrama</h2>
+        </div>
 
         <div data-aos="fade-up">
-            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-blue/10 pb-4">
-                <h3 class="text-5xl font-black text-brand-blue/20">01.</h3>
-                <h3 class="text-4xl font-black text-slate-900">Asamblea General</h3>
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-slate-800">Coordinación General</h3>
+                <div class="h-1 w-12 bg-slate-200 mx-auto mt-2 rounded-full"></div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <%- leaderCard('Leandro Segura', 'Jefe de Órgano', 'foto_leandro.jpg', 'blue') %>
-                
-                <%- memberCard('Salvador Navarrete', 'Secretario', 'foto_salvador.jpg') %>
-                <%- memberCard('Mariana Carreras', 'Sub Sec.', 'foto_mariana.jpg') %>
-                <%- memberCard('Lautaro Vera', 'Staff', 'foto_lautaro.jpg') %>
-                <%- memberCard('Mica Ledesma', 'Staff', 'foto_mica.jpg') %>
-                <%- memberCard('Aye Banegas', 'Staff', 'foto_aye.jpg') %>
-                <%- memberCard('Flori Juarez', 'Staff', 'foto_flori.jpg') %>
-                <%- memberCard('Morena Paz', 'Staff', 'foto_morena.jpg') %>
-                <%- memberCard('Ana V. Quiroga', 'Staff', 'foto_ana.jpg') %>
-                <%- memberCard('Aldana Lopez', 'Staff', 'foto_aldana.jpg') %>
+            <div class="flex flex-wrap justify-center gap-6">
+                <%- card('Sol Basualdo', 'Coordinadora Gral.', 'foto_sol.jpg', 'slate') %>
             </div>
         </div>
 
         <div data-aos="fade-up">
-            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-green/10 pb-4">
-                <h3 class="text-5xl font-black text-brand-green/20">02.</h3>
-                <h3 class="text-4xl font-black text-slate-900">ECOSOC</h3>
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-brand-green">Asamblea General</h3>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <%- leaderCard('Karim Jorge', 'Jefe de Órgano', 'foto_karim.jpg', 'green') %>
-                <%- memberCard('Martina Basualdo', 'Secretaria', 'foto_martina.jpg') %>
-                <%- memberCard('Lourdes Maguicha', 'Sub Sec.', 'foto_lourdes.jpg') %>
-                <%- memberCard('Silvi Chaparro', 'Staff', 'foto_silvi.jpg') %>
-                <%- memberCard('Exequiel Rosetti', 'Staff', 'foto_exequiel.jpg') %>
-                <%- memberCard('Mariana Maguicha', 'Staff', 'foto_mariana_m.jpg') %>
-                <%- memberCard('Rodri Montenegro', 'Staff', 'foto_rodri.jpg') %>
-                <%- memberCard('Martin Veliz', 'Staff', 'foto_martin.jpg') %>
-                <%- memberCard('Yana Garcia', 'Staff', 'foto_yana.jpg') %>
-                <%- memberCard('Sofia Beltran', 'Staff', 'foto_sofia.jpg') %>
-            </div>
-        </div>
-
-        <div data-aos="fade-up">
-            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-red/10 pb-4">
-                <h3 class="text-5xl font-black text-brand-red/20">03.</h3>
-                <h3 class="text-4xl font-black text-slate-900">Consejo de Seguridad</h3>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <%- leaderCard('Francesco Doffo', 'Jefe de Órgano', 'foto_francesco.jpg', 'red') %>
-                <%- memberCard('Kadir Catan', 'Secretario', 'foto_kadir.jpg') %>
-                <%- memberCard('Joaquin Maguna', 'Staff', 'foto_joaquin_m.jpg') %>
-                <%- memberCard('Ibrahim Franjieh', 'Staff', 'foto_ibrahim.jpg') %>
-                <%- memberCard('Cami Diaz', 'Staff', 'foto_cami.jpg') %>
-                <%- memberCard('Roman Reinoso', 'Staff', 'foto_roman.jpg') %>
-                <%- memberCard('Maite Queirolo', 'Staff', 'foto_maite.jpg') %>
-                <%- memberCard('Martina Salas', 'Staff', 'foto_susi.jpg') %>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <%- card('Leandro Segura', 'Jefe de Órgano', 'foto_leandro.jpg', 'green') %>
+                <%- card('Salvador Navarrete', 'Secretario', 'foto_salvador.jpg', 'green') %>
+                <%- card('Mariana Carreras', 'Sub Secretaria', 'foto_mariana.jpg', 'green') %>
+                <%- card('Lautaro Vera', 'Staff', 'foto_lautaro.jpg', 'gray') %>
+                <%- card('Micaela Ledesma', 'Staff', 'foto_mica.jpg', 'gray') %>
+                <%- card('Ayelen Banegas', 'Staff', 'foto_aye.jpg', 'gray') %>
+                <%- card('Florencia Juarez', 'Staff', 'foto_flori.jpg', 'gray') %>
+                <%- card('Morena Paz', 'Staff', 'foto_morena.jpg', 'gray') %>
+                <%- card('Ana V. Quiroga', 'Staff', 'foto_ana.jpg', 'gray') %>
+                <%- card('Aldana Lopez', 'Staff', 'foto_aldana.jpg', 'gray') %>
             </div>
         </div>
 
         <div data-aos="fade-up">
-            <div class="flex items-end gap-4 mb-12 border-b-2 border-purple-100 pb-4">
-                <h3 class="text-5xl font-black text-purple-200">04.</h3>
-                <h3 class="text-4xl font-black text-slate-900">Sala de Tratados</h3>
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-orange-500">Consejo Económico y Social</h3>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <%- leaderCard('Guillermo Alvarez', 'Jefe de Órgano', 'foto_guille.jpg', 'purple') %>
-                <%- memberCard('Consti Carbajal', 'Secretaria', 'foto_consti.jpg') %>
-                <%- memberCard('Josefina Jorge', 'Sub Sec.', 'foto_josefina.jpg') %>
-                <%- memberCard('Julian Avila', 'Staff', 'foto_julian.jpg') %>
-                <%- memberCard('Luli Abdala', 'Staff', 'foto_luli.jpg') %>
-                <%- memberCard('Marianella Fernandez', 'Staff', 'foto_marianella.jpg') %>
-                <%- memberCard('More Ruiz', 'Staff', 'foto_more_r.jpg') %>
-            </div>
-        </div>
-
-        <div data-aos="fade-up">
-            <div class="flex items-end gap-4 mb-12 border-b-2 border-brand-yellow/20 pb-4">
-                <h3 class="text-5xl font-black text-brand-yellow/30">05.</h3>
-                <h3 class="text-4xl font-black text-slate-900">Derechos Humanos</h3>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <%- leaderCard('Jeremias Cabrera', 'Jefe de Órgano', 'foto_jere.jpg', 'yellow') %>
-                <%- memberCard('Lauti Marottoli', 'Sub Secretario', 'foto_lauti.jpg') %>
-                <%- memberCard('Vale Campagna', 'Staff', 'foto_vale.jpg') %>
-                <%- memberCard('Denis Cardenas', 'Staff', 'foto_denis.jpg') %>
-                <%- memberCard('Fede Chaparro', 'Staff', 'foto_fede.jpg') %>
-                <%- memberCard('Leo Vasquez', 'Staff', 'foto_leo.jpg') %>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <%- card('Karim Jorge', 'Jefe de Órgano', 'foto_karim.jpg', 'orange') %>
+                <%- card('Martina Basualdo', 'Secretaria', 'foto_martina.jpg', 'orange') %>
+                <%- card('Lourdes Maguicha', 'Sub Secretaria', 'foto_lourdes.jpg', 'orange') %>
+                <%- card('Silvina Chaparro', 'Staff', 'foto_silvi.jpg', 'gray') %>
+                <%- card('Ezequiel Rosetti', 'Staff', 'foto_ezequiel.jpg', 'gray') %>
+                <%- card('Mariana Maguicha', 'Staff', 'foto_mariana_m.jpg', 'gray') %>
+                <%- card('Rodrigo Montenegro', 'Staff', 'foto_rodri.jpg', 'gray') %>
+                <%- card('Martin Veliz', 'Staff', 'foto_martin.jpg', 'gray') %>
+                <%- card('Yana Garcia', 'Staff', 'foto_yana.jpg', 'gray') %>
+                <%- card('Sofia Beltran', 'Staff', 'foto_sofia.jpg', 'gray') %>
             </div>
         </div>
 
         <div data-aos="fade-up">
-            <div class="flex items-end gap-4 mb-12 border-b-2 border-pink-100 pb-4">
-                <h3 class="text-5xl font-black text-pink-200">06.</h3>
-                <h3 class="text-4xl font-black text-slate-900">Prensa Oficial</h3>
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-rose-900">Consejo de Seguridad</h3>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <%- leaderCard('Joaquin Rivas', 'Jefe de Prensa', 'foto_joaco_rivas.jpg', 'pink') %>
-                <%- memberCard('Mechi Leoni', 'Secretaria', 'foto_mechi.jpg') %>
-                <%- memberCard('Lean Segura', 'Prensa', 'foto_lean_prensa.jpg') %>
-                <%- memberCard('Esteban Cejas', 'Prensa', 'foto_esteban.jpg') %>
-                <%- memberCard('Luchi Ledesma', 'Prensa', 'foto_luchi.jpg') %>
-                <%- memberCard('Marco Nofal', 'Prensa', 'foto_marco.jpg') %>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <%- card('Francesco Doffo', 'Jefe de Órgano', 'foto_francesco.jpg', 'bordo') %>
+                <%- card('Kadir Catan', 'Secretario', 'foto_kadir.jpg', 'bordo') %>
+                <%- card('Joaquin Maguna', 'Staff', 'foto_joaquin_m.jpg', 'gray') %>
+                <%- card('Ibrahim Franjieh', 'Staff', 'foto_ibrahim.jpg', 'gray') %>
+                <%- card('Camila Diaz', 'Staff', 'foto_cami.jpg', 'gray') %>
+                <%- card('Roman Reinoso', 'Staff', 'foto_roman.jpg', 'gray') %>
+                <%- card('Maite Queirolo', 'Staff', 'foto_maite.jpg', 'gray') %>
+                <%- card('Martina Salas', 'Staff', 'foto_susi.jpg', 'gray') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-brand-yellow">Sala de Tratados Internacionales</h3>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <%- card('Guillermo Alvarez', 'Jefe de Órgano', 'foto_guille.jpg', 'yellow') %>
+                <%- card('Constanza Carbajal', 'Secretaria', 'foto_consti.jpg', 'yellow') %>
+                <%- card('Josefina Jorge', 'Sub Secretaria', 'foto_josefina.jpg', 'yellow') %>
+                <%- card('Julian Avila', 'Staff', 'foto_julian.jpg', 'gray') %>
+                <%- card('Lourdes Abdala', 'Staff', 'foto_luli.jpg', 'gray') %>
+                <%- card('Marianella Fernandez', 'Staff', 'foto_marianella.jpg', 'gray') %>
+                <%- card('Morena Ruiz', 'Staff', 'foto_more_r.jpg', 'gray') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-sky-500">Consejo de Derechos Humanos</h3>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <%- card('Jeremias Cabrera', 'Jefe de Órgano', 'foto_jere.jpg', 'sky') %>
+                <%- card('Lautaro Marottoli', 'Sub Secretario', 'foto_lauti.jpg', 'sky') %>
+                <%- card('Valentina Campagna', 'Staff', 'foto_vale.jpg', 'gray') %>
+                <%- card('Denis Cardenas', 'Staff', 'foto_denis.jpg', 'gray') %>
+                <%- card('Federico Chaparro', 'Staff', 'foto_fede.jpg', 'gray') %>
+                <%- card('Leonel Vasquez', 'Staff', 'foto_leo.jpg', 'gray') %>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-purple-600">Prensa y Comunicación</h3>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <%- card('Joaquin Rivas', 'Jefe de Prensa', 'foto_joaco_rivas.jpg', 'purple') %>
+                <%- card('Mercedes Leoni', 'Secretaria', 'foto_mechi.jpg', 'purple') %>
+                <%- card('Leandro Segura', 'Prensa', 'foto_lean_prensa.jpg', 'gray') %>
+                <%- card('Esteban Cejas', 'Prensa', 'foto_esteban.jpg', 'gray') %>
+                <%- card('Luciana Ledesma', 'Prensa', 'foto_luchi.jpg', 'gray') %>
+                <%- card('Marco Nofal', 'Prensa', 'foto_marco.jpg', 'gray') %>
             </div>
         </div>
 
     </div>
 
-    <section class="bg-slate-900 py-24 text-center relative overflow-hidden">
-        <div class="relative z-10 max-w-2xl mx-auto px-4">
-            <h2 class="text-4xl font-black text-white mb-6">¿Te animás a ser parte?</h2>
-            <a href="https://docs.google.com/forms/d/e/TU-LINK-DE-VOLUNTARIOS" target="_blank" class="inline-block px-10 py-4 bg-white text-slate-900 font-black rounded-full hover:scale-105 transition-transform duration-300">
-                SUMATE AL STAFF 2026
-            </a>
+    <section class="py-24 bg-slate-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            
+            <div class="mb-12">
+                <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">Legado</span>
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mt-2">10 Años de Voluntariado</h2>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
+                    Busca tu nombre o el de tus amigos. Gracias a estas personas, Uniendo Metas Santiago es lo que es hoy.
+                </p>
+                
+                <div class="mt-8 max-w-md mx-auto">
+                    <div class="relative">
+                        <input type="text" id="search-volunteer" placeholder="Buscar un voluntario..." class="w-full px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-blue-100 transition-all text-sm">
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-left">
+                
+                <% 
+                const years = [
+                    { year: '2024', names: ['Juan Pérez', 'María González', 'Lucas Díaz', 'Sofía Rodriguez', 'Carlos Gomez', 'Ana López', 'Pedro Ruiz', 'Lucía Fernández', 'Miguel Torres', 'Julieta Paz', 'Roberto Carlos', 'Lionel Messi'] },
+                    { year: '2023', names: ['Sofía Martínez', 'Pedro Ruiz', 'Ana López', 'Carlos Gomez', 'Julian Alvarez', 'Enzo Fernandez'] },
+                    { year: '2022', names: ['Carlos Sánchez', 'Lucía Fernández', 'Miguel Torres', 'Julieta Paz'] },
+                    { year: '2021', names: ['Pandemia Hero', 'Virtual Staff', 'Zoom Master', 'Meet Expert'] },
+                    { year: '2020', names: ['Edición Virtual', 'Staff Resiliente', 'Equipo Técnico'] },
+                    { year: '2019', names: ['Nombre Apellido', 'Nombre Apellido', 'Nombre Apellido', 'Nombre Apellido'] },
+                    { year: '2018', names: ['Nombre Apellido', 'Nombre Apellido', 'Nombre Apellido'] },
+                    { year: '2017', names: ['Nombre Apellido', 'Nombre Apellido', 'Nombre Apellido'] },
+                    { year: '2016', names: ['Nombre Apellido', 'Nombre Apellido'] },
+                    { year: '2015', names: ['Fundadores', 'Primer Staff', 'Pioneros'] },
+                ];
+                %>
+
+                <% years.forEach(data => { %>
+                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col h-64 year-card">
+                        <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
+                            <h4 class="text-2xl font-black text-slate-800"><%= data.year %></h4>
+                            <span class="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded"><%= data.names.length %> Voluntarios</span>
+                        </div>
+                        <div class="overflow-y-auto scrollbar-thin pr-2 flex-1">
+                            <ul class="space-y-2 text-sm text-gray-600 font-medium">
+                                <% data.names.forEach(name => { %>
+                                    <li class="volunteer-name hover:text-brand-blue transition-colors cursor-default"><%= name %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                <% }); %>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white overflow-hidden border-t border-gray-100">
+        <div class="text-center mb-10">
+            <h3 class="text-2xl font-black text-slate-900">Memorias en Imágenes</h3>
+        </div>
+        
+        <div class="relative w-full">
+            <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+            <div class="flex animate-scroll w-max gap-6 px-4 hover:pause">
+                <% const fotos = ['grupo2024.jpg', 'grupo2023.jpg', 'grupo2022.jpg']; %>
+                <% for(let i=0; i<4; i++) { %> 
+                    <% fotos.forEach(foto => { %>
+                        <div class="w-72 md:w-96 aspect-video rounded-xl overflow-hidden shadow-md relative group transition duration-500 cursor-pointer">
+                            <img src="/img/Voluntarios/<%= foto %>" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80'" class="w-full h-full object-cover" alt="Equipo">
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-black text-slate-900 text-center mb-12">Preguntas Frecuentes</h2>
+            
+            <div class="space-y-4">
+                <details class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-200 cursor-pointer transition-all">
+                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none text-lg">
+                        ¿Qué requisitos necesito para ser voluntario?
+                        <span class="text-brand-blue transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="text-gray-600 mt-4 leading-relaxed text-sm border-t border-gray-100 pt-4">
+                        <p>Principalmente ganas de aprender y compromiso. Valoramos la experiencia previa en modelos, pero no es excluyente. Buscamos jóvenes proactivos y responsables.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-200 cursor-pointer transition-all">
+                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none text-lg">
+                        ¿Cuánto tiempo consume ser voluntario?
+                        <span class="text-brand-blue transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="text-gray-600 mt-4 leading-relaxed text-sm border-t border-gray-100 pt-4">
+                        <p>El trabajo es por etapas. Durante el año tenemos reuniones de planificación quincenales. En las semanas previas al modelo la intensidad sube, y durante el evento la disponibilidad debe ser total.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-200 cursor-pointer transition-all">
+                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none text-lg">
+                        ¿Qué áreas existen para participar?
+                        <span class="text-brand-blue transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="text-gray-600 mt-4 leading-relaxed text-sm border-t border-gray-100 pt-4">
+                        <p>Puedes sumarte como Autoridad de Órgano (Presidente/Secretario), Prensa (Redes, Fotografía), Logística (Organización del espacio), Capacitación o Protocolo.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-200 cursor-pointer transition-all">
+                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none text-lg">
+                        ¿Obtengo algún certificado?
+                        <span class="text-brand-blue transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="text-gray-600 mt-4 leading-relaxed text-sm border-t border-gray-100 pt-4">
+                        <p>Sí. Al finalizar el proyecto, Asociación Conciencia emite un certificado oficial de voluntariado que acredita tu rol y las horas dedicadas.</p>
+                    </div>
+                </details>
+
+                 <details class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-200 cursor-pointer transition-all">
+                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none text-lg">
+                        ¿Tiene algún costo ser voluntario?
+                        <span class="text-brand-blue transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="text-gray-600 mt-4 leading-relaxed text-sm border-t border-gray-100 pt-4">
+                        <p>No, ser voluntario es completamente gratuito. Sin embargo, el voluntariado implica un compromiso de responsabilidad con las tareas asignadas.</p>
+                    </div>
+                </details>
+            </div>
         </div>
     </section>
 
     <%- include('./partials/footer') %>
 
     <% 
-    // Tarjeta Jefe
-    function leaderCard(name, role, img, color) {
-        let bgClass = 'bg-slate-100';
-        let textClass = 'text-slate-900';
-        if(color === 'blue') { bgClass = 'bg-brand-blue'; textClass = 'text-white'; }
-        if(color === 'red') { bgClass = 'bg-brand-red'; textClass = 'text-white'; }
-        if(color === 'green') { bgClass = 'bg-brand-green'; textClass = 'text-white'; }
-        if(color === 'yellow') { bgClass = 'bg-brand-yellow'; textClass = 'text-slate-900'; }
-        if(color === 'purple') { bgClass = 'bg-purple-600'; textClass = 'text-white'; }
-        if(color === 'pink') { bgClass = 'bg-pink-500'; textClass = 'text-white'; }
+    function card(name, role, img, color) {
+        let badgeColor = 'bg-gray-100 text-gray-500';
+        
+        if(color === 'green') { badgeColor = 'bg-brand-green text-white'; } 
+        if(color === 'orange') { badgeColor = 'bg-orange-500 text-white'; } 
+        if(color === 'sky') { badgeColor = 'bg-sky-500 text-white'; } 
+        if(color === 'yellow') { badgeColor = 'bg-brand-yellow text-slate-900'; } 
+        if(color === 'bordo') { badgeColor = 'bg-rose-900 text-white'; } 
+        if(color === 'purple') { badgeColor = 'bg-purple-600 text-white'; } 
+        if(color === 'slate') { badgeColor = 'bg-slate-800 text-white'; } 
+        if(color === 'gray') { badgeColor = 'bg-gray-200 text-gray-600'; }
 
         return `
-        <div class="col-span-1 md:col-span-2 relative h-64 rounded-[2rem] overflow-hidden shadow-xl group cursor-pointer">
-            <img src="/img/equipo/${img}" 
-                 onerror="this.src='https://ui-avatars.com/api/?name=${name}&size=400&background=random'" 
-                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                 alt="${name}">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-8">
-                <span class="${bgClass} ${textClass} text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-2 inline-block shadow-md">
-                    ${role}
-                </span>
-                <h4 class="text-3xl font-black text-white leading-none">${name}</h4>
-            </div>
-        </div>
-        `;
-    }
-
-    // Tarjeta Staff (Minimalista y Pro)
-    function memberCard(name, role, img) {
-        return `
-        <div class="bg-white rounded-[2rem] p-3 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-            <div class="aspect-square rounded-[1.5rem] overflow-hidden mb-4 bg-gray-100 relative">
-                <img src="/img/equipo/${img}" 
-                     onerror="this.src='https://ui-avatars.com/api/?name=${name}&size=300&background=f1f5f9&color=334155'" 
-                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+        <div class="flex flex-col items-center text-center group w-40 md:w-44">
+            <div class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden shadow-sm border border-gray-100 mb-3 relative">
+                <img src="/img/Voluntarios/${img}"
+                     onerror="this.src='https://ui-avatars.com/api/?name=${name}&background=f8fafc&color=64748b&size=300'" 
+                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                      alt="${name}">
             </div>
-            <div class="px-2 pb-2 text-center">
-                <h4 class="font-bold text-slate-800 leading-tight text-lg mb-1">${name}</h4>
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">${role}</p>
-            </div>
+            <h4 class="font-bold text-slate-800 leading-tight text-sm md:text-base mb-1.5">${name}</h4>
+            <span class="inline-block ${badgeColor} text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full shadow-sm">${role}</span>
         </div>
         `;
     }
@@ -217,6 +388,25 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, offset: 50, duration: 800 });
+
+        // Script para buscar voluntarios
+        const searchInput = document.getElementById('search-volunteer');
+        if(searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const names = document.querySelectorAll('.volunteer-name');
+
+                names.forEach(nameEl => {
+                    const name = nameEl.textContent.toLowerCase();
+                    if(name.includes(term) && term !== '') {
+                        nameEl.classList.add('text-brand-red', 'font-bold');
+                        nameEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        nameEl.classList.remove('text-brand-red', 'font-bold');
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
