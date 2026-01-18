@@ -14,7 +14,6 @@ Este proyecto sirve como el centro de información, inscripción y gestión de r
 ### 🖥️ Vista de Escritorio (Inicio)
 Una interfaz moderna y limpia diseñada para captar la atención de los jóvenes.
 ![Vista Escritorio](screenshots/home-desktop.png)
-*(Asegúrate de subir una captura de tu Hero Section aquí)*
 
 ### 📱 Diseño Responsivo (Móvil)
 Adaptado 100% a dispositivos móviles con menú de navegación flotante y optimización táctil.
