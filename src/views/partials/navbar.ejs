@@ -43,8 +43,28 @@
             <a href="/#nosotros" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Nosotros</a>
             <a href="/#participación" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Participación</a> 
             <div class="pt-4 px-3">
-                <button onclick="openModal('modal-inscripcion')" class="mobile-link w-full text-center px-6 py-3 bg-brand-red text-white font-bold rounded-xl shadow-md">Inscribirse Ahora</button>
+                <button onclick="openModal('modal-inscripcion')" class="mobile-link w-full text-center px-6 py-3 bg-brand-red text-white font-bold rounded-xl shadow-md hover:bg-red-700 transition">
+                    Inscribirse Ahora
+                </button>
             </div>
         </div>
     </div>
+    <script>
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+
+    if (btn && menu) {
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    }
+
+    // Cerrar el menú al hacer clic en un link
+    const navLinks = document.querySelectorAll('.mobile-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menu.classList.add('hidden');
+        });
+    });
+</script>
 </nav>
