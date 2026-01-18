@@ -22,6 +22,14 @@ const mainRoutes = require('./src/routes/mainRoutes');
 // Usamos las rutas (todo lo que llegue a la raíz '/' irá al manejador de rutas)
 app.use('/', mainRoutes);
 
+// Manejador de Error 500 (Debe tener 4 argumentos: err, req, res, next)
+app.use((err, req, res, next) => {
+    console.error(err.stack); // Esto te muestra el error en tu consola para que lo arregles
+    res.status(500).render('500', { title: 'Error del Servidor' });
+});
+
+// app.listen(...)
+
 // --- SERVIDOR ---
 // Iniciamos el servidor
 app.listen(PORT, () => {

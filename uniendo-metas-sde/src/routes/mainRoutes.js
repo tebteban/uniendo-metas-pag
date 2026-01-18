@@ -21,7 +21,6 @@ router.get('/voluntarios', (req, res) => {
         path: '/voluntarios' 
     });
 });
-
 // --- MANEJO DE ERROR 404 ---
 // ¡IMPORTANTE! Esto debe ir SIEMPRE al final de todas las rutas.
 // Si ninguna de las de arriba coincide, entra aquí.
