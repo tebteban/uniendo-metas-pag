@@ -61,8 +61,10 @@
 
      <div class="border-t border-gray-800 pt-8 mt-12 text-center">
             <p class="text-gray-500 text-xs">
-                &copy; 2026 Uniendo Metas Santiago del Estero. Todos los derechos reservados.
-            </p>
-        </div>
-    </div>
+    &copy; <span id="year"></span> Uniendo Metas Santiago del Estero. Todos los derechos reservados.
+</p>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </footer>
