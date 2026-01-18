@@ -56,11 +56,11 @@
 
                 <div class="w-full overflow-hidden py-2">
                     <div class="animate-scroll flex gap-4 md:gap-6 w-max items-center">
-                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
-                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
-                        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
-                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
-                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80" class="h-40 md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=600&q=80" md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80" md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&q=80" md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e3169?w=600&q=80" md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
+                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80" md:h-64 w-auto object-cover rounded-xl shadow-md" alt="">
                     </div>
                 </div>
             </div>
@@ -72,75 +72,25 @@
         <div class="absolute top-40 right-10 w-40 h-40 bg-brand-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
     </section>
 
-    <section id="impacto" class="relative z-20 mt-[-50px] overflow-hidden h-auto md:h-[350px]">
-        
-        <div class="absolute inset-0 z-0">
-            <img id="fondo-movil" src="/img/fondo-impacto.png" 
-                 class="w-full h-full object-cover object-center scale-105 will-change-transform" 
-                 alt="Fondo Impacto">
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-center py-10 md:py-0">
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center w-full">
-                
-                <div class="flex flex-col items-center justify-center p-2">
-                    <h3 class="text-5xl md:text-7xl font-black mb-0 leading-none" style="color: #f5a623; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
-                        <span class="counter-animate" data-target="10">0</span>
-                    </h3>
-                    <p class="font-black uppercase tracking-widest text-xs md:text-sm mt-1" style="color: #4b5563;">
-                        Ediciones SDE
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center p-2">
-                    <h3 class="text-5xl md:text-7xl font-black mb-0 leading-none" style="color: #6da641; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
-                        +<span class="counter-animate" data-target="550">0</span>
-                    </h3>
-                    <p class="font-black uppercase tracking-widest text-xs md:text-sm mt-1" style="color: #4b5563;">
-                        Alumnos
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center p-2">
-                    <h3 class="text-5xl md:text-7xl font-black mb-0 leading-none" style="color: #38b6ff; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
-                        +<span class="counter-animate" data-target="20">0</span>
-                    </h3>
-                    <p class="font-black uppercase tracking-widest text-xs md:text-sm mt-1" style="color: #4b5563;">
-                        Escuelas
-                    </p>
-                </div>
-
-                <div class="flex flex-col items-center justify-center p-2">
-                    <h3 class="text-5xl md:text-7xl font-black mb-0 leading-none" style="color: #800020; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
-                        +<span class="counter-animate" data-target="40">0</span>
-                    </h3>
-                    <p class="font-black uppercase tracking-widest text-xs md:text-sm mt-1" style="color: #4b5563;">
-                        Voluntarios
-                    </p>
-                </div>
-
-            </div>
-        </div>
+<section id="impacto" class="relative z-20 mt-[-50px] overflow-hidden h-auto md:h-[350px]">
+    <div class="absolute inset-0 z-0">
+        <img src="/img/fondo-impacto.png" 
+             class="w-full h-full object-cover object-center" 
+             alt="Fondo Impacto">
+    </div>
     </section>
 
-    <script>
-        document.addEventListener('scroll', function() {
-            const imagen = document.getElementById('fondo-movil');
-            const seccion = document.getElementById('impacto');
-            const rect = seccion.getBoundingClientRect();
-            
-            // Solo calculamos si la sección está visible o cerca
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const velocidad = 0.05;
-                
-                // Arreglo del borde blanco (-50px)
-                const movimientoX = (window.scrollY * velocidad) - 50;
-                
-                imagen.style.transform = `scale(1.05) translate3d(${movimientoX}px, 0, 0)`;
-            }
-        });
-    </script>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-center py-10 md:py-0">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center w-full">
+            <div class="flex flex-col items-center justify-center p-2">
+                <h3 class="text-5xl md:text-7xl font-black mb-0 leading-none" style="color: #f5a623; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">
+                    <span class="counter-animate" data-target="10">0</span>
+                </h3>
+                <p class="font-black uppercase tracking-widest text-xs md:text-sm mt-1" style="color: #4b5563;">Ediciones SDE</p>
+            </div>
+            </div>
+    </div>
+</section>
 
    <section class="pt-12 pb-8 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 text-center">
@@ -967,7 +917,7 @@
         // 1. INICIALIZAR ANIMACIONES
         AOS.init({ once: true, offset: 50, duration: 800 });
 
-        // 2. LÓGICA DEL MENÚ MÓVIL (Navbar)
+        // 2. LÓGICA DEL MENÚ MÓVIL (Navbar Unificada)
         document.addEventListener('DOMContentLoaded', () => {
             const btn = document.getElementById('mobile-menu-button');
             const menu = document.getElementById('mobile-menu');
@@ -977,9 +927,8 @@
                 btn.addEventListener('click', () => {
                     menu.classList.toggle('hidden');
                 });
-            }
-
-            if(links.length > 0 && menu) {
+                
+                // Cerrar menú al hacer click en un link (para anchor links #)
                 links.forEach(link => {
                     link.addEventListener('click', () => {
                         menu.classList.add('hidden');
@@ -988,49 +937,20 @@
             }
         });
 
-        // 3. LÓGICA DEL MODAL DE INSCRIPCIÓN (Pop-up)
+        // 3. LÓGICA DEL MODAL DE INSCRIPCIÓN
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
-            const backdrop = document.getElementById('modal-backdrop');
-            const panel = document.getElementById('modal-panel');
-            
             if (modal) {
                 modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden'; // Bloquear scroll
-                
-                // Pequeña pausa para permitir la animación
-                setTimeout(() => {
-                    if(backdrop) {
-                        backdrop.classList.remove('opacity-0');
-                        backdrop.classList.add('opacity-100');
-                    }
-                    if(panel) {
-                        panel.classList.remove('opacity-0', 'scale-90');
-                        panel.classList.add('opacity-100', 'scale-100');
-                    }
-                }, 10);
             }
         }
 
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
-            const backdrop = document.getElementById('modal-backdrop');
-            const panel = document.getElementById('modal-panel');
-
             if (modal) {
-                if(backdrop) {
-                    backdrop.classList.remove('opacity-100');
-                    backdrop.classList.add('opacity-0');
-                }
-                if(panel) {
-                    panel.classList.remove('opacity-100', 'scale-100');
-                    panel.classList.add('opacity-0', 'scale-90');
-                }
-
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    document.body.style.overflow = 'auto'; // Habilitar scroll
-                }, 300);
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Habilitar scroll
             }
         }
 
@@ -1050,13 +970,8 @@
             const icon = document.getElementById('icon-' + id);
             
             if (content) {
-                if (content.classList.contains('hidden')) {
-                    content.classList.remove('hidden');
-                    if(icon) icon.classList.add('rotate-180');
-                } else {
-                    content.classList.add('hidden');
-                    if(icon) icon.classList.remove('rotate-180');
-                }
+                content.classList.toggle('hidden');
+                if(icon) icon.classList.toggle('rotate-180');
             }
         }
 
@@ -1095,39 +1010,5 @@
         if(impactoSection) {
             observer.observe(impactoSection);
         }
-        
-        // 6. PARALLAX (Fondo móvil)
-        document.addEventListener('scroll', function() {
-            const imagen = document.getElementById('fondo-movil');
-            const seccion = document.getElementById('impacto');
-            
-            if (imagen && seccion) {
-                const rect = seccion.getBoundingClientRect();
-                // Solo calculamos si la sección está visible o cerca
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const velocidad = 0.05;
-                    const movimientoX = (window.scrollY * velocidad) - 50;
-                    imagen.style.transform = `scale(1.05) translate3d(${movimientoX}px, 0, 0)`;
-                }
-            }
-        });
-        // MENÚ MÓVIL
-const btn = document.getElementById('mobile-menu-button');
-const menu = document.getElementById('mobile-menu');
-const links = document.querySelectorAll('.mobile-link');
 
-if(btn && menu) {
-    btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-    });
-    
-    // Cerrar menú al hacer click en un link
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            menu.classList.add('hidden');
-        });
-    });
-}
     </script>
-</body>
-</html>
