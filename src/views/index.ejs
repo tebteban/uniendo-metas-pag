@@ -1052,6 +1052,15 @@
             }
         }
     });
+    function toggleFaq(id) {
+        const content = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+        
+        if (content) {
+            content.classList.toggle('hidden');
+            if(icon) icon.classList.toggle('rotate-180');
+        }
+    }
 </script>
 </body>
 </html>

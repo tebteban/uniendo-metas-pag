@@ -398,6 +398,37 @@
 
     <%- include('./partials/footer') %>
 
+    ¡Dale Ezequiel! Si preferís tener el control total archivo por archivo para que no se mezcle nada, me parece perfecto. Es una forma muy segura de trabajar.
+
+Vas a tener que pegar exactamente el mismo código en ambos archivos.
+
+Aquí tienes el bloque de código y las instrucciones precisas:
+
+El Código Mágico 🪄
+Copiá este bloque entero:
+
+HTML
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+            
+            // Cerrar al tocar cualquier link del menú
+            const links = document.querySelectorAll('.mobile-link');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        }
+    });
+</script>
+
     <% 
     function card(name, role, img, color) {
         let badgeColor = 'bg-gray-100 text-gray-500';
