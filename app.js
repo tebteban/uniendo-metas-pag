@@ -49,8 +49,41 @@ app.use((err, req, res, next) => {
 // app.listen(...)
 
 // --- SERVIDOR ---
-// Iniciamos el servidor
-app.listen(PORT, () => {
-    console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`🚀 Presiona Ctrl + C para detenerlo`);
+// Inicializar base de datos y luego iniciar el servidor
+const sequelize = require('./src/database/config');
+const User = require('./src/database/models/User');
+const Setting = require('./src/database/models/Setting');
+const Organ = require('./src/database/models/Organ');
+const Schedule = require('./src/database/models/Schedule');
+const Volunteer = require('./src/database/models/Volunteer');
+const Authority = require('./src/database/models/Authority');
+const Inscription = require('./src/database/models/Inscription');
+
+async function initializeDatabase() {
+    try {
+        // Sincronizar modelos (crear tablas si no existen)
+        await sequelize.sync();
+        console.log('✅ Base de datos sincronizada');
+
+        // Verificar si ya hay un usuario admin
+        const adminExists = await User.findOne({ where: { username: 'admin' } });
+        if (!adminExists) {
+            await User.create({
+                username: 'admin',
+                password: 'admin123',
+                role: 'admin'
+            });
+            console.log('✅ Usuario admin creado');
+        }
+    } catch (error) {
+        console.error('❌ Error inicializando base de datos:', error);
+    }
+}
+
+// Iniciar servidor después de inicializar la base de datos
+initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+        console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+        console.log(`🚀 Presiona Ctrl + C para detenerlo`);
+    });
 });
