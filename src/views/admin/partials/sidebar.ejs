@@ -1,0 +1,76 @@
+<aside id="admin-sidebar"
+    class="w-64 bg-white border-r border-gray-200 fixed h-full z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out pt-20 md:pt-20 top-0 left-0">
+    <div class="p-6 space-y-2">
+        <div class="px-4 pb-2">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">General</p>
+        </div>
+        <a href="/admin/dashboard"
+            class="<%= (typeof title !== 'undefined' && title.includes('Panel')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-bold rounded-xl transition text-sm mb-4">
+            📊 Dashboard
+        </a>
+        <a href="/admin/configuracion"
+            class="<%= (typeof title !== 'undefined' && title.includes('Configuración')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-bold rounded-xl transition text-sm mb-4">
+            ⚙️ Configuración
+        </a>
+        <a href="/admin/fotos"
+            class="<%= (typeof title !== 'undefined' && title.includes('Fotos')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-bold rounded-xl transition text-sm mb-4">
+            📷 Fotos
+        </a>
+
+        <div class="px-4 pb-2">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Gestión Web</p>
+        </div>
+        <div class="space-y-1 mb-4">
+            <a href="/admin/equipodevoluntarios"
+                class="<%= (typeof title !== 'undefined' && title.includes('Equipo')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                👥 Equipo
+            </a>
+
+            <a href="/admin/textos"
+                class="<%= (typeof title !== 'undefined' && title.includes('Textos')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                📝 Textos
+            </a>
+
+            <a href="/admin/organos"
+                class="<%= (typeof title !== 'undefined' && title.includes('Órganos')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                🏛️ Órganos
+            </a>
+            <a href="/admin/cronograma"
+                class="<%= (typeof title !== 'undefined' && title.includes('Cronograma')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                📅 Cronograma
+            </a>
+        </div>
+
+        <div class="px-4 pb-2">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Inscripciones</p>
+        </div>
+        <div class="space-y-1">
+            <a href="/admin/inscripciones/voluntario"
+                class="<%= (typeof title !== 'undefined' && title.includes('Inscripciones: Voluntarios')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                📄 Voluntarios
+            </a>
+            <a href="/admin/inscripciones/escuela"
+                class="<%= (typeof title !== 'undefined' && title.includes('Inscripciones: Colegios')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                🏫 Colegios
+            </a>
+            <a href="/admin/inscripciones/autoridad"
+                class="<%= (typeof title !== 'undefined' && title.includes('Inscripciones: Autoridades')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                ⚖️ Autoridades
+            </a>
+            <a href="/admin/inscripciones/delegado"
+                class="<%= (typeof title !== 'undefined' && title.includes('Inscripciones: Delegados')) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-slate-900' %> block px-4 py-2 font-medium rounded-xl transition text-sm">
+                👔 Delegados
+            </a>
+        </div>
+    </div>
+    <div class="absolute bottom-0 w-full p-6 border-t border-gray-100">
+        <a href="/" target="_blank"
+            class="flex items-center gap-2 text-sm text-gray-400 hover:text-blue-600 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Ver sitio web
+        </a>
+    </div>
+</aside>

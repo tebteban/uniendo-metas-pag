@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<%- include('./partials/head') %>
+
+    <body class="bg-gray-50 text-gray-600 antialiased overflow-x-hidden font-sans">
+
+        <%- include('./partials/navbar') %>
+
+            <!-- Header de la página -->
+            <section class="relative pt-32 pb-12 bg-white overflow-hidden">
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div
+                        class="absolute top-0 right-1/4 w-96 h-96 bg-green-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70">
+                    </div>
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4">
+                        ¿Cómo <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-green">Participar?</span>
+                    </h1>
+                    <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
+                        Todo lo que necesitas saber para ser parte del encuentro y la documentación necesaria.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Sección Guía de Inscripción (Extraída de index.ejs) -->
+            <section class="py-20 bg-white border-t border-gray-100 relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+                    <div class="text-center mb-16" data-aos="fade-up">
+                        <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">Guía de
+                            Inscripción</span>
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2 mb-4">¿Cómo sumarte al Encuentro?
+                        </h2>
+                        <p class="text-lg text-gray-500 max-w-3xl mx-auto">
+                            La inscripción consta de <strong>tres pasos dependientes</strong>. Los participantes no
+                            podrán inscribirse si los pasos previos no están completos.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+
+                        <div class="relative bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center group hover:border-brand-green transition-colors duration-300"
+                            data-aos="fade-up" data-aos-delay="0">
+                            <div
+                                class="w-12 h-12 bg-green-100 text-brand-green rounded-full flex items-center justify-center text-xl font-black mb-4 group-hover:scale-110 transition-transform">
+                                1</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Inscripción del Establecimiento</h3>
+                            <p class="text-sm text-gray-500">
+                                La escuela debe completar su registro institucional. Puede participar cualquier escuela
+                                secundaria (pública o privada).
+                            </p>
+                        </div>
+
+                        <div class="relative bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center group hover:border-brand-blue transition-colors duration-300"
+                            data-aos="fade-up" data-aos-delay="100">
+                            <div
+                                class="w-12 h-12 bg-blue-100 text-brand-blue rounded-full flex items-center justify-center text-xl font-black mb-4 group-hover:scale-110 transition-transform">
+                                2</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Inscripción del Docente</h3>
+                            <p class="text-sm text-gray-500">
+                                El docente referente debe registrarse una vez que la escuela esté dada de alta. Él será
+                                el nexo con la organización.
+                            </p>
+                        </div>
+
+                        <div class="relative bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col items-center text-center group hover:border-brand-red transition-colors duration-300"
+                            data-aos="fade-up" data-aos-delay="200">
+                            <div
+                                class="w-12 h-12 bg-red-100 text-brand-red rounded-full flex items-center justify-center text-xl font-black mb-4 group-hover:scale-110 transition-transform">
+                                3</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Inscripción de Participantes</h3>
+                            <p class="text-sm text-gray-500">
+                                Finalmente, se inscriben los alumnos (Delegados/Autoridades) y los adultos acompañantes.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="bg-brand-blue/5 border-l-4 border-brand-blue p-6 rounded-r-xl max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-4"
+                        data-aos="fade-up">
+                        <svg class="w-8 h-8 text-brand-blue flex-shrink-0" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-brand-blue mb-1">¿Tu escuela nunca participó?</h4>
+                            <p class="text-sm text-gray-600">
+                                Si tenés dudas sobre si tu institución está registrada o con quién comunicarte,
+                                escribinos a
+                                <a href="mailto:umsantiago@conciencia.org"
+                                    class="font-bold underline hover:text-brand-blue">umsantiago@conciencia.org</a>.
+                            </p>
+                        </div>
+                        <button onclick="openModal('modal-inscripcion')"
+                            class="px-6 py-2 bg-brand-blue text-white font-bold rounded-full text-sm hover:bg-blue-700 transition shadow-md whitespace-nowrap">
+                            Inscribirme Ahora
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Sección Recursos (Extraída de index.ejs) -->
+            <section class="py-20 bg-gray-50 border-t border-gray-100 relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-2 bg-gradient-to-rS from-brand-red via-brand-blue to-brand-green opacity-30">
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16" data-aos="fade-up">
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-800 uppercase tracking-tight mb-4">
+                            Documentación para Acreditarse
+                        </h2>
+                        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+                            Para completar tu participación, es indispensable presentar estas autorizaciones firmadas el
+                            primer día del modelo.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+                        <div class="group relative bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-xl border border-gray-100 hover:border-brand-red flex flex-col items-center text-center"
+                            data-aos="fade-up" data-aos-delay="100">
+                            <div
+                                class="w-16 h-16 rounded-full bg-red-100 text-brand-red flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.258 50.55 50.55 0 00-2.658.813m-15.482 0A50.55 50.55 0 0112 13.489a50.55 50.55 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Delegados / Alumnos</h3>
+                            <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                                Autorización de participación y uso de imagen para menores de edad. Debe firmarla
+                                padre/tutor y director.
+                            </p>
+                            <a href="/documents/Autorizaciones/AUTORIZACIÓN ESTUDIANTES.pdf" download
+                                class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-red font-bold rounded-full border-2 border-brand-red hover:bg-brand-red hover:text-white transition-colors duration-300 text-sm shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Descargar PDF
+                            </a>
+                        </div>
+
+                        <div class="group relative bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-xl border border-gray-100 hover:border-brand-blue flex flex-col items-center text-center"
+                            data-aos="fade-up" data-aos-delay="200">
+                            <div
+                                class="w-16 h-16 rounded-full bg-blue-100 text-brand-blue flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.111 48.111 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 003.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Docentes Acompañantes</h3>
+                            <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                                Autorización personal para docentes y asesores. Requiere firma del docente y sello de
+                                dirección.
+                            </p>
+                            <a href="/documents/Autorizaciones/AUTORIZACIÓN DOCENTES.pdf" download
+                                class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-blue font-bold rounded-full border-2 border-brand-blue hover:bg-brand-blue hover:text-white transition-colors duration-300 text-sm shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Descargar PDF
+                            </a>
+                        </div>
+
+                        <div class="group relative bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-xl border border-gray-100 hover:border-brand-green flex flex-col items-center text-center"
+                            data-aos="fade-up" data-aos-delay="300">
+                            <div
+                                class="w-16 h-16 rounded-full bg-green-100 text-brand-green flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Establecimiento</h3>
+                            <p class="text-sm text-gray-500 mb-6 leading-relaxed">
+                                Nota formal donde el Representante Legal autoriza la participación institucional del
+                                colegio en el programa.
+                            </p>
+                            <a href="/documents/Autorizaciones/AUTORIZACIÓN ESTABLECIMIENTO.pdf" download
+                                class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-green font-bold rounded-full border-2 border-brand-green hover:bg-brand-green hover:text-white transition-colors duration-300 text-sm shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Descargar PDF
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <%- include('./partials/footer') %>
+
+                <%- include('./partials/scripts') %>
+    </body>
+
+</html>

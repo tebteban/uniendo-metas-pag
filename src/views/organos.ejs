@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<%- include('./partials/head') %>
+
+    <body class="bg-gray-50 text-gray-600 antialiased overflow-x-hidden font-sans">
+
+        <%- include('./partials/navbar') %>
+
+            <!-- Header de la página -->
+            <section class="relative pt-32 pb-12 bg-white overflow-hidden">
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div
+                        class="absolute top-0 right-1/4 w-96 h-96 bg-red-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70">
+                    </div>
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4">
+                        Órganos y <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-orange">Tópicos</span>
+                    </h1>
+                    <p class="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
+                        Conocé los espacios de debate y descargá el material de preparación.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Contenido de Órganos (Extraído de index.ejs) -->
+            <section class="py-12 bg-gray-50 relative overflow-hidden min-h-screen">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50 pointer-events-none">
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <% if (organos && organos.length> 0) { %>
+                            <% organos.forEach(organ=> { %>
+                                <div class="w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-2rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col"
+                                    style="--organ-color: <%= organ.color %>;">
+
+                                    <!-- Background Blur Effect -->
+                                    <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"
+                                        style="background-color: var(--organ-color);"></div>
+
+                                    <div class="mb-6">
+                                        <!-- Icon / Initial -->
+                                        <div class="w-16 h-16 rounded-2xl text-white flex items-center justify-center text-3xl font-black shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6"
+                                            style="background-color: var(--organ-color); box-shadow: 0 10px 15px -3px <%= organ.color %>40;">
+                                            <%= organ.name.charAt(0) %>
+                                        </div>
+
+                                        <h3 class="text-3xl font-black text-gray-900 mb-3 leading-tight transition-colors"
+                                            onmouseover="this.style.color='<%= organ.color %>'"
+                                            onmouseout="this.style.color=''">
+                                            <%= organ.name %>
+                                        </h3>
+
+                                        <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                                            <%= organ.description %>
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <!-- Topic Badge -->
+                                        <div class="bg-gray-50 border-l-4 p-4 rounded-r-xl mb-6"
+                                            style="border-color: var(--organ-color); background-color: <%= organ.color %>0D;">
+                                            <span
+                                                class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
+                                            <p class="text-gray-900 font-bold text-sm leading-snug">
+                                                <%= organ.topic || 'A definir' %>
+                                            </p>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="flex flex-col gap-3">
+                                            <% if (organ.link_reglamento) { %>
+                                                <a href="<%= organ.link_reglamento %>" download
+                                                    class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
+                                                    style="border-color: var(--organ-color); color: var(--organ-color);"
+                                                    onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
+                                                    onmouseout="this.style.backgroundColor='white'; this.style.color='<%= organ.color %>'">
+                                                    <span>Descargar Reglamento</span>
+                                                    <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                                    </svg>
+                                                </a>
+                                                <% } %>
+
+                                                    <!-- Additional generic buttons can be added here if db supports them later -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <div class="text-center py-20 w-full">
+                                            <p class="text-gray-400 text-lg">Próximamente se publicarán los órganos.</p>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+            </section>
+
+            <%- include('./partials/footer') %>
+
+    </body>
+
+</html>

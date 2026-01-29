@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50">
+
+    <%- include('../partials/navbar') %>
+
+        <div class="pt-20 flex min-h-screen">
+            <%- include('../partials/sidebar') %>
+
+                <main class="flex-1 md:ml-64 p-8">
+                    <div class="max-w-5xl mx-auto">
+
+                        <div class="flex items-center gap-4 mb-8">
+                            <h2 class="text-3xl font-black text-slate-800">Gestión de Textos</h2>
+                        </div>
+
+                        <!-- Tabs Header -->
+                        <div class="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-8 overflow-x-auto">
+                            <% Object.keys(groupedSettings).forEach((group, index)=> { %>
+                                <% if(groupedSettings[group].length> 0) { %>
+                                    <button onclick="openTab(event, '<%= group %>')"
+                                        class="tab-btn w-full rounded-lg py-2.5 text-sm font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 <%= index === 0 ? 'bg-white text-blue-700 shadow' : 'text-gray-700 hover:bg-white/[0.12] hover:text-blue-600' %>">
+                                        <%= group %>
+                                    </button>
+                                    <% } %>
+                                        <% }); %>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                            <form action="/admin/textos" method="POST" class="space-y-6">
+
+                                <% Object.keys(groupedSettings).forEach((group, index)=> { %>
+                                    <% if(groupedSettings[group].length> 0) { %>
+                                        <div id="<%= group %>"
+                                            class="tab-content <%= index === 0 ? '' : 'hidden' %> space-y-6">
+                                            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Sección: <%=
+                                                    group %>
+                                            </h3>
+
+                                            <% groupedSettings[group].forEach(setting=> { %>
+                                                <div>
+                                                    <label for="<%= setting.key %>"
+                                                        class="block text-sm font-bold text-gray-700 mb-2">
+                                                        <%= setting.label || setting.key %>
+                                                    </label>
+                                                    <% if (setting.type==='textarea' ) { %>
+                                                        <textarea id="<%= setting.key %>" name="<%= setting.key %>"
+                                                            rows="4"
+                                                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"><%= setting.value %></textarea>
+                                                        <% } else { %>
+                                                            <input type="text" id="<%= setting.key %>"
+                                                                name="<%= setting.key %>" value="<%= setting.value %>"
+                                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
+                                                            <% } %>
+                                                                <p class="text-xs text-gray-400 mt-1">Key: <%=
+                                                                        setting.key %>
+                                                                </p>
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                        <% } %>
+                                            <% }); %>
+
+                                                <div class="pt-6 flex justify-end">
+                                                    <button type="submit"
+                                                        class="px-8 py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                                                        Guardar Textos
+                                                    </button>
+                                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </main>
+        </div>
+
+        <script>
+            function openTab(evt, tabName) {
+                // Hide all tab contents
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tab-content");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].classList.add("hidden");
+                }
+
+                // Deactivate all buttons
+                tablinks = document.getElementsByClassName("tab-btn");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].classList.remove("bg-white", "text-blue-700", "shadow");
+                    tablinks[i].classList.add("text-gray-700");
+                }
+
+                // Show current tab and activate button
+                document.getElementById(tabName).classList.remove("hidden");
+                evt.currentTarget.classList.remove("text-gray-700");
+                evt.currentTarget.classList.add("bg-white", "text-blue-700", "shadow");
+            }
+        </script>
+</body>
+
+</html>

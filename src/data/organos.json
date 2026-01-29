@@ -5,7 +5,7 @@
         "descripcion": "Mantener la paz y la seguridad internacionales.",
         "color": "#A02140",
         "topico": "Situación en Medio Oriente",
-        "link_reglamento": "/documents/CS Reglamento-1.pdf"
+        "link_reglamento": "/documents/Reglamentos/CS-REG.pdf"
     },
     {
         "id": "ag",
@@ -13,7 +13,7 @@
         "descripcion": "El único órgano con representación universal.",
         "color": "#73A950",
         "topico": "Inteligencia Artificial y Ética",
-        "link_reglamento": "/documents/AG Reglamento-1.pdf"
+        "link_reglamento": "/documents/Reglamentos/AG-REG.pdf"
     },
     {
         "id": "eco",
@@ -21,7 +21,7 @@
         "descripcion": "Promover el desarrollo sostenible (económico, social y ambiental).",
         "color": "#E15829",
         "topico": "Economía Circular",
-        "link_reglamento": "/documents/ECOSOC Reglamento-1.pdf"
+        "link_reglamento": "/documents/Reglamentos/ECO-REG.pdf"
     },
     {
         "id": "sti",
@@ -29,7 +29,7 @@
         "descripcion": "Negociación directa bilateral y multilateral entre embajadores.",
         "color": "#FFB819",
         "topico": "Tratados Internacionales",
-        "link_reglamento": "/documents/STI - Reglamento 2024-1.pdf"
+        "link_reglamento": "/documents/Reglamentos/STI-REG.pdf"
     },
     {
         "id": "cdh",
@@ -37,6 +37,6 @@
         "descripcion": "Fortalecer la promoción y protección de los derechos humanos.",
         "color": "#61B4E4",
         "topico": "Crisis Migratorias",
-        "link_reglamento": "/documents/CONSEJO DE DERECHOS HUMANOS - DINÁMICAS 2024.pdf"
+        "link_reglamento": "/documents/Reglamentos/CDH-REG.pdf"
     }
 ]

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50">
+
+    <%- include('../partials/navbar') %>
+
+        <div class="pt-20 flex min-h-screen">
+            <%- include('../partials/sidebar') %>
+
+                <main class="flex-1 md:ml-64 p-8">
+                    <div class="max-w-3xl mx-auto">
+                        <div class="flex items-center gap-4 mb-8">
+                            <a href="/admin/autoridades" class="text-gray-400 hover:text-slate-700 transition">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                </svg>
+                            </a>
+                            <h2 class="text-3xl font-black text-slate-800">Nuevo Miembro</h2>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                            <form action="/admin/equipodevoluntarios/store" method="POST" enctype="multipart/form-data"
+                                class="space-y-6">
+
+                                <!-- Sección Personal -->
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Datos Personales</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label for="name" class="block text-sm font-bold text-gray-700 mb-2">Nombre
+                                                Completo</label>
+                                            <input type="text" id="name" name="name" required
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
+                                        </div>
+                                        <div>
+                                            <label for="image" class="block text-sm font-bold text-gray-700 mb-2">Foto
+                                                de Perfil</label>
+                                            <input type="file" id="image" name="image" accept="image/*"
+                                                class="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:outline-none focus:border-blue-500 transition-all text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección Rol -->
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 mt-2">Rol y Área</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label for="group" class="block text-sm font-bold text-gray-700 mb-2">Área /
+                                                Grupo</label>
+                                            <select id="group" name="group"
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all bg-white">
+                                                <option value="Coordinación General">Coordinación General</option>
+                                                <option value="Asamblea General">Asamblea General</option>
+                                                <option value="Consejo de Seguridad">Consejo de Seguridad</option>
+                                                <option value="ECOSOC">ECOSOC</option>
+                                                <option value="Sala de Tratados">Sala de Tratados</option>
+                                                <option value="Derechos Humanos">Derechos Humanos</option>
+                                                <option value="Prensa y Comunicación">Prensa y Comunicación</option>
+                                                <option value="Logística">Logística / Ujieres</option>
+                                                <option value="Capacitación">Capacitación</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label for="role" class="block text-sm font-bold text-gray-700 mb-2">Rol
+                                                Específico (Ej: Presidente)</label>
+                                            <input type="text" id="role" name="role" required
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Opcionales -->
+                                <div>
+                                    <div class="grid grid-cols-3 gap-6">
+                                        <div>
+                                            <label for="order" class="block text-sm font-bold text-gray-700 mb-2">Orden
+                                                de Visualización</label>
+                                            <input type="number" id="order" name="order" value="0"
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
+                                            <p class="text-xs text-gray-400 mt-1">Mayor número = Aparece después</p>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label for="description"
+                                                class="block text-sm font-bold text-gray-700 mb-2">Bio Breve
+                                                (Opcional)</label>
+                                            <textarea id="description" name="description" rows="1"
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-6 flex justify-end gap-4">
+                                    <a href="/admin/equipodevoluntarios"
+                                        class="px-6 py-3 rounded-xl text-gray-600 font-bold hover:bg-gray-100 transition">Cancelar</a>
+                                    <button type="submit"
+                                        class="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">Guardar
+                                        Integrante</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </main>
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center fixed w-full top-0 z-50">
+    <div class="flex items-center gap-4">
+        <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-slate-800 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        <span class="font-black text-xl text-slate-800 tracking-tight">ADMIN PANEL</span>
+        <span class="text-xs font-bold bg-blue-100 text-blue-600 px-2 py-1 rounded-md">v1.0</span>
+    </div>
+    <div class="flex items-center gap-6">
+        <span class="text-sm font-medium text-gray-600 hidden sm:inline">Hola, <b>
+                <%= user ? user.username : 'Admin' %>
+            </b></span>
+        <a href="/admin/logout" class="text-sm font-bold text-red-500 hover:text-red-700 transition">Cerrar Sesión</a>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('admin-sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        if (btn && sidebar) {
+            btn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+                if (overlay) overlay.classList.toggle('hidden');
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+    });
+</script>

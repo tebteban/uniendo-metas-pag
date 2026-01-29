@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<%- include('./partials/head') %>
+
+    <body class="bg-gray-50 text-gray-600 antialiased font-sans">
+
+        <%- include('./partials/navbar') %>
+
+            <!-- Header Clean Light -->
+            <section class="relative pt-32 pb-16 overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/2">
+                </div>
+                <div
+                    class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-red/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/2">
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <span
+                        class="inline-block py-1 px-3 rounded-full bg-white border border-gray-200 text-brand-blue font-bold text-xs tracking-[0.2em] uppercase mb-6 shadow-sm">
+                        <%= settings.text_sch_hero_badge || 'Agenda 2026' %>
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight mb-6">
+                        <%= settings.text_sch_hero_title || 'Cronograma de Actividades' %>
+                    </h1>
+                    <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                        <%= settings.text_sch_hero_desc
+                            || 'Todas las fechas clave del modelo. Prepárate con tiempo para cada instancia de capacitación, evaluación y debate.'
+                            %>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section class="py-12 relative overflow-hidden">
+                <!-- Linea central decorativa -->
+                <div class="absolute left-1/2 transform -translate-x-px w-0.5 h-full bg-gray-200 hidden md:block"></div>
+
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+                    <% if (cronograma && cronograma.length> 0) { %>
+                        <div class="space-y-12 md:space-y-24">
+                            <% let allActivities=[]; if (cronograma) { cronograma.forEach(function(mes) { if
+                                (mes.actividades) { mes.actividades.forEach(function(act) { const showModel=(typeof
+                                settings !=='undefined' && settings && settings.mostrar_fecha_modelo==='true' ); if
+                                (act.tipo==='modelo' && !showModel) return; act.mesNombre=mes.dia;
+                                allActivities.push(act); }); } }); } %>
+                                <% allActivities.forEach(function(actividad, index) { const isEven=index % 2===0; let
+                                    colorClass='border-t-gray-400 text-gray-400 bg-gray-50' ; let dotClass='bg-gray-400'
+                                    ; let badgeColor='bg-gray-100 text-gray-600' ; if (actividad.tipo==='modelo' ) {
+                                    colorClass='border-t-brand-red' ; dotClass='bg-brand-red shadow-red-200' ;
+                                    badgeColor='bg-red-100 text-brand-red' ; } else if (actividad.tipo==='cap_delegados'
+                                    ) { colorClass='border-t-brand-blue' ; dotClass='bg-brand-blue shadow-blue-200' ;
+                                    badgeColor='bg-blue-100 text-brand-blue' ; } else if
+                                    (actividad.tipo==='cap_autoridades' ) { colorClass='border-t-indigo-500' ;
+                                    dotClass='bg-indigo-500 shadow-indigo-200' ;
+                                    badgeColor='bg-indigo-100 text-indigo-700' ; } else if (actividad.tipo==='examen' )
+                                    { colorClass='border-t-orange-500' ; dotClass='bg-orange-500 shadow-orange-200' ;
+                                    badgeColor='bg-orange-100 text-orange-700' ; } else if (actividad.tipo==='sorteo' )
+                                    { colorClass='border-t-fuchsia-500' ; dotClass='bg-fuchsia-500 shadow-fuchsia-200' ;
+                                    badgeColor='bg-fuchsia-100 text-fuchsia-700' ; } else if
+                                    (actividad.tipo==='convivencia' ) { colorClass='border-t-brand-green' ;
+                                    dotClass='bg-brand-green shadow-green-200' ;
+                                    badgeColor='bg-green-100 text-brand-green' ; } %>
+
+                                    <div class="relative flex items-center justify-between md:justify-center group"
+                                        data-aos="fade-up">
+
+                                        <!-- Dot en la línea de tiempo (Desktop) -->
+                                        <div
+                                            class="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full <%= dotClass %> shadow-[0_0_0_4px_rgba(255,255,255,1)] z-10 group-hover:scale-150 transition-transform duration-300">
+                                        </div>
+
+                                        <!-- Contenido -->
+                                        <div class="flex flex-col md:flex-row w-full items-center">
+
+                                            <!-- Izquierda (si es par en desktop) -->
+                                            <div
+                                                class="w-full md:w-1/2 md:pr-16 <%= isEven ? 'order-1' : 'order-3 md:pl-16 opacity-0 hidden md:block' %>">
+                                                <% if(isEven) { %>
+                                                    <!-- Card Desktop (Left Side) -->
+                                                    <div
+                                                        class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 border-t-4 <%= colorClass %> group-hover:-translate-y-1 text-left">
+                                                        <div class="flex justify-between items-center mb-3">
+                                                            <span
+                                                                class="text-xs font-bold uppercase tracking-wider text-gray-400">
+                                                                <%= actividad.mesNombre %>
+                                                            </span>
+                                                            <span
+                                                                class="text-xs font-bold px-2 py-1 rounded-md <%= badgeColor %>">
+                                                                <%= actividad.fecha %>
+                                                            </span>
+                                                        </div>
+                                                        <h3 class="text-lg font-black text-gray-900 mb-2 leading-snug">
+                                                            <%= actividad.titulo %>
+                                                        </h3>
+                                                        <% if (actividad.lugar) { %>
+                                                            <div
+                                                                class="flex items-center gap-2 text-sm text-gray-500 mt-3">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                </svg>
+                                                                <span>
+                                                                    <%= actividad.lugar %>
+                                                                </span>
+                                                            </div>
+                                                            <% } %>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+
+                                            <!-- Spacer Central -->
+                                            <div class="w-full md:w-0 order-2"></div>
+
+                                            <!-- Derecha (si es impar en desktop) o Mobile -->
+                                            <div
+                                                class="w-full md:w-1/2 md:pl-16 <%= !isEven ? 'order-3' : 'order-1 md:pr-16 opacity-0 hidden md:block' %>">
+                                                <% if(!isEven || true) { %>
+                                                    <div
+                                                        class="<%= isEven ? 'md:hidden' : 'block' %> bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 border-t-4 <%= colorClass %> group-hover:-translate-y-1 text-left">
+                                                        <div class="flex justify-between items-center mb-3">
+                                                            <span
+                                                                class="text-xs font-bold uppercase tracking-wider text-gray-400">
+                                                                <%= actividad.mesNombre %>
+                                                            </span>
+                                                            <span
+                                                                class="text-xs font-bold px-2 py-1 rounded-md <%= badgeColor %>">
+                                                                <%= actividad.fecha %>
+                                                            </span>
+                                                        </div>
+                                                        <h3 class="text-lg font-black text-gray-900 mb-2 leading-snug">
+                                                            <%= actividad.titulo %>
+                                                        </h3>
+                                                        <% if (actividad.lugar) { %>
+                                                            <div
+                                                                class="flex items-center gap-2 text-sm text-gray-500 mt-3">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                </svg>
+                                                                <span>
+                                                                    <%= actividad.lugar %>
+                                                                </span>
+                                                            </div>
+                                                            <% } %>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                        </div>
+                        <% } else { %>
+                            <div class="text-center py-20">
+                                <p class="text-gray-400 text-lg">Cronograma próximamente. ¡Volvé pronto!</p>
+                            </div>
+                            <% } %>
+
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="py-20 bg-white border-t border-gray-100 text-center">
+                <div class="max-w-4xl mx-auto px-4">
+                    <h2 class="text-3xl font-black text-brand-dark mb-6">¿Tenés dudas sobre las actividades?</h2>
+                    <a href="https://instagram.com/umsantiagodelestero" target="_blank"
+                        class="inline-flex items-center gap-2 px-8 py-4 bg-brand-red text-white text-lg font-bold rounded-full hover:bg-red-600 transition-all shadow-lg hover:shadow-xl">
+                        Escribinos al Instagram
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </a>
+                </div>
+            </section>
+
+            <%- include('./partials/footer') %>
+
+                <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+                <script>
+                    AOS.init({ once: true, offset: 50, duration: 800 });
+
+
+                </script>
+    </body>
+
+</html>

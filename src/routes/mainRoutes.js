@@ -10,17 +10,22 @@ router.get('/', mainController.index);
 // Ruta Autoridades
 router.get('/autoridades', (req, res) => {
     res.render('autoridades', {
-        title: 'Autoridades | Uniendo Metas' 
-    }); 
+        title: 'Autoridades | Uniendo Metas'
+    });
 });
 
 // Ruta Voluntarios
-router.get('/voluntarios', (req, res) => {
-    res.render('voluntarios', { 
-        title: 'Voluntariado | Uniendo Metas Santiago',
-        path: '/voluntarios' 
-    });
-});
+router.get('/voluntarios', mainController.voluntarios);
+
+// Ruta Órganos
+router.get('/organos', mainController.organos);
+
+// Ruta Participación
+router.get('/participacion', mainController.participacion);
+
+// Ruta Cronograma
+router.get('/cronograma', mainController.cronograma);
+
 // --- MANEJO DE ERROR 404 ---
 // ¡IMPORTANTE! Esto debe ir SIEMPRE al final de todas las rutas.
 // Si ninguna de las de arriba coincide, entra aquí.

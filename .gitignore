@@ -1,1 +1,50 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+src/database/*.db
+src/database/*.sqlite
+
+# Uploads and user-generated content
+public/uploads/
+public/img/site/
+public/img/Voluntarios/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Deployment
 .vercel
+.netlify
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Brain/Antigravity artifacts (optional - uncomment if you don't want to track)
+# .gemini/

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50">
+
+    <%- include('../partials/navbar') %>
+
+        <div class="pt-20 flex min-h-screen">
+            <%- include('../partials/sidebar') %>
+
+                <main class="flex-1 md:ml-64 p-8">
+                    <div class="max-w-7xl mx-auto">
+
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+                            <div>
+                                <h2 class="text-3xl font-black text-slate-800">Galería de Fotos</h2>
+                                <p class="text-gray-500 mt-1">Gestiona las imágenes del sitio (Sliders, Banners, etc)
+                                </p>
+                            </div>
+                            <!-- Global actions removed, moved to sections -->
+                        </div>
+
+                        <% const groups={ '🏠 Página de Inicio' : photos.filter(p=> p.key.startsWith('slider_') ||
+                            p.key.startsWith('index_') || p.key.startsWith('banner_')),
+                            '👔 Autoridades': photos.filter(p => p.key.startsWith('auth_')),
+                            '🤝 Voluntarios': photos.filter(p => p.key.startsWith('vol_')),
+                            '📂 Otros': photos.filter(p => !p.key.match(/^(slider|index|banner|auth|vol)_/))
+                            };
+                            %>
+
+                            <% Object.keys(groups).forEach(groupName=> {
+                                const groupPhotos = groups[groupName];
+                                if (groupPhotos.length > 0) {
+                                %>
+                                <div class="mb-12">
+                                    <div class="flex justify-between items-center mb-6 border-b border-gray-200 pb-2">
+                                        <h3 class="text-xl font-bold text-slate-700">
+                                            <%= groupName %>
+                                        </h3>
+                                        <% /* Configuration for expandable groups */ let addConfig=null; if
+                                            (groupName.includes('Inicio')) { addConfig={ prefix: 'slider_image' ,
+                                            label: 'Inicio - Slider' }; } else if (groupName.includes('Autoridades')) {
+                                            addConfig={ prefix: 'auth_legacy' , label: 'Autoridades - Legado' }; } else
+                                            if (groupName.includes('Voluntarios')) { addConfig={ prefix: 'vol_slider' ,
+                                            label: 'Voluntarios - Slider' }; } if (addConfig) { %>
+                                            <form action="/admin/fotos/add" method="POST" class="inline">
+                                                <input type="hidden" name="prefix" value="<%= addConfig.prefix %>">
+                                                <input type="hidden" name="label" value="<%= addConfig.label %>">
+                                                <button type="submit"
+                                                    class="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-lg hover:bg-blue-200 font-bold transition flex items-center gap-1">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4" />
+                                                    </svg>
+                                                    Agregar
+                                                </button>
+                                            </form>
+                                            <% } %>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        <% groupPhotos.forEach(photo=> { %>
+                                            <div
+                                                class="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 group hover:shadow-md transition">
+                                                <div
+                                                    class="relative h-48 w-full bg-gray-100 rounded-xl overflow-hidden mb-4 border border-gray-100">
+                                                    <% if (photo.value) { %>
+                                                        <img src="<%= photo.value %>"
+                                                            class="w-full h-full object-cover">
+                                                        <% } else { %>
+                                                            <div
+                                                                class="flex items-center justify-center h-full text-gray-400">
+                                                                <svg class="w-12 h-12" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="1.5"
+                                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                                </svg>
+                                                            </div>
+                                                            <% } %>
+
+                                                                <div
+                                                                    class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                                                                    <a href="/admin/fotos/eliminar/<%= photo.key %>"
+                                                                        onclick="return confirm('¿Eliminar esta foto?')"
+                                                                        class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition">
+                                                                        <svg class="w-5 h-5" fill="none"
+                                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2"
+                                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                </div>
+
+                                                <div class="space-y-3">
+                                                    <div class="flex justify-between items-start">
+                                                        <div>
+                                                            <p class="font-bold text-slate-800 text-sm">
+                                                                <%= photo.label || photo.key %>
+                                                            </p>
+                                                            <p class="text-xs text-gray-400 font-mono">
+                                                                <%= photo.key %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <form action="/admin/fotos/update/<%= photo.key %>" method="POST"
+                                                        enctype="multipart/form-data" class="flex gap-2">
+                                                        <label
+                                                            class="flex-1 cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 text-xs font-bold py-2 px-4 rounded-lg text-center transition">
+                                                            Cambiar Foto
+                                                            <input type="file" name="<%= photo.key %>" class="hidden"
+                                                                onchange="this.form.submit()">
+                                                        </label>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                                <% } }) %>
+
+                                    <% if (photos.length===0) { %>
+                                        <div class="text-center py-20">
+                                            <p class="text-gray-400">No hay fotos configuradas.</p>
+                                        </div>
+                                        <% } %>
+
+                    </div>
+                </main>
+        </div>
+</body>
+
+</html>

@@ -1,22 +1,28 @@
 <footer class="bg-brand-dark text-white relative mt-auto">
-    
+
     <div class="h-1.5 w-full bg-gradient-to-r from-brand-red via-brand-orange to-brand-blue"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            
+
             <div class="space-y-4">
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black leading-none tracking-tighter text-white">UNIENDO <span class="text-brand-red">METAS</span></span>
-                    <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">SANTIAGO DEL ESTERO</span>
+                    <span class="text-2xl font-black leading-none tracking-tighter text-white">UNIENDO <span
+                            class="text-brand-red">METAS</span></span>
+                    <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">SANTIAGO DEL
+                        ESTERO</span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    Un programa de <strong>Asociación Conciencia</strong> que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.
+                    <%= settings.footer_text
+                        || 'Un programa de Asociación Conciencia que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.'
+                        %>
                 </p>
                 <div class="pt-2 opacity-80 hover:opacity-100 transition">
                     <span class="flex items-center gap-2 text-sm font-bold text-gray-300">
-                        <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center text-[10px]">C</div>
-                        <a href="https://conciencia.org/" target="_blank" class="hover:text-white transition">Asociación Conciencia</a>
+                        <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center text-[10px]">C
+                        </div>
+                        <a href="https://conciencia.org/" target="_blank" class="hover:text-white transition">Asociación
+                            Conciencia</a>
                     </span>
                 </div>
             </div>
@@ -24,13 +30,27 @@
             <div>
                 <h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Navegación</h3>
                 <ul class="space-y-3">
-                    <li><a href="/" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Inicio</a></li>
-                    <li><a href="/#organos" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Órganos y Tópicos</a></li>
-                    <li><a href="/#cronograma" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Cronograma</a></li>
-                    <li><a href="/autoridades" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Autoridades</a></li>
-                    <li><a href="/voluntarios" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Voluntarios</a></li>
-                    <li><a href="/#nosotros" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Sobre Nosotros</a></li>
-                    <li><a href="/#participación" class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Participación</a></li>
+                    <li><a href="/"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Inicio</a>
+                    </li>
+                    <li><a href="/#organos"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Órganos
+                            y Tópicos</a></li>
+                    <li><a href="/#cronograma"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Cronograma</a>
+                    </li>
+                    <li><a href="/autoridades"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Autoridades</a>
+                    </li>
+                    <li><a href="/voluntarios"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Voluntarios</a>
+                    </li>
+                    <li><a href="/#nosotros"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Sobre
+                            Nosotros</a></li>
+                    <li><a href="/participacion"
+                            class="text-base text-gray-300 hover:text-white hover:translate-x-1 transition inline-block">Participación</a>
+                    </li>
                 </ul>
             </div>
 
@@ -38,22 +58,45 @@
                 <h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Contacto</h3>
                 <ul class="space-y-3 mb-6">
                     <li class="flex items-center gap-3 text-gray-300">
-                        <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <a href="mailto:umsantiago@conciencia.org" class="hover:text-white transition">umsantiago@conciencia.org</a>
+                        <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <a href="mailto:<%= settings.footer_email || 'umsantiago@conciencia.org' %>"
+                            class="hover:text-white transition">
+                            <%= settings.footer_email || 'umsantiago@conciencia.org' %>
+                        </a>
                     </li>
                     <li class="flex items-center gap-3 text-gray-300">
-                        <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        <span>Santiago del Estero, Argentina</span>
+                        <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>
+                            <%= settings.footer_address || 'Santiago del Estero, Argentina' %>
+                        </span>
                     </li>
                 </ul>
 
                 <div class="flex space-x-4">
-                    <a href="https://www.instagram.com/umsantiagodelestero" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition duration-300 group" aria-label="Instagram">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    <a href="https://www.instagram.com/umsantiagodelestero" target="_blank"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition duration-300 group"
+                        aria-label="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
                     </a>
 
-                    <a href="https://youtube.com/@uniendometassde" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition duration-300 group" aria-label="YouTube">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                    <a href="https://youtube.com/@uniendometassde" target="_blank"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition duration-300 group"
+                        aria-label="YouTube">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -66,84 +109,8 @@
         </div>
     </div>
 
-    <div id="modal-inscripcion" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal('modal-inscripcion')"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg class="h-6 w-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-xl leading-6 font-bold text-gray-900" id="modal-title">
-                                Inscripciones XI Edición
-                            </h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500 mb-4">
-                                    Selecciona tu rol para comenzar.
-                                </p>
-                                
-                                <div class="grid grid-cols-1 gap-3">
-                                    <a href="https://forms.gle/TU_LINK_DELEGADOS" target="_blank" class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-brand-red hover:bg-red-50 transition group">
-                                        <span class="font-bold text-gray-700 group-hover:text-brand-red">Delegados (Escuelas)</span>
-                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                                    </a>
-                                    <a href="https://forms.gle/TU_LINK_AUTORIDADES" target="_blank" class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-brand-blue hover:bg-blue-50 transition group">
-                                        <span class="font-bold text-gray-700 group-hover:text-brand-blue">Autoridades</span>
-                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                                    </a>
-                                    <a href="/voluntarios" class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-brand-green hover:bg-green-50 transition group">
-                                        <span class="font-bold text-gray-700 group-hover:text-brand-green">Quiero ser Voluntario</span>
-                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeModal('modal-inscripcion')">
-                        Cerrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
-    <script>
-    {
-        const botonMenu = document.getElementById('mobile-menu-button');
-        const menuDesplegable = document.getElementById('mobile-menu');
-
-        if (botonMenu && menuDesplegable) {
-            botonMenu.addEventListener('click', () => {
-                menuDesplegable.classList.toggle('hidden');
-            });
-        }
-    }
-    </script>
-
-    <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-        
-        // Cerrar con tecla ESC
-        document.addEventListener('keydown', function(event) {
-            if(event.key === "Escape"){
-                closeModal('modal-inscripcion');
-            }
-        });
-    </script>
 </footer>

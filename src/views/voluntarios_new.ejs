@@ -162,21 +162,21 @@
 
                 <% let groupList=[]; if (typeof team !=='undefined' && team && team.length> 0) {
                     let unique = {};
-                    for(let i=0; i<team.length; i++){ unique[team[i].group]=true; } let keys=Object.keys(unique); //
-                        Orden manual para los principales let manualOrder=[ 'Consejo de Seguridad' , 'Asamblea General'
-                        , 'Sala de Tratados Internacionales' , 'Sala de Tratados' , 'Tratados'
+                    for(let i=0; i<team.length; i++){ unique[team[i].group]=true; } let keys=Object.keys(unique); /*
+                        Orden manual para los principales */ let manualOrder=[ 'Consejo de Seguridad'
+                        , 'Asamblea General' , 'Sala de Tratados Internacionales' , 'Sala de Tratados' , 'Tratados'
                         , 'Consejo Económico y Social' , 'ECOSOC' , 'Consejo de Derechos Humanos' , 'Derechos Humanos'
-                        , 'CDH' , 'Logística' , 'Capacitación' , 'Coordinación General' ]; // Identificar grupos de
-                        Prensa para mover al final let prensaGroups=keys.filter(k=> k.toLowerCase().includes('prensa')
-                        || k.toLowerCase().includes('comunicación'));
+                        , 'CDH' , 'Logística' , 'Capacitación' , 'Coordinación General' ]; /* Identificar grupos de
+                        Prensa para mover al final */ let prensaGroups=keys.filter(k=>
+                        k.toLowerCase().includes('prensa') || k.toLowerCase().includes('comunicación'));
 
-                        // Construir lista
-                        // 1. Manuales (si existen)
+                        /* Construir lista */
+                        /* 1. Manuales (si existen) */
                         for(let i=0; i<manualOrder.length; i++){ if(unique[manualOrder[i]]) {
-                            groupList.push(manualOrder[i]); unique[manualOrder[i]]=false; } } // 2. Resto (excepto
-                            Prensa) for(let i=0; i<keys.length; i++){ if(unique[keys[i]] &&
-                            !prensaGroups.includes(keys[i])) { groupList.push(keys[i]); unique[keys[i]]=false; } } // 3.
-                            Prensa al final prensaGroups.forEach(pg=> {
+                            groupList.push(manualOrder[i]); unique[manualOrder[i]]=false; } } /* 2. Resto (excepto
+                            Prensa) */ for(let i=0; i<keys.length; i++){ if(unique[keys[i]] &&
+                            !prensaGroups.includes(keys[i])) { groupList.push(keys[i]); unique[keys[i]]=false; } } /* 3.
+                            Prensa al final */ prensaGroups.forEach(pg=> {
                             if(unique[pg] !== false) groupList.push(pg);
                             });
                             }
@@ -188,28 +188,49 @@
                                 let tColor = 'text-slate-800';
                                 let cColor = 'gray';
                                 let lowerName = gName.toLowerCase();
+                                let displayName = gName;
 
-                                if(gName === 'Asamblea General' || lowerName.includes('asamblea')) { cColor = 'green';
-                                tColor = 'text-brand-green'; }
+                                /* Rename Sala de Tratados if needed */
+                                if (gName === 'Sala de Tratados') displayName = 'Sala de Tratados Internacionales';
+
+                                if(gName === 'Asamblea General' || lowerName.includes('asamblea')) {
+                                cColor = 'green';
+                                tColor = 'text-brand-green';
+                                }
                                 else if(gName === 'Consejo Económico y Social' || lowerName.includes('económico') ||
-                                lowerName.includes('ecosoc')) { cColor = 'blue'; tColor = 'text-brand-blue'; }
-                                else if(gName === 'Consejo de Seguridad' || lowerName.includes('seguridad')) { cColor =
-                                'red'; tColor = 'text-brand-red'; }
-                                else if(gName === 'Sala de Tratados Internacionales' || lowerName.includes('tratado')) {
-                                cColor = 'orange'; tColor = 'text-brand-orange'; }
+                                lowerName.includes('ecosoc')) {
+                                cColor = 'orange'; /* ECOSOC -> Orange */
+                                tColor = 'text-brand-orange';
+                                }
+                                else if(gName === 'Consejo de Seguridad' || lowerName.includes('seguridad')) {
+                                cColor = 'red';
+                                tColor = 'text-brand-red';
+                                }
+                                else if(gName === 'Sala de Tratados Internacionales' || gName === 'Sala de Tratados' ||
+                                lowerName.includes('tratado')) {
+                                cColor = 'yellow'; /* Sala Tratados -> Yellow */
+                                tColor = 'text-brand-yellow';
+                                }
                                 else if(gName === 'Consejo de Derechos Humanos' || lowerName.includes('derechos') ||
-                                lowerName.includes('cdh')) { cColor = 'yellow'; tColor = 'text-brand-yellow'; }
-                                else if(lowerName.includes('prensa') || lowerName.includes('comunicación')) { cColor =
-                                'pink'; tColor = 'text-pink-600'; }
-                                else if(gName === 'Capacitación' || lowerName.includes('capacitación')) { cColor =
-                                'gray'; }
-                                else if(gName === 'Coordinación General' || lowerName.includes('proyectos')) { cColor =
-                                'slate'; }
+                                lowerName.includes('cdh')) {
+                                cColor = 'blue'; /* Derechos Humanos -> Celeste (Blue) */
+                                tColor = 'text-brand-blue';
+                                }
+                                else if(lowerName.includes('prensa') || lowerName.includes('comunicación')) {
+                                cColor = 'pink';
+                                tColor = 'text-pink-600';
+                                }
+                                else if(gName === 'Capacitación' || lowerName.includes('capacitación')) {
+                                cColor = 'gray';
+                                }
+                                else if(gName === 'Coordinación General' || lowerName.includes('proyectos')) {
+                                cColor = 'slate';
+                                }
                                 %>
                                 <div data-aos="fade-up">
                                     <div class="text-center mb-10">
                                         <h3 class="text-2xl font-black <%= tColor %>">
-                                            <%= gName %>
+                                            <%= displayName %>
                                         </h3>
                                         <% if(gName==='Coordinación General' ) { %>
                                             <div class="h-1 w-12 bg-slate-200 mx-auto mt-2 rounded-full"></div>

@@ -2,469 +2,584 @@
 <html lang="es" class="scroll-smooth">
 <%- include('./partials/head') %>
 
-<style>
-    /* Animación del Carrusel Infinito */
-    @keyframes scroll {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); } 
-    }
-    .animate-scroll-infinite {
-        animation: scroll 40s linear infinite;
-    }
-    .animate-scroll-infinite:hover {
-        animation-play-state: paused; 
-    }
-
-    /* Estilo del Lightbox */
-    #lightbox {
-        transition: opacity 0.3s ease;
-    }
-    #lightbox.hidden {
-        opacity: 0;
-        pointer-events: none;
-    }
-    #lightbox:not(.hidden) {
-        opacity: 1;
-        pointer-events: auto;
-    }
-</style>
-
-<body class="bg-gray-50 text-gray-600 antialiased font-sans">
-
-    <%- include('./partials/navbar') %>
-
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
-        
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-blue/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-            <div class="absolute top-0 right-1/4 w-96 h-96 bg-brand-red/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-            <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-brand-yellow/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
-            <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-8 backdrop-blur-sm cursor-default hover:shadow-md transition-all" data-aos="fade-down">
-                <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
-                </span>
-                <span class="text-xs font-bold tracking-widest text-gray-500 uppercase">
-                    Sumate a la familia
-                </span>
-            </div>
-
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tight leading-[1.1]" data-aos="fade-up">
-                Viví el modelo <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow">
-                    desde el corazón.
-                </span>
-            </h1>
-            
-            <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-10" data-aos="fade-up" data-aos-delay="100">
-                Ser autoridad es mucho más que moderar un debate. Es hacer amigos de otros colegios, compartir mates en los recreos y ser parte del equipo que hace magia para que todo salga bien.
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdDiFVyhvPano9W9MKM6V6nNLOTZdMPgGI1zQ90Kj4EIJdB4Q/viewform" target="_blank" class="px-8 py-4 bg-brand-red text-white font-bold rounded-full hover:bg-red-700 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-brand-red/20 text-center">
-                    ¡Quiero sumarme!
-                </a>
-                <a href="#legado" class="px-8 py-4 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-full hover:border-brand-blue hover:text-brand-blue transition-all duration-300 text-center">
-                    Ver fotos de ediciones anteriores
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section id="experiencia" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                
-                <div class="grid grid-cols-2 gap-4 h-full" data-aos="fade-right">
-                    <div class="space-y-4 mt-8"> <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1932&auto=format&fit=crop" 
-                             class="lightbox-trigger w-full h-64 object-cover rounded-2xl shadow-lg cursor-zoom-in hover:brightness-90 transition" 
-                             alt="Amigos en el modelo">
-                    </div>
-                    <div class="space-y-4">
-                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" 
-                             class="lightbox-trigger w-full h-80 object-cover rounded-2xl shadow-lg cursor-zoom-in hover:brightness-90 transition" 
-                             alt="Risas en el staff">
-                    </div>
-                </div>
-
-                <div data-aos="fade-left">
-                    <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
-                        Un grupo de amigos <br>
-                        <span class="text-brand-green">trabajando juntos.</span>
-                    </h2>
-                    <p class="text-gray-500 text-lg mb-6 leading-relaxed">
-                        Olvídate de la presión. Aquí venimos a pasarla bien. El staff de autoridades es famoso por ser el grupo más unido del modelo.
-                    </p>
-                    <p class="text-gray-500 text-lg mb-8 leading-relaxed">
-                        No importa si te toca ser Presidente, Ujier o Secretario: lo importante son las anécdotas que te llevas, las risas en las capacitaciones y la satisfacción de ayudar a que los delegados brillen.
-                    </p>
-                    
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-3 text-gray-700 font-medium">
-                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 text-lg">✨</span>
-                            Sin competencia, pura colaboración.
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-700 font-medium">
-                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 text-lg">🫂</span>
-                            Conoces gente de todos los colegios.
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-700 font-medium">
-                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 text-red-600 text-lg">🍕</span>
-                            ¡Las mejores juntadas post-modelo!
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="legado" class="py-24 bg-gray-50 border-y border-gray-200 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
-            <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">Nuestra Historia</span>
-            <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">El Legado del Equipo</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto mt-4">
-                Miles de historias, un solo espíritu. Así disfrutaron las camadas anteriores.
-            </p>
-        </div>
-
-        <div class="relative w-full">
-            <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
-            <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
-
-            <div class="flex overflow-hidden w-full">
-                <div class="flex animate-scroll-infinite gap-6" id="gallery-container">
-                    <img src="/img/autoridades/foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 1">
-                    <img src="/img/autoridades/foto2.jpg" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 2">
-                    <img src="/img/autoridades/foto3.jpg" onerror="this.src='https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 3">
-                    <img src="/img/autoridades/foto4.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 4">
-                    <img src="/img/autoridades/foto5.jpg" onerror="this.src='https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 5">
-                    
-                    <img src="/img/autoridades/foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 1">
-                    <img src="/img/autoridades/foto2.jpg" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 2">
-                    <img src="/img/autoridades/foto3.jpg" onerror="this.src='https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 3">
-                    <img src="/img/autoridades/foto4.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 4">
-                    <img src="/img/autoridades/foto5.jpg" onerror="this.src='https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=400&h=400&fit=crop'" class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition" alt="Legado 5">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="roles" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">¿Desde dónde te gustaría participar?</h2>
-                <p class="text-gray-500 max-w-2xl mx-auto">
-                    Todos estos roles forman parte del mismo equipo. En las capacitaciones veremos juntos cuál es el ideal para vos.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Secretaría General</h3>
-                    <p class="text-sm text-gray-500">Son el "corazón" del modelo. Coordinan que todo funcione, ayudan a las demás autoridades y están atentos a que todos la pasen bien.</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-blue flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Presidencia</h3>
-                    <p class="text-sm text-gray-500">Quienes guían la charla. Se aseguran de que todos hablen, que se respeten los turnos y que el debate fluya con buena onda.</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Consejeros</h3>
-                    <p class="text-sm text-gray-500">Fundamentales en el Consejo de Seguridad. Ayudan a redactar las ideas y dan soporte técnico a los delegados.</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-green-100 text-brand-green text-[10px] font-bold px-3 py-1 rounded-bl-xl">IDEAL PARA EMPEZAR</div>
-                    <div class="w-12 h-12 rounded-xl bg-green-100 text-brand-green flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Ujieres</h3>
-                    <p class="text-sm text-gray-500">El alma de la sala. Llevan los mensajes y ayudan con la organización.</p>
-                    <div class="mt-4 p-3 bg-white rounded-xl border border-gray-100">
-                        <p class="text-xs text-brand-green font-bold">💡 ¿Estás en 1º o 2º año?</p>
-                        <p class="text-xs text-gray-400">¡Este es tu lugar! Puedes participar aunque no estés en 3ro.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-white border-t border-gray-100 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 max-w-3xl mx-auto">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-brand-blue/10 text-brand-blue font-bold tracking-widest uppercase text-xs mb-6 border border-brand-blue/20">
-                    Formación & Metodología
-                </span>
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
-                    Aprendemos juntos,<br> a tu ritmo.
-                </h2>
-                <p class="text-gray-500 text-lg leading-relaxed">
-                    Nuestro sistema de capacitación está diseñado para que disfrutes aprendiendo. No importa si es tu primera vez, te acompañamos hasta que te sientas listo.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                <div class="bg-white rounded-2xl p-6 text-center border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
-                    <div class="w-14 h-14 mx-auto bg-blue-50 text-brand-blue rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    </div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Encuentros Virtuales</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Clases teóricas por Zoom. Ideales para entender los conceptos básicos desde tu casa.</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 text-center border border-gray-200 shadow-sm hover:shadow-lg hover:border-orange-200 transition-all duration-300 group">
-                    <div class="w-14 h-14 mx-auto bg-orange-50 text-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                    </div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Prácticas Presenciales</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Simulacros de debate. Es el momento de perder la vergüenza y hacer amigos.</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 text-center border border-gray-200 shadow-sm hover:shadow-lg hover:border-green-200 transition-all duration-300 group">
-                    <div class="w-14 h-14 mx-auto bg-green-50 text-brand-green rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                    </div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Instancia Final</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Un pequeño examen para validar lo aprendido. ¡Tranqui! Si participaste, lo pasas seguro.</p>
-                </div>
-            </div>
-
-            <div class="relative max-w-5xl mx-auto">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="h-px bg-gray-200 flex-grow"></div>
-                    <h3 class="text-lg font-bold text-gray-400 uppercase tracking-widest">Biblioteca Digital</h3>
-                    <div class="h-px bg-gray-200 flex-grow"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <a href="/documents/Capacitacion/Manual_Autoridades.pdf" download class="group flex items-center gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-200 hover:bg-white hover:border-brand-blue/30 hover:shadow-xl transition-all duration-300">
-                        <div class="w-16 h-16 rounded-xl bg-white border border-gray-100 text-brand-blue flex-shrink-0 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-900 group-hover:text-brand-blue transition-colors">Manual General</h4>
-                            <p class="text-sm text-gray-500 mt-1">Procedimiento parlamentario.</p>
-                            <span class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-brand-blue uppercase tracking-wide group-hover:underline">
-                                Descargar <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-                            </span>
-                        </div>
-                    </a>
-
-                    <a href="/documents/Capacitacion/Protocolo_Ujieres.pdf" download class="group flex items-center gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-200 hover:bg-white hover:border-brand-green/30 hover:shadow-xl transition-all duration-300">
-                        <div class="w-16 h-16 rounded-xl bg-white border border-gray-100 text-brand-green flex-shrink-0 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-900 group-hover:text-brand-green transition-colors">Guía de Logística</h4>
-                            <p class="text-sm text-gray-500 mt-1">Protocolo específico para Ujieres.</p>
-                            <span class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-brand-green uppercase tracking-wide group-hover:underline">
-                                Descargar <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-gray-50">
-        <div class="max-w-3xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-black text-slate-900 mb-4">Preguntas Frecuentes</h2>
-                <p class="text-gray-500">Todo lo que necesitas saber antes de inscribirte.</p>
-            </div>
-            
-            <div class="space-y-4">
-                <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
-                        ¿Tengo que saber mucho para inscribirme?
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
-                    </summary>
-                    <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                        ¡Para nada! Lo único que necesitas son ganas y compromiso. Nosotros te enseñamos todo el reglamento y los protocolos en las capacitaciones. Es un proceso de aprendizaje desde cero.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
-                        Si soy de 1er o 2do año, ¿puedo participar?
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
-                    </summary>
-                    <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                        <strong>¡Sí, por supuesto!</strong> El rol de <strong>Ujier</strong> está pensado especialmente para los alumnos de los primeros años. Es la mejor puerta de entrada para conocer el modelo desde adentro, perder el miedo y prepararte para roles de presidencia en el futuro.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
-                        ¿Me ocupa mucho tiempo ser autoridad?
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
-                    </summary>
-                    <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                        No te preocupes por el colegio. Las capacitaciones son pocas (usualmente 3 o 4 encuentros antes del modelo) y tratamos de hacerlas en horarios que no interrumpan tus clases. Eso sí, los días del Modelo (el evento final) son de asistencia completa.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
-                        ¿Me anoto solo o con amigos?
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
-                    </summary>
-                    <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                        La inscripción al rol de autoridad es <strong>individual</strong>, ¡pero invita a tus amigos! Aunque se anoten por separado, van a compartir todas las capacitaciones, los recreos y las fiestas juntos. Es una experiencia grupal increíble.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
-                        ¿Cómo tengo que ir vestido?
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
-                    </summary>
-                    <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                        Durante el Modelo, la vestimenta es <strong>formal</strong> (traje, camisa, pantalón de vestir, etc.), igual que en las Naciones Unidas. Para las capacitaciones previas, puedes ir con ropa casual o el uniforme del colegio.
-                    </div>
-                </details>
-                <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
-                        ¿Recibo algún certificado?
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
-                    </summary>
-                    <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
-                        ¡Sí! Al finalizar el modelo, se entrega un diploma oficial de participación certificado por Asociación Conciencia y Uniendo Metas, que sirve para tu currículum.
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <%- include('./partials/footer') %>
-
-    ¡Dale Ezequiel! Si preferís tener el control total archivo por archivo para que no se mezcle nada, me parece perfecto. Es una forma muy segura de trabajar.
-
-Vas a tener que pegar exactamente el mismo código en ambos archivos.
-
-Aquí tienes el bloque de código y las instrucciones precisas:
-
-El Código Mágico 🪄
-Copiá este bloque entero:
-
-HTML
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('mobile-menu-button');
-        const menu = document.getElementById('mobile-menu');
-
-        if (btn && menu) {
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
-            });
-            
-            // Cerrar al tocar cualquier link del menú
-            const links = document.querySelectorAll('.mobile-link');
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    menu.classList.add('hidden');
-                });
-            });
-        }
-    });
-</script>
-
-    <div id="lightbox" class="fixed inset-0 z-[200] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox()">
-        
-        <button class="absolute top-5 right-5 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition z-50 focus:outline-none" onclick="closeLightbox()">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-
-        <button id="lightbox-prev" class="absolute left-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none">
-            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        </button>
-
-        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl transform transition-transform duration-300 scale-95" alt="Full screen">
-
-        <button id="lightbox-next" class="absolute right-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none">
-            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </button>
-    </div>
-
-    <div id="modal-inscripcion" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    </div>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ once: true, offset: 50, duration: 800 });
-
-        // --- LÓGICA LIGHTBOX (Galería) ---
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        // Seleccionamos todas las imágenes de la galería para crear una lista navegable
-        const lightboxImages = Array.from(document.querySelectorAll('.lightbox-trigger'));
-        let currentIndex = 0;
-
-        // Abrir Lightbox al hacer click en una imagen
-        lightboxImages.forEach((img, index) => {
-            img.addEventListener('click', e => {
-                e.stopPropagation();
-                currentIndex = index;
-                updateLightboxImage();
-                lightbox.classList.remove('hidden');
-                setTimeout(() => lightboxImg.classList.replace('scale-95', 'scale-100'), 10);
-            });
-        });
-
-        // Actualizar la imagen mostrada según el índice actual
-        function updateLightboxImage() {
-            lightboxImg.src = lightboxImages[currentIndex].src;
-        }
-
-        // Navegar a la siguiente imagen
-        function nextImage(e) {
-            if (e) e.stopPropagation();
-            currentIndex = (currentIndex + 1) % lightboxImages.length; // Ciclo infinito
-            updateLightboxImage();
-        }
-
-        // Navegar a la imagen anterior
-        function prevImage(e) {
-            if (e) e.stopPropagation();
-            currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length; // Ciclo infinito inverso
-            updateLightboxImage();
-        }
-
-        // Cerrar Lightbox
-        function closeLightbox() {
-            lightboxImg.classList.replace('scale-100', 'scale-95');
-            setTimeout(() => lightbox.classList.add('hidden'), 200);
-        }
-
-        // Event Listeners para los botones de flecha
-        document.getElementById('lightbox-next').addEventListener('click', nextImage);
-        document.getElementById('lightbox-prev').addEventListener('click', prevImage);
-
-        // Control con Teclado (Flechas y Escape)
-        document.addEventListener('keydown', e => {
-            if (!lightbox.classList.contains('hidden')) {
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowRight') nextImage();
-                if (e.key === 'ArrowLeft') prevImage();
+    <style>
+        /* Animación del Carrusel Infinito */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
             }
-        });
 
-        // --- LÓGICA MODAL INSCRIPCIÓN (Existente) ---
-        // Asegúrate de que esta función exista si tu navbar la llama
-        function openModal(modalId) {
-            // ... tu lógica de modal existente ...
+            100% {
+                transform: translateX(-50%);
+            }
         }
-    </script>
-</body>
+
+        .animate-scroll-infinite {
+            animation: scroll 40s linear infinite;
+        }
+
+        .animate-scroll-infinite:hover {
+            animation-play-state: paused;
+        }
+
+        /* Estilo del Lightbox */
+        #lightbox {
+            transition: opacity 0.3s ease;
+        }
+
+        #lightbox.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #lightbox:not(.hidden) {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+
+    <body class="bg-gray-50 text-gray-600 antialiased font-sans">
+
+        <%- include('./partials/navbar') %>
+
+            <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div
+                        class="absolute top-0 left-1/4 w-96 h-96 bg-brand-blue/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob">
+                    </div>
+                    <div
+                        class="absolute top-0 right-1/4 w-96 h-96 bg-brand-red/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000">
+                    </div>
+                    <div
+                        class="absolute -bottom-32 left-1/3 w-96 h-96 bg-brand-yellow/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000">
+                    </div>
+                    <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
+                    </div>
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-8 backdrop-blur-sm cursor-default hover:shadow-md transition-all"
+                        data-aos="fade-down">
+                        <span class="flex h-2 w-2 relative">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
+                        </span>
+                        <span class="text-xs font-bold tracking-widest text-gray-500 uppercase">
+                            Sumate a la familia
+                        </span>
+                    </div>
+
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tight leading-[1.1]"
+                        data-aos="fade-up">
+                        Viví el modelo <br>
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow">
+                            desde el corazón.
+                        </span>
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-10"
+                        data-aos="fade-up" data-aos-delay="100">
+                        Ser autoridad es mucho más que moderar un debate. Es hacer amigos de otros colegios, compartir
+                        mates en los recreos y ser parte del equipo que hace magia para que todo salga bien.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdDiFVyhvPano9W9MKM6V6nNLOTZdMPgGI1zQ90Kj4EIJdB4Q/viewform"
+                            target="_blank"
+                            class="px-8 py-4 bg-brand-red text-white font-bold rounded-full hover:bg-red-700 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-brand-red/20 text-center">
+                            ¡Quiero sumarme!
+                        </a>
+                        <a href="#legado"
+                            class="px-8 py-4 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-full hover:border-brand-blue hover:text-brand-blue transition-all duration-300 text-center">
+                            Ver fotos de ediciones anteriores
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experiencia" class="py-24 bg-white relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                        <div class="grid grid-cols-2 gap-4 h-full" data-aos="fade-right">
+                            <div class="space-y-4 mt-8"> <img
+                                    src="<%= settings.auth_hero_1 || 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1932&auto=format&fit=crop' %>"
+                                    class="lightbox-trigger w-full h-64 object-cover rounded-2xl shadow-lg cursor-zoom-in hover:brightness-90 transition"
+                                    alt="Amigos en el modelo">
+                            </div>
+                            <div class="space-y-4">
+                                <img src="<%= settings.auth_hero_2 || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop' %>"
+                                    class="lightbox-trigger w-full h-80 object-cover rounded-2xl shadow-lg cursor-zoom-in hover:brightness-90 transition"
+                                    alt="Risas en el staff">
+                            </div>
+                        </div>
+
+                        <div data-aos="fade-left">
+                            <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                                Un grupo de amigos <br>
+                                <span class="text-brand-green">trabajando juntos.</span>
+                            </h2>
+                            <p class="text-gray-500 text-lg mb-6 leading-relaxed">
+                                Olvídate de la presión. Aquí venimos a pasarla bien. El staff de autoridades es famoso
+                                por ser el grupo más unido del modelo.
+                            </p>
+                            <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+                                No importa si te toca ser Presidente, Ujier o Secretario: lo importante son las
+                                anécdotas que te llevas, las risas en las capacitaciones y la satisfacción de ayudar a
+                                que los delegados brillen.
+                            </p>
+
+                            <ul class="space-y-4">
+                                <li class="flex items-center gap-3 text-gray-700 font-medium">
+                                    <span
+                                        class="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 text-lg">✨</span>
+                                    Sin competencia, pura colaboración.
+                                </li>
+                                <li class="flex items-center gap-3 text-gray-700 font-medium">
+                                    <span
+                                        class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 text-lg">🫂</span>
+                                    Conoces gente de todos los colegios.
+                                </li>
+                                <li class="flex items-center gap-3 text-gray-700 font-medium">
+                                    <span
+                                        class="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 text-red-600 text-lg">🍕</span>
+                                    ¡Las mejores juntadas post-modelo!
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="legado" class="py-24 bg-gray-50 border-y border-gray-200 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
+                    <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">Nuestra Historia</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2">El Legado del Equipo</h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto mt-4">
+                        Miles de historias, un solo espíritu. Así disfrutaron las camadas anteriores.
+                    </p>
+                </div>
+
+                <div class="relative w-full">
+                    <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10">
+                    </div>
+                    <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10">
+                    </div>
+
+                    <div class="flex overflow-hidden w-full">
+                        <div class="flex animate-scroll-infinite gap-6" id="gallery-container">
+                            <% /* Dynamic Legacy Images */ const legacyKeys=Object.keys(settings).filter(function(k) {
+                                return k.startsWith('auth_legacy_') && settings[k]; }).sort(); /* Fallback images */
+                                const fallbackLegacy=[ '/img/autoridades/foto1.jpg' , '/img/autoridades/foto2.jpg'
+                                , '/img/autoridades/foto3.jpg' , '/img/autoridades/foto4.jpg'
+                                , '/img/autoridades/foto5.jpg' ]; const legacyImages=legacyKeys.length> 0 ?
+                                legacyKeys.map(function(k) { return settings[k]; }) : fallbackLegacy;
+                                %>
+
+                                <% for(let i=0; i<2; i++) { %>
+                                    <% for(const imgSrc of legacyImages) { %>
+                                        <img src="<%= imgSrc %>"
+                                            onerror="this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=400&fit=crop'"
+                                            class="lightbox-trigger w-72 h-72 object-cover rounded-2xl shadow-md cursor-zoom-in hover:scale-105 transition"
+                                            alt="Legado">
+                                        <% } %>
+                                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="roles" class="py-24 bg-white relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">¿Desde dónde te gustaría
+                            participar?</h2>
+                        <p class="text-gray-500 max-w-2xl mx-auto">
+                            Todos estos roles forman parte del mismo equipo. En las capacitaciones veremos juntos cuál
+                            es el ideal para vos.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div
+                            class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2">Secretaría General</h3>
+                            <p class="text-sm text-gray-500">Son el "corazón" del modelo. Coordinan que todo funcione,
+                                ayudan a las demás autoridades y están atentos a que todos la pasen bien.</p>
+                        </div>
+
+                        <div
+                            class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-blue-100 text-brand-blue flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2">Presidencia</h3>
+                            <p class="text-sm text-gray-500">Quienes guían la charla. Se aseguran de que todos hablen,
+                                que se respeten los turnos y que el debate fluya con buena onda.</p>
+                        </div>
+
+                        <div
+                            class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2">Consejeros</h3>
+                            <p class="text-sm text-gray-500">Fundamentales en el Consejo de Seguridad. Ayudan a redactar
+                                las ideas y dan soporte técnico a los delegados.</p>
+                        </div>
+
+                        <div
+                            class="bg-gray-50 rounded-3xl p-8 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group border border-gray-100 relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 bg-green-100 text-brand-green text-[10px] font-bold px-3 py-1 rounded-bl-xl">
+                                IDEAL PARA EMPEZAR</div>
+                            <div
+                                class="w-12 h-12 rounded-xl bg-green-100 text-brand-green flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2">Ujieres</h3>
+                            <p class="text-sm text-gray-500">El alma de la sala. Llevan los mensajes y ayudan con la
+                                organización.</p>
+                            <div class="mt-4 p-3 bg-white rounded-xl border border-gray-100">
+                                <p class="text-xs text-brand-green font-bold">💡 ¿Estás en 1º o 2º año?</p>
+                                <p class="text-xs text-gray-400">¡Este es tu lugar! Puedes participar aunque no estés en
+                                    3ro.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-24 bg-white border-t border-gray-100 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16 max-w-3xl mx-auto">
+                        <span
+                            class="inline-block px-4 py-1.5 rounded-full bg-brand-blue/10 text-brand-blue font-bold tracking-widest uppercase text-xs mb-6 border border-brand-blue/20">
+                            Formación & Metodología
+                        </span>
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
+                            Aprendemos juntos,<br> a tu ritmo.
+                        </h2>
+                        <p class="text-gray-500 text-lg leading-relaxed">
+                            Nuestro sistema de capacitación está diseñado para que disfrutes aprendiendo. No importa si
+                            es tu primera vez, te acompañamos hasta que te sientas listo.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                        <div
+                            class="bg-white rounded-2xl p-6 text-center border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 group">
+                            <div
+                                class="w-14 h-14 mx-auto bg-blue-50 text-brand-blue rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="font-bold text-lg text-slate-900 mb-2">Encuentros Virtuales</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">Clases teóricas por Zoom. Ideales para
+                                entender los conceptos básicos desde tu casa.</p>
+                        </div>
+                        <div
+                            class="bg-white rounded-2xl p-6 text-center border border-gray-200 shadow-sm hover:shadow-lg hover:border-orange-200 transition-all duration-300 group">
+                            <div
+                                class="w-14 h-14 mx-auto bg-orange-50 text-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="font-bold text-lg text-slate-900 mb-2">Prácticas Presenciales</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">Simulacros de debate. Es el momento de
+                                perder la vergüenza y hacer amigos.</p>
+                        </div>
+                        <div
+                            class="bg-white rounded-2xl p-6 text-center border border-gray-200 shadow-sm hover:shadow-lg hover:border-green-200 transition-all duration-300 group">
+                            <div
+                                class="w-14 h-14 mx-auto bg-green-50 text-brand-green rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                </svg>
+                            </div>
+                            <h3 class="font-bold text-lg text-slate-900 mb-2">Instancia Final</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">Un pequeño examen para validar lo
+                                aprendido. ¡Tranqui! Si participaste, lo pasas seguro.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative max-w-5xl mx-auto">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="h-px bg-gray-200 flex-grow"></div>
+                            <h3 class="text-lg font-bold text-gray-400 uppercase tracking-widest">Biblioteca Digital
+                            </h3>
+                            <div class="h-px bg-gray-200 flex-grow"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <a href="/documents/Capacitacion/Manual_Autoridades.pdf" download
+                                class="group flex items-center gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-200 hover:bg-white hover:border-brand-blue/30 hover:shadow-xl transition-all duration-300">
+                                <div
+                                    class="w-16 h-16 rounded-xl bg-white border border-gray-100 text-brand-blue flex-shrink-0 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-lg font-bold text-slate-900 group-hover:text-brand-blue transition-colors">
+                                        Manual General</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Procedimiento parlamentario.</p>
+                                    <span
+                                        class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-brand-blue uppercase tracking-wide group-hover:underline">
+                                        Descargar <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+
+                            <a href="/documents/Capacitacion/Protocolo_Ujieres.pdf" download
+                                class="group flex items-center gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-200 hover:bg-white hover:border-brand-green/30 hover:shadow-xl transition-all duration-300">
+                                <div
+                                    class="w-16 h-16 rounded-xl bg-white border border-gray-100 text-brand-green flex-shrink-0 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4
+                                        class="text-lg font-bold text-slate-900 group-hover:text-brand-green transition-colors">
+                                        Guía de Logística</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Protocolo específico para Ujieres.</p>
+                                    <span
+                                        class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-brand-green uppercase tracking-wide group-hover:underline">
+                                        Descargar <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-24 bg-gray-50">
+                <div class="max-w-3xl mx-auto px-4">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-black text-slate-900 mb-4">Preguntas Frecuentes</h2>
+                        <p class="text-gray-500">Todo lo que necesitas saber antes de inscribirte.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <details
+                            class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
+                            <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
+                                ¿Tengo que saber mucho para inscribirme?
+                                <span
+                                    class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
+                            </summary>
+                            <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                                ¡Para nada! Lo único que necesitas son ganas y compromiso. Nosotros te enseñamos todo el
+                                reglamento y los protocolos en las capacitaciones. Es un proceso de aprendizaje desde
+                                cero.
+                            </div>
+                        </details>
+                        <details
+                            class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
+                            <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
+                                Si soy de 1er o 2do año, ¿puedo participar?
+                                <span
+                                    class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
+                            </summary>
+                            <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                                <strong>¡Sí, por supuesto!</strong> El rol de <strong>Ujier</strong> está pensado
+                                especialmente para los alumnos de los primeros años. Es la mejor puerta de entrada para
+                                conocer el modelo desde adentro, perder el miedo y prepararte para roles de presidencia
+                                en el futuro.
+                            </div>
+                        </details>
+                        <details
+                            class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
+                            <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
+                                ¿Me ocupa mucho tiempo ser autoridad?
+                                <span
+                                    class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
+                            </summary>
+                            <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                                No te preocupes por el colegio. Las capacitaciones son pocas (usualmente 3 o 4
+                                encuentros antes del modelo) y tratamos de hacerlas en horarios que no interrumpan tus
+                                clases. Eso sí, los días del Modelo (el evento final) son de asistencia completa.
+                            </div>
+                        </details>
+                        <details
+                            class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
+                            <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
+                                ¿Me anoto solo o con amigos?
+                                <span
+                                    class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
+                            </summary>
+                            <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                                La inscripción al rol de autoridad es <strong>individual</strong>, ¡pero invita a tus
+                                amigos! Aunque se anoten por separado, van a compartir todas las capacitaciones, los
+                                recreos y las fiestas juntos. Es una experiencia grupal increíble.
+                            </div>
+                        </details>
+                        <details
+                            class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
+                            <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
+                                ¿Cómo tengo que ir vestido?
+                                <span
+                                    class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
+                            </summary>
+                            <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                                Durante el Modelo, la vestimenta es <strong>formal</strong> (traje, camisa, pantalón de
+                                vestir, etc.), igual que en las Naciones Unidas. Para las capacitaciones previas, puedes
+                                ir con ropa casual o el uniforme del colegio.
+                            </div>
+                        </details>
+                        <details
+                            class="group bg-white rounded-2xl p-6 cursor-pointer border border-transparent hover:border-brand-blue/30 transition-all shadow-sm">
+                            <summary class="flex justify-between items-center font-bold text-slate-800 list-none">
+                                ¿Recibo algún certificado?
+                                <span
+                                    class="transition-transform duration-300 group-open:rotate-180 text-brand-blue">▼</span>
+                            </summary>
+                            <div class="text-gray-500 mt-4 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                                ¡Sí! Al finalizar el modelo, se entrega un diploma oficial de participación certificado
+                                por Asociación Conciencia y Uniendo Metas, que sirve para tu currículum.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <%- include('./partials/footer') %>
+
+                <!-- Modales y Componentes de UI -->
+                <div id="lightbox"
+                    class="fixed inset-0 z-[200] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm"
+                    onclick="closeLightbox()">
+
+                    <button
+                        class="absolute top-5 right-5 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition z-50 focus:outline-none"
+                        onclick="closeLightbox()">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <button id="lightbox-prev"
+                        class="absolute left-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+
+                    <img id="lightbox-img" src=""
+                        class="max-w-full max-h-[90vh] rounded-lg shadow-2xl transform transition-transform duration-300 scale-95"
+                        alt="Full screen">
+
+                    <button id="lightbox-next"
+                        class="absolute right-4 text-white/70 hover:text-white p-3 rounded-full hover:bg-white/10 transition z-50 hidden md:block focus:outline-none">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Scripts -->
+                <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+                <script>
+                    AOS.init({ once: true, offset: 50, duration: 800 });
+
+                    // --- LÓGICA LIGHTBOX (Galería) ---
+                    const lightbox = document.getElementById('lightbox');
+                    const lightboxImg = document.getElementById('lightbox-img');
+                    // Seleccionamos todas las imágenes de la galería para crear una lista navegable
+                    const lightboxImages = Array.from(document.querySelectorAll('.lightbox-trigger'));
+                    let currentIndex = 0;
+
+                    // Abrir Lightbox al hacer click en una imagen
+                    lightboxImages.forEach((img, index) => {
+                        img.addEventListener('click', e => {
+                            e.stopPropagation();
+                            currentIndex = index;
+                            updateLightboxImage();
+                            lightbox.classList.remove('hidden');
+                            setTimeout(() => lightboxImg.classList.replace('scale-95', 'scale-100'), 10);
+                        });
+                    });
+
+                    // Actualizar la imagen mostrada según el índice actual
+                    function updateLightboxImage() {
+                        lightboxImg.src = lightboxImages[currentIndex].src;
+                    }
+
+                    // Navegar a la siguiente imagen
+                    function nextImage(e) {
+                        if (e) e.stopPropagation();
+                        currentIndex = (currentIndex + 1) % lightboxImages.length; // Ciclo infinito
+                        updateLightboxImage();
+                    }
+
+                    // Navegar a la imagen anterior
+                    function prevImage(e) {
+                        if (e) e.stopPropagation();
+                        currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length; // Ciclo infinito inverso
+                        updateLightboxImage();
+                    }
+
+                    // Cerrar Lightbox
+                    function closeLightbox() {
+                        lightboxImg.classList.replace('scale-100', 'scale-95');
+                        setTimeout(() => lightbox.classList.add('hidden'), 200);
+                    }
+
+                    // Event Listeners para los botones de flecha
+                    if (document.getElementById('lightbox-next')) document.getElementById('lightbox-next').addEventListener('click', nextImage);
+                    if (document.getElementById('lightbox-prev')) document.getElementById('lightbox-prev').addEventListener('click', prevImage);
+
+                    // Control con Teclado (Flechas y Escape)
+                    document.addEventListener('keydown', e => {
+                        if (!lightbox.classList.contains('hidden')) {
+                            if (e.key === 'Escape') closeLightbox();
+                            if (e.key === 'ArrowRight') nextImage();
+                            if (e.key === 'ArrowLeft') prevImage();
+                        }
+                    });
+                </script>
+    </body>
+
 </html>
