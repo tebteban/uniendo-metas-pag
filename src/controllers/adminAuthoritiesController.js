@@ -35,7 +35,8 @@ const controller = {
             const { name, role, group, description, order } = req.body;
             let image = null;
             if (req.file) {
-                image = req.file.filename;
+                // Use Cloudinary URL in production, filename in development
+                image = req.file.path || req.file.filename;
             }
 
             await Authority.create({
@@ -84,7 +85,8 @@ const controller = {
             };
 
             if (req.file) {
-                updateData.image = req.file.filename;
+                // Use Cloudinary URL in production, filename in development
+                updateData.image = req.file.path || req.file.filename;
                 // Optional: Delete old image here if needed
             }
 
