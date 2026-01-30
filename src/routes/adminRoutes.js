@@ -54,6 +54,8 @@ const adminOrgansController = require('../controllers/adminOrgansController');
 const pdfUpload = require('../middlewares/publicFileMiddleware');
 
 router.get('/organos', authMiddleware, adminOrgansController.index);
+router.get('/organos/crear', authMiddleware, adminOrgansController.create);
+router.post('/organos/store', authMiddleware, pdfUpload.single('reglamento'), adminOrgansController.store);
 router.get('/organos/editar/:id', authMiddleware, adminOrgansController.edit);
 router.post('/organos/update/:id', authMiddleware, pdfUpload.single('reglamento'), adminOrgansController.update);
 

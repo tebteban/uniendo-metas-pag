@@ -90,13 +90,14 @@
                             %>
                     </p>
                     <div data-aos="fade-up" data-aos-delay="200">
-                        <a href="https://docs.google.com/forms/d/e/TU-LINK-DE-VOLUNTARIOS" target="_blank"
+                        <a href="<%= settings.link_voluntarios_sumate || 'https://instagram.com/umsantiagodelestero' %>"
+                            target="_blank"
                             class="inline-flex items-center gap-2 px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-700 transition-all shadow-lg hover:shadow-red-200 hover:-translate-y-1">
-                            <%= settings.text_vol_cta_button || 'Sumate al equipo' %>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+                            Sumate al equipo
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
                         </a>
                     </div>
                 </div>

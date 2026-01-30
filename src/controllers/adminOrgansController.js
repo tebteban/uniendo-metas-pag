@@ -58,6 +58,44 @@ const controller = {
             console.error(error);
             res.status(500).send('Error al actualizar órgano');
         }
+    },
+
+    // Show create form
+    create: async (req, res) => {
+        try {
+            res.render('admin/organos/create', {
+                title: 'Crear Órgano',
+                user: req.session.user
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al cargar formulario');
+        }
+    },
+
+    // Process create form
+    store: async (req, res) => {
+        try {
+            const { name, description, topic, color } = req.body;
+
+            const dataToCreate = {
+                name,
+                description,
+                topic,
+                color
+            };
+
+            // If file was uploaded, add the link
+            if (req.file) {
+                dataToCreate.link_reglamento = '/uploads/documents/' + req.file.filename;
+            }
+
+            await Organ.create(dataToCreate);
+            res.redirect('/admin/organos');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al crear órgano');
+        }
     }
 };
 

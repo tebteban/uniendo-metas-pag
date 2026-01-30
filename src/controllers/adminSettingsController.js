@@ -11,6 +11,16 @@ const controller = {
                 { key: 'link_inscripcion_general', label: 'Link Inscripción General', type: 'url', value: '#' },
                 { key: 'mostrar_fecha_modelo', label: 'Mostrar Cuenta Regresiva del Modelo', type: 'checkbox', value: 'true' },
 
+                // Button Links - Autoridades Page
+                { key: 'link_autoridades_sumarme', label: 'Autoridades - Botón "Quiero Sumarme"', type: 'url', value: '#' },
+                { key: 'link_autoridades_fotos', label: 'Autoridades - Botón "Ver Fotos Edición Anterior"', type: 'url', value: '#' },
+
+                // Button Links - Voluntarios Page
+                { key: 'link_voluntarios_sumate', label: 'Voluntarios - Botón "Sumate al Equipo"', type: 'url', value: '#' },
+
+                // Button Links - Participacion Page
+                { key: 'link_participacion_inscribirse', label: 'Participación - Botón "Inscribirme Ahora"', type: 'url', value: '#' },
+
                 // Index - Santiago del Estero
                 { key: 'index_sde_1', label: 'Inicio - Santiago (Izq Arriba)', type: 'image', value: '' },
                 { key: 'index_sde_2', label: 'Inicio - Santiago (Izq Abajo)', type: 'image', value: '' },
@@ -74,13 +84,26 @@ const controller = {
 
     update: async (req, res) => {
         try {
+            console.log('📝 Guardando configuración...');
+            console.log('Valores recibidos:', req.body);
+
             // Update Text/URL fields
             const keys = Object.keys(req.body);
             for (const key of keys) {
-                await Setting.update(
-                    { value: req.body[key] },
-                    { where: { key: key } }
-                );
+                console.log(`Guardando ${key}: ${req.body[key]}`);
+
+                // Use findOrCreate to ensure the setting exists before updating
+                const [setting, created] = await Setting.findOrCreate({
+                    where: { key: key },
+                    defaults: { key: key, value: req.body[key], type: 'text' }
+                });
+
+                if (!created) {
+                    await Setting.update(
+                        { value: req.body[key] },
+                        { where: { key: key } }
+                    );
+                }
             }
 
             // Update Image fields
@@ -88,16 +111,25 @@ const controller = {
                 for (const file of req.files) {
                     const key = file.fieldname;
                     const value = '/img/site/' + file.filename;
-                    await Setting.update(
-                        { value: value },
-                        { where: { key: key } }
-                    );
+
+                    const [setting, created] = await Setting.findOrCreate({
+                        where: { key: key },
+                        defaults: { key: key, value: value, type: 'image' }
+                    });
+
+                    if (!created) {
+                        await Setting.update(
+                            { value: value },
+                            { where: { key: key } }
+                        );
+                    }
                 }
             }
 
+            console.log('✅ Configuración guardada exitosamente');
             res.redirect('/admin/configuracion');
         } catch (error) {
-            console.error(error);
+            console.error('❌ Error al guardar configuración:', error);
             res.status(500).send('Error al guardar configuración');
         }
     }

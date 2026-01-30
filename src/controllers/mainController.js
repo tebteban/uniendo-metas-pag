@@ -3,6 +3,7 @@ const path = require('path');
 const Organ = require('../database/models/Organ');
 const Schedule = require('../database/models/Schedule');
 const Volunteer = require('../database/models/Volunteer');
+const Setting = require('../database/models/Setting');
 
 const controller = {
     index: async (req, res) => {
@@ -84,19 +85,24 @@ const controller = {
                 order: [['order', 'ASC'], ['name', 'ASC']]
             });
 
-
+            // Load settings
+            const settingsArray = await Setting.findAll();
+            const settings = {};
+            settingsArray.forEach(s => {
+                settings[s.key] = s.value;
+            });
 
             res.render('voluntarios_new', {
                 title: 'Voluntariado',
                 team: authorities,
-                team: authorities
+                settings: settings
             });
         } catch (error) {
             console.error('Error fetching volunteers:', error);
             res.render('voluntarios_new', {
                 title: 'Voluntariado',
                 team: [],
-                team: []
+                settings: {}
             });
         }
     },

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50">
+
+    <%- include('../partials/navbar') %>
+
+        <div class="pt-20 flex min-h-screen">
+            <%- include('../partials/sidebar') %>
+
+                <main class="flex-1 md:ml-64 p-8">
+                    <div class="max-w-2xl mx-auto">
+                        <div class="flex items-center gap-4 mb-8">
+                            <a href="/admin/organos" class="text-gray-400 hover:text-slate-700 transition">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                </svg>
+                            </a>
+                            <h2 class="text-3xl font-black text-slate-800">Crear Órgano</h2>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                            <form action="/admin/organos/store" method="POST" class="space-y-6"
+                                enctype="multipart/form-data">
+
+                                <div class="grid grid-cols-3 gap-6">
+                                    <div class="col-span-2">
+                                        <label for="name" class="block text-sm font-bold text-gray-700 mb-2">Nombre del
+                                            Órgano</label>
+                                        <input type="text" id="name" name="name" required
+                                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                                            placeholder="Ej: Consejo de Seguridad">
+                                    </div>
+                                    <div>
+                                        <label for="color"
+                                            class="block text-sm font-bold text-gray-700 mb-2">Color</label>
+                                        <select id="color" name="color" required
+                                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all appearance-none cursor-pointer"
+                                            style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em;">
+                                            <option value="#A02140" style="background-color: #A02140; color: white;">🔴
+                                                Rojo (#A02140)</option>
+                                            <option value="#73A950" style="background-color: #73A950; color: white;">🟢
+                                                Verde (#73A950)</option>
+                                            <option value="#E15829" style="background-color: #E15829; color: white;">🟠
+                                                Naranja (#E15829)</option>
+                                            <option value="#FFB819" style="background-color: #FFB819; color: black;">🟡
+                                                Amarillo (#FFB819)</option>
+                                            <option value="#61B4E4" style="background-color: #61B4E4; color: white;">🔵
+                                                Azul (#61B4E4)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="topic" class="block text-sm font-bold text-gray-700 mb-2">Tópico</label>
+                                    <input type="text" id="topic" name="topic"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                                        placeholder="Ej: Situación en Medio Oriente">
+                                </div>
+
+                                <div>
+                                    <label for="description"
+                                        class="block text-sm font-bold text-gray-700 mb-2">Descripción</label>
+                                    <textarea id="description" name="description" rows="4"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                                        placeholder="Descripción del órgano y su función..."></textarea>
+                                </div>
+
+                                <div>
+                                    <label for="reglamento" class="block text-sm font-bold text-gray-700 mb-2">Archivo
+                                        de Reglamento (PDF)</label>
+                                    <input type="file" id="reglamento" name="reglamento" accept=".pdf,.doc,.docx"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                    <p class="mt-1 text-xs text-gray-500">Opcional. Puedes subir el reglamento en
+                                        formato PDF o Word.</p>
+                                </div>
+
+                                <div class="pt-4 flex justify-end gap-4">
+                                    <a href="/admin/organos"
+                                        class="px-6 py-3 rounded-xl text-gray-600 font-bold hover:bg-gray-100 transition">Cancelar</a>
+                                    <button type="submit"
+                                        class="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">Crear
+                                        Órgano</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </main>
+        </div>
+</body>
+
+</html>
