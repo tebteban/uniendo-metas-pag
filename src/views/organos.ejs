@@ -27,11 +27,11 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="flex flex-wrap justify-center gap-8">
                 
                 <% if (organos && organos.length > 0) { %>
                     <% organos.forEach(organ => { %>
-                        <div class="group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col h-full"
+                        <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] group relative bg-white rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden flex flex-col"
                              style="--organ-color: <%= organ.color %>;">
 
                             <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full mix-blend-multiply filter blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-700"
@@ -97,7 +97,7 @@
                         </div>
                     <% }); %>
                 <% } else { %>
-                    <div class="col-span-full text-center py-20">
+                    <div class="w-full text-center py-20">
                         <p class="text-gray-400 text-lg">Próximamente se publicarán los órganos.</p>
                     </div>
                 <% } %>

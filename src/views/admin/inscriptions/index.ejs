@@ -4,12 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
+    <title><%= title %></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -22,334 +19,273 @@
         }
     </script>
     <style>
-        body {
-            fontFamily: 'Montserrat', sans-serif;
-        }
+        body { fontFamily: 'Montserrat', sans-serif; }
     </style>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- Navbar Admin -->
     <%- include('../partials/navbar') %>
 
-        <div class="pt-20 flex min-h-screen">
+    <div class="pt-20 flex min-h-screen">
 
-            <!-- Sidebar -->
-            <%- include('../partials/sidebar') %>
+        <%- include('../partials/sidebar') %>
 
-                <!-- Main Content -->
-                <main class="flex-1 md:ml-64 p-8">
-                    <div class="max-w-7xl mx-auto">
+        <main class="flex-1 md:ml-64 p-8">
+            <div class="max-w-7xl mx-auto">
 
-                        <!-- Header -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                            <div>
-                                <h2 class="text-3xl font-black text-slate-900">
-                                    <%= title %>
-                                </h2>
-                                <p class="text-gray-500 font-medium mt-1">Gestión de inscripciones recibidas.</p>
-                            </div>
-                        </div>
-
-                        <!-- Actions Card -->
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
-                            <div class="flex flex-col xl:flex-row justify-between items-center gap-6">
-
-                                <!-- Upload & Search Group -->
-                                <div class="flex flex-col md:flex-row gap-4 w-full xl:w-auto items-center">
-                                    <!-- Upload Form -->
-                                    <form action="/admin/inscripciones/<%= type %>/upload" method="POST"
-                                        enctype="multipart/form-data"
-                                        class="flex items-center gap-2 w-full md:w-auto bg-slate-50 p-2 rounded-xl border border-gray-200">
-                                        <input type="file" name="file" accept=".xlsx, .csv" required class="block w-full text-xs text-slate-500
-                                file:mr-2 file:py-1.5 file:px-3
-                                file:rounded-lg file:border-0
-                                file:text-xs file:font-bold
-                                file:bg-blue-50 file:text-blue-700
-                                hover:file:bg-blue-100
-                                transition
-                                " />
-                                        <button type="submit"
-                                            class="bg-blue-600 text-white font-bold h-8 px-4 rounded-lg hover:bg-blue-700 transition text-xs flex items-center gap-1 shadow-md shadow-blue-200">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                                            </svg>
-                                            Importar
-                                        </button>
-                                    </form>
-                                </div>
-
-                                <!-- Search & Delete Group -->
-                                <div class="flex flex-col md:flex-row gap-4 w-full xl:w-auto items-center">
-                                    <!-- Search -->
-                                    <div class="relative w-full md:w-64">
-                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                            </svg>
-                                        </span>
-                                        <input type="text" id="searchInput" onkeyup="filterTable()"
-                                            placeholder="Buscar..."
-                                            class="w-full py-2 pl-10 pr-4 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition">
-                                    </div>
-
-                                    <!-- Delete All -->
-                                    <form action="/admin/inscripciones/<%= type %>/eliminar-todo" method="POST"
-                                        onsubmit="return confirm('¿ATENCIÓN: Estás a punto de borrar TODOS los registros de esta categoría. Esta acción es irreversible. ¿Confirmar?');">
-                                        <button type="submit"
-                                            class="bg-red-50 text-red-600 font-bold py-2 px-4 rounded-xl border border-red-100 hover:bg-red-100 hover:text-red-700 transition flex items-center gap-2 text-xs">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                            Vaciar Lista
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Table Card -->
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left border-collapse" id="inscriptionsTable">
-                                    <thead>
-                                        <tr class="bg-gray-50/50 border-b border-gray-100">
-                                            <th
-                                                class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                <%= type==='escuela' ? 'Institución' : 'Nombre / Info' %>
-                                            </th>
-                                            <th
-                                                class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                Contacto</th>
-                                            <% if (type==='autoridad' ) { %>
-                                                <th
-                                                    class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                    Rol / Cargo</th>
-                                                <% } %>
-                                                    <% if (type==='escuela' ) { %>
-                                                        <th
-                                                            class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                            Docente / Contacto</th>
-                                                        <% } %>
-                                                            <th
-                                                                class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                                Fecha</th>
-                                                            <th
-                                                                class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
-                                                                Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-100">
-                                        <% if(inscriptions && inscriptions.length> 0) { %>
-                                            <% for(let i=0; i < inscriptions.length; i++) { const item=inscriptions[i];
-                                                %>
-                                                <tr class="hover:bg-gray-50/50 transition duration-150">
-                                                    <td class="px-6 py-4">
-                                                        <p class="text-sm font-bold text-slate-800">
-                                                            <%= item.name %>
-                                                        </p>
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        <p class="text-sm text-gray-500 font-medium">
-                                                            <%= item.email %>
-                                                        </p>
-                                                    </td>
-                                                    <% if (type==='autoridad' ) { %>
-                                                        <td class="px-6 py-4">
-                                                            <p class="text-sm text-slate-800 font-medium">
-                                                                <%= item.data && item.data.normalized_role ?
-                                                                    item.data.normalized_role : 'Sin Rol' %>
-                                                            </p>
-                                                        </td>
-                                                        <% } %>
-                                                            <% if (type==='escuela' ) { %>
-                                                                <td class="px-6 py-4">
-                                                                    <div class="flex flex-col">
-                                                                        <span class="text-sm text-slate-800 font-bold">
-                                                                            <%= item.data &&
-                                                                                item.data.normalized_teacher ?
-                                                                                item.data.normalized_teacher
-                                                                                : 'Sin Docente' %>
-                                                                        </span>
-                                                                        <span
-                                                                            class="text-xs text-blue-600 font-medium mt-1">
-                                                                            <%= item.data && item.data.normalized_phone
-                                                                                ? item.data.normalized_phone
-                                                                                : 'Sin Teléfono' %>
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                                <% } %>
-                                                                    <td class="px-6 py-4">
-                                                                        <span
-                                                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                                                                            <%= new
-                                                                                Date(item.createdAt).toLocaleDateString()
-                                                                                %>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td class="px-6 py-4 text-right">
-                                                                        <div
-                                                                            class="flex items-center justify-end gap-2">
-                                                                            <!-- Safe JSON Storage -->
-                                                                            <textarea id="json-<%= item.id %>"
-                                                                                class="hidden"><%= JSON.stringify(item.data) %></textarea>
-
-                                                                            <button
-                                                                                onclick="showDetailsFromId('json-<%= item.id %>')"
-                                                                                class="text-gray-400 hover:text-blue-600 transition p-1 rounded-lg hover:bg-blue-50"
-                                                                                title="Ver Detalles">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="h-5 w-5" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                                                </svg>
-                                                                            </button>
-                                                                            <a href="/admin/inscripciones/eliminar/<%= item.id %>"
-                                                                                onclick="return confirm('¿Eliminar registro?')"
-                                                                                class="text-gray-400 hover:text-red-600 transition p-1 rounded-lg hover:bg-red-50"
-                                                                                title="Eliminar">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="h-5 w-5" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                                                </svg>
-                                                                            </a>
-                                                                        </div>
-                                                                    </td>
-                                                </tr>
-                                                <% } %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="4"
-                                                                class="px-6 py-12 text-center text-gray-400">
-                                                                <div class="flex flex-col items-center justify-center">
-                                                                    <svg class="w-12 h-12 mb-3 text-gray-300"
-                                                                        fill="none" stroke="currentColor"
-                                                                        viewBox="0 0 24 24">
-                                                                        <path stroke-linecap="round"
-                                                                            stroke-linejoin="round" stroke-width="2"
-                                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                                    </svg>
-                                                                    <p class="text-sm font-medium">No hay inscripciones
-                                                                        aún.</p>
-                                                                    <p class="text-xs text-gray-400 mt-1">Importa un
-                                                                        archivo Excel para comenzar.</p>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-900"><%= title %></h2>
+                        <p class="text-gray-500 font-medium mt-1">Gestión de inscripciones recibidas.</p>
                     </div>
-                </main>
-        </div>
+                </div>
 
-        <!-- Modal -->
-        <div id="dataModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog"
-            aria-modal="true">
-            <!-- Backdrop -->
-            <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
+                    <div class="flex flex-col xl:flex-row justify-between items-center gap-6">
 
-            <div class="fixed inset-0 z-10 overflow-y-auto">
-                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div
-                        class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl border border-gray-100">
-                        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-lg font-black text-slate-900" id="modal-title">Detalles de Inscripción
-                                </h3>
-                                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-500 transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
+                        <div class="flex flex-col md:flex-row gap-4 w-full xl:w-auto items-center">
+                            <form action="/admin/inscripciones/<%= type %>/upload" method="POST" enctype="multipart/form-data" class="flex items-center gap-2 w-full md:w-auto bg-slate-50 p-2 rounded-xl border border-gray-200">
+                                <input type="file" name="file" accept=".xlsx, .csv" required class="block w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition" />
+                                <button type="submit" class="bg-blue-600 text-white font-bold h-8 px-4 rounded-lg hover:bg-blue-700 transition text-xs flex items-center gap-1 shadow-md shadow-blue-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                                     </svg>
+                                    Importar
                                 </button>
-                            </div>
-                            <div class="bg-gray-50 rounded-xl p-4 max-h-[60vh] overflow-y-auto border border-gray-100"
-                                id="modalContent">
-                                <!-- Injected content -->
-                            </div>
+                            </form>
                         </div>
+
+                        <div class="flex flex-col md:flex-row gap-4 w-full xl:w-auto items-center">
+                            <div class="relative w-full md:w-64">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                </span>
+                                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Buscar..." class="w-full py-2 pl-10 pr-4 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition">
+                            </div>
+
+                            <form action="/admin/inscripciones/<%= type %>/eliminar-todo" method="POST" onsubmit="return confirm('¿ATENCIÓN: Estás a punto de borrar TODOS los registros de esta categoría. Esta acción es irreversible. ¿Confirmar?');">
+                                <button type="submit" class="bg-red-50 text-red-600 font-bold py-2 px-4 rounded-xl border border-red-100 hover:bg-red-100 hover:text-red-700 transition flex items-center gap-2 text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                    Vaciar Lista
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse" id="inscriptionsTable">
+                            <thead>
+                                <tr class="bg-gray-50/50 border-b border-gray-100">
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                        <%= type==='escuela' ? 'Institución' : 'Nombre / Info' %>
+                                    </th>
+                                    
+                                    <% if (!type.includes('delegado')) { %>
+                                        <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                            Contacto Directo
+                                        </th>
+                                    <% } %>
+
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Email</th>
+                                    
+                                    <% if (type==='autoridad' ) { %>
+                                        <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Rol / Cargo</th>
+                                    <% } %>
+                                    <% if (type==='escuela' ) { %>
+                                        <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Docente / Contacto</th>
+                                    <% } %>
+                                    
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Fecha</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <% if(inscriptions && inscriptions.length> 0) { %>
+                                    <% for(let i=0; i < inscriptions.length; i++) { const item=inscriptions[i]; %>
+                                        <tr class="hover:bg-gray-50/50 transition duration-150">
+                                            
+                                            <td class="px-6 py-4">
+                                                <p class="text-sm font-bold text-slate-800"><%= item.name %></p>
+                                            </td>
+
+                                            <% if (!type.includes('delegado')) { %>
+                                                <td class="px-6 py-4">
+                                                    <% 
+                                                        let rawPhone = "";
+                                                        if (item.data) {
+                                                            rawPhone = item.data.normalized_phone || item.data.telefono || item.data.celular || item.data.phone || item.data.contacto || "";
+                                                        }
+
+                                                        let cleanNum = rawPhone.toString().replace(/\D/g, ''); 
+                                                        if (cleanNum.startsWith('0')) cleanNum = cleanNum.substring(1);
+                                                        
+                                                        let wppLink = cleanNum;
+                                                        if (cleanNum.length > 0 && !cleanNum.startsWith('54')) {
+                                                            wppLink = '549' + cleanNum; 
+                                                        }
+
+                                                        let mensaje = "Hola " + item.name + ", te hablo desde Uniendo Metas Santiago del Estero.";
+                                                    %>
+
+                                                    <% if (cleanNum.length > 6) { %>
+                                                        <a href="https://wa.me/<%= wppLink %>?text=<%= encodeURIComponent(mensaje) %>" target="_blank"
+                                                           class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-600 hover:text-white transition-all font-bold text-xs border border-green-200 group shadow-sm">
+                                                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                                                            Chat
+                                                        </a>
+                                                    <% } else { %>
+                                                        <span class="text-xs text-gray-400 italic flex items-center gap-1">
+                                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+                                                            Sin nro
+                                                        </span>
+                                                    <% } %>
+                                                </td>
+                                            <% } %>
+
+                                            <td class="px-6 py-4">
+                                                <p class="text-sm text-gray-500 font-medium"><%= item.email %></p>
+                                            </td>
+
+                                            <% if (type==='autoridad' ) { %>
+                                                <td class="px-6 py-4">
+                                                    <p class="text-sm text-slate-800 font-medium">
+                                                        <%= item.data && item.data.normalized_role ? item.data.normalized_role : 'Sin Rol' %>
+                                                    </p>
+                                                </td>
+                                            <% } %>
+
+                                            <% if (type==='escuela' ) { %>
+                                                <td class="px-6 py-4">
+                                                    <div class="flex flex-col">
+                                                        <span class="text-sm text-slate-800 font-bold">
+                                                            <%= item.data && item.data.normalized_teacher ? item.data.normalized_teacher : 'Sin Docente' %>
+                                                        </span>
+                                                        <span class="text-xs text-blue-600 font-medium mt-1">
+                                                            <%= item.data && item.data.normalized_phone ? item.data.normalized_phone : '' %>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            <% } %>
+
+                                            <td class="px-6 py-4">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                                                    <%= new Date(item.createdAt).toLocaleDateString() %>
+                                                </span>
+                                            </td>
+
+                                            <td class="px-6 py-4 text-right">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    <textarea id="json-<%= item.id %>" class="hidden"><%= JSON.stringify(item.data) %></textarea>
+                                                    <button onclick="showDetailsFromId('json-<%= item.id %>')" class="text-gray-400 hover:text-blue-600 transition p-1 rounded-lg hover:bg-blue-50" title="Ver Detalles">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                                    </button>
+                                                    <a href="/admin/inscripciones/eliminar/<%= item.id %>" onclick="return confirm('¿Eliminar registro?')" class="text-gray-400 hover:text-red-600 transition p-1 rounded-lg hover:bg-red-50" title="Eliminar">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-12 text-center text-gray-400">
+                                            <div class="flex flex-col items-center justify-center">
+                                                <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                                <p class="text-sm font-medium">No hay inscripciones aún.</p>
+                                                <p class="text-xs text-gray-400 mt-1">Importa un archivo Excel para comenzar.</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="dataModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl border border-gray-100">
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-lg font-black text-slate-900" id="modal-title">Detalles de Inscripción</h3>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-500 transition">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                        </div>
+                        <div class="bg-gray-50 rounded-xl p-4 max-h-[60vh] overflow-y-auto border border-gray-100" id="modalContent">
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            function filterTable() {
-                var input, filter, table, tr, tdName, tdEmail, i, txtValueName, txtValueEmail;
-                input = document.getElementById("searchInput");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("inscriptionsTable");
-                tr = table.getElementsByTagName("tr");
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, tdName, tdEmail, i, txtValueName, txtValueEmail;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("inscriptionsTable");
+            tr = table.getElementsByTagName("tr");
 
-                for (i = 0; i < tr.length; i++) {
-                    tdName = tr[i].getElementsByTagName("td")[0];
-                    tdEmail = tr[i].getElementsByTagName("td")[1];
-                    if (tdName && tdEmail) {
-                        txtValueName = tdName.textContent || tdName.innerText;
-                        txtValueEmail = tdEmail.textContent || tdEmail.innerText;
-                        if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueEmail.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
+            for (i = 0; i < tr.length; i++) {
+                tdName = tr[i].getElementsByTagName("td")[0];
+                // Buscamos en todas las celdas porque la posición del email cambia si está la columna contacto o no
+                let tds = tr[i].getElementsByTagName("td");
+                let found = false;
+                for(let j=0; j<tds.length; j++){
+                    if(tds[j].textContent.toUpperCase().indexOf(filter) > -1){
+                        found = true;
+                        break;
                     }
                 }
+                
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
+        }
 
-            function showDetailsFromId(elementId) {
-                try {
-                    const rawJson = document.getElementById(elementId).value;
-                    const data = JSON.parse(rawJson);
+        function showDetailsFromId(elementId) {
+            try {
+                const rawJson = document.getElementById(elementId).value;
+                const data = JSON.parse(rawJson);
 
-                    let html = '<div class="space-y-3">';
-                    for (const [key, value] of Object.entries(data)) {
-                        if (key === 'normalized_role') continue;
-                        if (key === 'normalized_teacher') continue;
-                        if (key === 'normalized_phone') continue;
-                        html += `<div class="flex flex-col border-b border-gray-200 pb-2 last:border-0 last:pb-0">
+                let html = '<div class="space-y-3">';
+                for (const [key, value] of Object.entries(data)) {
+                    if (key === 'normalized_role') continue;
+                    if (key === 'normalized_teacher') continue;
+                    if (key === 'normalized_phone') continue;
+                    html += `<div class="flex flex-col border-b border-gray-200 pb-2 last:border-0 last:pb-0">
                                 <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">${key}</span>
                                 <span class="text-sm font-medium text-slate-800 break-words">${value}</span>
                              </div>`;
-                    }
-                    html += '</div>';
-                    document.getElementById('modalContent').innerHTML = html;
-                    document.getElementById('dataModal').classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                } catch (e) {
-                    console.error(e);
-                    alert('No se pudieron cargar los datos.');
                 }
+                html += '</div>';
+                document.getElementById('modalContent').innerHTML = html;
+                document.getElementById('dataModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } catch (e) {
+                console.error(e);
+                alert('No se pudieron cargar los datos.');
             }
+        }
 
-            function closeModal() {
-                document.getElementById('dataModal').classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }
-        </script>
+        function closeModal() {
+            document.getElementById('dataModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
 </body>
-
 </html>
