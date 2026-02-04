@@ -46,8 +46,8 @@ const controller = {
 
             // If file was uploaded, update the link
             if (req.file) {
-                // Use Cloudinary URL in production, local path in development
-                dataToUpdate.link_reglamento = req.file.path || ('/uploads/documents/' + req.file.filename);
+                // Construct public path
+                dataToUpdate.link_reglamento = '/uploads/documents/' + req.file.filename;
             }
 
             await Organ.update(dataToUpdate, {
@@ -87,8 +87,7 @@ const controller = {
 
             // If file was uploaded, add the link
             if (req.file) {
-                // Use Cloudinary URL in production, local path in development
-                dataToCreate.link_reglamento = req.file.path || ('/uploads/documents/' + req.file.filename);
+                dataToCreate.link_reglamento = '/uploads/documents/' + req.file.filename;
             }
 
             await Organ.create(dataToCreate);
