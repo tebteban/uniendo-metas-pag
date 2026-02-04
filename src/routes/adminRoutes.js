@@ -26,7 +26,6 @@ router.get('/configuracion', authMiddleware, adminSettingsController.index);
 router.post('/configuracion', authMiddleware, siteUpload.any(), adminSettingsController.update);
 
 // Photos Management
-// Photos Management
 const adminPhotosController = require('../controllers/adminPhotosController');
 router.get('/fotos', authMiddleware, adminPhotosController.index);
 router.post('/fotos/update/:key', authMiddleware, siteUpload.any(), adminPhotosController.update);
@@ -38,8 +37,6 @@ const adminTextsController = require('../controllers/adminTextsController');
 router.get('/textos', authMiddleware, adminTextsController.index);
 router.post('/textos', authMiddleware, adminTextsController.update);
 
-// Volunteers CRUD
-
 // Schedule CRUD
 const adminScheduleController = require('../controllers/adminScheduleController');
 router.get('/cronograma', authMiddleware, adminScheduleController.index);
@@ -49,17 +46,31 @@ router.get('/cronograma/editar/:id', authMiddleware, adminScheduleController.edi
 router.post('/cronograma/update/:id', authMiddleware, adminScheduleController.update);
 router.get('/cronograma/eliminar/:id', authMiddleware, adminScheduleController.destroy);
 
-// Organs CRUD (Mainly List & Edit)
+// --- AQUÍ ESTÁ EL CAMBIO IMPORTANTE ---
+// Organs CRUD
 const adminOrgansController = require('../controllers/adminOrgansController');
 const pdfUpload = require('../middlewares/publicFileMiddleware');
 
 router.get('/organos', authMiddleware, adminOrgansController.index);
 router.get('/organos/crear', authMiddleware, adminOrgansController.create);
-router.post('/organos/store', authMiddleware, pdfUpload.single('reglamento'), adminOrgansController.store);
-router.get('/organos/editar/:id', authMiddleware, adminOrgansController.edit);
-router.post('/organos/update/:id', authMiddleware, pdfUpload.single('reglamento'), adminOrgansController.update);
 
-// Authorities CRUD
+// Cambiado .single('reglamento') por .fields([...])
+router.post('/organos/store', authMiddleware, pdfUpload.fields([
+    { name: 'reglamento', maxCount: 1 },
+    { name: 'archivo_dinamicas', maxCount: 1 },
+    { name: 'archivo_topico', maxCount: 1 }
+]), adminOrgansController.store);
+
+router.get('/organos/editar/:id', authMiddleware, adminOrgansController.edit);
+
+// Cambiado .single('reglamento') por .fields([...])
+router.post('/organos/update/:id', authMiddleware, pdfUpload.fields([
+    { name: 'reglamento', maxCount: 1 },
+    { name: 'archivo_dinamicas', maxCount: 1 },
+    { name: 'archivo_topico', maxCount: 1 }
+]), adminOrgansController.update);
+// --------------------------------------
+
 // Authorities CRUD
 const adminAuthoritiesController = require('../controllers/adminAuthoritiesController');
 const upload = require('../middlewares/uploadMiddleware');
@@ -78,15 +89,6 @@ router.post('/equipodevoluntarios/importar', authMiddleware, excelUpload.single(
 
 // Inscriptions Routes
 const adminInscriptionsController = require('../controllers/adminInscriptionsController');
-// Use the same upload middleware, it's fine for now or we create a specific one if needed.
-// However, the existing uploadMiddleware filters for images. We need a new one for xlsx/csv.
-// I'll skip middleware middleware usage here and handle multer inside the controller or create a valid one.
-// Let's create a generic upload middleware that accepts documents or specifically spreadsheets.
-
-// actually, let's just inline a simple multer config for this route or assume we can reuse/modify.
-// The user showed me uploadMiddleware.js and it strictly filters images.
-// I should create a new middleware for documents.
-
 const docUpload = require('../middlewares/documentUploadMiddleware');
 
 router.get('/inscripciones/:type', authMiddleware, adminInscriptionsController.index);

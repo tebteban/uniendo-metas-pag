@@ -44,10 +44,22 @@ const controller = {
                 color
             };
 
-            // If file was uploaded, update the link
-            if (req.file) {
-                // Construct public path
-                dataToUpdate.link_reglamento = '/uploads/documents/' + req.file.filename;
+            // Lógica para manejar múltiples archivos (req.files)
+            if (req.files) {
+                // 1. Reglamento
+                if (req.files.reglamento && req.files.reglamento.length > 0) {
+                    dataToUpdate.link_reglamento = '/uploads/documents/' + req.files.reglamento[0].filename;
+                }
+                
+                // 2. Dinámicas
+                if (req.files.archivo_dinamicas && req.files.archivo_dinamicas.length > 0) {
+                    dataToUpdate.link_dinamicas = '/uploads/documents/' + req.files.archivo_dinamicas[0].filename;
+                }
+
+                // 3. Tópico
+                if (req.files.archivo_topico && req.files.archivo_topico.length > 0) {
+                    dataToUpdate.link_topico = '/uploads/documents/' + req.files.archivo_topico[0].filename;
+                }
             }
 
             await Organ.update(dataToUpdate, {
@@ -85,9 +97,22 @@ const controller = {
                 color
             };
 
-            // If file was uploaded, add the link
-            if (req.file) {
-                dataToCreate.link_reglamento = '/uploads/documents/' + req.file.filename;
+            // Lógica para manejar múltiples archivos (req.files)
+            if (req.files) {
+                // 1. Reglamento
+                if (req.files.reglamento && req.files.reglamento.length > 0) {
+                    dataToCreate.link_reglamento = '/uploads/documents/' + req.files.reglamento[0].filename;
+                }
+
+                // 2. Dinámicas
+                if (req.files.archivo_dinamicas && req.files.archivo_dinamicas.length > 0) {
+                    dataToCreate.link_dinamicas = '/uploads/documents/' + req.files.archivo_dinamicas[0].filename;
+                }
+
+                // 3. Tópico
+                if (req.files.archivo_topico && req.files.archivo_topico.length > 0) {
+                    dataToCreate.link_topico = '/uploads/documents/' + req.files.archivo_topico[0].filename;
+                }
             }
 
             await Organ.create(dataToCreate);

@@ -26,7 +26,17 @@ const Organ = sequelize.define('Organ', {
     link_reglamento: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    // --- NUEVOS CAMPOS AGREGADOS ---
+    link_dinamicas: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    link_topico: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
+    // -------------------------------
 });
 
 module.exports = Organ;
