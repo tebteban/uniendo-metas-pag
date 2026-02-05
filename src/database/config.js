@@ -1,12 +1,34 @@
 const Sequelize = require('sequelize');
 const path = require('path');
 
-const dbPath = path.resolve(__dirname, 'uniendom.sqlite');
+// Determinar si estamos en producción o desarrollo
+const isProduction = process.env.NODE_ENV === 'production';
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: dbPath,
-    logging: false // Set to console.log to see SQL queries
-});
+let sequelize;
+
+if (isProduction && process.env.DATABASE_URL) {
+    // Producción: Usar PostgreSQL
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
+        dialect: 'postgres',
+        protocol: 'postgres',
+        dialectOptions: {
+            ssl: process.env.DATABASE_SSL === 'true' ? {
+                require: true,
+                rejectUnauthorized: false
+            } : false
+        },
+        logging: false
+    });
+    console.log('🐘 Usando PostgreSQL (Producción)');
+} else {
+    // Desarrollo: Usar SQLite
+    const dbPath = path.resolve(__dirname, 'uniendom.sqlite');
+    sequelize = new Sequelize({
+        dialect: 'sqlite',
+        storage: dbPath,
+        logging: false
+    });
+    console.log('📁 Usando SQLite (Desarrollo)');
+}
 
 module.exports = sequelize;
