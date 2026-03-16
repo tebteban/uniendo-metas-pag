@@ -1,15 +1,26 @@
 const multer = require('multer');
 const path = require('path');
+const { createCloudinaryStorage } = require('../config/cloudinary');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../public/uploads'));
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+// Usar Cloudinary en producción, almacenamiento local en desarrollo
+const isProduction = process.env.NODE_ENV === 'production';
+
+let storage;
+if (isProduction) {
+    // Producción: Usar Cloudinary (raw para Excel/CSV)
+    storage = createCloudinaryStorage('excel', 'raw', ['xlsx', 'csv']);
+} else {
+    // Desarrollo: Usar almacenamiento local
+    storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, path.join(__dirname, '../../public/uploads'));
+        },
+        filename: (req, file, cb) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            cb(null, uniqueSuffix + path.extname(file.originalname));
+        }
+    });
+}
 
 const upload = multer({
     storage: storage,

@@ -1,23 +1,34 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { createCloudinaryStorage } = require('../config/cloudinary');
 
-// Ensure directory exists
-const uploadDir = path.join(__dirname, '../../public/uploads/documents');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Usar Cloudinary en producción, almacenamiento local en desarrollo
+const isProduction = process.env.NODE_ENV === 'production';
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        // Sanitize filename or use unique id
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
+let storage;
+if (isProduction) {
+    // Producción: Usar Cloudinary (raw para documentos)
+    storage = createCloudinaryStorage('documents', 'raw', ['pdf', 'doc', 'docx']);
+} else {
+    // Desarrollo: Usar almacenamiento local
+    // Ensure directory exists
+    const uploadDir = path.join(__dirname, '../../public/uploads/documents');
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
     }
-});
+
+    storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, uploadDir);
+        },
+        filename: (req, file, cb) => {
+            // Sanitize filename or use unique id
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            cb(null, uniqueSuffix + path.extname(file.originalname));
+        }
+    });
+}
 
 const upload = multer({
     storage: storage,
