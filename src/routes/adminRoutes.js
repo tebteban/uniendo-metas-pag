@@ -96,4 +96,12 @@ router.post('/inscripciones/:type/upload', authMiddleware, docUpload.single('fil
 router.post('/inscripciones/:type/eliminar-todo', authMiddleware, adminInscriptionsController.destroyAll);
 router.get('/inscripciones/eliminar/:id', authMiddleware, adminInscriptionsController.destroy);
 
+// Example Excel Downloads
+const adminExamplesController = require('../controllers/adminExamplesController');
+router.get('/ejemplos/equipo', authMiddleware, adminExamplesController.teamExample);
+router.get('/ejemplos/delegado', authMiddleware, adminExamplesController.delegadosExample);
+router.get('/ejemplos/autoridad', authMiddleware, adminExamplesController.autoridadesExample);
+router.get('/ejemplos/escuela', authMiddleware, adminExamplesController.escuelasExample);
+router.get('/ejemplos/voluntario', authMiddleware, adminExamplesController.voluntariosExample);
+
 module.exports = router;

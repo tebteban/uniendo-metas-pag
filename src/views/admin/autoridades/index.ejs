@@ -27,33 +27,42 @@
                 <main class="flex-1 md:ml-64 p-8">
                     <div class="max-w-6xl mx-auto">
 
-                        <div class="flex justify-between items-center mb-8">
+                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
                             <div>
                                 <h2 class="text-3xl font-black text-slate-800">Equipo de Organización</h2>
                                 <p class="text-gray-500 mt-1">Gestiona los integrantes y fotos del equipo</p>
                             </div>
-                            <a href="/admin/equipodevoluntarios/crear"
-                                class="bg-blue-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4" />
-                                </svg>
-                                Nuevo Miembro
-                            </a>
-                            <form action="/admin/equipodevoluntarios/importar" method="POST"
-                                enctype="multipart/form-data" class="inline-block ml-2">
-                                <label for="excel-upload"
-                                    class="cursor-pointer bg-green-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-green-700 transition shadow-lg shadow-green-200 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                    Importar Excel
-                                </label>
-                                <input id="excel-upload" type="file" name="file" accept=".xlsx, .xls" class="hidden"
-                                    onchange="this.form.submit()">
-                            </form>
+                            <div class="flex flex-col items-end gap-1">
+                                <div class="flex items-center gap-3">
+                                    <a href="/admin/equipodevoluntarios/crear"
+                                        class="bg-blue-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200 flex items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Nuevo Miembro
+                                    </a>
+                                    <form action="/admin/equipodevoluntarios/importar" method="POST"
+                                        enctype="multipart/form-data">
+                                        <label for="excel-upload"
+                                            class="cursor-pointer bg-green-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-green-700 transition shadow-lg shadow-green-200 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                            </svg>
+                                            Importar Excel
+                                        </label>
+                                        <input id="excel-upload" type="file" name="file" accept=".xlsx, .xls" class="hidden"
+                                            onchange="this.form.submit()">
+                                    </form>
+                                </div>
+                                <p class="text-xs text-gray-400">
+                                    Usá el formato correcto. Descargá un
+                                    <a href="/admin/ejemplos/equipo" class="text-green-600 font-bold hover:underline">ejemplo</a>
+                                    para ver cómo debe estar armado el archivo.
+                                </p>
+                            </div>
                         </div>
 
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
