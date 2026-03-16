@@ -10,257 +10,281 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Montserrat', sans-serif; }
+        .card-hover { transition: all 0.18s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -4px rgba(0,0,0,0.08); }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body class="text-slate-800" style="background:#f1f5f9;">
 
-    <%- include('partials/navbar') %>
+<%- include('partials/navbar') %>
 
-    <div class="pt-20 flex min-h-screen">
+<div class="pt-16 flex min-h-screen">
 
-        <%- include('partials/sidebar') %>
+    <%- include('partials/sidebar') %>
 
-        <main class="flex-1 md:ml-64 p-8">
-            <div class="max-w-7xl mx-auto space-y-8">
+    <main class="flex-1 md:ml-64 p-6 lg:p-8">
+        <div class="max-w-7xl mx-auto space-y-7">
 
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-6">
-                    <div>
-                        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Dashboard</h2>
-                        <p class="text-gray-500 font-medium mt-1">Panel de Control General</p>
-                    </div>
-                    <div>
-                        <span class="px-4 py-2 rounded-full bg-white border border-gray-200 text-slate-600 text-xs font-bold uppercase tracking-widest shadow-sm">
-                            Ciclo 2026
-                        </span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                    
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#73A950] transition-all group">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="p-2 bg-[#73A950]/10 text-[#73A950] rounded-lg group-hover:bg-[#73A950] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider">Voluntarios</h3>
-                        <p class="text-2xl font-black text-slate-800 mt-1"><%= metrics.volunteers %></p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#A02140] transition-all group">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="p-2 bg-[#A02140]/10 text-[#A02140] rounded-lg group-hover:bg-[#A02140] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider">Autoridades</h3>
-                        <p class="text-2xl font-black text-slate-800 mt-1"><%= metrics.authorities %></p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#61B4E4] transition-all group">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="p-2 bg-[#61B4E4]/10 text-[#61B4E4] rounded-lg group-hover:bg-[#61B4E4] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider">Delegados</h3>
-                        <p class="text-2xl font-black text-slate-800 mt-1"><%= metrics.delegates %></p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#E15829] transition-all group">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="p-2 bg-[#E15829]/10 text-[#E15829] rounded-lg group-hover:bg-[#E15829] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider">Colegios</h3>
-                        <p class="text-2xl font-black text-slate-800 mt-1"><%= metrics.schools %></p>
-                    </div>
-
-                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-[#FFB819] transition-all group">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="p-2 bg-[#FFB819]/10 text-[#FFB819] rounded-lg group-hover:bg-[#FFB819] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider">Órganos</h3>
-                        <p class="text-2xl font-black text-slate-800 mt-1"><%= metrics.organs %></p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    
-                    <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-center mb-6">
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-900">Evolución de Inscripciones</h3>
-                                <p class="text-sm text-gray-400">Comparativa por categoría</p>
-                            </div>
-                        </div>
-                        <div class="relative h-80 w-full">
-                            <canvas id="inscripcionesChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
-                        <h3 class="text-lg font-bold text-slate-900 mb-2 text-center">Distribución Total</h3>
-                        <p class="text-sm text-gray-400 mb-8 text-center">Proporción de usuarios</p>
-                        <div class="relative h-56 w-full flex justify-center">
-                            <canvas id="distribucionChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- ===== HEADER ===== -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-4">Accesos Directos</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        
-                        <a href="/admin/organos/crear" class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#61B4E4] hover:shadow-md transition-all group">
-                            <div class="w-10 h-10 bg-[#61B4E4]/10 text-[#61B4E4] rounded-full flex items-center justify-center group-hover:bg-[#61B4E4] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-                            </div>
-                            <span class="font-semibold text-gray-600 text-sm group-hover:text-slate-900">Nuevo Órgano</span>
-                        </a>
+                    <h1 class="text-2xl font-black text-slate-900 tracking-tight">Panel de Control</h1>
+                    <p class="text-sm text-slate-400 mt-0.5 font-medium">
+                        Bienvenido, <span class="text-slate-600 font-bold"><%= user ? user.username : 'Admin' %></span>
+                        — Ciclo 2026
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="/" target="_blank"
+                       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-gray-200 text-gray-500 text-xs font-bold hover:border-gray-300 hover:text-slate-800 transition-all shadow-sm">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        Ver sitio
+                    </a>
+                </div>
+            </div>
 
-                        <a href="/admin/equipodevoluntarios" class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#73A950] hover:shadow-md transition-all group">
-                            <div class="w-10 h-10 bg-[#73A950]/10 text-[#73A950] rounded-full flex items-center justify-center group-hover:bg-[#73A950] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                            </div>
-                            <span class="font-semibold text-gray-600 text-sm group-hover:text-slate-900">Gestionar Staff</span>
-                        </a>
+            <!-- ===== MÉTRICAS ===== -->
+            <%
+            const metricCards = [
+                { label: 'Delegados',    value: metrics.delegates   || 0, color: '#61B4E4', bg: '#dbeafe', href: '/admin/inscripciones/delegado',  icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                { label: 'Autoridades', value: metrics.authorities  || 0, color: '#A02140', bg: '#fee2e2', href: '/admin/inscripciones/autoridad', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+                { label: 'Voluntarios', value: metrics.volunteers   || 0, color: '#73A950', bg: '#dcfce7', href: '/admin/equipodevoluntarios',      icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+                { label: 'Colegios',    value: metrics.schools      || 0, color: '#E15829', bg: '#ffedd5', href: '/admin/inscripciones/escuela',   icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+                { label: 'Órganos',     value: metrics.organs       || 0, color: '#FFB819', bg: '#fef9c3', href: '/admin/organos',                 icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+            ];
+            %>
+            <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-4">
+                <% metricCards.forEach(card => { %>
+                <a href="<%= card.href %>" class="card-hover bg-white rounded-2xl p-5 shadow-sm border border-gray-100 block group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:<%= card.bg %>;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= card.color %>;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= card.icon %>"/>
+                            </svg>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-200 group-hover:text-gray-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-3xl font-black text-slate-900 leading-none mb-1.5"><%= card.value %></p>
+                    <p class="text-[11px] font-black uppercase tracking-widest" style="color:<%= card.color %>"><%= card.label %></p>
+                </a>
+                <% }); %>
+            </div>
 
-                        <a href="/admin/inscripciones/delegados" class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#A02140] hover:shadow-md transition-all group">
-                            <div class="w-10 h-10 bg-[#A02140]/10 text-[#A02140] rounded-full flex items-center justify-center group-hover:bg-[#A02140] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                            </div>
-                            <span class="font-semibold text-gray-600 text-sm group-hover:text-slate-900">Ver Delegados</span>
-                        </a>
+            <!-- ===== GRÁFICOS ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                        <a href="/admin/cronograma" class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#E15829] hover:shadow-md transition-all group">
-                            <div class="w-10 h-10 bg-[#E15829]/10 text-[#E15829] rounded-full flex items-center justify-center group-hover:bg-[#E15829] group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                            </div>
-                            <span class="font-semibold text-gray-600 text-sm group-hover:text-slate-900">Ver Agenda</span>
-                        </a>
-
+                <!-- Barras — datos reales -->
+                <div class="lg:col-span-2 bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-base font-black text-slate-900">Inscripciones por Categoría</h3>
+                            <p class="text-xs text-gray-400 mt-0.5 font-medium">Totales reales del ciclo 2026</p>
+                        </div>
+                        <span class="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-green-50 text-green-600">En vivo</span>
+                    </div>
+                    <div class="relative h-64">
+                        <canvas id="barChart"></canvas>
                     </div>
                 </div>
 
+                <!-- Dona — distribución real -->
+                <div class="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 flex flex-col">
+                    <div class="mb-5">
+                        <h3 class="text-base font-black text-slate-900">Distribución</h3>
+                        <p class="text-xs text-gray-400 mt-0.5 font-medium">Proporción de inscriptos</p>
+                    </div>
+                    <div class="relative flex-1 min-h-[180px] flex items-center justify-center">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                    <!-- Total -->
+                    <div class="mt-5 pt-5 border-t border-gray-100 flex justify-around">
+                        <div class="text-center">
+                            <p class="text-xl font-black text-slate-900"><%= (metrics.delegates || 0) + (metrics.authorities || 0) %></p>
+                            <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-0.5">Participantes</p>
+                        </div>
+                        <div class="w-px bg-gray-100"></div>
+                        <div class="text-center">
+                            <p class="text-xl font-black text-slate-900"><%= metrics.schools || 0 %></p>
+                            <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-0.5">Colegios</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
 
-    <script>
-        // PALETA OFICIAL UNIENDO METAS
-        const umColors = {
-            red: '#A02140',     // Autoridades
-            green: '#73A950',   // Voluntarios
-            blue: '#61B4E4',    // Delegados
-            orange: '#E15829',  // Colegios
-            yellow: '#FFB819'   // Órganos / Otros
-        };
+            <!-- ===== GESTIÓN DEL SITIO ===== -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-7 py-5 border-b border-gray-100 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-base font-black text-slate-900">Gestión del Sitio Web</h3>
+                        <p class="text-xs text-gray-400 mt-0.5 font-medium">Modificá cualquier contenido sin tocar código</p>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full" style="background:#EDF5E8; color:#73A950;">Sin código</span>
+                </div>
 
-        // 1. CHART LINEAL (Delegados vs Voluntarios vs Autoridades vs Colegios)
-        const ctx1 = document.getElementById('inscripcionesChart').getContext('2d');
-        
-        new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
-                datasets: [
-                    {
-                        label: 'Delegados',
-                        data: [10, 25, 30, 45, 40, 60, 80],
-                        borderColor: umColors.blue,
-                        backgroundColor: 'rgba(97, 180, 228, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true
-                    },
-                    {
-                        label: 'Voluntarios',
-                        data: [5, 10, 8, 15, 12, 18, 20],
-                        borderColor: umColors.green,
-                        backgroundColor: 'transparent',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        borderDash: [5, 5]
-                    },
-                    {
-                        label: 'Autoridades',
-                        data: [2, 3, 5, 5, 8, 10, 12],
-                        borderColor: umColors.red,
-                        backgroundColor: 'transparent',
-                        borderWidth: 2,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Colegios',
-                        data: [1, 1, 2, 1, 3, 2, 4],
-                        borderColor: umColors.orange,
-                        backgroundColor: 'transparent',
-                        borderWidth: 2,
-                        tension: 0.4
-                    }
-                ]
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    <%
+                    const siteLinks = [
+                        { href: '/admin/textos',              title: 'Textos del Sitio',     desc: 'Títulos, descripciones y badges de todas las páginas públicas.',         color: '#61B4E4', bg: '#dbeafe', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' },
+                        { href: '/admin/configuracion',       title: 'Configuración',         desc: 'Links, fecha del modelo, countdown, redes sociales y ajustes generales.', color: '#A02140', bg: '#fee2e2', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z' },
+                        { href: '/admin/fotos',               title: 'Galería de Fotos',      desc: 'Imágenes del hero, carruseles de voluntarios, autoridades y legado.',      color: '#73A950', bg: '#dcfce7', icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' },
+                        { href: '/admin/organos',             title: 'Órganos y Tópicos',     desc: 'Creá y editá órganos, sus tópicos y archivos de debate descargables.',     color: '#FFB819', bg: '#fef9c3', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+                        { href: '/admin/cronograma',          title: 'Cronograma',             desc: 'Agregá, editá y organizá todas las actividades del modelo.',               color: '#E15829', bg: '#ffedd5', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+                        { href: '/admin/equipodevoluntarios', title: 'Equipo Staff',           desc: 'Administrá los voluntarios y autoridades que aparecen en el sitio.',       color: '#73A950', bg: '#dcfce7', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+                    ];
+                    %>
+                    <% siteLinks.forEach((link, i) => { %>
+                    <a href="<%= link.href %>" class="card-hover group flex items-start gap-4 p-6 border-b border-r border-gray-100 hover:bg-slate-50 transition-colors
+                        <%= i % 3 === 2 ? 'lg:border-r-0' : '' %>
+                        <%= i >= siteLinks.length - (siteLinks.length % 3 || 3) ? 'border-b-0' : '' %>">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" style="background:<%= link.bg %>;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= link.color %>;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= link.icon %>"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-black text-slate-800 mb-1 group-hover:text-slate-900 transition-colors"><%= link.title %></h4>
+                            <p class="text-xs text-gray-400 leading-relaxed"><%= link.desc %></p>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-200 group-hover:text-gray-300 flex-shrink-0 mt-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <% }); %>
+                </div>
+            </div>
+
+            <!-- ===== INSCRIPCIONES — listados rápidos ===== -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-7 py-5 border-b border-gray-100">
+                    <h3 class="text-base font-black text-slate-900">Gestión de Inscripciones</h3>
+                    <p class="text-xs text-gray-400 mt-0.5 font-medium">Ver y administrar cada categoría de inscriptos</p>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-gray-100">
+                    <%
+                    const inscCards = [
+                        { label: 'Voluntarios',  count: metrics.volunteers  || 0, color: '#73A950', bg: '#dcfce7', href: '/admin/inscripciones/voluntario',  icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+                        { label: 'Autoridades',  count: metrics.authorities || 0, color: '#A02140', bg: '#fee2e2', href: '/admin/inscripciones/autoridad',    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+                        { label: 'Delegados',    count: metrics.delegates   || 0, color: '#61B4E4', bg: '#dbeafe', href: '/admin/inscripciones/delegado',     icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                        { label: 'Colegios',     count: metrics.schools     || 0, color: '#E15829', bg: '#ffedd5', href: '/admin/inscripciones/escuela',      icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
+                    ];
+                    %>
+                    <% inscCards.forEach(card => { %>
+                    <a href="<%= card.href %>" class="card-hover group flex flex-col p-6 hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:<%= card.bg %>;">
+                                <svg class="w-4.5 h-4.5" style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= card.color %>;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= card.icon %>"/>
+                                </svg>
+                            </div>
+                            <span class="text-2xl font-black text-slate-900"><%= card.count %></span>
+                        </div>
+                        <p class="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-2"><%= card.label %></p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold mt-auto group-hover:underline" style="color:<%= card.color %>;">
+                            Ver listado →
+                        </span>
+                    </a>
+                    <% }); %>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    const UM = {
+        blue:   '#61B4E4',
+        red:    '#A02140',
+        green:  '#73A950',
+        orange: '#E15829',
+        yellow: '#FFB819'
+    };
+
+    const real = {
+        delegates:   <%= metrics.delegates   || 0 %>,
+        authorities: <%= metrics.authorities || 0 %>,
+        volunteers:  <%= metrics.volunteers  || 0 %>,
+        schools:     <%= metrics.schools     || 0 %>
+    };
+
+    // Gráfico de barras — datos reales
+    new Chart(document.getElementById('barChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Delegados', 'Autoridades', 'Voluntarios', 'Colegios'],
+            datasets: [{
+                data: [real.delegates, real.authorities, real.volunteers, real.schools],
+                backgroundColor: [UM.blue+'22', UM.red+'22', UM.green+'22', UM.orange+'22'],
+                borderColor:     [UM.blue,       UM.red,       UM.green,       UM.orange],
+                borderWidth: 2,
+                borderRadius: 10,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: { label: c => ` ${c.parsed.y} inscriptos` },
+                    backgroundColor: '#0f172a',
+                    titleFont: { family: "'Montserrat', sans-serif", weight: '700' },
+                    bodyFont:  { family: "'Montserrat', sans-serif" },
+                    padding: 10,
+                    cornerRadius: 8
+                }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#f1f5f9', drawBorder: false },
+                    ticks: { font: { family: "'Montserrat', sans-serif", size: 11 }, color: '#94a3b8', stepSize: 1 }
                 },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        align: 'end',
-                        labels: { usePointStyle: true, boxWidth: 8, font: { family: "'Montserrat', sans-serif" } }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { borderDash: [4, 4], drawBorder: false },
-                    },
-                    x: {
-                        grid: { display: false }
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { family: "'Montserrat', sans-serif", size: 12, weight: '700' }, color: '#475569' }
+                }
+            }
+        }
+    });
+
+    // Gráfico dona — datos reales
+    new Chart(document.getElementById('donutChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Delegados', 'Autoridades', 'Voluntarios', 'Colegios'],
+            datasets: [{
+                data: [real.delegates, real.authorities, real.volunteers, real.schools],
+                backgroundColor: [UM.blue, UM.red, UM.green, UM.orange],
+                borderWidth: 0,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '74%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        padding: 14,
+                        font: { family: "'Montserrat', sans-serif", size: 11, weight: '700' },
+                        color: '#64748b'
                     }
                 }
             }
-        });
+        }
+    });
+</script>
 
-        // 2. CHART DONA (Distribución)
-        const ctx2 = document.getElementById('distribucionChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: ['Delegados', 'Voluntarios', 'Autoridades', 'Colegios'],
-                datasets: [{
-                    data: [300, 50, 30, 20], // Datos simulados
-                    backgroundColor: [umColors.blue, umColors.green, umColors.red, umColors.orange],
-                    borderWidth: 0,
-                    hoverOffset: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '75%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { 
-                            usePointStyle: true, 
-                            pointStyle: 'circle',
-                            font: { family: "'Montserrat', sans-serif", size: 11 },
-                            color: '#64748b'
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 </html>

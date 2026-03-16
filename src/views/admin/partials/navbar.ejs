@@ -1,34 +1,72 @@
-<nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center fixed w-full top-0 z-50">
+<nav class="bg-white border-b border-gray-100 px-6 flex justify-between items-center fixed w-full top-0 z-50 h-16 shadow-sm">
+
     <div class="flex items-center gap-4">
-        <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-slate-800 focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-slate-700 focus:outline-none transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
         </button>
-        <span class="font-black text-xl text-slate-800 tracking-tight">ADMIN PANEL</span>
-        <span class="text-xs font-bold bg-blue-100 text-blue-600 px-2 py-1 rounded-md">v1.0</span>
+
+        <!-- Branding -->
+        <a href="/admin/dashboard" class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #A02140 0%, #61B4E4 100%);">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
+                </svg>
+            </div>
+            <div>
+                <p class="font-black text-slate-800 text-sm tracking-tight leading-none">Uniendo Metas</p>
+                <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest leading-none mt-0.5">Panel Admin</p>
+            </div>
+        </a>
     </div>
-    <div class="flex items-center gap-6">
-        <span class="text-sm font-medium text-gray-600 hidden sm:inline">Hola, <b>
+
+    <div class="flex items-center gap-3">
+        <!-- Ver sitio -->
+        <a href="/" target="_blank"
+           class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gray-50 border border-gray-200 text-gray-500 text-xs font-bold hover:bg-gray-100 hover:text-slate-700 transition-all">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Ver sitio
+        </a>
+
+        <div class="w-px h-5 bg-gray-200"></div>
+
+        <!-- Avatar + nombre -->
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black shadow-sm" style="background: linear-gradient(135deg, #A02140, #61B4E4);">
+                <%= user ? user.username.charAt(0).toUpperCase() : 'A' %>
+            </div>
+            <span class="text-sm font-semibold text-slate-600 hidden sm:inline">
                 <%= user ? user.username : 'Admin' %>
-            </b></span>
-        <a href="/admin/logout" class="text-sm font-bold text-red-500 hover:text-red-700 transition">Cerrar Sesión</a>
+            </span>
+        </div>
+
+        <div class="w-px h-5 bg-gray-200"></div>
+
+        <!-- Cerrar sesión -->
+        <a href="/admin/logout"
+           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-red-400 text-xs font-bold hover:bg-red-50 hover:text-red-600 transition-all">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span class="hidden sm:inline">Salir</span>
+        </a>
     </div>
 </nav>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('mobile-menu-btn');
+        const btn     = document.getElementById('mobile-menu-btn');
         const sidebar = document.getElementById('admin-sidebar');
         const overlay = document.getElementById('sidebar-overlay');
-
         if (btn && sidebar) {
             btn.addEventListener('click', () => {
                 sidebar.classList.toggle('-translate-x-full');
                 if (overlay) overlay.classList.toggle('hidden');
             });
         }
-
         if (overlay) {
             overlay.addEventListener('click', () => {
                 sidebar.classList.add('-translate-x-full');
