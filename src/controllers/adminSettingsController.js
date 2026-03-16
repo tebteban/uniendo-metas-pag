@@ -110,7 +110,9 @@ const controller = {
             if (req.files && req.files.length > 0) {
                 for (const file of req.files) {
                     const key = file.fieldname;
-                    const value = '/img/site/' + file.filename;
+                    // En producción con Cloudinary, file.path es la URL completa (https://res.cloudinary.com/...)
+                    // En desarrollo local, construimos la ruta relativa
+                    const value = file.path || ('/img/site/' + file.filename);
 
                     const [setting, created] = await Setting.findOrCreate({
                         where: { key: key },
