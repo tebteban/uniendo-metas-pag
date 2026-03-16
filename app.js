@@ -17,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false })); // Para procesar datos de formularios
 app.use(express.json()); // Para procesar JSON
 
+// Necesario para que las cookies de sesión funcionen detrás del proxy HTTPS de Railway
+app.set('trust proxy', 1);
+
 // Configuración de Sesión
 app.use(session({
     secret: process.env.SESSION_SECRET || 'uniendo-metas-sde-secret-key-2026',
@@ -24,6 +27,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: process.env.NODE_ENV === 'production', // true en producción con HTTPS
+        httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 horas
     }
 }));
@@ -90,13 +94,10 @@ async function initializeDatabase() {
 // Inicializar base de datos
 initializeDatabase();
 
-// Para desarrollo local
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-        console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-        console.log(`🚀 Presiona Ctrl + C para detenerlo`);
-    });
-}
+// Iniciar el servidor
+app.listen(PORT, () => {
+    console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Presiona Ctrl + C para detenerlo`);
+});
 
-// Exportar para Vercel (serverless)
 module.exports = app;
