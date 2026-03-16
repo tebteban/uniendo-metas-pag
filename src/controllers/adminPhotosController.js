@@ -60,7 +60,9 @@ const controller = {
 
             if (req.files && req.files.length > 0) {
                 const file = req.files[0];
-                const value = '/img/site/' + file.filename;
+                // En producción con Cloudinary, file.path es la URL completa (https://res.cloudinary.com/...)
+                // En desarrollo local, construimos la ruta relativa
+                const value = file.path || ('/img/site/' + file.filename);
 
                 await Setting.update(
                     { value: value },
