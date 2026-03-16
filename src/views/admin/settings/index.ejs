@@ -4,101 +4,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
+    <title><%= title %></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
+        body { font-family: 'Montserrat', sans-serif; }
+        input[type="text"], input[type="url"], input[type="datetime-local"], textarea {
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #61B4E4;
+            box-shadow: 0 0 0 3px rgba(97,180,228,0.15);
         }
     </style>
 </head>
 
 <body class="bg-slate-50">
 
-    <%- include('../partials/navbar') %>
+<%- include('../partials/navbar') %>
 
-        <div class="pt-20 flex min-h-screen">
-            <%- include('../partials/sidebar') %>
+<div class="pt-16 flex min-h-screen">
+    <%- include('../partials/sidebar') %>
 
-                <main class="flex-1 md:ml-64 p-8">
-                    <div class="max-w-4xl mx-auto">
+    <main class="flex-1 md:ml-64 p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
 
-                        <div class="flex items-center gap-4 mb-8">
-                            <h2 class="text-3xl font-black text-slate-800">Configuración General</h2>
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">Configuración General</h2>
+                    <p class="text-sm text-gray-400 mt-1 font-medium">Ajustá los links, fechas y opciones del sitio</p>
+                </div>
+                <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-blue-50 text-blue-600">
+                    <%= settings.length %> configuraciones
+                </span>
+            </div>
+
+
+            <!-- Flash message -->
+            <% if (typeof flash !== 'undefined' && flash) { %>
+            <div class="flex items-center gap-3 px-5 py-4 rounded-2xl border mb-2 <%= flash.type === 'success' ? '' : '' %>"
+                 style="<%= flash.type === 'success' ? 'background:#EDF5E8; border-color:#73A95040;' : 'background:#F9E8EC; border-color:#A0214040;' %>">
+                <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                     style="background: <%= flash.type === 'success' ? '#73A950' : '#A02140' %>;">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <% if (flash.type === 'success') { %>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        <% } else { %>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                        <% } %>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-black" style="color: <%= flash.type === 'success' ? '#3D7A26' : '#A02140' %>;">
+                        <%= flash.type === 'success' ? '¡Cambios guardados!' : 'Error al guardar' %>
+                    </p>
+                    <p class="text-xs font-medium mt-0.5" style="color: <%= flash.type === 'success' ? '#5A9E38' : '#C04828' %>;">
+                        <%= flash.message %>
+                    </p>
+                </div>
+            </div>
+            <% } %>
+
+            <form action="/admin/configuracion" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+                <%
+                // Agrupar settings por categoría según su key
+                const groups = [
+                    {
+                        title: 'Modelo y Fecha',
+                        icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                        color: '#A02140',
+                        bg: '#F9E8EC',
+                        keys: ['proxima_edicion_fecha', 'mostrar_fecha_modelo'],
+                        desc: 'Controlá la fecha del próximo modelo y si mostrar el countdown en el sitio.'
+                    },
+                    {
+                        title: 'Links de Inscripción',
+                        icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+                        color: '#61B4E4',
+                        bg: '#E8F5FB',
+                        keys: ['link_inscripcion_general', 'link_participacion_inscribirse'],
+                        desc: 'Links a los formularios de inscripción que aparecen en los botones del sitio.'
+                    },
+                    {
+                        title: 'Links de Autoridades',
+                        icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+                        color: '#A02140',
+                        bg: '#F9E8EC',
+                        keys: ['link_autoridades_sumarme', 'link_autoridades_fotos'],
+                        desc: 'Links de los botones en la página de Autoridades.'
+                    },
+                    {
+                        title: 'Links de Voluntarios',
+                        icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+                        color: '#73A950',
+                        bg: '#EDF5E8',
+                        keys: ['link_voluntarios_sumate'],
+                        desc: 'Links de los botones en la página de Voluntarios.'
+                    },
+                    {
+                        title: 'Redes Sociales y Galería',
+                        icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
+                        color: '#E15829',
+                        bg: '#FCEEE9',
+                        keys: ['link_instagram', 'link_fotos'],
+                        desc: 'Link a Instagram oficial y a la galería de fotos en OneDrive.'
+                    },
+                ];
+
+                // Mapear settings por key para acceso rápido
+                const settingMap = {};
+                settings.forEach(s => { settingMap[s.key] = s; });
+
+                // Keys que ya están en algún grupo
+                const groupedKeys = groups.flatMap(g => g.keys);
+
+                // Settings que no están en ningún grupo (resto)
+                const ungrouped = settings.filter(s => !groupedKeys.includes(s.key));
+                %>
+
+                <% groups.forEach(group => {
+                    const groupSettings = group.keys.map(k => settingMap[k]).filter(Boolean);
+                    if (groupSettings.length === 0) return;
+                %>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+
+                    <!-- Header del grupo -->
+                    <div class="flex items-center gap-4 px-7 py-5 border-b border-gray-100">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:<%= group.bg %>;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= group.color %>;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= group.icon %>"/>
+                            </svg>
                         </div>
-
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-                            <form action="/admin/configuracion" method="POST" class="space-y-6"
-                                enctype="multipart/form-data">
-
-                                <div class="grid grid-cols-1 gap-8">
-
-                                    <% settings.forEach(setting=> { %>
-                                        <div>
-                                            <label for="<%= setting.key %>"
-                                                class="block text-sm font-bold text-gray-700 mb-2">
-                                                <%= setting.label || setting.key %>
-                                            </label>
-
-                                            <% if (setting.type==='textarea' ) { %>
-                                                <textarea id="<%= setting.key %>" name="<%= setting.key %>" rows="3"
-                                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"><%= setting.value %></textarea>
-                                                <% } else if (setting.type==='image' ) { %>
-                                                    <div class="flex items-center gap-4">
-                                                        <% if (setting.value) { %>
-                                                            <img src="<%= setting.value %>" alt="Preview"
-                                                                class="w-32 h-20 object-cover rounded-md border border-gray-200">
-                                                            <% } %>
-                                                                <input type="file" id="<%= setting.key %>"
-                                                                    name="<%= setting.key %>" accept="image/*"
-                                                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all">
-                                                    </div>
-                                                    <input type="hidden" name="<%= setting.key %>"
-                                                        value="<%= setting.value %>">
-                                                    <% } else if (setting.type==='checkbox' ) { %>
-                                                        <div
-                                                            class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl bg-gray-50">
-                                                            <input type="hidden" name="<%= setting.key %>"
-                                                                value="false">
-                                                            <input type="checkbox" id="<%= setting.key %>"
-                                                                name="<%= setting.key %>" value="true"
-                                                                <%=setting.value==='true' ? 'checked' : '' %>
-                                                            class="w-5 h-5 text-blue-600 rounded border-gray-300
-                                                            focus:ring-blue-500 cursor-pointer">
-                                                            <label for="<%= setting.key %>"
-                                                                class="text-sm font-bold text-gray-700 cursor-pointer select-none">
-                                                                <%= setting.label || setting.key %>
-                                                            </label>
-                                                        </div>
-                                                        <% } else { %>
-                                                            <input type="<%= setting.type || 'text' %>"
-                                                                id="<%= setting.key %>" name="<%= setting.key %>"
-                                                                value="<%= setting.value %>"
-                                                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
-                                                            <% } %>
-                                        </div>
-                                        <% }) %>
-
-                                </div>
-
-                                <div class="pt-6 flex justify-end">
-                                    <button type="submit"
-                                        class="px-8 py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                                        Guardar Cambios
-                                    </button>
-                                </div>
-
-                            </form>
+                        <div>
+                            <h3 class="text-sm font-black text-slate-900"><%= group.title %></h3>
+                            <p class="text-xs text-gray-400 font-medium mt-0.5"><%= group.desc %></p>
                         </div>
-
                     </div>
-                </main>
+
+                    <!-- Campos del grupo -->
+                    <div class="px-7 py-6 space-y-5">
+                        <% groupSettings.forEach(setting => { %>
+                        <div>
+                            <label for="<%= setting.key %>" class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2">
+                                <%= setting.label || setting.key %>
+                            </label>
+
+                            <% if (setting.type === 'checkbox') { %>
+                                <div class="flex items-center gap-3 p-4 border border-gray-200 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
+                                    <input type="hidden" name="<%= setting.key %>" value="false">
+                                    <input type="checkbox" id="<%= setting.key %>" name="<%= setting.key %>" value="true"
+                                           <%= setting.value === 'true' ? 'checked' : '' %>
+                                           class="w-5 h-5 rounded cursor-pointer" style="accent-color: #A02140;">
+                                    <label for="<%= setting.key %>" class="text-sm font-semibold text-gray-600 cursor-pointer select-none flex-1">
+                                        <%= setting.value === 'true' ? 'Activado — el countdown aparece en el sitio' : 'Desactivado — no se muestra el countdown' %>
+                                    </label>
+                                    <span class="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full <%= setting.value === 'true' ? '' : 'bg-gray-200 text-gray-500' %>"
+                                          style="<%= setting.value === 'true' ? 'background:#EDF5E8; color:#3D7A26;' : '' %>">
+                                        <%= setting.value === 'true' ? 'ON' : 'OFF' %>
+                                    </span>
+                                </div>
+
+                            <% } else if (setting.type === 'textarea') { %>
+                                <textarea id="<%= setting.key %>" name="<%= setting.key %>" rows="3"
+                                          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 resize-none"><%= setting.value %></textarea>
+
+                            <% } else { %>
+                                <div class="relative">
+                                    <% if (setting.type === 'url') { %>
+                                    <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                        </svg>
+                                    </div>
+                                    <% } %>
+                                    <% if (setting.type === 'datetime-local') { %>
+                                    <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <% } %>
+                                    <input type="<%= setting.type || 'text' %>"
+                                           id="<%= setting.key %>"
+                                           name="<%= setting.key %>"
+                                           value="<%= setting.value %>"
+                                           class="w-full py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 <%= (setting.type === 'url' || setting.type === 'datetime-local') ? 'pl-10 pr-4' : 'px-4' %>">
+                                </div>
+                            <% } %>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <% }); %>
+
+                <!-- Settings sin grupo -->
+                <% if (ungrouped.length > 0) { %>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="flex items-center gap-4 px-7 py-5 border-b border-gray-100">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gray-100">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-black text-slate-900">Otras Configuraciones</h3>
+                            <p class="text-xs text-gray-400 font-medium mt-0.5">Configuraciones adicionales del sistema.</p>
+                        </div>
+                    </div>
+                    <div class="px-7 py-6 space-y-5">
+                        <% ungrouped.forEach(setting => { %>
+                        <div>
+                            <label for="<%= setting.key %>" class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2">
+                                <%= setting.label || setting.key %>
+                            </label>
+                            <% if (setting.type === 'checkbox') { %>
+                                <div class="flex items-center gap-3 p-4 border border-gray-200 rounded-xl bg-gray-50">
+                                    <input type="hidden" name="<%= setting.key %>" value="false">
+                                    <input type="checkbox" id="<%= setting.key %>" name="<%= setting.key %>" value="true"
+                                           <%= setting.value === 'true' ? 'checked' : '' %>
+                                           class="w-5 h-5 rounded cursor-pointer" style="accent-color:#A02140;">
+                                    <label for="<%= setting.key %>" class="text-sm font-medium text-gray-600 cursor-pointer"><%= setting.label %></label>
+                                </div>
+                            <% } else if (setting.type === 'textarea') { %>
+                                <textarea id="<%= setting.key %>" name="<%= setting.key %>" rows="3"
+                                          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 resize-none"><%= setting.value %></textarea>
+                            <% } else { %>
+                                <input type="<%= setting.type || 'text' %>"
+                                       id="<%= setting.key %>" name="<%= setting.key %>"
+                                       value="<%= setting.value %>"
+                                       class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700">
+                            <% } %>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <% } %>
+
+                <!-- Botón guardar fijo abajo -->
+                <div class="sticky bottom-6 flex justify-end">
+                    <button type="submit"
+                            class="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl text-white font-black text-sm shadow-xl hover:brightness-110 transition-all"
+                            style="background:#A02140; box-shadow: 0 8px 24px -4px #A0214060;">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Guardar Cambios
+                    </button>
+                </div>
+
+            </form>
         </div>
+    </main>
+</div>
 
 </body>
-
 </html>

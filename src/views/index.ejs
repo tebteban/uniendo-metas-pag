@@ -510,7 +510,7 @@
             if (countdownEl) {
                 const dateStr = countdownEl.getAttribute('data-date');
                 if (dateStr) {
-                    const eventDate = new Date(dateStr).getTime();
+                    const eventDate = new Date(eventDateStr.replace(' ', 'T')).getTime();
                     const update = () => {
                         const diff = eventDate - Date.now();
                         if (diff < 0) { ['cd-months','cd-days','cd-hours'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '00'; }); return; }
