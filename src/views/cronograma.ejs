@@ -10,6 +10,7 @@
 <section class="relative pt-36 pb-16 bg-white overflow-hidden">
     <div class="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none" style="background: radial-gradient(circle, #61B4E412 0%, transparent 70%); transform: translate(30%, -30%);"></div>
     <div class="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, #A0214008 0%, transparent 70%); transform: translate(-30%, 30%);"></div>
+    <div class="absolute inset-0 opacity-[0.025] pointer-events-none" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 60px 60px;"></div>
 
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white shadow-sm mb-7" data-aos="fade-down">
@@ -70,7 +71,7 @@
                                 titulo:   act.titulo,
                                 horario:  act.horario,
                                 lugar:    act.lugar,
-                                tipo:     act.tipo || 'general'
+                                tipo:     act.tipo || 'otro'
                             });
                         });
                     }
