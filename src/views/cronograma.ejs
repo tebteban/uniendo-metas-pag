@@ -2,198 +2,322 @@
 <html lang="es" class="scroll-smooth">
 <%- include('./partials/head') %>
 
-    <body class="bg-gray-50 text-gray-600 antialiased font-sans">
+<body class="bg-white text-gray-600 antialiased font-sans">
 
-        <%- include('./partials/navbar') %>
+<%- include('./partials/navbar') %>
 
-            <!-- Header Clean Light -->
-            <section class="relative pt-32 pb-16 overflow-hidden">
-                <div
-                    class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/2">
-                </div>
-                <div
-                    class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-red/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/2">
-                </div>
+<!-- HERO -->
+<section class="relative pt-36 pb-16 bg-white overflow-hidden">
+    <div class="absolute top-0 right-0 w-[700px] h-[700px] rounded-full pointer-events-none" style="background: radial-gradient(circle, #61B4E412 0%, transparent 70%); transform: translate(30%, -30%);"></div>
+    <div class="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, #A0214008 0%, transparent 70%); transform: translate(-30%, 30%);"></div>
 
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                    <span
-                        class="inline-block py-1 px-3 rounded-full bg-white border border-gray-200 text-brand-blue font-bold text-xs tracking-[0.2em] uppercase mb-6 shadow-sm">
-                        <%= settings.text_sch_hero_badge || 'Agenda 2026' %>
-                    </span>
-                    <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight mb-6">
-                        <%= settings.text_sch_hero_title || 'Cronograma de Actividades' %>
-                    </h1>
-                    <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                        <%= settings.text_sch_hero_desc
-                            || 'Todas las fechas clave del modelo. Prepárate con tiempo para cada instancia de capacitación, evaluación y debate.'
-                            %>
-                    </p>
-                </div>
-            </section>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white shadow-sm mb-7" data-aos="fade-down">
+            <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="3" fill="#61B4E4"/><circle cx="6" cy="6" r="5.5" stroke="#61B4E4" stroke-opacity="0.3"/></svg>
+            <span class="text-xs font-black tracking-widest uppercase" style="color:#61B4E4;">Agenda 2026</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 tracking-tight leading-[1.0] mb-5" data-aos="fade-up">
+            Cronograma
+        </h1>
+        <p class="text-lg text-gray-400 max-w-lg mx-auto leading-relaxed font-medium" data-aos="fade-up" data-aos-delay="80">
+            Todas las fechas clave del modelo. Preparate con tiempo para cada instancia.
+        </p>
+    </div>
+</section>
 
-            <!-- Timeline Section -->
-            <section class="py-12 relative overflow-hidden">
-                <!-- Linea central decorativa -->
-                <div class="absolute left-1/2 transform -translate-x-px w-0.5 h-full bg-gray-200 hidden md:block"></div>
+<!-- LEYENDA — clickeable para ir al primer evento de ese tipo -->
+<div class="bg-white border-b border-gray-100 py-6 sticky top-16 z-30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-center justify-center gap-3" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-[0.2em] text-gray-300 mr-1">Referencias</span>
+            <% [
+                { label: 'Modelo',           tipo: 'modelo',           color: '#A02140', bg: '#F9E8EC' },
+                { label: 'Cap. Delegados',   tipo: 'cap_delegados',    color: '#61B4E4', bg: '#E8F5FB' },
+                { label: 'Cap. Autoridades', tipo: 'cap_autoridades',  color: '#E15829', bg: '#FCEEE9' },
+                { label: 'Examen',           tipo: 'examen',           color: '#FFB819', bg: '#FEF6E0' },
+                { label: 'Sorteo',           tipo: 'sorteo',           color: '#8A8A8D', bg: '#F3F3F4' },
+                { label: 'Convivencia',      tipo: 'convivencia',      color: '#73A950', bg: '#EDF5E8' },
+            ].forEach(item => { %>
+            <button
+                onclick="scrollToTipo('<%= item.tipo %>')"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border transition-all duration-200 hover:scale-105 hover:shadow-md cursor-pointer"
+                style="background:<%= item.bg %>; color:<%= item.color %>; border-color:<%= item.color %>30;">
+                <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:<%= item.color %>;"></span>
+                <%= item.label %>
+            </button>
+            <% }); %>
+        </div>
+    </div>
+</div>
 
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+<!-- TIMELINE -->
+<section class="py-20 relative" style="background:#F8FAFC;">
 
-                    <% if (cronograma && cronograma.length> 0) { %>
-                        <div class="space-y-12 md:space-y-24">
-                            <% let allActivities=[]; if (cronograma) { cronograma.forEach(function(mes) { if
-                                (mes.actividades) { mes.actividades.forEach(function(act) { const showModel=(typeof
-                                settings !=='undefined' && settings && settings.mostrar_fecha_modelo==='true' ); if
-                                (act.tipo==='modelo' && !showModel) return; act.mesNombre=mes.dia;
-                                allActivities.push(act); }); } }); } %>
-                                <% allActivities.forEach(function(actividad, index) { const isEven=index % 2===0; let
-                                    colorClass='border-t-gray-400 text-gray-400 bg-gray-50' ; let dotClass='bg-gray-400'
-                                    ; let badgeColor='bg-gray-100 text-gray-600' ; if (actividad.tipo==='modelo' ) {
-                                    colorClass='border-t-brand-red' ; dotClass='bg-brand-red shadow-red-200' ;
-                                    badgeColor='bg-red-100 text-brand-red' ; } else if (actividad.tipo==='cap_delegados'
-                                    ) { colorClass='border-t-brand-blue' ; dotClass='bg-brand-blue shadow-blue-200' ;
-                                    badgeColor='bg-blue-100 text-brand-blue' ; } else if
-                                    (actividad.tipo==='cap_autoridades' ) { colorClass='border-t-indigo-500' ;
-                                    dotClass='bg-indigo-500 shadow-indigo-200' ;
-                                    badgeColor='bg-indigo-100 text-indigo-700' ; } else if (actividad.tipo==='examen' )
-                                    { colorClass='border-t-orange-500' ; dotClass='bg-orange-500 shadow-orange-200' ;
-                                    badgeColor='bg-orange-100 text-orange-700' ; } else if (actividad.tipo==='sorteo' )
-                                    { colorClass='border-t-fuchsia-500' ; dotClass='bg-fuchsia-500 shadow-fuchsia-200' ;
-                                    badgeColor='bg-fuchsia-100 text-fuchsia-700' ; } else if
-                                    (actividad.tipo==='convivencia' ) { colorClass='border-t-brand-green' ;
-                                    dotClass='bg-brand-green shadow-green-200' ;
-                                    badgeColor='bg-green-100 text-brand-green' ; } %>
+    <!-- Línea central desktop -->
+    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-px" style="background: linear-gradient(to bottom, transparent, #CBD5E1 10%, #CBD5E1 90%, transparent);"></div>
 
-                                    <div class="relative flex items-center justify-between md:justify-center group"
-                                        data-aos="fade-up">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
-                                        <!-- Dot en la línea de tiempo (Desktop) -->
-                                        <div
-                                            class="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full <%= dotClass %> shadow-[0_0_0_4px_rgba(255,255,255,1)] z-10 group-hover:scale-150 transition-transform duration-300">
-                                        </div>
+        <% if (cronograma && cronograma.length > 0) { %>
+            <%
+                const allActivities = [];
+                cronograma.forEach(function(mes) {
+                    if (mes.actividades && mes.actividades.length > 0) {
+                        mes.actividades.forEach(function(act) {
+                            allActivities.push({
+                                mesNombre: mes.dia,
+                                fecha:    act.fecha,
+                                titulo:   act.titulo,
+                                horario:  act.horario,
+                                lugar:    act.lugar,
+                                tipo:     act.tipo || 'general'
+                            });
+                        });
+                    }
+                });
+            %>
 
-                                        <!-- Contenido -->
-                                        <div class="flex flex-col md:flex-row w-full items-center">
+            <% if (allActivities.length > 0) { %>
 
-                                            <!-- Izquierda (si es par en desktop) -->
-                                            <div
-                                                class="w-full md:w-1/2 md:pr-16 <%= isEven ? 'order-1' : 'order-3 md:pl-16 opacity-0 hidden md:block' %>">
-                                                <% if(isEven) { %>
-                                                    <!-- Card Desktop (Left Side) -->
-                                                    <div
-                                                        class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 border-t-4 <%= colorClass %> group-hover:-translate-y-1 text-left">
-                                                        <div class="flex justify-between items-center mb-3">
-                                                            <span
-                                                                class="text-xs font-bold uppercase tracking-wider text-gray-400">
-                                                                <%= actividad.mesNombre %>
-                                                            </span>
-                                                            <span
-                                                                class="text-xs font-bold px-2 py-1 rounded-md <%= badgeColor %>">
-                                                                <%= actividad.fecha %>
-                                                            </span>
-                                                        </div>
-                                                        <h3 class="text-lg font-black text-gray-900 mb-2 leading-snug">
-                                                            <%= actividad.titulo %>
-                                                        </h3>
-                                                        <% if (actividad.lugar) { %>
-                                                            <div
-                                                                class="flex items-center gap-2 text-sm text-gray-500 mt-3">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                    viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                </svg>
-                                                                <span>
-                                                                    <%= actividad.lugar %>
-                                                                </span>
-                                                            </div>
-                                                            <% } %>
-                                                    </div>
-                                                    <% } %>
-                                            </div>
+            <div class="space-y-10 md:space-y-16">
+            <% allActivities.forEach(function(act, index) {
 
-                                            <!-- Spacer Central -->
-                                            <div class="w-full md:w-0 order-2"></div>
+                const isEven = index % 2 === 0;
 
-                                            <!-- Derecha (si es impar en desktop) o Mobile -->
-                                            <div
-                                                class="w-full md:w-1/2 md:pl-16 <%= !isEven ? 'order-3' : 'order-1 md:pr-16 opacity-0 hidden md:block' %>">
-                                                <% if(!isEven || true) { %>
-                                                    <div
-                                                        class="<%= isEven ? 'md:hidden' : 'block' %> bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 border-t-4 <%= colorClass %> group-hover:-translate-y-1 text-left">
-                                                        <div class="flex justify-between items-center mb-3">
-                                                            <span
-                                                                class="text-xs font-bold uppercase tracking-wider text-gray-400">
-                                                                <%= actividad.mesNombre %>
-                                                            </span>
-                                                            <span
-                                                                class="text-xs font-bold px-2 py-1 rounded-md <%= badgeColor %>">
-                                                                <%= actividad.fecha %>
-                                                            </span>
-                                                        </div>
-                                                        <h3 class="text-lg font-black text-gray-900 mb-2 leading-snug">
-                                                            <%= actividad.titulo %>
-                                                        </h3>
-                                                        <% if (actividad.lugar) { %>
-                                                            <div
-                                                                class="flex items-center gap-2 text-sm text-gray-500 mt-3">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                                    viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                </svg>
-                                                                <span>
-                                                                    <%= actividad.lugar %>
-                                                                </span>
-                                                            </div>
-                                                            <% } %>
-                                                    </div>
-                                                    <% } %>
-                                            </div>
+                let color   = '#8A8A8D';
+                let bgLight = '#F3F3F4';
+                let label   = 'General';
 
-                                        </div>
+                if      (act.tipo === 'modelo')          { color = '#A02140'; bgLight = '#F9E8EC'; label = 'Modelo'; }
+                else if (act.tipo === 'cap_delegados')   { color = '#61B4E4'; bgLight = '#E8F5FB'; label = 'Cap. Delegados'; }
+                else if (act.tipo === 'cap_autoridades') { color = '#E15829'; bgLight = '#FCEEE9'; label = 'Cap. Autoridades'; }
+                else if (act.tipo === 'examen')          { color = '#FFB819'; bgLight = '#FEF6E0'; label = 'Examen'; }
+                else if (act.tipo === 'sorteo')          { color = '#8A8A8D'; bgLight = '#F3F3F4'; label = 'Sorteo'; }
+                else if (act.tipo === 'convivencia')     { color = '#73A950'; bgLight = '#EDF5E8'; label = 'Convivencia'; }
+            %>
+
+                <!-- data-tipo para que el scroll de la leyenda lo encuentre -->
+                <div class="relative group" data-tipo="<%= act.tipo %>" data-aos="<%= isEven ? 'fade-right' : 'fade-left' %>">
+
+                    <!-- Dot central desktop -->
+                    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full z-10 border-[3px] border-white shadow-lg items-center justify-center group-hover:scale-150 transition-all duration-300"
+                         style="background:<%= color %>; box-shadow: 0 0 0 4px <%= bgLight %>, 0 4px 12px <%= color %>40;">
+                    </div>
+
+                    <div class="md:grid md:grid-cols-2 md:gap-0">
+
+                        <!-- IZQUIERDA (pares) -->
+                        <div class="<%= isEven ? 'md:pr-14 md:flex md:justify-end' : 'md:invisible' %> hidden md:flex">
+                            <% if (isEven) { %>
+                            <div class="card-inner w-full md:max-w-sm bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                                 style="box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #F1F5F9; border-top: 3px solid <%= color %>;">
+                                <div class="px-6 pt-6 pb-5">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full" style="background:<%= bgLight %>; color:<%= color %>;"><%= label %></span>
+                                        <% if (act.fecha) { %>
+                                        <span class="text-sm font-bold text-gray-400 tabular-nums"><%= act.fecha %></span>
+                                        <% } %>
                                     </div>
-                                    <% }); %>
-                        </div>
-                        <% } else { %>
-                            <div class="text-center py-20">
-                                <p class="text-gray-400 text-lg">Cronograma próximamente. ¡Volvé pronto!</p>
+                                    <h3 class="text-xl font-black text-gray-900 leading-snug mb-4"><%= act.titulo %></h3>
+                                    <div class="space-y-2">
+                                        <% if (act.horario) { %>
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style="background:<%= bgLight %>;">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= color %>;">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-sm font-semibold text-gray-500"><%= act.horario %></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (act.lugar) { %>
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style="background:<%= bgLight %>;">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= color %>;">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-sm font-semibold text-gray-500"><%= act.lugar %></span>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="px-6 py-3 border-t" style="border-color:#F8FAFC; background:#FAFAFA;">
+                                    <span class="text-xs font-black uppercase tracking-widest text-gray-300"><%= act.mesNombre %></span>
+                                </div>
                             </div>
                             <% } %>
+                        </div>
+
+                        <!-- DERECHA (impares) -->
+                        <div class="<%= !isEven ? 'md:pl-14 md:flex md:justify-start' : 'md:invisible' %> hidden md:flex">
+                            <% if (!isEven) { %>
+                            <div class="card-inner w-full md:max-w-sm bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                                 style="box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #F1F5F9; border-top: 3px solid <%= color %>;">
+                                <div class="px-6 pt-6 pb-5">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full" style="background:<%= bgLight %>; color:<%= color %>;"><%= label %></span>
+                                        <% if (act.fecha) { %>
+                                        <span class="text-sm font-bold text-gray-400 tabular-nums"><%= act.fecha %></span>
+                                        <% } %>
+                                    </div>
+                                    <h3 class="text-xl font-black text-gray-900 leading-snug mb-4"><%= act.titulo %></h3>
+                                    <div class="space-y-2">
+                                        <% if (act.horario) { %>
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style="background:<%= bgLight %>;">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= color %>;">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-sm font-semibold text-gray-500"><%= act.horario %></span>
+                                        </div>
+                                        <% } %>
+                                        <% if (act.lugar) { %>
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style="background:<%= bgLight %>;">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= color %>;">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-sm font-semibold text-gray-500"><%= act.lugar %></span>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="px-6 py-3 border-t" style="border-color:#F8FAFC; background:#FAFAFA;">
+                                    <span class="text-xs font-black uppercase tracking-widest text-gray-300"><%= act.mesNombre %></span>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+
+                    </div>
+
+                    <!-- MOBILE -->
+                    <div class="md:hidden">
+                        <div class="card-inner bg-white rounded-2xl overflow-hidden"
+                             style="box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #F1F5F9; border-top: 3px solid <%= color %>;">
+                            <div class="px-5 pt-5 pb-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full" style="background:<%= bgLight %>; color:<%= color %>;"><%= label %></span>
+                                    <% if (act.fecha) { %>
+                                    <span class="text-sm font-bold text-gray-400 tabular-nums"><%= act.fecha %></span>
+                                    <% } %>
+                                </div>
+                                <h3 class="text-base font-black text-gray-900 leading-snug mb-3"><%= act.titulo %></h3>
+                                <div class="space-y-1.5">
+                                    <% if (act.horario) { %>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-3.5 h-3.5 flex-shrink-0 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-sm font-semibold text-gray-500"><%= act.horario %></span>
+                                    </div>
+                                    <% } %>
+                                    <% if (act.lugar) { %>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-3.5 h-3.5 flex-shrink-0 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        <span class="text-sm font-semibold text-gray-500"><%= act.lugar %></span>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="px-5 py-2.5 border-t" style="border-color:#F8FAFC; background:#FAFAFA;">
+                                <span class="text-xs font-black uppercase tracking-widest text-gray-300"><%= act.mesNombre %></span>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-            </section>
 
-            <!-- Call to Action -->
-            <section class="py-20 bg-white border-t border-gray-100 text-center">
-                <div class="max-w-4xl mx-auto px-4">
-                    <h2 class="text-3xl font-black text-brand-dark mb-6">¿Tenés dudas sobre las actividades?</h2>
-                    <a href="https://instagram.com/umsantiagodelestero" target="_blank"
-                        class="inline-flex items-center gap-2 px-8 py-4 bg-brand-red text-white text-lg font-bold rounded-full hover:bg-red-600 transition-all shadow-lg hover:shadow-xl">
-                        Escribinos al Instagram
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                    </a>
+            <% }); %>
+            </div>
+
+            <% } else { %>
+            <div class="text-center py-24">
+                <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                    <svg class="w-7 h-7 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
                 </div>
-            </section>
+                <p class="text-gray-400 font-bold text-base">Cronograma próximamente</p>
+                <p class="text-gray-300 text-sm mt-1 font-medium">Volvé pronto para ver las fechas</p>
+            </div>
+            <% } %>
 
-            <%- include('./partials/footer') %>
+        <% } else { %>
+        <div class="text-center py-24">
+            <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                <svg class="w-7 h-7 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <p class="text-gray-400 font-bold text-base">Cronograma próximamente</p>
+            <p class="text-gray-300 text-sm mt-1 font-medium">Volvé pronto para ver las fechas</p>
+        </div>
+        <% } %>
 
-                <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-                <script>
-                    AOS.init({ once: true, offset: 50, duration: 800 });
+    </div>
+</section>
 
+<!-- CTA -->
+<section class="py-20 bg-white border-t border-gray-100 text-center">
+    <div class="max-w-xl mx-auto px-4" data-aos="fade-up">
+        <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tight">¿Tenés dudas sobre las actividades?</h2>
+        <p class="text-gray-400 mb-8 font-medium">Escribinos y te respondemos a la brevedad.</p>
+        <a href="https://instagram.com/umsantiagodelestero" target="_blank"
+           class="inline-flex items-center gap-3 px-8 py-4 text-white text-sm font-bold rounded-full hover:scale-105 hover:brightness-110 transition-all duration-300"
+           style="background:#A02140; box-shadow: 0 8px 24px -4px #A0214050;">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+            Escribinos al Instagram
+        </a>
+    </div>
+</section>
 
-                </script>
-    </body>
+<%- include('./partials/footer') %>
 
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, offset: 50, duration: 700, easing: 'ease-out-quart' });
+
+    function scrollToTipo(tipo) {
+        // Buscar el primer elemento con ese tipo
+        const primer = document.querySelector('[data-tipo="' + tipo + '"]');
+        if (!primer) return;
+
+        // Scroll suave
+        primer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Highlight temporal en la card
+        const card = primer.querySelector('.card-inner');
+        if (!card) return;
+
+        const originalTransition = card.style.transition;
+        const originalTransform  = card.style.transform;
+        const originalShadow     = card.style.boxShadow;
+        const originalOutline    = card.style.outline;
+
+        card.style.transition  = 'all 0.3s ease';
+        card.style.transform   = 'scale(1.03) translateY(-4px)';
+        card.style.outline     = '2px solid currentColor';
+        card.style.boxShadow   = '0 20px 40px -8px rgba(0,0,0,0.15)';
+
+        setTimeout(() => {
+            card.style.transform  = originalTransform;
+            card.style.boxShadow  = originalShadow;
+            card.style.outline    = originalOutline;
+            card.style.transition = originalTransition;
+        }, 1200);
+    }
+</script>
+
+</body>
 </html>

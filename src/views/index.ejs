@@ -4,7 +4,6 @@
 
     <body class="bg-gray-50 text-gray-600 antialiased overflow-x-hidden font-sans">
 
-
         <%- include('./partials/navbar') %>
 
             <!-- MEGA HERO UNIFICADO -->
@@ -119,35 +118,34 @@
                         </div>
                     </div>
 
-                    <!-- BLOQUE INFERIOR: Sponsors (Integrado) -->
-         <section class="pt-12 pb-8 bg-white border-t border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-        
-        <h2 class="text-base font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">
-            Nos Acompañan
-        </h2>
+                </div>
+            </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center max-w-5xl mx-auto opacity-80">
-            
-            <a href="https://sde.gob.ar/" target="_blank" rel="noopener noreferrer" class="group transition">
-                <img src="/img/logos/gobierno.png" alt="Gobierno de Santiago" 
-                     class="w-40 md:w-56 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
-            </a>
+            <!-- SPONSORS — fuera del hero para que el bg-white llegue de borde a borde -->
+            <section class="pt-12 pb-8 bg-white border-t border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 text-center">
 
-            <a href="https://www.facebook.com/cyt.nodotecnologico/?locale=es_LA" target="_blank" rel="noopener noreferrer" class="group transition">
-                <img src="/img/logos/logo-secretaria.png" alt="Secretaría de CyT" 
-                     class="h-20 md:h-28 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
-            </a>
+                    <h2 class="text-base font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">
+                        Nos Acompañan
+                    </h2>
 
-            <a href="https://conciencia.org/" target="_blank" rel="noopener noreferrer" class="group transition">
-                <img src="/img/logos/logo-ccc.png" alt="Asociación Conciencia" 
-                     class="h-20 md:h-28 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
-            </a>
-        </div>
-    </div>
-</section>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center max-w-5xl mx-auto opacity-80">
 
+                        <a href="https://sde.gob.ar/" target="_blank" rel="noopener noreferrer" class="group transition">
+                            <img src="/img/logos/gobierno.png" alt="Gobierno de Santiago"
+                                 class="w-40 md:w-56 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
+                        </a>
 
+                        <a href="https://www.facebook.com/cyt.nodotecnologico/?locale=es_LA" target="_blank" rel="noopener noreferrer" class="group transition">
+                            <img src="/img/logos/logo-secretaria.png" alt="Secretaría de CyT"
+                                 class="h-20 md:h-28 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
+                        </a>
+
+                        <a href="https://conciencia.org/" target="_blank" rel="noopener noreferrer" class="group transition">
+                            <img src="/img/logos/logo-ccc.png" alt="Asociación Conciencia"
+                                 class="h-20 md:h-28 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -249,516 +247,300 @@
                 </div>
             </section>
 
+            <section id="nosotros" class="py-24 bg-white relative">
 
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-
-
-            <section id="nosotros" class="py-24 bg-white border-y border-gray-200 relative">
-
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-
-                    <div class="text-center max-w-3xl mx-auto mb-20" data-aos="fade-up">
-                        <span class="text-brand-blue font-bold tracking-widest uppercase text-xs">
+                    <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                        <span class="text-brand-blue font-black tracking-[0.2em] uppercase text-[11px]">
                             <%= settings.text_home_about_badge || 'Institucional' %>
                         </span>
-                        <h2 class="text-3xl md:text-5xl font-black text-slate-900 mt-3 mb-6">
-                            <%= settings.text_home_about_title || '¿Que es Uniendo Metas?' %>
+                        <h2 class="text-3xl md:text-5xl font-black text-gray-900 mt-3 mb-6 leading-tight">
+                            <%= settings.text_home_about_title || '¿Qué es Uniendo Metas?' %>
                         </h2>
                         <p class="text-lg text-gray-500 leading-relaxed">
-                            <%= settings.text_home_about_desc
-                                || 'Uniendo Metas es la simulación de Naciones Unidas más importante de Argentina. Un programa de Asociación Conciencia que, desde 1994, empodera a los jóvenes a través del diálogo y el consenso.'
-                                %>
+                            <%= settings.text_home_about_desc || 'Uniendo Metas es la simulación de Naciones Unidas más importante de Argentina. Un programa de Asociación Conciencia que, desde 1994, empodera a los jóvenes a través del diálogo y el consenso.' %>
                         </p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
 
-                        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition-all duration-300 group"
-                            data-aos="fade-up" data-aos-delay="0">
-                            <div
-                                class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-brand-blue mb-6 group-hover:scale-110 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                        <div class="group relative bg-white border border-gray-100 rounded-2xl p-8 hover:border-brand-blue hover:shadow-xl transition-all duration-300 overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+                            <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            <div class="relative z-10">
+                                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-brand-blue mb-6 group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3"><%= settings.text_home_card1_title || 'Metodología Harvard' %></h3>
+                                <p class="text-sm text-gray-500 leading-relaxed"><%= settings.text_home_card1_desc || 'Traída de la Universidad de Harvard en 1994. Los tópicos de debate se basan en la Agenda real de las Naciones Unidas, abordando problemáticas globales con seriedad académica.' %></p>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3">
-                                <%= settings.text_home_card1_title || 'Metodología Harvard' %>
-                            </h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">
-                                <%= settings.text_home_card1_desc
-                                    || 'Traída de la Universidad de Harvard en 1994. Los tópicos de debate se basan en la Agenda real de las Naciones Unidas, abordando problemáticas globales con seriedad académica.'
-                                    %>
-                            </p>
                         </div>
 
-                        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition-all duration-300 group"
-                            data-aos="fade-up" data-aos-delay="100">
-                            <div
-                                class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-brand-red mb-6 group-hover:scale-110 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
+                        <div class="group relative bg-white border border-gray-100 rounded-2xl p-8 hover:border-brand-red hover:shadow-xl transition-all duration-300 overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                            <div class="absolute inset-0 bg-gradient-to-br from-red-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            <div class="relative z-10">
+                                <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-brand-red mb-6 group-hover:scale-110 group-hover:bg-brand-red group-hover:text-white transition-all duration-300">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3"><%= settings.text_home_card2_title || 'Red de Voluntarios' %></h3>
+                                <p class="text-sm text-gray-500 leading-relaxed"><%= settings.text_home_card2_desc || 'Más de 900 voluntarios en todo el país. Jóvenes ex-participantes comprometidos con la participación ciudadana que organizan cada detalle del encuentro.' %></p>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3">
-                                <%= settings.text_home_card2_title || 'Red de Voluntarios' %>
-                            </h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">
-                                <%= settings.text_home_card2_desc
-                                    || 'Más de 900 voluntarios en todo el país. Jóvenes ex-participantes comprometidos con la participación ciudadana que organizan cada detalle del encuentro.'
-                                    %>
-                            </p>
                         </div>
 
-                        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition-all duration-300 group"
-                            data-aos="fade-up" data-aos-delay="200">
-                            <div
-                                class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-brand-green mb-6 group-hover:scale-110 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
+                        <div class="group relative bg-white border border-gray-100 rounded-2xl p-8 hover:border-brand-green hover:shadow-xl transition-all duration-300 overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                            <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            <div class="relative z-10">
+                                <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-brand-green mb-6 group-hover:scale-110 group-hover:bg-brand-green group-hover:text-white transition-all duration-300">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3"><%= settings.text_home_card3_title || 'Acompañamiento Docente' %></h3>
+                                <p class="text-sm text-gray-500 leading-relaxed"><%= settings.text_home_card3_desc || 'Consideramos a los docentes piezas clave. Ellos guían el proceso pedagógico para garantizar que el aprendizaje sea la meta central de la experiencia.' %></p>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3">
-                                <%= settings.text_home_card3_title || 'Acompañamiento Docente' %>
-                            </h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">
-                                <%= settings.text_home_card3_desc
-                                    || 'Consideramos a los docentes piezas clave. Ellos guían el proceso pedagógico para garantizar que el aprendizaje sea la meta central de la experiencia.'
-                                    %>
-                            </p>
                         </div>
                     </div>
 
-                    <div class="border-t border-b border-gray-100 py-10" data-aos="fade-up">
-                        <h4 class="text-center font-bold text-gray-400 uppercase tracking-widest text-xs mb-8">Nuestros
-                            Objetivos Educativos</h4>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="p-3 bg-brand-blue/5 rounded-full text-brand-blue">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                                    </svg>
-                                </div>
-                                <span class="text-sm font-bold text-gray-700">Oratoria y Comunicación</span>
-                            </div>
-
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="p-3 bg-brand-red/5 rounded-full text-brand-red">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                                    </svg>
-                                </div>
-                                <span class="text-sm font-bold text-gray-700">Pensamiento Crítico</span>
-                            </div>
-
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="p-3 bg-brand-yellow/5 rounded-full text-yellow-600">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                </div>
-                                <span class="text-sm font-bold text-gray-700">Trabajo Colaborativo</span>
-                            </div>
-
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="p-3 bg-brand-green/5 rounded-full text-brand-green">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <span class="text-sm font-bold text-gray-700">Visión Global</span>
-                            </div>
-
+                    <div class="border-t border-b border-gray-100 py-10 mb-20" data-aos="fade-up">
+                        <p class="text-center text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 mb-8">Nuestros Objetivos Educativos</p>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-blue-50 text-brand-blue font-bold text-sm border border-blue-100 hover:bg-brand-blue hover:text-white hover:border-brand-blue transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+                                Oratoria y Comunicación
+                            </span>
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-red-50 text-brand-red font-bold text-sm border border-red-100 hover:bg-brand-red hover:text-white hover:border-brand-red transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                                Pensamiento Crítico
+                            </span>
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-yellow-50 text-yellow-600 font-bold text-sm border border-yellow-100 hover:bg-yellow-400 hover:text-white hover:border-yellow-400 transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                Trabajo Colaborativo
+                            </span>
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-green-50 text-brand-green font-bold text-sm border border-green-100 hover:bg-brand-green hover:text-white hover:border-brand-green transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Visión Global
+                            </span>
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-purple-50 text-purple-600 font-bold text-sm border border-purple-100 hover:bg-purple-500 hover:text-white hover:border-purple-500 transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                                Liderazgo
+                            </span>
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-orange-50 text-brand-orange font-bold text-sm border border-orange-100 hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                Empatía
+                            </span>
                         </div>
                     </div>
 
-                    <div class="max-w-7xl mx-auto px-4">
-                        <div class="border-t border-gray-100"></div>
-                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                    <div class="bg-gray-50/50 py-20 mt-12">
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="order-2 lg:order-1" data-aos="fade-right">
+                            <span class="inline-block py-1 px-3 rounded-full bg-brand-red/10 text-brand-red font-bold text-[11px] tracking-widest uppercase mb-5">
+                                Nuestra Sede
+                            </span>
+                            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-6 leading-tight">
+                                Santiago del Estero:<br>
+                                <span class="text-brand-red">Pasión y Compromiso.</span>
+                            </h2>
+                            <div class="space-y-4 text-gray-500 text-base leading-relaxed mb-8">
+                                <p>
+                                    En <strong class="text-gray-800">Uniendo Metas Santiago del Estero</strong>, llevamos adelante
+                                    este programa con una impronta local única. Somos un equipo formado íntegramente por voluntarios:
+                                    estudiantes universitarios y jóvenes profesionales que fueron participantes y decidieron devolver lo aprendido.
+                                </p>
+                                <p>
+                                    Trabajamos todo el año visitando escuelas, brindando capacitaciones gratuitas y diseñando la logística del evento
+                                    para que vivas una experiencia inolvidable. No somos una empresa; somos una familia que cree en el potencial
+                                    de la juventud santiagueña.
+                                </p>
+                            </div>
+                            <a href="/voluntarios" class="inline-flex items-center gap-2 font-bold text-brand-red hover:text-red-700 transition-colors group">
+                                Conocé al equipo organizador
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
 
-                                <div class="order-2 lg:order-1" data-aos="fade-right">
-                                    <span
-                                        class="inline-block py-1 px-3 rounded-full bg-brand-red/10 text-brand-red font-bold text-xs tracking-widest uppercase mb-4">
-                                        Nuestra Sede
-                                    </span>
-                                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6">
-                                        Santiago del Estero: <br>
-                                        <span class="text-brand-red">Pasión y Compromiso.</span>
-                                    </h2>
-
-                                    <div class="prose prose-lg text-gray-500 mb-8 space-y-4">
-                                        <p>
-                                            En <strong>Uniendo Metas Santiago del Estero</strong>, llevamos adelante
-                                            este programa con una impronta local única. Somos un equipo formado
-                                            íntegramente por voluntarios: estudiantes universitarios y jóvenes
-                                            profesionales que fueron participantes y decidieron devolver lo aprendido.
-                                        </p>
-                                        <p>
-                                            Trabajamos todo el año visitando escuelas, brindando capacitaciones
-                                            gratuitas y diseñando la logística del evento para que vivas una experiencia
-                                            inolvidable. No somos una empresa; somos una familia que cree en el
-                                            potencial de la juventud santiagueña.
-                                        </p>
+                        <div class="relative order-1 lg:order-2" data-aos="fade-left">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="space-y-3">
+                                    <div class="overflow-hidden rounded-2xl shadow-md">
+                                        <img src="<%= settings.index_sde_1 || '/img/autoridades/foto4.jpg' %>"
+                                             onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80'"
+                                             class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500"
+                                             alt="Equipo Santiago">
                                     </div>
-
-                                    <a href="/voluntarios"
-                                        class="inline-flex items-center text-brand-red font-bold hover:text-red-700 transition-colors">
-                                        Conocé al equipo organizador
-                                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
-                                </div>
-
-                                <div class="relative order-1 lg:order-2" data-aos="fade-left">
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="space-y-4">
-                                            <img src="<%= settings.index_sde_1 || '/img/autoridades/foto4.jpg' %>"
-                                                onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80'"
-                                                class="rounded-xl shadow-md w-full h-48 object-cover"
-                                                alt="Equipo Santiago">
-                                            <img src="<%= settings.index_sde_2 || '/img/autoridades/foto2.jpg' %>"
-                                                onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80'"
-                                                class="rounded-xl shadow-md w-full h-64 object-cover"
-                                                alt="Staff Santiago">
-                                        </div>
-                                        <div class="space-y-4 pt-8">
-                                            <img src="<%= settings.index_sde_3 || '/img/autoridades/foto1.jpg' %>"
-                                                onerror="this.src='https://images.unsplash.com/photo-1577962917302-cd874c4e3169?auto=format&fit=crop&q=80'"
-                                                class="rounded-xl shadow-md w-full h-64 object-cover" alt="Debate">
-                                            <img src="<%= settings.index_sde_4 || '/img/autoridades/foto3.jpg' %>"
-                                                onerror="this.src='https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80'"
-                                                class="rounded-xl shadow-md w-full h-48 object-cover" alt="Voluntarios">
-                                        </div>
+                                    <div class="overflow-hidden rounded-2xl shadow-md">
+                                        <img src="<%= settings.index_sde_2 || '/img/autoridades/foto2.jpg' %>"
+                                             onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80'"
+                                             class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                                             alt="Staff Santiago">
                                     </div>
                                 </div>
-
+                                <div class="space-y-3 pt-6">
+                                    <div class="overflow-hidden rounded-2xl shadow-md">
+                                        <img src="<%= settings.index_sde_3 || '/img/autoridades/foto1.jpg' %>"
+                                             onerror="this.src='https://images.unsplash.com/photo-1577962917302-cd874c4e3169?auto=format&fit=crop&q=80'"
+                                             class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                                             alt="Debate">
+                                    </div>
+                                    <div class="overflow-hidden rounded-2xl shadow-md">
+                                        <img src="<%= settings.index_sde_4 || '/img/autoridades/foto3.jpg' %>"
+                                             onerror="this.src='https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80'"
+                                             class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500"
+                                             alt="Voluntarios">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-3 flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-brand-green/10 flex items-center justify-center text-brand-green font-black text-sm">XI</div>
+                                <div>
+                                    <p class="text-xs font-black text-gray-900">Edición 2026</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">Santiago del Estero</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-            </section>
-
-
-            <section id="faq" class="py-24 bg-gray-50 border-t border-gray-200">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-                    <div class="text-center mb-16">
-                        <h2 class="text-3xl font-black text-brand-dark uppercase tracking-tight">Preguntas Frecuentes
-                        </h2>
-                        <p class="text-gray-500 mt-2">Todo lo que necesitas saber para sumarte</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-
-                        <div class="space-y-6">
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq1')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">¿Cuándo abre el período de
-                                        inscripciones?</span>
-                                    <svg id="icon-faq1"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq1"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-600 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    Aún no hay fechas definidas para las inscripciones del XI Encuentro Uniendo Metas
-                                    Santiago del Estero. Enterate de todas las novedades siguiendo nuestro Instagram
-                                    oficial:
-                                    <a href="https://instagram.com/umsantiagodelestero" target="_blank"
-                                        class="text-brand-red font-bold hover:underline">@umsantiagodelestero</a>.
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq2')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">¿Cómo sé si mi escuela puede
-                                        participar?</span>
-                                    <svg id="icon-faq2"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq2"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-600 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    Pueden participar del Encuentro cualquier <strong>escuela secundaria</strong> que
-                                    complete todos los pasos de la inscripción, indiferentemente de su tipo de gestión
-                                    (pública, privada, técnica, etc.).
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq3')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">¿Cuáles son los pasos para
-                                        inscribir a una delegación?</span>
-                                    <svg id="icon-faq3"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq3"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-600 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    <p class="mb-2">La inscripción consta de <strong>tres pasos dependientes</strong>:
-                                    </p>
-                                    <ol class="list-decimal list-inside space-y-1 ml-1 font-medium mb-3">
-                                        <li>Inscripción del establecimiento.</li>
-                                        <li>Inscripción del docente referente.</li>
-                                        <li>Inscripción de participantes y adultos acompañantes.</li>
-                                    </ol>
-                                    <p><strong>Importante:</strong> Los participantes no podrán inscribirse si los pasos
-                                        previos no están completos. Para inscribirse, usen el botón <span
-                                            class="text-brand-red font-bold">"Inscribirse"</span> en el menú superior.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq7')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">Soy docente, ¿cómo inscribo a
-                                        mi colegio?</span>
-                                    <svg id="icon-faq7"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq7"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    Debes completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE (Paso
-                                    1 y 2). Si tu institución nunca participó, escribinos a <a
-                                        href="mailto:umsantiago@conciencia.org"
-                                        class="text-brand-blue font-bold">umsantiago@conciencia.org</a>.
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="space-y-6">
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq4')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">¿Tiene algún costo la
-                                        inscripción?</span>
-                                    <svg id="icon-faq4"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq4"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    <span class="font-bold text-brand-green">¡No! La inscripción es 100%
-                                        gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los
-                                    estudiantes que deseen participar.
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq5')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">¿Participo solo o en
-                                        pareja?</span>
-                                    <svg id="icon-faq5"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq5"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    Depende del órgano que elijas:
-                                    <ul class="list-disc list-inside mt-2 space-y-1 ml-2">
-                                        <li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de
-                                            Seguridad.</li>
-                                        <li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                <button
-                                    class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition"
-                                    onclick="toggleFaq('faq6')">
-                                    <span class="font-bold text-gray-800 text-base pr-4">¿Necesito experiencia
-                                        previa?</span>
-                                    <svg id="icon-faq6"
-                                        class="w-5 h-5 text-brand-red transform transition-transform duration-300 flex-shrink-0"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div id="faq6"
-                                    class="hidden px-6 pt-5 pb-6 text-gray-500 text-sm leading-relaxed border-t border-gray-100 bg-gray-50/50">
-                                    ¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo
-                                    necesario. Lo único que necesitas son ganas de aprender y debatir.
-                                </div>
-                            </div>
-
-                        </div>
-
                     </div>
                 </div>
             </section>
 
+            <section id="faq" class="py-24 bg-gray-50 border-t border-gray-100">
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16" data-aos="fade-up">
+                        <span class="text-brand-blue font-black text-[11px] uppercase tracking-[0.2em]">Ayuda</span>
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-3">Preguntas Frecuentes</h2>
+                        <p class="text-gray-500 mt-3 text-lg">Todo lo que necesitás saber para sumarte</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div class="space-y-3" data-aos="fade-up" data-aos-delay="0">
+                            <% [
+                                { id: 'faq1', q: '¿Cuándo abre el período de inscripciones?', a: 'Aún no hay fechas definidas para las inscripciones del XI Encuentro. Enterate de todas las novedades siguiendo nuestro Instagram oficial: <a href="https://instagram.com/umsantiagodelestero" target="_blank" class="text-brand-red font-bold hover:underline">@umsantiagodelestero</a>.' },
+                                { id: 'faq2', q: '¿Cómo sé si mi escuela puede participar?', a: 'Puede participar cualquier <strong>escuela secundaria</strong> que complete todos los pasos de la inscripción, indiferentemente de su tipo de gestión (pública, privada, técnica, etc.).' },
+                                { id: 'faq3', q: '¿Cuáles son los pasos para inscribir a una delegación?', a: 'La inscripción consta de <strong>tres pasos dependientes</strong>:<br><ol class="list-decimal list-inside space-y-1 mt-2 ml-2 font-medium"><li>Inscripción del establecimiento.</li><li>Inscripción del docente referente.</li><li>Inscripción de participantes y adultos acompañantes.</li></ol><br><strong>Importante:</strong> Los participantes no podrán inscribirse si los pasos previos no están completos.' },
+                                { id: 'faq7', q: 'Soy docente, ¿cómo inscribo a mi colegio?', a: 'Debés completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE (Paso 1 y 2). Si tu institución nunca participó, escribinos a <span class="text-brand-blue font-bold">umstgo@conciencia.org</span>.' }
+                            ].forEach((item, index) => { %>
+                            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+                                <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
+                                        onclick="toggleFaq('<%= item.id %>')">
+                                    <span class="font-bold text-gray-800 text-sm leading-snug"><%= item.q %></span>
+                                    <svg id="icon-<%= item.id %>" class="w-4 h-4 text-brand-red flex-shrink-0 transform transition-transform duration-300"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+                                <div id="<%= item.id %>" class="hidden px-6 pb-5 text-gray-500 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                                    <%- item.a %>
+                                </div>
+                            </div>
+                            <% }) %>
+                        </div>
+
+                        <div class="space-y-3" data-aos="fade-up" data-aos-delay="100">
+                            <% [
+                                { id: 'faq4', q: '¿Tiene algún costo la inscripción?', a: '<span class="font-bold text-brand-green">¡No! La inscripción es 100% gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los estudiantes que deseen participar.' },
+                                { id: 'faq5', q: '¿Participo solo o en pareja?', a: 'Depende del órgano que elijas:<ul class="list-disc list-inside mt-2 space-y-1 ml-2"><li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de Seguridad.</li><li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li></ul>' },
+                                { id: 'faq6', q: '¿Necesito experiencia previa?', a: '¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo necesario. Lo único que necesitás son ganas de aprender y debatir.' },
+                                { id: 'faq8', q: '¿Recibo algún certificado?', a: '¡Sí! Al finalizar el modelo, se entrega un <strong>diploma oficial</strong> de participación certificado por Asociación Conciencia y Uniendo Metas, que sirve para tu currículum.' }
+                            ].forEach((item, index) => { %>
+                            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+                                <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
+                                        onclick="toggleFaq('<%= item.id %>')">
+                                    <span class="font-bold text-gray-800 text-sm leading-snug"><%= item.q %></span>
+                                    <svg id="icon-<%= item.id %>" class="w-4 h-4 text-brand-red flex-shrink-0 transform transition-transform duration-300"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+                                <div id="<%= item.id %>" class="hidden px-6 pb-5 text-gray-500 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                                    <%- item.a %>
+                                </div>
+                            </div>
+                            <% }) %>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 text-center" data-aos="fade-up">
+                        <p class="text-gray-500 mb-4">¿Tenés otra pregunta?</p>
+                        <a href="https://instagram.com/umsantiagodelestero" target="_blank"
+                           class="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-7 py-3.5 rounded-full hover:bg-brand-red transition-colors duration-300 shadow-md text-sm">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                            Escribinos en Instagram
+                        </a>
+                    </div>
+
+                </div>
+            </section>
 
             <%- include('./partials/footer') %>
 
-                <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-                <script>
-                    // INIT AOS
-                    AOS.init({ once: true, offset: 50, duration: 800 });
+            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script>
+            AOS.init({ once: true, offset: 60, duration: 700, easing: 'ease-out-quart' });
 
-                    // COUNTERS LOGIC
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const counters = document.querySelectorAll('.counter-animate');
-                        if (counters.length > 0) {
-                            const animateCounters = () => {
-                                counters.forEach(counter => {
-                                    const target = +counter.getAttribute('data-target');
-                                    const duration = 2000;
-                                    const increment = target / (duration / 16);
-
-                                    let current = 0;
-                                    const updateCount = () => {
-                                        current += increment;
-                                        if (current < target) {
-                                            counter.innerText = Math.ceil(current);
-                                            requestAnimationFrame(updateCount);
-                                        } else {
-                                            counter.innerText = target;
-                                        }
-                                    };
-                                    updateCount();
-                                });
-                            };
-
-                            const observer = new IntersectionObserver((entries) => {
-                                entries.forEach(entry => {
-                                    if (entry.isIntersecting) {
-                                        animateCounters();
-                                        observer.disconnect();
-                                    }
-                                });
-                            }, { threshold: 0.5 });
-
-                            observer.observe(counters[0].closest('div'));
-                        }
-
-                        // COUNTDOWN LOGIC
-                        const countdownContainer = document.getElementById('countdown-container');
-                        if (countdownContainer) {
-                            const eventDateStr = countdownContainer.getAttribute('data-date');
-                            if (eventDateStr) {
-                                const eventDate = new Date(eventDateStr).getTime();
-
-                                const updateCountdown = () => {
-                                    const now = new Date().getTime();
-                                    const distance = eventDate - now;
-
-                                    if (distance < 0) {
-                                        // Event passed
-                                        document.getElementById('cd-months').innerText = "00";
-                                        document.getElementById('cd-days').innerText = "00";
-                                        document.getElementById('cd-hours').innerText = "00";
-                                        return;
-                                    }
-
-                                    // Time calculations
-                                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-                                    // Approximation for months (simplified)
-                                    const months = Math.floor(days / 30);
-                                    const remainingDays = days % 30;
-
-                                    document.getElementById('cd-months').innerText = months < 10 ? "0" + months : months;
-                                    document.getElementById('cd-days').innerText = remainingDays < 10 ? "0" + remainingDays : remainingDays;
-                                    document.getElementById('cd-hours').innerText = hours < 10 ? "0" + hours : hours;
-                                };
-
-                                setInterval(updateCountdown, 1000);
-                                updateCountdown();
-                            }
-                        }
-
-                        // MOBILE MENU (Logic handled in navbar.ejs)
-                        // Removed duplicate script to prevent toggle conflict
+            document.addEventListener('DOMContentLoaded', () => {
+                const counters = document.querySelectorAll('.counter-animate');
+                if (!counters.length) return;
+                const animateCounters = () => {
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const increment = target / 60;
+                        let current = 0;
+                        const tick = () => {
+                            current = Math.min(current + increment, target);
+                            counter.textContent = Math.ceil(current);
+                            if (current < target) requestAnimationFrame(tick);
+                        };
+                        tick();
                     });
+                };
+                const observer = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) { animateCounters(); observer.disconnect(); }
+                }, { threshold: 0.4 });
+                observer.observe(counters[0].closest('div'));
+            });
 
-                    // MODAL LOGIC
-                    function openModal(modalId) {
-                        const modal = document.getElementById(modalId);
-                        const backdrop = document.getElementById('modal-backdrop');
-                        const panel = document.getElementById('modal-panel');
-                        if (modal) {
-                            modal.classList.remove('hidden');
-                            document.body.style.overflow = 'hidden';
-                            setTimeout(() => {
-                                backdrop.classList.replace('opacity-0', 'opacity-100');
-                                panel.classList.remove('opacity-0', 'scale-90');
-                            }, 10);
-                        }
-                    }
+            const countdownEl = document.getElementById('countdown-container');
+            if (countdownEl) {
+                const dateStr = countdownEl.getAttribute('data-date');
+                if (dateStr) {
+                    const eventDate = new Date(dateStr).getTime();
+                    const update = () => {
+                        const diff = eventDate - Date.now();
+                        if (diff < 0) { ['cd-months','cd-days','cd-hours'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '00'; }); return; }
+                        const days = Math.floor(diff / 86400000);
+                        const hours = Math.floor((diff % 86400000) / 3600000);
+                        const months = Math.floor(days / 30);
+                        const remDays = days % 30;
+                        const fmt = n => String(n).padStart(2, '0');
+                        const mEl = document.getElementById('cd-months');
+                        const dEl = document.getElementById('cd-days');
+                        const hEl = document.getElementById('cd-hours');
+                        if (mEl) mEl.textContent = fmt(months);
+                        if (dEl) dEl.textContent = fmt(remDays);
+                        if (hEl) hEl.textContent = fmt(hours);
+                    };
+                    setInterval(update, 1000);
+                    update();
+                }
+            }
 
-                    function closeModal(modalId) {
-                        const modal = document.getElementById(modalId);
-                        const backdrop = document.getElementById('modal-backdrop');
-                        const panel = document.getElementById('modal-panel');
-                        if (modal) {
-                            backdrop.classList.replace('opacity-100', 'opacity-0');
-                            panel.classList.add('opacity-0', 'scale-90');
-                            setTimeout(() => {
-                                modal.classList.add('hidden');
-                                document.body.style.overflow = 'auto';
-                            }, 300);
-                        }
-                    }
+            function toggleFaq(id) {
+                const content = document.getElementById(id);
+                const icon = document.getElementById('icon-' + id);
+                if (!content) return;
+                const isHidden = content.classList.contains('hidden');
+                document.querySelectorAll('[id^="faq"]').forEach(el => { if (el.tagName !== 'SECTION') el.classList.add('hidden'); });
+                document.querySelectorAll('[id^="icon-faq"]').forEach(el => { el.classList.remove('rotate-180'); });
+                if (isHidden) { content.classList.remove('hidden'); icon.classList.add('rotate-180'); }
+            }
+            </script>
 
-                    // FAQ LOGIC
-                    function toggleFaq(id) {
-                        const content = document.getElementById(id);
-                        const icon = document.getElementById('icon-' + id);
-                        if (content) {
-                            content.classList.toggle('hidden');
-                            if (icon) icon.classList.toggle('rotate-180');
-                        }
-                    }
-                </script>
     </body>
-
 </html>
