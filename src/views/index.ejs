@@ -171,35 +171,21 @@
                                 <span class="font-bold text-brand-blue">¿Estás listo para cuando se revele?</span>
                             </p>
 
-                            <% if (settings.mostrar_fecha_modelo==='true' ) { %>
                                 <div class="flex flex-wrap justify-center lg:justify-start gap-4"
-                                    id="countdown-container" data-date="<%= settings.proxima_edicion_fecha || '' %>">
-                                    <div
-                                        class="flex flex-col items-center bg-white rounded-2xl p-4 w-24 shadow-md border border-gray-100 transform hover:-translate-y-1 transition duration-300">
+                                    id="countdown-container" data-date="<%= settings.mostrar_fecha_modelo === 'true' ? (settings.proxima_edicion_fecha || '') : '' %>">
+                                    <div class="flex flex-col items-center bg-white rounded-2xl p-4 w-24 shadow-md border border-gray-100 transform hover:-translate-y-1 transition duration-300">
                                         <span class="text-4xl font-black text-gray-300" id="cd-months">??</span>
-                                        <span
-                                            class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1">Meses</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1">Meses</span>
                                     </div>
-                                    <div
-                                        class="flex flex-col items-center bg-white rounded-2xl p-4 w-24 shadow-md border border-gray-100 transform hover:-translate-y-1 transition duration-300">
+                                    <div class="flex flex-col items-center bg-white rounded-2xl p-4 w-24 shadow-md border border-gray-100 transform hover:-translate-y-1 transition duration-300">
                                         <span class="text-4xl font-black text-gray-300" id="cd-days">??</span>
-                                        <span
-                                            class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1">Días</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1">Días</span>
                                     </div>
-                                    <div
-                                        class="flex flex-col items-center bg-white rounded-2xl p-4 w-24 shadow-md border border-gray-100 transform hover:-translate-y-1 transition duration-300">
+                                    <div class="flex flex-col items-center bg-white rounded-2xl p-4 w-24 shadow-md border border-gray-100 transform hover:-translate-y-1 transition duration-300">
                                         <span class="text-4xl font-black text-gray-300" id="cd-hours">??</span>
-                                        <span
-                                            class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1">Horas</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1">Horas</span>
                                     </div>
                                 </div>
-                                <% } else { %>
-                                    <div
-                                        class="bg-brand-blue/5 rounded-2xl p-6 border border-brand-blue/10 inline-block text-left">
-                                        <p class="text-brand-dark font-bold text-lg mb-1">📅 Fecha a Confirmar</p>
-                                        <p class="text-sm text-gray-500">Estamos ultimando detalles logísticos.</p>
-                                    </div>
-                                    <% } %>
 
                                         <p class="mt-4 text-xs text-gray-400 font-medium uppercase tracking-wide">
                                             Atentos a las redes de Prensa
@@ -424,7 +410,7 @@
                                 { id: 'faq1', q: '¿Cuándo abre el período de inscripciones?', a: 'Aún no hay fechas definidas para las inscripciones del XI Encuentro. Enterate de todas las novedades siguiendo nuestro Instagram oficial: <a href="https://instagram.com/umsantiagodelestero" target="_blank" class="text-brand-red font-bold hover:underline">@umsantiagodelestero</a>.' },
                                 { id: 'faq2', q: '¿Cómo sé si mi escuela puede participar?', a: 'Puede participar cualquier <strong>escuela secundaria</strong> que complete todos los pasos de la inscripción, indiferentemente de su tipo de gestión (pública, privada, técnica, etc.).' },
                                 { id: 'faq3', q: '¿Cuáles son los pasos para inscribir a una delegación?', a: 'La inscripción consta de <strong>tres pasos dependientes</strong>:<br><ol class="list-decimal list-inside space-y-1 mt-2 ml-2 font-medium"><li>Inscripción del establecimiento.</li><li>Inscripción del docente referente.</li><li>Inscripción de participantes y adultos acompañantes.</li></ol><br><strong>Importante:</strong> Los participantes no podrán inscribirse si los pasos previos no están completos.' },
-                                { id: 'faq7', q: 'Soy docente, ¿cómo inscribo a mi colegio?', a: 'Debés completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE (Paso 1 y 2). Si tu institución nunca participó, escribinos a <span class="text-brand-blue font-bold">umstgo@conciencia.org</span>.' }
+                                { id: 'faq7', q: 'Soy docente, ¿cómo inscribo a mi colegio?', a: 'Debés completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE (Paso 1 y 2). Si tu institución nunca participó, escribinos a <span class="text-brand-blue font-bold"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b3c6dec0c7d4dcf3d0dcddd0dad6ddd0dad29ddcc1d4">[email&#160;protected]</a></span>.' }
                             ].forEach((item, index) => { %>
                             <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
                                 <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
@@ -480,7 +466,7 @@
 
             <%- include('./partials/footer') %>
 
-            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
             <script>
             AOS.init({ once: true, offset: 60, duration: 700, easing: 'ease-out-quart' });
 
@@ -510,7 +496,7 @@
             if (countdownEl) {
                 const dateStr = countdownEl.getAttribute('data-date');
                 if (dateStr) {
-                    const eventDate = new Date(eventDateStr.replace(' ', 'T')).getTime();
+                    const eventDate = new Date(dateStr.replace(' ', 'T')).getTime();
                     const update = () => {
                         const diff = eventDate - Date.now();
                         if (diff < 0) { ['cd-months','cd-days','cd-hours'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '00'; }); return; }

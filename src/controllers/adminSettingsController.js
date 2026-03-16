@@ -4,11 +4,11 @@ const controller = {
     index: async (req, res) => {
         try {
             const defaults = [
-                { key: 'proxima_edicion_fecha', label: 'Fecha Próxima Edición (YYYY-MM-DD HH:mm)', type: 'datetime-local', value: '2026-10-15T18:00' },
+                { key: 'proxima_edicion_fecha', label: 'Fecha Próxima Edición', type: 'datetime-local', value: '2026-10-15T18:00' },
                 { key: 'link_fotos', label: 'Link Galería de Fotos (OneDrive)', type: 'url', value: '#' },
                 { key: 'link_instagram', label: 'Link Instagram', type: 'url', value: 'https://instagram.com/umsantiagodelestero' },
                 { key: 'link_inscripcion_general', label: 'Link Inscripción General', type: 'url', value: '#' },
-                { key: 'mostrar_fecha_modelo', label: 'Mostrar Cuenta Regresiva del Modelo', type: 'checkbox', value: 'false' },
+                { key: 'mostrar_fecha_modelo', label: 'Mostrar Contador (activado = muestra ??, desactivado = Fecha a Confirmar)', type: 'checkbox', value: 'false' },
                 { key: 'link_autoridades_sumarme', label: 'Autoridades - Botón "Quiero Sumarme"', type: 'url', value: '#' },
                 { key: 'link_autoridades_fotos', label: 'Autoridades - Botón "Ver Fotos Edición Anterior"', type: 'url', value: '#' },
                 { key: 'link_voluntarios_sumate', label: 'Voluntarios - Botón "Sumate al Equipo"', type: 'url', value: '#' },
@@ -56,9 +56,12 @@ const controller = {
                 }
             });
 
-            // Leer mensaje flash de la sesión si existe
-            const flash = req.session.flash || null;
-            delete req.session.flash;
+            // Flash via query param — no depende de sesión
+            const flash = req.query.saved === '1'
+                ? { type: 'success', message: 'Todos los cambios fueron guardados correctamente.' }
+                : req.query.saved === '0'
+                ? { type: 'error', message: 'Hubo un error al guardar. Revisá los datos e intentá de nuevo.' }
+                : null;
 
             res.render('admin/settings/index', {
                 title: 'Configuración General',
@@ -67,8 +70,8 @@ const controller = {
                 flash
             });
         } catch (error) {
-            console.error('❌ Error al cargar configuración:', error);
-            res.status(500).send('Error al cargar configuración: ' + error.message);
+            console.error('Error al cargar configuración:', error);
+            res.status(500).render('500', { title: 'Error del Servidor' });
         }
     },
 
@@ -76,41 +79,32 @@ const controller = {
         try {
             const body = req.body;
 
-            // ─── FIX CHECKBOX ───────────────────────────────────────────
-            // Cuando hay un hidden + checkbox con el mismo name, el body
-            // recibe un array ['false', 'true'] si está marcado, o solo
-            // 'false' si no. Necesitamos normalizar esto.
-            const normalizedBody = {};
             for (const key of Object.keys(body)) {
-                const val = body[key];
-                if (Array.isArray(val)) {
-                    // ['false','true'] → 'true' | ['false','false'] → 'false'
-                    normalizedBody[key] = val.includes('true') ? 'true' : 'false';
-                } else {
-                    normalizedBody[key] = val;
+                let value = body[key];
+
+                // FIX CHECKBOX: browser manda ['false','true'] si marcado,
+                // o solo 'false' si desmarcado
+                if (Array.isArray(value)) {
+                    value = value.includes('true') ? 'true' : 'false';
                 }
-            }
 
-            // ─── FIX FECHA ──────────────────────────────────────────────
-            // datetime-local manda '2026-10-15T18:00', el countdown del
-            // index espera '2026-10-15 18:00' (con espacio, no T)
-            if (normalizedBody['proxima_edicion_fecha']) {
-                normalizedBody['proxima_edicion_fecha'] = normalizedBody['proxima_edicion_fecha'].replace('T', ' ');
-            }
+                // FIX FECHA: datetime-local manda 'YYYY-MM-DDTHH:mm'
+                // el countdown del index espera 'YYYY-MM-DD HH:mm'
+                if (key === 'proxima_edicion_fecha' && typeof value === 'string') {
+                    value = value.replace('T', ' ');
+                }
 
-            // ─── GUARDAR CAMPOS DE TEXTO / URL / CHECKBOX ───────────────
-            for (const key of Object.keys(normalizedBody)) {
-                const value = normalizedBody[key];
                 const [setting, created] = await Setting.findOrCreate({
                     where: { key },
                     defaults: { key, value, type: 'text' }
                 });
+
                 if (!created) {
                     await setting.update({ value });
                 }
             }
 
-            // ─── GUARDAR IMÁGENES ────────────────────────────────────────
+            // Guardar imágenes si las hay
             if (req.files && req.files.length > 0) {
                 for (const file of req.files) {
                     const key   = file.fieldname;
@@ -125,14 +119,11 @@ const controller = {
                 }
             }
 
-            // Flash de éxito
-            req.session.flash = { type: 'success', message: 'Configuración guardada correctamente.' };
-            res.redirect('/admin/configuracion');
+            res.redirect('/admin/configuracion?saved=1');
 
         } catch (error) {
-            console.error('❌ Error al guardar configuración:', error);
-            req.session.flash = { type: 'error', message: 'No se pudo guardar: ' + error.message };
-            res.redirect('/admin/configuracion');
+            console.error('Error al guardar configuración:', error);
+            res.redirect('/admin/configuracion?saved=0');
         }
     }
 };
