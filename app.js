@@ -94,13 +94,10 @@ async function initializeDatabase() {
 // Inicializar base de datos
 initializeDatabase();
 
-// Para desarrollo local
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-        console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-        console.log(`🚀 Presiona Ctrl + C para detenerlo`);
-    });
-}
+// Iniciar el servidor
+app.listen(PORT, () => {
+    console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Presiona Ctrl + C para detenerlo`);
+});
 
-// Exportar para Vercel (serverless)
 module.exports = app;
