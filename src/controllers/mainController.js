@@ -130,9 +130,18 @@ const controller = {
     },
 
     autoridades: async (req, res) => {
-        // Placeholder para autoridades si existe la vista
-        res.render('autoridades', { title: 'Autoridades' });
+    try {
+        const settingsArray = await Setting.findAll();
+        const settings = {};
+        settingsArray.forEach(s => { settings[s.key] = s.value; });
+        res.render('autoridades', {
+            title: 'Autoridades | Uniendo Metas',
+            settings
+        });
+    } catch (error) {
+        res.render('autoridades', { title: 'Autoridades | Uniendo Metas', settings: {} });
     }
+},
 };
 
 module.exports = controller;

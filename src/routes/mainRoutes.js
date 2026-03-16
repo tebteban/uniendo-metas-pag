@@ -8,11 +8,7 @@ const mainController = require('../controllers/mainController');
 router.get('/', mainController.index);
 
 // Ruta Autoridades
-router.get('/autoridades', (req, res) => {
-    res.render('autoridades', {
-        title: 'Autoridades | Uniendo Metas'
-    });
-});
+router.get('/autoridades', mainController.autoridades);
 
 // Ruta Voluntarios
 router.get('/voluntarios', mainController.voluntarios);
