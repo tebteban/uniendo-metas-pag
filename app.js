@@ -1,6 +1,9 @@
+// Cargar variables de entorno
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
-const session = require('express-session'); // NEW
+const session = require('express-session');
 
 const app = express();
 
@@ -16,10 +19,13 @@ app.use(express.json()); // Para procesar JSON
 
 // Configuración de Sesión
 app.use(session({
-    secret: 'uniendo-metas-sde-secret-key-2026', // Cambiar esto en producción
+    secret: process.env.SESSION_SECRET || 'uniendo-metas-sde-secret-key-2026',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Establecer a true si se usa HTTPS
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // true en producción con HTTPS
+        maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    }
 }));
 
 // 2. Configuración del Motor de Plantillas (EJS)
@@ -66,14 +72,15 @@ async function initializeDatabase() {
         console.log('✅ Base de datos sincronizada');
 
         // Verificar si ya hay un usuario admin
-        const adminExists = await User.findOne({ where: { username: 'admin' } });
+        const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+        const adminExists = await User.findOne({ where: { username: adminUsername } });
         if (!adminExists) {
             await User.create({
-                username: 'admin',
-                password: 'admin123',
+                username: adminUsername,
+                password: process.env.ADMIN_PASSWORD || 'admin123',
                 role: 'admin'
             });
-            console.log('✅ Usuario admin creado');
+            console.log(`✅ Usuario admin creado: ${adminUsername}`);
         }
     } catch (error) {
         console.error('❌ Error inicializando base de datos:', error);

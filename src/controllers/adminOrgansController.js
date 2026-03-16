@@ -50,7 +50,7 @@ const controller = {
                 if (req.files.reglamento && req.files.reglamento.length > 0) {
                     dataToUpdate.link_reglamento = '/uploads/documents/' + req.files.reglamento[0].filename;
                 }
-                
+
                 // 2. Dinámicas
                 if (req.files.archivo_dinamicas && req.files.archivo_dinamicas.length > 0) {
                     dataToUpdate.link_dinamicas = '/uploads/documents/' + req.files.archivo_dinamicas[0].filename;
