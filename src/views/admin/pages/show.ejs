@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> — Admin</title>
+    
+    <!-- Quill.js WYSIWYG Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -129,6 +134,64 @@
         }
         input[type="file"]::-webkit-file-upload-button:hover {
             background: #E2E8F0;
+        }
+
+        /* Quill Editor Customization */
+        .quill-wrapper {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+        }
+        .ql-toolbar {
+            background: #F9FAFB;
+            border: none !important;
+            border-bottom: 1px solid #E5E7EB !important;
+            border-radius: 12px 12px 0 0;
+            padding: 12px;
+        }
+        .ql-container {
+            border: none !important;
+            background: #F9FAFB;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            border-radius: 0 0 12px 12px;
+        }
+        .ql-editor {
+            min-height: 100px;
+            padding: 16px;
+            color: #334155;
+            font-weight: 500;
+        }
+        .ql-editor.ql-blank::before {
+            color: #94A3B8;
+            font-style: normal;
+            font-weight: 400;
+        }
+        .ql-snow .ql-stroke {
+            stroke: #64748B;
+        }
+        .ql-snow .ql-fill {
+            fill: #64748B;
+        }
+        .ql-snow .ql-picker-label {
+            color: #64748B;
+        }
+        .ql-toolbar button:hover,
+        .ql-toolbar button.ql-active {
+            color: #61B4E4 !important;
+        }
+        .ql-toolbar button:hover .ql-stroke,
+        .ql-toolbar button.ql-active .ql-stroke {
+            stroke: #61B4E4 !important;
+        }
+        .ql-toolbar button:hover .ql-fill,
+        .ql-toolbar button.ql-active .ql-fill {
+            fill: #61B4E4 !important;
+        }
+        
+        /* Hide original textarea when Quill is active */
+        textarea.quill-hidden {
+            display: none;
         }
     </style>
 </head>
@@ -1505,6 +1568,107 @@ function submitCrudDiv(divId) {
     document.body.appendChild(tmpForm);
     tmpForm.submit();
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// QUILL.JS - WYSIWYG EDITOR INITIALIZATION
+// ═══════════════════════════════════════════════════════════════════
+
+const quillEditors = new Map();
+
+function initQuillEditors() {
+    // Find all textareas
+    document.querySelectorAll('textarea').forEach(textarea => {
+        // Skip if already initialized
+        if (textarea.classList.contains('quill-hidden')) return;
+        
+        // Skip file input textareas or very small ones
+        if (textarea.rows === 1 || textarea.classList.contains('no-quill')) return;
+        
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'quill-wrapper';
+        
+        // Create editor div
+        const editorDiv = document.createElement('div');
+        editorDiv.innerHTML = textarea.value || '';
+        wrapper.appendChild(editorDiv);
+        
+        // Insert wrapper before textarea
+        textarea.parentNode.insertBefore(wrapper, textarea);
+        
+        // Hide original textarea
+        textarea.classList.add('quill-hidden');
+        
+        // Initialize Quill
+        const quill = new Quill(editorDiv, {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'align': [] }],
+                    ['link'],
+                    ['clean']
+                ]
+            },
+            placeholder: textarea.placeholder || 'Escribí tu contenido aquí...'
+        });
+        
+        // Store Quill instance
+        quillEditors.set(textarea, quill);
+        
+        // Sync changes back to textarea
+        quill.on('text-change', function() {
+            textarea.value = quill.root.innerHTML;
+            
+            // Trigger dirty field detection if function exists
+            if (typeof markDirty === 'function') {
+                const fieldId = textarea.closest('[id]')?.id;
+                const sectionId = textarea.closest('[data-section]')?.dataset.section;
+                if (fieldId && sectionId) {
+                    markDirty(fieldId, sectionId);
+                }
+            }
+        });
+        
+        // Handle oninput if exists
+        if (textarea.hasAttribute('oninput')) {
+            quill.on('text-change', function() {
+                const onInputAttr = textarea.getAttribute('oninput');
+                try {
+                    eval(onInputAttr);
+                } catch (e) {
+                    console.error('Error executing oninput:', e);
+                }
+            });
+        }
+    });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initQuillEditors);
+
+// Re-initialize when dynamic content is added (for FAQ, sponsors, etc.)
+const originalAddSponsor = window.addSponsor;
+if (typeof originalAddSponsor === 'function') {
+    window.addSponsor = function() {
+        originalAddSponsor();
+        setTimeout(initQuillEditors, 100);
+    };
+}
+
+const originalAddExtraFaq = window.addExtraFaq;
+if (typeof originalAddExtraFaq === 'function') {
+    window.addExtraFaq = function() {
+        originalAddExtraFaq();
+        setTimeout(initQuillEditors, 100);
+    };
+}
+
 </script>
 
 </body>
