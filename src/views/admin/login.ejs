@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,93 +8,163 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; }
-        .input-icon-wrapper:focus-within svg { color: #2563eb; }
-        .input-icon-wrapper:focus-within { border-color: #2563eb; ring: 2px; }
+
+        .photo-panel {
+            background-image: url('/img/site/1769181257794-708780063.jpeg');
+            background-size: cover;
+            background-position: center 35%;
+        }
+
+        .photo-overlay {
+            background: linear-gradient(
+                to bottom,
+                rgba(10, 15, 30, 0.45) 0%,
+                rgba(10, 15, 30, 0.30) 40%,
+                rgba(10, 15, 30, 0.75) 100%
+            );
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #61B4E4;
+            box-shadow: 0 0 0 3px rgba(97,180,228,0.15);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            transition: all 0.25s ease;
+        }
+        .btn-login:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(37,99,235,0.25);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.5s ease forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
     </style>
 </head>
+<body class="bg-slate-100 min-h-screen flex">
 
-<body class="bg-white min-h-screen flex">
+    <!-- Panel izquierdo — Foto -->
+    <div class="hidden lg:flex lg:w-1/2 photo-panel relative overflow-hidden">
+        <div class="photo-overlay absolute inset-0"></div>
 
-    <div class="hidden lg:flex lg:w-1/2 bg-[#0f172a] relative overflow-hidden flex-col justify-between p-16 text-white">
-        
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#61B4E4]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#A02140]/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
-        <div class="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-[#73A950]/10 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2"></div>
-
-        <div class="relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-6">
-                Gestión 2026
+        <!-- Contenido encima de la foto -->
+        <div class="relative z-10 flex flex-col justify-between w-full p-12">
+            <!-- Logo / Marca -->
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm text-xs font-black text-white/80 uppercase tracking-widest">
+                    Panel Admin · 2026
+                </div>
             </div>
-            <h2 class="text-5xl font-black leading-tight mb-6">Administración <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#61B4E4] to-[#A02140]">Uniendo Metas</span></h2>
-            <p class="text-slate-400 text-lg max-w-md leading-relaxed">
-                Bienvenido al panel de control central. Gestiona órganos, inscripciones, equipo y contenidos desde un solo lugar seguro.
-            </p>
-        </div>
 
-        <div class="relative z-10 text-sm text-slate-500 font-medium">
-            © 2026 Asociación Conciencia - Sede Santiago del Estero
+            <!-- Texto inferior -->
+            <div>
+                <h1 class="text-5xl font-black text-white leading-tight mb-4">
+                    Uniendo<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#61B4E4] to-[#73A950]">Metas</span>
+                </h1>
+                <p class="text-white/60 text-sm font-medium max-w-xs leading-relaxed">
+                    Santiago del Estero · Asociación Conciencia
+                </p>
+                <div class="mt-6 flex items-center gap-2">
+                    <div class="w-6 h-0.5 bg-white/30 rounded-full"></div>
+                    <div class="w-3 h-0.5 bg-white/20 rounded-full"></div>
+                    <div class="w-1.5 h-0.5 bg-white/10 rounded-full"></div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Panel derecho — Formulario -->
     <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 bg-white">
-        
-        <div class="w-full max-w-md space-y-8">
-            
-            <div class="text-center">
-                <div class="inline-block p-3 rounded-2xl bg-blue-50 text-blue-600 mb-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+
+        <div class="w-full max-w-md">
+
+            <!-- Header del form -->
+            <div class="mb-10 fade-up delay-1">
+                <div class="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center mb-5 shadow-lg shadow-slate-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
                 </div>
                 <h2 class="text-3xl font-black text-slate-900">Iniciar Sesión</h2>
-                <p class="text-gray-500 mt-2">Accede con tus credenciales de administrador.</p>
+                <p class="text-gray-400 mt-1.5 text-sm font-medium">Ingresá con tus credenciales de administrador.</p>
             </div>
 
+            <!-- Error -->
             <% if (error) { %>
-                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg flex items-start gap-3 animate-pulse">
-                    <svg class="w-5 h-5 text-red-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <div>
-                        <h3 class="text-sm font-bold text-red-800">Error de acceso</h3>
-                        <p class="text-sm text-red-600 mt-1"><%= error %></p>
-                    </div>
+            <div class="mb-6 flex items-start gap-3 px-4 py-3.5 rounded-xl bg-red-50 border border-red-100 fade-up delay-1">
+                <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                    <p class="text-xs font-black text-red-700 uppercase tracking-wider">Acceso denegado</p>
+                    <p class="text-sm text-red-600 mt-0.5"><%= error %></p>
                 </div>
+            </div>
             <% } %>
 
-            <form action="/admin/login" method="POST" class="space-y-6">
-                
-                <div class="space-y-2">
-                    <label for="username" class="text-sm font-bold text-slate-700 ml-1">Usuario</label>
-                    <div class="input-icon-wrapper relative flex items-center border border-gray-300 rounded-xl bg-gray-50/50 transition-all duration-300 hover:border-blue-300">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        <input type="text" id="username" name="username" required 
-                            class="w-full pl-12 pr-4 py-3.5 bg-transparent border-none focus:ring-0 text-slate-900 placeholder-gray-400 font-medium rounded-xl"
-                            placeholder="Ej: admin_general">
+            <!-- Form -->
+            <form action="/admin/login" method="POST" class="space-y-5">
+
+                <div class="fade-up delay-2">
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Usuario</label>
+                    <div class="relative">
+                        <svg class="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        <input type="text" name="username" required autocomplete="username"
+                               placeholder="Tu usuario"
+                               class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-800 transition-all placeholder-gray-300">
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <label for="password" class="text-sm font-bold text-slate-700 ml-1">Contraseña</label>
-                    <div class="input-icon-wrapper relative flex items-center border border-gray-300 rounded-xl bg-gray-50/50 transition-all duration-300 hover:border-blue-300">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                        <input type="password" id="password" name="password" required 
-                            class="w-full pl-12 pr-4 py-3.5 bg-transparent border-none focus:ring-0 text-slate-900 placeholder-gray-400 font-medium rounded-xl"
-                            placeholder="••••••••••••">
+                <div class="fade-up delay-3">
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Contraseña</label>
+                    <div class="relative">
+                        <svg class="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        <input type="password" name="password" required autocomplete="current-password"
+                               placeholder="••••••••"
+                               class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-800 transition-all placeholder-gray-300">
                     </div>
                 </div>
 
-                <button type="submit" 
-                    class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-slate-200 hover:shadow-blue-200">
-                    Ingresar al Panel
-                </button>
+                <div class="fade-up delay-4 pt-2">
+                    <button type="submit" class="btn-login w-full text-white font-bold py-4 rounded-xl text-sm shadow-lg">
+                        Ingresar al Panel
+                    </button>
+                </div>
 
             </form>
 
-            <div class="pt-6 text-center">
-                <a href="/" class="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-slate-800 transition-colors group">
-                    <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            <!-- Volver -->
+            <div class="mt-8 text-center fade-up delay-4">
+                <a href="/" class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-slate-700 transition-colors group">
+                    <svg class="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
                     Volver al sitio web
                 </a>
             </div>
 
         </div>
+
+        <!-- Copyright -->
+        <p class="absolute bottom-6 text-[11px] text-gray-300 font-medium">
+            © 2026 Asociación Conciencia · Santiago del Estero
+        </p>
+
     </div>
 
 </body>
