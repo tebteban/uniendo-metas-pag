@@ -144,6 +144,27 @@ const controller = {
             if (docente)         { dataObj.docente = docente; dataObj.normalized_teacher = docente; }
             if (cantidad_alumnos) dataObj.cantidad_alumnos = cantidad_alumnos;
 
+            // Para colegios: si ya existe el mismo nombre, agregar docente extra en vez de duplicar
+            if (type === 'escuela' && name) {
+                const existing = await Inscription.findOne({
+                    where: { type, name: name.trim() }
+                });
+                if (existing) {
+                    const existingData = JSON.parse(JSON.stringify(existing.data || {}));
+                    // Agregar docente extra numerado
+                    const docenteCount = Object.keys(existingData).filter(k => k.startsWith('docente')).length;
+                    if (dataObj.docente) {
+                        existingData[`docente_${docenteCount + 1}`] = dataObj.docente;
+                        if (dataObj.normalized_teacher) existingData[`docente_${docenteCount + 1}_normalized`] = dataObj.docente;
+                    }
+                    if (dataObj.telefono) existingData[`telefono_docente_${docenteCount + 1}`] = dataObj.telefono;
+                    existing.data = existingData;
+                    existing.changed('data', true);
+                    await existing.save();
+                    return res.redirect(`/admin/inscripciones/${type}?msg=created`);
+                }
+            }
+
             await Inscription.create({
                 type,
                 name: name.trim(),
