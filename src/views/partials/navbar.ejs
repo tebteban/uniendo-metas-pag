@@ -6,12 +6,11 @@
             <div class="flex-shrink-0 flex items-center">
                 <a href="/" class="group flex items-center gap-3">
                     <img class="h-10 w-auto transition-transform duration-300 ease-in-out group-hover:scale-110"
-                        src="/img/logo-um.png" alt="Uniendo Metas">
+                        src="<%= settings.nav_logo || '/img/logo-um.png' %>" alt="Uniendo Metas">
                     <div class="flex flex-col">
-                        <span class="text-2xl font-black leading-none tracking-tighter text-gray-700">UNIENDO <span
-                                class="text-brand-red">METAS</span></span>
-                        <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">SANTIAGO DEL
-                            ESTERO</span>
+                        <span class="text-2xl font-black leading-none tracking-tighter text-gray-700"><%= settings.nav_brand_main || "UNIENDO" %> <span
+                                class="text-brand-red"><%= settings.nav_brand_highlight || "METAS" %></span></span>
+                        <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase"><%= settings.nav_brand_subtitle || "SANTIAGO DEL ESTERO" %></span>
                     </div>
                 </a>
             </div>
@@ -29,8 +28,10 @@
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Nosotros</a>
                 <a href="/participacion"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Participación</a>
+                <% if (settings.nav_show_button === 'true') { %>
                 <a href="<%= settings.link_inscripcion_general || '#' %>"
-                    class="ml-2 px-6 py-2.5 bg-brand-red text-white font-bold rounded-full shadow-lg hover:bg-red-700 transition-all text-sm">Inscribirse</a>
+                    class="ml-2 px-6 py-2.5 bg-brand-red text-white font-bold rounded-full shadow-lg hover:bg-red-700 transition-all text-sm"><%= settings.nav_button_text || "Inscribirse" %></a>
+                <% } %>
             </div>
 
             <div class="flex items-center lg:hidden">
@@ -60,12 +61,14 @@
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Nosotros</a>
             <a href="/participacion"
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Participación</a>
+            <% if (settings.nav_show_button === 'true') { %>
             <div class="pt-4 px-3">
                 <a href="<%= settings.link_inscripcion_general || '#' %>"
                     class="mobile-link block w-full text-center px-6 py-3 bg-brand-red text-white font-bold rounded-xl shadow-md hover:bg-red-700 transition">
-                    Inscribirse Ahora
+                    <%= settings.nav_button_text_mobile || settings.nav_button_text || "Inscribirse Ahora" %>
                 </a>
             </div>
+            <% } %>
         </div>
     </div>
     <script>

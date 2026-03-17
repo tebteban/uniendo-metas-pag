@@ -11,13 +11,9 @@
 
                 <a href="/admin/dashboard"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Panel')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Panel')) { %>
-                   style="background:#EDF5E8; color:#3D7A26;"
-                   <% } %>>
+                          <%= (typeof title !== 'undefined' && title.includes('Panel')) ? 'bg-gray-100 text-gray-900 font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>">
                     <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         class="<%= (typeof title !== 'undefined' && title.includes('Panel')) ? '' : 'text-gray-300 group-hover:text-gray-500' %>"
-                         <% if (typeof title !== 'undefined' && title.includes('Panel')) { %> style="color:#73A950;" <% } %>>
+                         class="<%= (typeof title !== 'undefined' && title.includes('Panel')) ? 'text-gray-700' : 'text-gray-300 group-hover:text-gray-500' %>">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                     </svg>
                     <span class="text-sm">Dashboard</span>
@@ -32,56 +28,73 @@
 
                 <a href="/admin/equipodevoluntarios"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Equipo')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Equipo')) { %> style="background:#EDF5E8; color:#3D7A26;" <% } %>>
-                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-gray-300 group-hover:text-gray-500">
+                          <%= (typeof title !== 'undefined' && title.includes('Equipo')) ? 'bg-gray-100 text-gray-900 font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>">
+                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         class="<%= (typeof title !== 'undefined' && title.includes('Equipo')) ? 'text-gray-700' : 'text-gray-300 group-hover:text-gray-500' %>">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                     <span class="text-sm">Equipo Staff</span>
                 </a>
-
-                <a href="/admin/organos"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Órganos')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Órganos')) { %> style="background:#FEF6E0; color:#B8860B;" <% } %>>
-                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-gray-300 group-hover:text-gray-500">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                    </svg>
-                    <span class="text-sm">Órganos</span>
-                </a>
-
-                <a href="/admin/cronograma"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Cronograma')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Cronograma')) { %> style="background:#FCEEE9; color:#C04828;" <% } %>>
-                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-gray-300 group-hover:text-gray-500">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span class="text-sm">Cronograma</span>
-                </a>
             </div>
         </div>
-
 
         <!-- PÁGINAS DEL SITIO -->
         <div>
             <p class="text-[9px] font-black text-gray-300 uppercase tracking-[0.22em] px-3 mb-2">Páginas del Sitio</p>
             <div class="space-y-0.5">
                 <% [
-                    { href: '/admin/paginas/inicio',        label: 'Inicio',         match: 'Página de Inicio',         dot: '#A02140' },
-                    { href: '/admin/paginas/autoridades',   label: 'Autoridades',    match: 'Página de Autoridades',    dot: '#61B4E4' },
-                    { href: '/admin/paginas/voluntarios',   label: 'Voluntarios',    match: 'Página de Voluntarios',    dot: '#73A950' },
-                    { href: '/admin/paginas/cronograma',    label: 'Cronograma',     match: 'Página de Cronograma',     dot: '#E15829' },
-                    { href: '/admin/paginas/participacion', label: 'Participación',  match: 'Página de Participación',  dot: '#FFB819' },
-                    { href: '/admin/paginas/global',        label: 'Navbar & Footer',match: 'Global',                  dot: '#8A8A8D' },
+                    { 
+                        href: '/admin/paginas/inicio', 
+                        label: 'Inicio', 
+                        match: 'Página de Inicio',
+                        icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
+                    },
+                    { 
+                        href: '/admin/paginas/autoridades', 
+                        label: 'Autoridades', 
+                        match: 'Página de Autoridades',
+                        icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'
+                    },
+                    { 
+                        href: '/admin/paginas/voluntarios', 
+                        label: 'Voluntarios', 
+                        match: 'Página de Voluntarios',
+                        icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
+                    },
+                    { 
+                        href: '/admin/paginas/cronograma', 
+                        label: 'Cronograma', 
+                        match: 'Página de Cronograma',
+                        icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
+                    },
+                    { 
+                        href: '/admin/paginas/organos', 
+                        label: 'Órganos', 
+                        match: 'Página de Órganos',
+                        icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
+                    },
+                    { 
+                        href: '/admin/paginas/participacion', 
+                        label: 'Participación', 
+                        match: 'Página de Participación',
+                        icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                    },
+                    { 
+                        href: '/admin/paginas/global', 
+                        label: 'Navbar & Footer', 
+                        match: 'Navbar & Footer',
+                        icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z'
+                    },
                 ].forEach(item => {
                     const isActive = typeof title !== 'undefined' && title.includes(item.match);
                 %>
                 <a href="<%= item.href %>"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= isActive ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (isActive) { %> style="background:<%= item.dot %>15; color:<%= item.dot %>;" <% } %>>
-                    <span class="w-2 h-2 rounded-full flex-shrink-0 ml-1" style="background:<%= item.dot %>; opacity:<%= isActive ? 1 : 0.35 %>;"></span>
+                          <%= isActive ? 'bg-gray-100 text-gray-900 font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>">
+                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         class="<%= isActive ? 'text-gray-700' : 'text-gray-300 group-hover:text-gray-500' %>">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= item.icon %>"/>
+                    </svg>
                     <span class="text-sm"><%= item.label %></span>
                 </a>
                 <% }); %>
@@ -93,19 +106,41 @@
             <p class="text-[9px] font-black text-gray-300 uppercase tracking-[0.22em] px-3 mb-2">Inscripciones</p>
             <div class="space-y-0.5">
                 <% [
-                    { href: '/admin/inscripciones/voluntario', label: 'Voluntarios',  match: 'Inscripciones: Voluntarios', color: '#73A950', bg: '#EDF5E8' },
-                    { href: '/admin/inscripciones/escuela',    label: 'Colegios',     match: 'Inscripciones: Colegios',    color: '#E15829', bg: '#FCEEE9' },
-                    { href: '/admin/inscripciones/autoridad',  label: 'Autoridades',  match: 'Inscripciones: Autoridades', color: '#A02140', bg: '#F9E8EC' },
-                    { href: '/admin/inscripciones/delegado',   label: 'Delegados',    match: 'Inscripciones: Delegados',   color: '#61B4E4', bg: '#E8F5FB' },
+                    { 
+                        href: '/admin/inscripciones/voluntario', 
+                        label: 'Voluntarios', 
+                        match: 'Inscripciones: Voluntarios',
+                        icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
+                    },
+                    { 
+                        href: '/admin/inscripciones/escuela', 
+                        label: 'Colegios', 
+                        match: 'Inscripciones: Colegios',
+                        icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
+                    },
+                    { 
+                        href: '/admin/inscripciones/autoridad', 
+                        label: 'Autoridades', 
+                        match: 'Inscripciones: Autoridades',
+                        icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
+                    },
+                    { 
+                        href: '/admin/inscripciones/delegado', 
+                        label: 'Delegados', 
+                        match: 'Inscripciones: Delegados',
+                        icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'
+                    },
                 ].forEach(item => { %>
                 <%
                     const isActive = typeof title !== 'undefined' && title.includes(item.match);
                 %>
                 <a href="<%= item.href %>"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= isActive ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (isActive) { %> style="background:<%= item.bg %>; color:<%= item.color %>;" <% } %>>
-                    <span class="w-2 h-2 rounded-full ml-1 flex-shrink-0" style="background:<%= item.color %>; opacity:<%= isActive ? 1 : 0.3 %>;"></span>
+                          <%= isActive ? 'bg-gray-100 text-gray-900 font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>">
+                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         class="<%= isActive ? 'text-gray-700' : 'text-gray-300 group-hover:text-gray-500' %>">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= item.icon %>"/>
+                    </svg>
                     <span class="text-sm"><%= item.label %></span>
                 </a>
                 <% }); %>

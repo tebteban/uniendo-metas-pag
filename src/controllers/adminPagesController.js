@@ -620,29 +620,66 @@ const PAGE_KEYS = {
     },
 
     global: {
-        title: 'Global (Navbar y Footer)',
+        title: 'Navbar & Footer',
         sections: [
             {
-                id: 'navbar',
-                title: 'Navbar',
-                desc: 'Textos que aparecen en la barra de navegación superior.',
-                color: '#8A8A8D', bg: '#F3F3F4',
-                icon: 'M4 6h16M4 12h16M4 18h16',
+                id: 'navbar_branding',
+                title: '1. Branding / Logo',
+                desc: 'El logo y textos que aparecen en navbar y footer.',
+                color: '#A02140', bg: '#F9E8EC',
+                icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
                 keys: [
-                    { key: 'text_global_navbar_title',    label: 'Título Navbar',    type: 'text' },
-                    { key: 'text_global_navbar_subtitle', label: 'Subtítulo Navbar', type: 'text' },
+                    { key: 'nav_logo',            label: 'Logo (imagen)',                 type: 'image' },
+                    { key: 'nav_brand_main',      label: 'Texto principal (ej: UNIENDO)', type: 'text'  },
+                    { key: 'nav_brand_highlight', label: 'Texto destacado (ej: METAS)',   type: 'text'  },
+                    { key: 'nav_brand_subtitle',  label: 'Subtítulo (ej: SANTIAGO DEL ESTERO)', type: 'text' },
                 ]
             },
             {
-                id: 'footer',
-                title: 'Footer',
-                desc: 'Textos del pie de página.',
-                color: '#8A8A8D', bg: '#F3F3F4',
-                icon: 'M4 6h16M4 12h8m-8 6h16',
+                id: 'navbar_buttons',
+                title: '2. Botón Navbar',
+                desc: 'El botón de "Inscribirse" en el navbar (el link ya está en Inicio → Links).',
+                color: '#61B4E4', bg: '#E8F5FB',
+                icon: 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122',
                 keys: [
-                    { key: 'text_footer_desc',    label: 'Descripción Footer', type: 'textarea' },
-                    { key: 'text_footer_address', label: 'Dirección',          type: 'text'     },
-                    { key: 'text_footer_email',   label: 'Email',              type: 'text'     },
+                    { key: 'nav_show_button',        label: 'Mostrar botón Inscribirse', type: 'checkbox' },
+                    { key: 'nav_button_text',        label: 'Texto botón desktop',   type: 'text' },
+                    { key: 'nav_button_text_mobile', label: 'Texto botón mobile (opcional)', type: 'text' },
+                ]
+            },
+            {
+                id: 'footer_info',
+                title: '3. Footer / Información',
+                desc: 'Descripción, contacto y copyright del footer.',
+                color: '#73A950', bg: '#EDF5E8',
+                icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z',
+                keys: [
+                    { key: 'footer_text',     label: 'Descripción principal',         type: 'textarea' },
+                    { key: 'footer_email',    label: 'Email de contacto',             type: 'text'     },
+                    { key: 'footer_address',  label: 'Dirección / ubicación',         type: 'text'     },
+                    { key: 'footer_copyright',label: 'Texto copyright (sin el año)',  type: 'text'     },
+                ]
+            },
+            {
+                id: 'footer_conciencia',
+                title: '4. Footer / Asociación Conciencia',
+                desc: 'El link a Asociación Conciencia que aparece en el footer.',
+                color: '#FFB819', bg: '#FEF6E0',
+                icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+                keys: [
+                    { key: 'footer_conciencia_text', label: 'Texto del link',     type: 'text' },
+                    { key: 'footer_conciencia_url',  label: 'URL de Conciencia',  type: 'url'  },
+                ]
+            },
+            {
+                id: 'footer_social',
+                title: '5. Footer / Redes Sociales',
+                desc: 'URLs de Instagram y YouTube que aparecen en el footer.',
+                color: '#8A8A8D', bg: '#F3F3F4',
+                icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z',
+                keys: [
+                    { key: 'footer_instagram_url', label: 'URL de Instagram', type: 'url' },
+                    { key: 'footer_youtube_url',   label: 'URL de YouTube',   type: 'url' },
                 ]
             },
         ]
@@ -651,11 +688,24 @@ const PAGE_KEYS = {
 
 // ─── Defaults para findOrCreate ─────────────────────────────────────────────
 const ALL_DEFAULTS = {
-    text_global_navbar_title:    { label: 'Global - Título Navbar',         type: 'text',          value: 'UNIENDO METAS' },
-    text_global_navbar_subtitle: { label: 'Global - Subtítulo Navbar',      type: 'text',          value: 'SANTIAGO DEL ESTERO' },
-    text_footer_desc:            { label: 'Footer - Descripción',           type: 'textarea',      value: 'Un programa de Asociación Conciencia.' },
-    text_footer_address:         { label: 'Footer - Dirección',             type: 'text',          value: 'Santiago del Estero, Argentina' },
-    text_footer_email:           { label: 'Footer - Email',                 type: 'text',          value: 'umsantiago@conciencia.org' },
+    // ─── NAVBAR & FOOTER (GLOBAL) ───
+    nav_logo:                    { label: 'Navbar - Logo',                  type: 'image',         value: '/img/logo-um.png' },
+    nav_brand_main:              { label: 'Navbar - Texto principal',       type: 'text',          value: 'UNIENDO' },
+    nav_brand_highlight:         { label: 'Navbar - Texto destacado',       type: 'text',          value: 'METAS' },
+    nav_brand_subtitle:          { label: 'Navbar - Subtítulo',             type: 'text',          value: 'SANTIAGO DEL ESTERO' },
+    nav_show_button:             { label: 'Navbar - Mostrar botón',         type: 'checkbox',      value: 'true' },
+    nav_button_text:             { label: 'Navbar - Texto botón desktop',   type: 'text',          value: 'Inscribirse' },
+    nav_button_text_mobile:      { label: 'Navbar - Texto botón mobile',    type: 'text',          value: 'Inscribirse Ahora' },
+    footer_text:                 { label: 'Footer - Descripción',           type: 'textarea',      value: 'Un programa de Asociación Conciencia que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.' },
+    footer_email:                { label: 'Footer - Email',                 type: 'text',          value: 'umsantiago@conciencia.org' },
+    footer_address:              { label: 'Footer - Dirección',             type: 'text',          value: 'Santiago del Estero, Argentina' },
+    footer_copyright:            { label: 'Footer - Copyright',             type: 'text',          value: 'Uniendo Metas Santiago del Estero. Todos los derechos reservados.' },
+    footer_conciencia_text:      { label: 'Footer - Texto Conciencia',      type: 'text',          value: 'Asociación Conciencia' },
+    footer_conciencia_url:       { label: 'Footer - URL Conciencia',        type: 'url',           value: 'https://conciencia.org/' },
+    footer_instagram_url:        { label: 'Footer - URL Instagram',         type: 'url',           value: 'https://www.instagram.com/umsantiagodelestero' },
+    footer_youtube_url:          { label: 'Footer - URL YouTube',           type: 'url',           value: 'https://youtube.com/@uniendometassde' },
+    
+    // ─── INICIO ───
     text_home_hero_badge:        { label: 'Inicio - Badge Hero',            type: 'text',          value: 'XI Edición • Santiago Del Estero' },
     text_home_hero_title:        { label: 'Inicio - Título Hero',           type: 'text',          value: 'JÓVENES PARA <br>' },
     text_home_hero_highlight:    { label: 'Inicio - Destacado Hero',        type: 'text',          value: 'EL FUTURO' },
