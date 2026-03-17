@@ -22,7 +22,8 @@ const controller = {
                 type,
                 inscriptions,
                 path: `/admin/inscripciones/${type}`,
-                user: req.session.user
+                user: req.session.user,
+                query: req.query
             });
         } catch (error) {
             console.error(error);
@@ -34,7 +35,7 @@ const controller = {
         try {
             const { type } = req.params;
             if (!req.file) {
-                return res.redirect(`/admin/inscripciones/${type}`);
+                return res.redirect(`/admin/inscripciones/${type}?msg=imported`);
             }
 
             const workbook = xlsx.readFile(req.file.path);
@@ -88,10 +89,63 @@ const controller = {
             // Clean up uploaded file
             fs.unlinkSync(req.file.path);
 
-            res.redirect(`/admin/inscripciones/${type}`);
+            res.redirect(`/admin/inscripciones/${type}?msg=imported`);
         } catch (error) {
             console.error('Error processing upload:', error);
             res.redirect('/admin/dashboard');
+        }
+    },
+
+    edit: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const item = await Inscription.findByPk(id);
+            if (!item) return res.redirect('/admin/dashboard');
+
+            const { name, email, telefono, interes, rol, docente } = req.body;
+
+            // Clonar el JSON para que Sequelize detecte el cambio (evita bug de referencia)
+            const data = JSON.parse(JSON.stringify(item.data || {}));
+            if (telefono !== undefined) { data.telefono = telefono; data.normalized_phone = telefono; }
+            if (interes  !== undefined) data.interes = interes;
+            if (rol      !== undefined) { data.rol = rol; data.normalized_role = rol; }
+            if (docente  !== undefined) { data.docente = docente; data.normalized_teacher = docente; }
+
+            item.name  = (name  || item.name).trim();
+            item.email = (email || item.email).trim();
+            item.data  = data;
+            item.changed('data', true); // Forzar que Sequelize detecte el cambio en JSON
+            await item.save();
+
+            res.redirect(`/admin/inscripciones/${item.type}?msg=edited`);
+        } catch (error) {
+            console.error('Error editando inscripción:', error);
+            res.redirect('/admin/dashboard');
+        }
+    },
+
+    uploadManual: async (req, res) => {
+        try {
+            const { type } = req.params;
+            const { name, email, telefono, interes, rol, docente } = req.body;
+            if (!name || !name.trim()) return res.redirect(`/admin/inscripciones/${type}`);
+
+            const dataObj = {};
+            if (telefono)  { dataObj.telefono = telefono; dataObj.normalized_phone = telefono; }
+            if (interes)   dataObj.interes = interes;
+            if (rol)       { dataObj.rol = rol; dataObj.normalized_role = rol; }
+            if (docente)   { dataObj.docente = docente; dataObj.normalized_teacher = docente; }
+
+            await Inscription.create({
+                type,
+                name: name.trim(),
+                email: (email || '').trim() || 'Sin Email',
+                data: dataObj
+            });
+            res.redirect(`/admin/inscripciones/${type}?msg=created`);
+        } catch (error) {
+            console.error('Error en carga manual:', error);
+            res.redirect(`/admin/inscripciones/${req.params.type}`);
         }
     },
 
@@ -118,7 +172,7 @@ const controller = {
             await Inscription.destroy({
                 where: { type }
             });
-            res.redirect(`/admin/inscripciones/${type}`);
+            res.redirect(`/admin/inscripciones/${type}?msg=cleared`);
         } catch (error) {
             console.error(error);
             res.redirect('/admin/dashboard');

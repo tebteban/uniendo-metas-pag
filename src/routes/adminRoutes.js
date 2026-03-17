@@ -93,6 +93,8 @@ const docUpload = require('../middlewares/documentUploadMiddleware');
 
 router.get('/inscripciones/:type', authMiddleware, adminInscriptionsController.index);
 router.post('/inscripciones/:type/upload', authMiddleware, docUpload.single('file'), adminInscriptionsController.upload);
+router.post('/inscripciones/:type/upload-manual', authMiddleware, adminInscriptionsController.uploadManual);
+router.post('/inscripciones/editar/:id',         authMiddleware, adminInscriptionsController.edit);
 router.post('/inscripciones/:type/eliminar-todo', authMiddleware, adminInscriptionsController.destroyAll);
 router.get('/inscripciones/eliminar/:id', authMiddleware, adminInscriptionsController.destroy);
 
@@ -107,29 +109,12 @@ router.get('/ejemplos/voluntario', authMiddleware, adminExamplesController.volun
 
 // Pages Management (CMS por página)
 const adminPagesController = require('../controllers/adminPagesController');
-
-// ─── Cronograma CRUD (bajo /admin/paginas/cronograma/) ───────────────────────
-router.post('/paginas/cronograma/store',         authMiddleware, adminPagesController.storeCronograma);
-router.get('/paginas/cronograma/editar/:id',     authMiddleware, adminPagesController.editCronograma);
-router.post('/paginas/cronograma/update/:id',    authMiddleware, adminPagesController.updateCronograma);
-router.get('/paginas/cronograma/eliminar/:id',   authMiddleware, adminPagesController.destroyCronograma);
-
-// ─── Órganos CRUD (bajo /admin/paginas/organos/) ─────────────────────────────
-router.post('/paginas/organos/store',        authMiddleware, pdfUpload.fields([
-    { name: 'reglamento', maxCount: 1 },
-    { name: 'archivo_dinamicas', maxCount: 1 },
-    { name: 'archivo_topico', maxCount: 1 }
-]), adminPagesController.storeOrgano);
-router.get('/paginas/organos/editar/:id',   authMiddleware, adminPagesController.editOrgano);
-router.post('/paginas/organos/update/:id',  authMiddleware, pdfUpload.fields([
-    { name: 'reglamento', maxCount: 1 },
-    { name: 'archivo_dinamicas', maxCount: 1 },
-    { name: 'archivo_topico', maxCount: 1 }
-]), adminPagesController.updateOrgano);
-router.get('/paginas/organos/eliminar/:id', authMiddleware, adminPagesController.destroyOrgano);
-
-// ─── Pages show/update ────────────────────────────────────────────────────────
 router.get('/paginas/:page',  authMiddleware, adminPagesController.show);
 router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesController.update);
+
+router.get('/paginas/:page', authMiddleware, (req, res, next) => {
+    console.log('>>> RUTA PAGINAS ALCANZADA:', req.params.page);
+    next();
+}, adminPagesController.show);
 
 module.exports = router;
