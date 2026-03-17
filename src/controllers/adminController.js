@@ -36,23 +36,25 @@ const controller = {
 
     dashboard: async (req, res) => {
         try {
-            const volunteerCount = await require('../database/models/Volunteer').count();
-            const organCount = await require('../database/models/Organ').count();
+            const Organ       = require('../database/models/Organ');
             const Inscription = require('../database/models/Inscription');
 
-            const delegatesCount = await Inscription.count({ where: { type: 'delegado' } });
-            const authoritiesCount = await Inscription.count({ where: { type: 'autoridad' } });
-            const schoolsCount = await Inscription.count({ where: { type: 'escuela' } });
+            // Tipos exactos usados por adminInscriptionsController
+            const delegatesCount   = await Inscription.count({ where: { type: 'delegado'   } });
+            const authoritiesCount = await Inscription.count({ where: { type: 'autoridad'  } });
+            const schoolsCount     = await Inscription.count({ where: { type: 'escuela'    } });
+            const volunteerCount   = await Inscription.count({ where: { type: 'voluntario' } });
+            const organCount       = await Organ.count();
 
             res.render('admin/dashboard', {
                 title: 'Panel de Administración',
                 user: req.session.user,
                 metrics: {
-                    volunteers: volunteerCount,
-                    organs: organCount,
-                    delegates: delegatesCount,
+                    volunteers:  volunteerCount,
+                    organs:      organCount,
+                    delegates:   delegatesCount,
                     authorities: authoritiesCount,
-                    schools: schoolsCount
+                    schools:     schoolsCount
                 }
             });
         } catch (error) {
@@ -60,7 +62,7 @@ const controller = {
             res.render('admin/dashboard', {
                 title: 'Panel de Administración',
                 user: req.session.user,
-                metrics: { volunteers: '--', organs: '--' }
+                metrics: { volunteers: 0, organs: 0, delegates: 0, authorities: 0, schools: 0, typeMap: {} }
             });
         }
     },
