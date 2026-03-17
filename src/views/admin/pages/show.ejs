@@ -148,6 +148,9 @@
             border-bottom: 1px solid #E5E7EB !important;
             border-radius: 12px 12px 0 0;
             padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
         }
         .ql-container {
             border: none !important;
@@ -192,6 +195,74 @@
         /* Hide original textarea when Quill is active */
         textarea.quill-hidden {
             display: none;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 768px) {
+            /* Toolbar más compacta en mobile */
+            .ql-toolbar {
+                padding: 8px;
+                gap: 2px;
+            }
+            
+            /* Botones del toolbar más pequeños pero tocables */
+            .ql-toolbar button {
+                width: 32px !important;
+                height: 32px !important;
+                padding: 4px !important;
+            }
+            
+            /* Grupos de formato con mejor wrap */
+            .ql-formats {
+                margin-right: 8px !important;
+                margin-bottom: 4px;
+            }
+            
+            /* Editor con menos padding en mobile */
+            .ql-editor {
+                padding: 12px;
+                font-size: 13px;
+            }
+            
+            /* Main content con menos padding */
+            main.flex-1 {
+                padding: 12px !important;
+            }
+            
+            /* Secciones con menos padding */
+            .section-body {
+                padding: 16px !important;
+            }
+            
+            /* Campos de texto más grandes en mobile */
+            input[type="text"],
+            textarea {
+                font-size: 16px !important; /* Evita zoom en iOS */
+            }
+            
+            /* Botón guardar más grande y fixed en mobile */
+            .save-button-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 12px;
+                background: white;
+                border-top: 1px solid #E5E7EB;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+                z-index: 40;
+            }
+            
+            .save-button-container button {
+                width: 100%;
+                padding: 16px !important;
+                font-size: 16px !important;
+            }
+            
+            /* Espacio al final para el botón fixed */
+            body {
+                padding-bottom: 80px;
+            }
         }
     </style>
 </head>
@@ -975,29 +1046,31 @@
         </div>
 
         <!-- Sticky save bar -->
-        <div class="fixed bottom-0 left-0 right-0 md:left-64 z-40 save-bar bg-white/90 border-t border-gray-100 px-6 lg:px-10 py-4">
-            <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <div id="save-status" class="flex items-center gap-2 text-xs font-bold text-gray-400">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="fixed bottom-0 left-0 right-0 md:left-64 z-40 save-bar bg-white border-t border-gray-100 px-3 md:px-6 lg:px-10 py-3 md:py-4 backdrop-blur-sm">
+            <div class="max-w-3xl mx-auto flex items-center justify-between gap-2 md:gap-4">
+                <div class="flex items-center gap-2 md:gap-3">
+                    <div id="save-status" class="flex items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-bold text-gray-400">
+                        <svg class="w-3 h-3 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        Sin cambios pendientes
+                        <span class="hidden sm:inline">Sin cambios pendientes</span>
+                        <span class="sm:hidden">Sin cambios</span>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 md:gap-3">
                     <button type="button"
                             id="reset-btn"
                             onclick="resetForm()"
-                            class="hidden px-4 py-2.5 rounded-xl text-xs font-black text-gray-500 border border-gray-200 hover:bg-gray-50 transition-all">
-                        Descartar cambios
+                            class="hidden px-3 md:px-4 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black text-gray-500 border border-gray-200 hover:bg-gray-50 transition-all">
+                        <span class="hidden sm:inline">Descartar cambios</span>
+                        <span class="sm:hidden">Descartar</span>
                     </button>
                     <button type="submit"
                             form="pages-form"
                             id="save-btn"
-                            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-xs font-black shadow-lg transition-all hover:brightness-110 active:scale-95"
+                            class="inline-flex items-center gap-1.5 md:gap-2 px-4 md:px-6 py-2.5 md:py-2.5 rounded-lg md:rounded-xl text-white text-xs md:text-xs font-black shadow-lg transition-all hover:brightness-110 active:scale-95"
                             style="background:#A02140; box-shadow: 0 4px 14px -2px rgba(160,33,64,0.4);">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                         </svg>
                         Guardar cambios
