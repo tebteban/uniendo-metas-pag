@@ -212,7 +212,7 @@
                 <form id="pages-form" action="/admin/paginas/<%= page %>" method="POST" enctype="multipart/form-data" class="space-y-4">
 
                     <% pageDef.sections.forEach((section, sIdx) => { %>
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden section-card" id="section-<%= section.id %>">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden section-card collapsed-section" id="section-<%= section.id %>">
 
                         <!-- Section header (clickable to collapse) -->
                         <button type="button"
@@ -240,7 +240,7 @@
                         </button>
 
                         <!-- Section body -->
-                        <div class="section-body" id="body-<%= section.id %>" style="max-height: 2000px; opacity: 1;">
+                        <div class="section-body collapsed" id="body-<%= section.id %>" style="max-height: 0; opacity: 0;">
                             <div class="px-6 py-5 space-y-5">
 
                                 <% 

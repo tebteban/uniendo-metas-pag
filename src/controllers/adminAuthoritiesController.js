@@ -13,7 +13,8 @@ const controller = {
             res.render('admin/autoridades/index', {
                 title: 'Administrar Equipo',
                 user: req.session.user,
-                authorities
+                authorities,
+                query: req.query
             });
         } catch (error) {
             console.error(error);
@@ -35,9 +36,11 @@ const controller = {
             const { name, role, group, description, order } = req.body;
             let image = null;
             if (req.file) {
-                // En producción con Cloudinary, req.file.path es la URL completa
-                // En desarrollo local, construimos la ruta relativa
-                image = req.file.path || ('/img/Voluntarios/' + req.file.filename);
+                // En producción: Cloudinary devuelve la URL completa en req.file.path
+                // En desarrollo: guardamos solo el filename, la vista agrega el prefijo
+                image = process.env.NODE_ENV === 'production'
+                    ? req.file.path
+                    : req.file.filename;
             }
 
             await Authority.create({
@@ -49,7 +52,7 @@ const controller = {
                 image,
                 active: false // Hidden by default
             });
-            res.redirect('/admin/equipodevoluntarios');
+            res.redirect('/admin/equipodevoluntarios?msg=created');
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al guardar miembro');
@@ -86,14 +89,15 @@ const controller = {
             };
 
             if (req.file) {
-                // En producción con Cloudinary, req.file.path es la URL completa
-                updateData.image = req.file.path || ('/img/Voluntarios/' + req.file.filename);
+                updateData.image = process.env.NODE_ENV === 'production'
+                    ? req.file.path
+                    : req.file.filename;
             }
 
             await Authority.update(updateData, {
                 where: { id: req.params.id }
             });
-            res.redirect('/admin/equipodevoluntarios');
+            res.redirect('/admin/equipodevoluntarios?msg=updated');
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al actualizar miembro');
@@ -126,7 +130,7 @@ const controller = {
                 auth.active = !auth.active;
                 await auth.save();
             }
-            res.redirect('/admin/equipodevoluntarios');
+            res.redirect('/admin/equipodevoluntarios?msg=toggled');
         } catch (error) {
             console.error(error);
             res.redirect('/admin/equipodevoluntarios');
@@ -137,7 +141,7 @@ const controller = {
     publishAll: async (req, res) => {
         try {
             await Authority.update({ active: true }, { where: {} });
-            res.redirect('/admin/equipodevoluntarios');
+            res.redirect('/admin/equipodevoluntarios?msg=published');
         } catch (error) {
             console.error(error);
             res.redirect('/admin/equipodevoluntarios');
