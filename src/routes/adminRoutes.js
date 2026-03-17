@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
-
-// Middleware to protect routes
-const authMiddleware = (req, res, next) => {
-    if (req.session && req.session.user) {
-        return next();
-    }
-    res.redirect('/admin/login');
-};
+const { authMiddleware, adminOnlyMiddleware } = require('../middlewares/authMiddleware');
+const adminUsersController = require('../controllers/adminUsersController');
 
 // Public Admin Routes
 router.get('/login', adminController.login);
@@ -46,7 +40,6 @@ router.get('/cronograma/editar/:id', authMiddleware, adminScheduleController.edi
 router.post('/cronograma/update/:id', authMiddleware, adminScheduleController.update);
 router.get('/cronograma/eliminar/:id', authMiddleware, adminScheduleController.destroy);
 
-// --- AQUÍ ESTÁ EL CAMBIO IMPORTANTE ---
 // Organs CRUD
 const adminOrgansController = require('../controllers/adminOrgansController');
 const pdfUpload = require('../middlewares/publicFileMiddleware');
@@ -54,7 +47,6 @@ const pdfUpload = require('../middlewares/publicFileMiddleware');
 router.get('/organos', authMiddleware, adminOrgansController.index);
 router.get('/organos/crear', authMiddleware, adminOrgansController.create);
 
-// Cambiado .single('reglamento') por .fields([...])
 router.post('/organos/store', authMiddleware, pdfUpload.fields([
     { name: 'reglamento', maxCount: 1 },
     { name: 'archivo_dinamicas', maxCount: 1 },
@@ -63,13 +55,11 @@ router.post('/organos/store', authMiddleware, pdfUpload.fields([
 
 router.get('/organos/editar/:id', authMiddleware, adminOrgansController.edit);
 
-// Cambiado .single('reglamento') por .fields([...])
 router.post('/organos/update/:id', authMiddleware, pdfUpload.fields([
     { name: 'reglamento', maxCount: 1 },
     { name: 'archivo_dinamicas', maxCount: 1 },
     { name: 'archivo_topico', maxCount: 1 }
 ]), adminOrgansController.update);
-// --------------------------------------
 
 // Authorities CRUD
 const adminAuthoritiesController = require('../controllers/adminAuthoritiesController');
@@ -106,15 +96,17 @@ router.get('/ejemplos/autoridad', authMiddleware, adminExamplesController.autori
 router.get('/ejemplos/escuela', authMiddleware, adminExamplesController.escuelasExample);
 router.get('/ejemplos/voluntario', authMiddleware, adminExamplesController.voluntariosExample);
 
+// Gestión de Cuentas (solo para admin)
+router.get('/cuentas', authMiddleware, adminOnlyMiddleware, adminUsersController.index);
+router.get('/cuentas/crear', authMiddleware, adminOnlyMiddleware, adminUsersController.create);
+router.post('/cuentas/store', authMiddleware, adminOnlyMiddleware, adminUsersController.store);
+router.get('/cuentas/editar/:id', authMiddleware, adminOnlyMiddleware, adminUsersController.edit);
+router.post('/cuentas/update/:id', authMiddleware, adminOnlyMiddleware, adminUsersController.update);
+router.post('/cuentas/eliminar/:id', authMiddleware, adminOnlyMiddleware, adminUsersController.destroy);
 
 // Pages Management (CMS por página)
 const adminPagesController = require('../controllers/adminPagesController');
 router.get('/paginas/:page',  authMiddleware, adminPagesController.show);
 router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesController.update);
-
-router.get('/paginas/:page', authMiddleware, (req, res, next) => {
-    console.log('>>> RUTA PAGINAS ALCANZADA:', req.params.page);
-    next();
-}, adminPagesController.show);
 
 module.exports = router;

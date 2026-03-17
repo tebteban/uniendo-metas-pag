@@ -1,0 +1,132 @@
+<%- include('../partials/head') %>
+<body class="bg-gray-50">
+    <%- include('../partials/navbar') %>
+    
+    <div class="flex min-h-screen pt-16">
+        <%- include('../partials/sidebar') %>
+        
+        <main class="flex-1 p-6 md:ml-64">
+            <!-- Flash Messages -->
+            <% if (typeof query !== 'undefined' && query.error === 'exists') { %>
+                <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <div class="flex-1">
+                        <p class="font-semibold text-red-800">Este nombre de usuario ya está en uso.</p>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            <% } %>
+
+            <!-- Header -->
+            <div class="mb-6">
+                <a href="/admin/cuentas" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-slate-700 mb-4 font-semibold">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Volver a Cuentas
+                </a>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-800">Editar Cuenta</h1>
+                        <p class="text-sm text-gray-500">Modificá los datos de acceso de <%= userToEdit.username %></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <form action="/admin/cuentas/update/<%= userToEdit.id %>" method="POST">
+                    <!-- Datos de Acceso -->
+                    <div class="mb-6">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                            </svg>
+                            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Datos de Acceso</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
+                                    Nombre de Usuario *
+                                </label>
+                                <input type="text" 
+                                       name="username" 
+                                       required 
+                                       value="<%= userToEdit.username %>"
+                                       class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm font-medium">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
+                                    Nueva Contraseña
+                                </label>
+                                <input type="password" 
+                                       name="password" 
+                                       minlength="6"
+                                       class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm font-medium"
+                                       placeholder="Dejar vacío para mantener la actual">
+                                <p class="text-xs text-gray-400 mt-1.5">Solo completá este campo si querés cambiar la contraseña</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rol -->
+                    <div class="mb-6">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Permisos</h3>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label class="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 transition-all group">
+                                <input type="radio" name="role" value="user" <%= userToEdit.role === 'user' ? 'checked' : '' %> class="mt-0.5">
+                                <div class="flex-1">
+                                    <p class="font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">Usuario Normal</p>
+                                    <p class="text-sm text-gray-500 mt-1">Acceso completo al dashboard excepto gestión de cuentas. No puede crear ni eliminar usuarios.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-red-300 transition-all group">
+                                <input type="radio" name="role" value="admin" <%= userToEdit.role === 'admin' ? 'checked' : '' %> class="mt-0.5">
+                                <div class="flex-1">
+                                    <p class="font-bold text-slate-800 group-hover:text-red-600 transition-colors">Administrador</p>
+                                    <p class="text-sm text-gray-500 mt-1">Acceso total incluyendo gestión de cuentas. Puede crear, editar y eliminar usuarios.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+                        <button type="submit" 
+                                class="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Guardar Cambios
+                        </button>
+                        <a href="/admin/cuentas" 
+                           class="inline-flex items-center gap-2 px-6 py-2.5 bg-gray-100 text-gray-600 text-sm font-bold rounded-xl hover:bg-gray-200 transition-all">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
