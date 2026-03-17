@@ -3,6 +3,22 @@
 <%- include('./partials/head') %>
 
     <body class="bg-gray-50 text-gray-600 antialiased overflow-x-hidden font-sans">
+<style>
+@keyframes sponsorsScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.sponsors-scroll-track {
+    display: flex !important;
+    align-items: center;
+    gap: 4rem;
+    width: max-content !important;
+    animation: sponsorsScroll 22s linear infinite;
+}
+#sponsors-carousel:hover .sponsors-scroll-track {
+    animation-play-state: paused;
+}
+</style>
 
         <%- include('./partials/navbar') %>
 
@@ -85,35 +101,37 @@
                                 class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-red via-brand-yellow to-brand-green/50">
                             </div>
 
+                            <%
+                            const statColors = ['text-gray-800', 'text-brand-green', 'text-brand-blue', 'text-brand-red'];
+                            const statPrefix = [
+                                settings.stat_1_prefix !== undefined ? settings.stat_1_prefix : '',
+                                settings.stat_2_prefix !== undefined ? settings.stat_2_prefix : '+',
+                                settings.stat_3_prefix !== undefined ? settings.stat_3_prefix : '+',
+                                settings.stat_4_prefix !== undefined ? settings.stat_4_prefix : '+',
+                            ];
+                            const statValues  = [
+                                parseInt(settings.stat_1_value)  || 10,
+                                parseInt(settings.stat_2_value)  || 550,
+                                parseInt(settings.stat_3_value)  || 20,
+                                parseInt(settings.stat_4_value)  || 40,
+                            ];
+                            const statLabels  = [
+                                settings.stat_1_label  || 'Ediciones',
+                                settings.stat_2_label  || 'Alumnos',
+                                settings.stat_3_label  || 'Escuelas',
+                                settings.stat_4_label  || 'Voluntarios',
+                            ];
+                            %>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
+                                <% for(let i = 0; i < 4; i++) { %>
                                 <div class="flex flex-col">
-                                    <h3 class="text-4xl md:text-5xl font-black text-gray-800 mb-1">
-                                        <span class="counter-animate" data-target="10">0</span>
+                                    <h3 class="text-4xl md:text-5xl font-black <%= statColors[i] %> mb-1">
+                                        <%= statPrefix[i] %><span class="counter-animate" data-target="<%= statValues[i] %>">0</span>
                                     </h3>
                                     <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">
-                                        Ediciones</p>
+                                        <%= statLabels[i] %></p>
                                 </div>
-                                <div class="flex flex-col">
-                                    <h3 class="text-4xl md:text-5xl font-black text-brand-green mb-1">
-                                        +<span class="counter-animate" data-target="550">0</span>
-                                    </h3>
-                                    <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">
-                                        Alumnos</p>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h3 class="text-4xl md:text-5xl font-black text-brand-blue mb-1">
-                                        +<span class="counter-animate" data-target="20">0</span>
-                                    </h3>
-                                    <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">
-                                        Escuelas</p>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h3 class="text-4xl md:text-5xl font-black text-brand-red mb-1">
-                                        +<span class="counter-animate" data-target="40">0</span>
-                                    </h3>
-                                    <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">
-                                        Voluntarios</p>
-                                </div>
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -121,31 +139,54 @@
                 </div>
             </section>
 
-            <!-- SPONSORS — fuera del hero para que el bg-white llegue de borde a borde -->
-            <section class="pt-12 pb-8 bg-white border-t border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 text-center">
+            <!-- SPONSORS — dinámico con grid/carrusel automático -->
+            <%
+            const allSponsors = [];
+            for (let si = 1; si <= 8; si++) {
+                const img  = settings['sponsor_' + si + '_img'];
+                const url  = settings['sponsor_' + si + '_url']  || '#';
+                const name = settings['sponsor_' + si + '_name'] || ('Sponsor ' + si);
+                if (img && img.trim()) allSponsors.push({ img, url, name });
+            }
+            const maxGrid = 6;
+            const useCarousel = allSponsors.length > maxGrid;
+            %>
+            <section class="pt-10 pb-8 bg-white border-t border-gray-100">
+                <div class="max-w-7xl mx-auto px-6 text-center">
+                    <h2 class="text-[10px] font-black text-gray-300 uppercase tracking-[0.3em] mb-8">Nos Acompañan</h2>
 
-                    <h2 class="text-base font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">
-                        Nos Acompañan
-                    </h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center max-w-5xl mx-auto opacity-80">
-
-                        <a href="https://sde.gob.ar/" target="_blank" rel="noopener noreferrer" class="group transition">
-                            <img src="/img/logos/gobierno.png" alt="Gobierno de Santiago"
-                                 class="w-40 md:w-56 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
+                    <% if (!useCarousel) { %>
+                    <!-- GRID estático (hasta 6 sponsors) — mismo diseño original -->
+                    <%
+                    const colsClass = allSponsors.length <= 3 ? 'md:grid-cols-' + allSponsors.length : 'md:grid-cols-3 lg:grid-cols-' + Math.min(allSponsors.length, 6);
+                    %>
+                    <div class="grid grid-cols-2 <%= colsClass %> gap-8 items-center justify-items-center max-w-5xl mx-auto opacity-80">
+                        <% allSponsors.forEach(sp => { %>
+                        <a href="<%= sp.url %>" target="_blank" rel="noopener noreferrer" class="group transition">
+                            <img src="<%= sp.img %>" alt="<%= sp.name %>"
+                                 class="h-20 md:h-28 w-auto object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
                         </a>
-
-                        <a href="https://www.facebook.com/cyt.nodotecnologico/?locale=es_LA" target="_blank" rel="noopener noreferrer" class="group transition">
-                            <img src="/img/logos/logo-secretaria.png" alt="Secretaría de CyT"
-                                 class="h-20 md:h-28 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
-                        </a>
-
-                        <a href="https://conciencia.org/" target="_blank" rel="noopener noreferrer" class="group transition">
-                            <img src="/img/logos/logo-ccc.png" alt="Asociación Conciencia"
-                                 class="h-20 md:h-28 object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
-                        </a>
+                        <% }); %>
                     </div>
+
+                    <% } else { %>
+                    <!-- CARRUSEL automático (más de 6 sponsors) -->
+                    <div class="relative overflow-hidden" id="sponsors-carousel">
+                        <div class="sponsors-scroll-track" id="sponsors-track">
+                            <% [allSponsors, allSponsors].forEach(group => { group.forEach(sp => { %>
+                            <a href="<%= sp.url %>" target="_blank" rel="noopener noreferrer"
+                               class="group flex-shrink-0 transition opacity-70 hover:opacity-100">
+                                <img src="<%= sp.img %>" alt="<%= sp.name %>"
+                                     class="h-20 md:h-28 w-auto object-contain grayscale group-hover:grayscale-0 transition duration-300">
+                            </a>
+                            <% }); }); %>
+                        </div>
+                        <!-- Fades laterales -->
+                        <div class="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+                        <div class="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <% } %>
                 </div>
             </section>
 
@@ -294,30 +335,46 @@
                     <div class="border-t border-b border-gray-100 py-10 mb-20" data-aos="fade-up">
                         <p class="text-center text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 mb-8">Nuestros Objetivos Educativos</p>
                         <div class="flex flex-wrap justify-center gap-3">
-                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-blue-50 text-brand-blue font-bold text-sm border border-blue-100 hover:bg-brand-blue hover:text-white hover:border-brand-blue transition-all duration-200 cursor-default">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
-                                Oratoria y Comunicación
+                            <%
+                            const objColors = [
+                                { bg:'bg-blue-50',   text:'text-brand-blue',   border:'border-blue-100',   hover:'hover:bg-brand-blue hover:text-white hover:border-brand-blue'   },
+                                { bg:'bg-red-50',    text:'text-brand-red',    border:'border-red-100',    hover:'hover:bg-brand-red hover:text-white hover:border-brand-red'    },
+                                { bg:'bg-yellow-50', text:'text-yellow-600',   border:'border-yellow-100', hover:'hover:bg-yellow-400 hover:text-white hover:border-yellow-400' },
+                                { bg:'bg-green-50',  text:'text-brand-green',  border:'border-green-100',  hover:'hover:bg-brand-green hover:text-white hover:border-brand-green'  },
+                                { bg:'bg-purple-50', text:'text-purple-600',   border:'border-purple-100', hover:'hover:bg-purple-500 hover:text-white hover:border-purple-500' },
+                                { bg:'bg-orange-50', text:'text-brand-orange', border:'border-orange-100', hover:'hover:bg-brand-orange hover:text-white hover:border-brand-orange'},
+                            ];
+                            const objIconPaths = {
+                                mic:      'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z',
+                                lightbulb:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+                                users:    'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+                                globe:    'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                                star:     'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+                                heart:    'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+                                academic: 'M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z',
+                                chart:    'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                                shield:   'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+                                chat:     'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
+                                pencil:   'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z',
+                                flag:     'M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9',
+                            };
+                            const objKeys = ['text_home_obj_1','text_home_obj_2','text_home_obj_3','text_home_obj_4','text_home_obj_5','text_home_obj_6'];
+                            const objDefaults = ['Oratoria y Comunicación','Pensamiento Crítico','Trabajo Colaborativo','Visión Global','Liderazgo','Empatía'];
+                            const objIconDefaults = ['mic','lightbulb','users','globe','star','heart'];
+                            objKeys.forEach((key, i) => {
+                                const label = settings[key] || objDefaults[i];
+                                const iconKey = settings[key + '_icon'] || objIconDefaults[i];
+                                const iconPath = objIconPaths[iconKey] || objIconPaths['star'];
+                                const c = objColors[i];
+                                if (!label) return;
+                            %>
+                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full <%= c.bg %> <%= c.text %> font-bold text-sm border <%= c.border %> <%= c.hover %> transition-all duration-200 cursor-default">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= iconPath %>"/>
+                                </svg>
+                                <%= label %>
                             </span>
-                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-red-50 text-brand-red font-bold text-sm border border-red-100 hover:bg-brand-red hover:text-white hover:border-brand-red transition-all duration-200 cursor-default">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                                Pensamiento Crítico
-                            </span>
-                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-yellow-50 text-yellow-600 font-bold text-sm border border-yellow-100 hover:bg-yellow-400 hover:text-white hover:border-yellow-400 transition-all duration-200 cursor-default">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                                Trabajo Colaborativo
-                            </span>
-                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-green-50 text-brand-green font-bold text-sm border border-green-100 hover:bg-brand-green hover:text-white hover:border-brand-green transition-all duration-200 cursor-default">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Visión Global
-                            </span>
-                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-purple-50 text-purple-600 font-bold text-sm border border-purple-100 hover:bg-purple-500 hover:text-white hover:border-purple-500 transition-all duration-200 cursor-default">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-                                Liderazgo
-                            </span>
-                            <span class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-orange-50 text-brand-orange font-bold text-sm border border-orange-100 hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all duration-200 cursor-default">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                                Empatía
-                            </span>
+                            <% }); %>
                         </div>
                     </div>
 
@@ -407,10 +464,10 @@
 
                         <div class="space-y-3" data-aos="fade-up" data-aos-delay="0">
                             <% [
-                                { id: 'faq1', q: '¿Cuándo abre el período de inscripciones?', a: 'Aún no hay fechas definidas para las inscripciones del XI Encuentro. Enterate de todas las novedades siguiendo nuestro Instagram oficial: <a href="https://instagram.com/umsantiagodelestero" target="_blank" class="text-brand-red font-bold hover:underline">@umsantiagodelestero</a>.' },
-                                { id: 'faq2', q: '¿Cómo sé si mi escuela puede participar?', a: 'Puede participar cualquier <strong>escuela secundaria</strong> que complete todos los pasos de la inscripción, indiferentemente de su tipo de gestión (pública, privada, técnica, etc.).' },
-                                { id: 'faq3', q: '¿Cuáles son los pasos para inscribir a una delegación?', a: 'La inscripción consta de <strong>tres pasos dependientes</strong>:<br><ol class="list-decimal list-inside space-y-1 mt-2 ml-2 font-medium"><li>Inscripción del establecimiento.</li><li>Inscripción del docente referente.</li><li>Inscripción de participantes y adultos acompañantes.</li></ol><br><strong>Importante:</strong> Los participantes no podrán inscribirse si los pasos previos no están completos.' },
-                                { id: 'faq7', q: 'Soy docente, ¿cómo inscribo a mi colegio?', a: 'Debés completar el formulario de "Docente/Colegio" en el botón de INSCRIBIRSE (Paso 1 y 2). Si tu institución nunca participó, escribinos a <span class="text-brand-blue font-bold"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b3c6dec0c7d4dcf3d0dcddd0dad6ddd0dad29ddcc1d4">[email&#160;protected]</a></span>.' }
+                                { id: 'faq1', q: settings.text_home_faq1_q || '¿Cuándo abre el período de inscripciones?',         a: settings.text_home_faq1_a || 'Aún no hay fechas definidas. Seguí nuestro Instagram para enterarte.' },
+                                { id: 'faq2', q: settings.text_home_faq2_q || '¿Cómo sé si mi escuela puede participar?',           a: settings.text_home_faq2_a || 'Puede participar cualquier escuela secundaria.' },
+                                { id: 'faq3', q: settings.text_home_faq3_q || '¿Cuáles son los pasos para inscribir una delegación?', a: settings.text_home_faq3_a || 'Tres pasos: establecimiento, docente y participantes.' },
+                                { id: 'faq7', q: settings.text_home_faq7_q || 'Soy docente, ¿cómo inscribo a mi colegio?',            a: settings.text_home_faq7_a || 'Completá el formulario de Docente/Colegio en INSCRIBIRSE.' }
                             ].forEach((item, index) => { %>
                             <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
                                 <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
@@ -430,10 +487,10 @@
 
                         <div class="space-y-3" data-aos="fade-up" data-aos-delay="100">
                             <% [
-                                { id: 'faq4', q: '¿Tiene algún costo la inscripción?', a: '<span class="font-bold text-brand-green">¡No! La inscripción es 100% gratuita.</span> Uniendo Metas es un programa educativo abierto para todos los estudiantes que deseen participar.' },
-                                { id: 'faq5', q: '¿Participo solo o en pareja?', a: 'Depende del órgano que elijas:<ul class="list-disc list-inside mt-2 space-y-1 ml-2"><li><strong>En Parejas (2):</strong> Asamblea General, ECOSOC y Consejo de Seguridad.</li><li><strong>Individual (1):</strong> CHD y Sala de Tratados.</li></ul>' },
-                                { id: 'faq6', q: '¿Necesito experiencia previa?', a: '¡Para nada! Contamos con capacitaciones previas donde te enseñaremos todo lo necesario. Lo único que necesitás son ganas de aprender y debatir.' },
-                                { id: 'faq8', q: '¿Recibo algún certificado?', a: '¡Sí! Al finalizar el modelo, se entrega un <strong>diploma oficial</strong> de participación certificado por Asociación Conciencia y Uniendo Metas, que sirve para tu currículum.' }
+                                { id: 'faq4', q: settings.text_home_faq4_q || '¿Tiene algún costo la inscripción?',  a: settings.text_home_faq4_a || '¡No! La inscripción es 100% gratuita.' },
+                                { id: 'faq5', q: settings.text_home_faq5_q || '¿Participo solo o en pareja?',              a: settings.text_home_faq5_a || 'Depende del órgano.' },
+                                { id: 'faq6', q: settings.text_home_faq6_q || '¿Necesito experiencia previa?',               a: settings.text_home_faq6_a || '¡Para nada! Contamos con capacitaciones previas.' },
+                                { id: 'faq8', q: settings.text_home_faq8_q || '¿Recibo algún certificado?',                  a: settings.text_home_faq8_a || '¡Sí! Se entrega un diploma oficial.' }
                             ].forEach((item, index) => { %>
                             <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
                                 <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
@@ -450,6 +507,34 @@
                             </div>
                             <% }) %>
                         </div>
+
+                        <!-- PREGUNTAS EXTRA agregadas desde el admin -->
+                        <% const extraFaqs = [];
+                           for(let ei = 1; ei <= 5; ei++) {
+                               const eq = settings['text_home_faq_extra' + ei + '_q'];
+                               const ea = settings['text_home_faq_extra' + ei + '_a'];
+                               if (eq && eq.trim()) extraFaqs.push({ id: 'faqex' + ei, q: eq, a: ea || '' });
+                           }
+                           if (extraFaqs.length > 0) { %>
+                        <div class="col-span-1 md:col-span-2 space-y-3 mt-4" data-aos="fade-up">
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 mb-3">Más preguntas</p>
+                            <% extraFaqs.forEach(item => { %>
+                            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+                                <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
+                                        onclick="toggleFaq('<%= item.id %>')">
+                                    <span class="font-bold text-gray-800 text-sm leading-snug"><%= item.q %></span>
+                                    <svg id="icon-<%= item.id %>" class="w-4 h-4 text-brand-red flex-shrink-0 transform transition-transform duration-300"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+                                <div id="<%= item.id %>" class="hidden px-6 pb-5 text-gray-500 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                                    <%- item.a %>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } %>
                     </div>
 
                     <div class="mt-12 text-center" data-aos="fade-up">

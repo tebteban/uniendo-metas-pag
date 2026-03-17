@@ -80,19 +80,45 @@
                     <%= settings.text_vol_why_desc || 'Ser voluntario no es solo trabajar; es crecer. Es el lugar donde desarrollás habilidades que no se aprenden en un aula: liderazgo bajo presión, empatía, logística y trabajo en equipo real.' %>
                 </p>
 
+                <%
+                const benColors = ['#73A950','#61B4E4','#A02140'];
+                const benBgs    = ['#EDF5E8','#E8F5FB','#F9E8EC'];
+                const benIconPaths = {
+                    mic:      'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z',
+                    lightbulb:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+                    users:    'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+                    globe:    'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                    star:     'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+                    heart:    'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+                    academic: 'M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z',
+                    chart:    'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                    shield:   'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+                    chat:     'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
+                    pencil:   'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z',
+                    flag:     'M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9',
+                };
+                const benIconDefaults = ['users','academic','shield'];
+                const benDefs = [
+                    'Hacés amigos para toda la vida.',
+                    'Impactás en la educación de cientos de jóvenes.',
+                    'Certificado oficial de Asociación Conciencia.',
+                ];
+                const benKeys = ['vol_benefit_1','vol_benefit_2','vol_benefit_3'];
+                %>
                 <div class="space-y-4">
-                    <% [
-                        { color: '#73A950', bg: '#EDF5E8', text: 'Hacés amigos para toda la vida.', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-                        { color: '#61B4E4', bg: '#E8F5FB', text: 'Impactás en la educación de cientos de jóvenes.', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
-                        { color: '#A02140', bg: '#F9E8EC', text: 'Certificado oficial de Asociación Conciencia.', icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z' },
-                    ].forEach(item => { %>
+                    <% benKeys.forEach((key, i) => {
+                        const text     = settings[key] || benDefs[i];
+                        const iconKey  = settings[key + '_icon'] || benIconDefaults[i];
+                        const iconPath = benIconPaths[iconKey] || benIconPaths['star'];
+                        if (!text) return;
+                    %>
                     <div class="flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background:<%= item.bg %>;">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= item.color %>;">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= item.icon %>"/>
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background:<%= benBgs[i] %>;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= benColors[i] %>;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= iconPath %>"/>
                             </svg>
                         </div>
-                        <span class="text-gray-700 font-semibold text-base"><%= item.text %></span>
+                        <span class="text-gray-700 font-semibold text-base"><%= text %></span>
                     </div>
                     <% }); %>
                 </div>
@@ -220,9 +246,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#F9E8EC; color:#A02140; border-color:#A0214030;">Radiografía 2025</span>
-            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">ADN Voluntario</h2>
-            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium">Un análisis de quienes hacen posible Uniendo Metas.</p>
+            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#F9E8EC; color:#A02140; border-color:#A0214030;"><%= settings.text_vol_adn_badge || 'Radiografía 2025' %></span>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight"><%= settings.text_vol_adn_title || 'ADN Voluntario' %></h2>
+            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium"><%= settings.text_vol_adn_desc || 'Un análisis de quienes hacen posible Uniendo Metas.' %></p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -237,11 +263,10 @@
                             Dato de Fidelidad
                         </span>
                         <h3 class="text-3xl md:text-4xl font-black text-gray-900 mb-4 leading-tight">
-                            El "Efecto <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-blue-600">Semillero"</span>
+                            <%- settings.text_vol_semillero_title || 'El "Efecto <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-blue-600">Semillero"</span>' %>
                         </h3>
                         <p class="text-gray-500 text-lg leading-relaxed mb-8">
-                            La experiencia es tan transformadora que los participantes deciden volver.
-                            <strong class="text-gray-900">8 de cada 10</strong> voluntarios comenzaron su camino como delegados.
+                            <%= settings.text_vol_semillero_desc || 'La experiencia es tan transformadora que los participantes deciden volver. 8 de cada 10 voluntarios comenzaron su camino como delegados.' %>
                         </p>
                         <div class="flex items-center justify-center md:justify-start gap-4">
                             <div class="flex -space-x-3">
@@ -259,11 +284,15 @@
                         <div class="relative w-40 h-40">
                             <svg class="w-full h-full -rotate-90" viewBox="0 0 160 160">
                                 <circle cx="80" cy="80" r="64" stroke="#F1F5F9" stroke-width="14" fill="none"/>
-                                <circle cx="80" cy="80" r="64" stroke="#61B4E4" stroke-width="14" fill="none" stroke-dasharray="402" stroke-dashoffset="60" stroke-linecap="round"/>
+                                <%
+                                const semPct = parseInt(settings.vol_semillero_pct) || 85;
+                                const semOffset = Math.round(402 * (1 - semPct/100));
+                                %>
+                                <circle cx="80" cy="80" r="64" stroke="#61B4E4" stroke-width="14" fill="none" stroke-dasharray="402" stroke-dashoffset="<%= semOffset %>" stroke-linecap="round"/>
                             </svg>
                             <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span class="text-4xl font-black text-gray-900">85%</span>
-                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">Retorno</span>
+                                <span class="text-4xl font-black text-gray-900"><%= semPct %>%</span>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1"><%= settings.vol_semillero_label || 'Retorno' %></span>
                             </div>
                         </div>
                     </div>
@@ -277,27 +306,33 @@
                         <div class="w-2 h-2 rounded-full" style="background:#A02140;"></div>
                         <h4 class="font-black text-gray-900 text-sm uppercase tracking-widest">Paridad de Género</h4>
                     </div>
+                    <%
+                    const pctF = parseInt(settings.vol_paridad_f) || 52;
+                    const pctM = 100 - pctF;
+                    %>
                     <div class="flex items-end justify-center gap-8 h-28">
                         <div class="flex flex-col items-center gap-2 w-20 h-full justify-end group cursor-default">
-                            <span class="font-black text-2xl text-gray-300 group-hover:text-brand-red transition-colors">52%</span>
-                            <div class="w-full rounded-t-xl transition-all duration-500" style="height:52%; background:#A0214020;" onmouseover="this.style.background='#A02140'" onmouseout="this.style.background='#A0214020'"></div>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400">Mujeres</span>
+                            <span class="font-black text-2xl text-gray-300 group-hover:text-brand-red transition-colors"><%= pctF %>%</span>
+                            <div class="w-full rounded-t-xl transition-all duration-500" style="height:<%= pctF %>%; background:#A0214020;" onmouseover="this.style.background='#A02140'" onmouseout="this.style.background='#A0214020'"></div>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400"><%= settings.vol_paridad_f_label || 'Mujeres' %></span>
                         </div>
                         <div class="flex flex-col items-center gap-2 w-20 h-full justify-end group cursor-default">
-                            <span class="font-black text-2xl text-gray-300 group-hover:text-brand-blue transition-colors">48%</span>
-                            <div class="w-full rounded-t-xl transition-all duration-500" style="height:48%; background:#61B4E420;" onmouseover="this.style.background='#61B4E4'" onmouseout="this.style.background='#61B4E420'"></div>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400">Varones</span>
+                            <span class="font-black text-2xl text-gray-300 group-hover:text-brand-blue transition-colors"><%= pctM %>%</span>
+                            <div class="w-full rounded-t-xl transition-all duration-500" style="height:<%= pctM %>%; background:#61B4E420;" onmouseover="this.style.background='#61B4E4'" onmouseout="this.style.background='#61B4E420'"></div>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400"><%= settings.vol_paridad_m_label || 'Varones' %></span>
                         </div>
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300" data-aos="fade-left" data-aos-delay="200">
                     <h4 class="font-black text-sm uppercase tracking-widest mb-2" style="color:#73A950;">Multidisciplinario</h4>
-                    <p class="text-3xl font-black text-gray-900 leading-tight mb-4">+8 Carreras<br><span class="text-gray-400">Universitarias</span></p>
+                    <p class="text-3xl font-black text-gray-900 leading-tight mb-4"><%= settings.vol_multi_count || '+8' %> Carreras<br><span class="text-gray-400">Universitarias</span></p>
                     <div class="flex flex-wrap gap-2">
-                        <% ['Abogacía','Medicina','Ingeniería'].forEach(c => { %>
-                        <span class="px-3 py-1.5 bg-gray-50 rounded-xl text-xs font-bold text-gray-600 border border-gray-100"><%= c %></span>
+                        <% (settings.vol_multi_carreras || 'Abogacía,Medicina,Ingeniería').split(',').filter(Boolean).forEach(c => { %>
+                        <span class="px-3 py-1.5 bg-gray-50 rounded-xl text-xs font-bold text-gray-600 border border-gray-100"><%= c.trim() %></span>
                         <% }); %>
-                        <span class="px-3 py-1.5 rounded-xl text-xs font-bold border" style="background:#EDF5E8; color:#73A950; border-color:#73A95030;">+4 más</span>
+                        <% if (settings.vol_multi_extra) { %>
+                        <span class="px-3 py-1.5 rounded-xl text-xs font-bold border" style="background:#EDF5E8; color:#73A950; border-color:#73A95030;"><%= settings.vol_multi_extra %></span>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -315,19 +350,26 @@
                         <p class="text-gray-500 leading-relaxed font-medium">Lo que los voluntarios afirman haber aprendido y reforzado durante su experiencia en el modelo.</p>
                     </div>
                     <div class="md:w-2/3 w-full grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
-                        <% [
-                            { label: 'Trabajo en Equipo', pct: 83, color: '#73A950' },
-                            { label: 'Oratoria',          pct: 78, color: '#61B4E4' },
-                            { label: 'Confianza',         pct: 66, color: '#A02140' },
-                            { label: 'Liderazgo',         pct: 51, color: '#E15829' },
-                        ].forEach(item => { %>
+                        <%
+                        const habColors = ['#73A950','#61B4E4','#A02140','#E15829'];
+                        const habDefs = [
+                            { lKey: 'vol_hab_1_label', pKey: 'vol_hab_1_pct', defL: 'Trabajo en Equipo', defP: 83 },
+                            { lKey: 'vol_hab_2_label', pKey: 'vol_hab_2_pct', defL: 'Oratoria',          defP: 78 },
+                            { lKey: 'vol_hab_3_label', pKey: 'vol_hab_3_pct', defL: 'Confianza',         defP: 66 },
+                            { lKey: 'vol_hab_4_label', pKey: 'vol_hab_4_pct', defL: 'Liderazgo',         defP: 51 },
+                        ];
+                        habDefs.forEach((h, i) => {
+                            const label = settings[h.lKey] || h.defL;
+                            const pct   = parseInt(settings[h.pKey]) || h.defP;
+                            const color = habColors[i];
+                        %>
                         <div class="space-y-2.5">
                             <div class="flex justify-between items-center">
-                                <span class="font-bold text-gray-700 text-sm uppercase tracking-wide"><%= item.label %></span>
-                                <span class="font-black text-sm" style="color:<%= item.color %>;"><%= item.pct %>%</span>
+                                <span class="font-bold text-gray-700 text-sm uppercase tracking-wide"><%= label %></span>
+                                <span class="font-black text-sm" style="color:<%= color %>;"><%= pct %>%</span>
                             </div>
                             <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full rounded-full" style="width:<%= item.pct %>%; background:<%= item.color %>;" data-aos="slide-right"></div>
+                                <div class="h-full rounded-full" style="width:<%= pct %>%; background:<%= color %>;" data-aos="slide-right"></div>
                             </div>
                         </div>
                         <% }); %>
@@ -344,28 +386,44 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#EDF5E8; color:#73A950; border-color:#73A95030;">Voces del equipo</span>
-            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">Lo que dejó el modelo</h2>
-            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium">Palabras reales de quienes vivieron la experiencia desde adentro.</p>
+            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#EDF5E8; color:#73A950; border-color:#73A95030;"><%= settings.text_vol_test_badge || 'Voces del equipo' %></span>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight"><%= settings.text_vol_test_title || 'Lo que dejó el modelo' %></h2>
+            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium"><%= settings.text_vol_test_desc || 'Palabras reales de quienes vivieron la experiencia desde adentro.' %></p>
         </div>
 
+        <%
+        const testColors = ['#A02140','#61B4E4','#73A950'];
+        const testBgs    = ['#F9E8EC','#E8F5FB','#EDF5E8'];
+        const testDefs = [
+            { fKey:'vol_test_1_frase', nKey:'vol_test_1_nombre', rKey:'vol_test_1_rol',
+              defF:'El modelo me enseñó que podés organizar algo enorme con puro compromiso y sin cobrar un peso.',
+              defN:'Valentina R.', defR:'Ex Presidenta de Sala · 3 ediciones' },
+            { fKey:'vol_test_2_frase', nKey:'vol_test_2_nombre', rKey:'vol_test_2_rol',
+              defF:'Vine a ayudar y terminé siendo ayudado. Las habilidades que desarrollé en UM las uso todos los días.',
+              defN:'Matías G.', defR:'Ex Secretario General · 2 ediciones' },
+            { fKey:'vol_test_3_frase', nKey:'vol_test_3_nombre', rKey:'vol_test_3_rol',
+              defF:'Entré sin saber nada de ONU y salí con amigos para toda la vida.',
+              defN:'Rocío T.', defR:'Ex Coordinadora de Logística · 4 ediciones' },
+        ];
+        %>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up">
-            <% [
-                { frase: 'El modelo me enseñó que podés organizar algo enorme con puro compromiso y sin cobrar un peso. Eso me cambió la forma de ver el trabajo en equipo.', nombre: 'Valentina R.', rol: 'Ex Presidenta de Sala · 3 ediciones', color: '#A02140', bg: '#F9E8EC' },
-                { frase: 'Vine a ayudar y terminé siendo ayudado. Las habilidades que desarrollé en UM las uso todos los días en mi carrera universitaria.', nombre: 'Matías G.', rol: 'Ex Secretario General · 2 ediciones', color: '#61B4E4', bg: '#E8F5FB' },
-                { frase: 'Entré sin saber nada de ONU y salí con amigos para toda la vida. No hay mejor forma de aprender que haciendo algo que realmente importa.', nombre: 'Rocío T.', rol: 'Ex Coordinadora de Logística · 4 ediciones', color: '#73A950', bg: '#EDF5E8' },
-            ].forEach((item, i) => { %>
+            <% testDefs.forEach((t, i) => {
+                const frase  = settings[t.fKey]  || t.defF;
+                const nombre = settings[t.nKey]  || t.defN;
+                const rol    = settings[t.rKey]  || t.defR;
+                const color  = testColors[i];
+                const bg     = testBgs[i];
+            %>
             <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
-                <!-- Comillas decorativas -->
-                <div class="text-6xl font-black leading-none mb-2 select-none" style="color:<%= item.color %>; opacity:0.15;">"</div>
-                <p class="text-gray-600 text-base leading-relaxed font-medium flex-1 mb-6"><%= item.frase %></p>
+                <div class="text-6xl font-black leading-none mb-2 select-none" style="color:<%= color %>; opacity:0.15;">"</div>
+                <p class="text-gray-600 text-base leading-relaxed font-medium flex-1 mb-6"><%= frase %></p>
                 <div class="flex items-center gap-3 pt-5 border-t border-gray-50">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-black text-base" style="background:<%= item.bg %>; color:<%= item.color %>;">
-                        <%= item.nombre.charAt(0) %>
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-black text-base" style="background:<%= bg %>; color:<%= color %>;">
+                        <%= nombre.charAt(0) %>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-gray-900"><%= item.nombre %></p>
-                        <p class="text-xs text-gray-400 font-medium"><%= item.rol %></p>
+                        <p class="text-sm font-black text-gray-900"><%= nombre %></p>
+                        <p class="text-xs text-gray-400 font-medium"><%= rol %></p>
                     </div>
                 </div>
             </div>
@@ -378,9 +436,9 @@
 <section class="py-24 bg-white border-t border-gray-100">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center" data-aos="fade-up">
-        <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">Momentos</span>
-        <h3 class="text-3xl md:text-4xl font-black text-gray-900">Galería de Voluntariado</h3>
-        <p class="text-gray-500 mt-3 text-lg">Momentos inolvidables de nuestro equipo.</p>
+        <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%= settings.text_vol_galeria_badge || 'Momentos' %></span>
+        <h3 class="text-3xl md:text-4xl font-black text-gray-900"><%= settings.text_vol_galeria_title || 'Galería de Voluntariado' %></h3>
+        <p class="text-gray-500 mt-3 text-lg"><%= settings.text_vol_galeria_desc || 'Momentos inolvidables de nuestro equipo.' %></p>
     </div>
 
     <%

@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> — Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+
+        /* Focus styles */
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #61B4E4;
+            box-shadow: 0 0 0 3px rgba(97,180,228,0.15);
+        }
+
+        /* Dirty field indicator */
+        .field-dirty input,
+        .field-dirty textarea {
+            border-color: #FFB819 !important;
+            background: #FFFDF0 !important;
+        }
+        .dirty-dot {
+            display: none;
+        }
+        .field-dirty .dirty-dot {
+            display: inline-block;
+        }
+
+        /* Section collapse animation */
+        .section-body {
+            transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+            overflow: hidden;
+        }
+        .section-body.collapsed {
+            max-height: 0 !important;
+            opacity: 0;
+        }
+
+        /* Toggle chevron */
+        .toggle-chevron {
+            transition: transform 0.25s ease;
+        }
+        .collapsed-section .toggle-chevron {
+            transform: rotate(-90deg);
+        }
+
+        /* Image drop zone */
+        .drop-zone {
+            transition: all 0.2s ease;
+        }
+        .drop-zone.drag-over {
+            border-color: #61B4E4;
+            background: #E8F5FB;
+        }
+
+        /* Checkbox toggle */
+        .toggle-track {
+            transition: background 0.2s ease;
+        }
+        .toggle-thumb {
+            transition: transform 0.2s ease;
+        }
+
+        /* Sticky save bar */
+        .save-bar {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Page nav tabs */
+        .page-tab {
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        .page-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #A02140;
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* Pulse on save */
+        @keyframes savePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.97); }
+            100% { transform: scale(1); }
+        }
+        .saving { animation: savePulse 0.3s ease; }
+
+        /* Character counter */
+        .char-counter {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .char-warn { color: #E15829; }
+
+        /* Preview tag */
+        .preview-badge {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* File input custom */
+        input[type="file"] {
+            cursor: pointer;
+        }
+        input[type="file"]::-webkit-file-upload-button {
+            background: #F1F5F9;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background 0.15s;
+        }
+        input[type="file"]::-webkit-file-upload-button:hover {
+            background: #E2E8F0;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+<%- include('../partials/navbar') %>
+
+<div class="pt-16 flex min-h-screen">
+    <%- include('../partials/sidebar') %>
+
+    <main class="flex-1 md:ml-64">
+
+        <!-- Top bar -->
+        <div class="bg-white border-b border-gray-100 px-6 lg:px-10 py-4 flex items-center justify-between gap-4 sticky top-16 z-30">
+            <div class="flex items-center gap-3">
+                <a href="/admin/dashboard"
+                   class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-slate-700 hover:bg-gray-100 transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                </a>
+                <div class="w-px h-5 bg-gray-200"></div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-sm font-black text-slate-900"><%= pageDef.title %></h1>
+                        <span id="unsaved-badge"
+                              class="hidden text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full"
+                              style="background:#FEF6E0; color:#B8860B;">
+                            Sin guardar
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-gray-400 font-medium">Modificá el contenido sin tocar código</p>
+                </div>
+            </div>
+
+            <!-- View site link -->
+            <a href="/<%= page === 'inicio' ? '' : page === 'global' ? '' : page %>"
+               target="_blank"
+               class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-500 text-xs font-bold hover:bg-gray-100 transition-all">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+                Ver página
+            </a>
+        </div>
+
+        <div class="px-6 lg:px-10 py-8">
+            <div class="max-w-3xl mx-auto">
+
+                <!-- Flash -->
+                <% if (flash) { %>
+                <div class="flex items-center gap-3 px-5 py-4 rounded-2xl border mb-6 animate-pulse-once"
+                     style="<%= flash.type === 'success' ? 'background:#EDF5E8; border-color:#73A95050;' : 'background:#F9E8EC; border-color:#A0214050;' %>">
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                         style="background:<%= flash.type === 'success' ? '#73A950' : '#A02140' %>;">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <% if (flash.type === 'success') { %>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            <% } else { %>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                            <% } %>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-black" style="color:<%= flash.type === 'success' ? '#3D7A26' : '#A02140' %>;">
+                            <%= flash.type === 'success' ? '¡Cambios guardados correctamente!' : 'Error al guardar los cambios' %>
+                        </p>
+                        <p class="text-xs font-medium mt-0.5" style="color:<%= flash.type === 'success' ? '#5A9E38' : '#C04828' %>;">
+                            <%= flash.message %>
+                        </p>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600 transition-colors ml-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <% } %>
+
+                <!-- Form -->
+                <form id="pages-form" action="/admin/paginas/<%= page %>" method="POST" enctype="multipart/form-data" class="space-y-4">
+
+                    <% pageDef.sections.forEach((section, sIdx) => { %>
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden section-card" id="section-<%= section.id %>">
+
+                        <!-- Section header (clickable to collapse) -->
+                        <button type="button"
+                                class="w-full flex items-center gap-4 px-6 py-5 border-b border-gray-100 hover:bg-gray-50/50 transition-colors text-left section-toggle"
+                                data-target="body-<%= section.id %>">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                                 style="background:<%= section.bg %>;">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                     style="color:<%= section.color %>;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= section.icon %>"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-sm font-black text-slate-900"><%= section.title %></h3>
+                                    <!-- dirty count badge per section -->
+                                    <span class="section-dirty-count hidden text-[9px] font-black px-2 py-0.5 rounded-full"
+                                          style="background:#FEF6E0; color:#B8860B;" id="dirty-count-<%= section.id %>"></span>
+                                </div>
+                                <p class="text-[11px] text-gray-400 font-medium mt-0.5 truncate"><%= section.desc %></p>
+                            </div>
+                            <svg class="toggle-chevron w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+
+                        <!-- Section body -->
+                        <div class="section-body" id="body-<%= section.id %>" style="max-height: 2000px; opacity: 1;">
+                            <div class="px-6 py-5 space-y-5">
+
+                                <% 
+                                const isSponsorSection = section.id === 'sponsors';
+                                const isExtraFaqSection = section.id === 'extra_faq';
+
+                                if (isSponsorSection) {
+                                    // Build initial sponsor data from settings
+                                    const sponsorData = [];
+                                    for (let spi = 1; spi <= 8; spi++) {
+                                        const vUrl  = settingsMap['sponsor_' + spi + '_url']  || '';
+                                        const vImg  = settingsMap['sponsor_' + spi + '_img']  || '';
+                                        const vName = settingsMap['sponsor_' + spi + '_name'] || '';
+                                        if (vUrl || vImg || vName) sponsorData.push({ n: spi, url: vUrl, img: vImg, name: vName });
+                                    }
+                                %>
+                                <!-- SPONSORS dynamic list -->
+                                <div id="sponsors-list" class="space-y-3">
+                                    <% sponsorData.forEach((sp, idx) => { %>
+                                    <div class="sponsor-card border border-gray-100 rounded-xl overflow-hidden" data-index="<%= sp.n %>">
+                                        <div class="flex items-center justify-between gap-2 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
+                                            <div class="flex items-center gap-2">
+                                                <% if (sp.img) { %>
+                                                <img src="<%= sp.img %>" class="h-5 w-auto object-contain opacity-70 sponsor-preview-mini" alt="">
+                                                <% } else { %>
+                                                <div class="w-5 h-5 rounded bg-gray-200 flex items-center justify-center sponsor-preview-mini-placeholder">
+                                                    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>
+                                                </div>
+                                                <% } %>
+                                                <span class="text-xs font-black text-gray-500">Sponsor <%= idx + 1 %></span>
+                                                <span class="text-xs text-gray-400 font-medium sponsor-name-preview"><%= sp.name ? '— ' + sp.name : '' %></span>
+                                            </div>
+                                            <button type="button" onclick="removeSponsor(this)"
+                                                    class="w-6 h-6 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all flex-shrink-0">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                                            </button>
+                                        </div>
+                                        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Nombre</label>
+                                                <input type="text" name="sponsor_<%= sp.n %>_name" value="<%= sp.name %>"
+                                                       class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700"
+                                                       oninput="updateSponsorNamePreview(this)"
+                                                       placeholder="Ej: Gobierno de Santiago">
+                                            </div>
+                                            <div>
+                                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Link web</label>
+                                                <div class="relative">
+                                                    <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                                        <svg class="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                                                    </div>
+                                                    <input type="url" name="sponsor_<%= sp.n %>_url" value="<%= sp.url %>"
+                                                           class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700"
+                                                           placeholder="https://...">
+                                                </div>
+                                            </div>
+                                            <div class="sm:col-span-2">
+                                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Logo</label>
+                                                <div class="flex items-center gap-3 p-3 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50">
+                                                    <div id="sp-prev-<%= sp.n %>" class="flex-shrink-0">
+                                                        <% if (sp.img) { %>
+                                                        <img src="<%= sp.img %>" class="h-12 w-20 object-contain rounded-lg border border-gray-200 bg-white p-1">
+                                                        <% } else { %>
+                                                        <div class="h-12 w-20 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center bg-white">
+                                                            <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                                        </div>
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <input type="file" name="sponsor_<%= sp.n %>_img" accept="image/*"
+                                                               class="w-full text-xs text-gray-500"
+                                                               onchange="previewSponsorLogo(this, '<%= sp.n %>')">
+                                                        <% if (sp.img) { %>
+                                                        <button type="button" onclick="clearSponsorLogo(this, '<%= sp.n %>')"
+                                                                class="mt-1.5 text-[10px] font-bold text-red-400 hover:text-red-600 transition-colors">
+                                                            × Quitar logo actual
+                                                        </button>
+                                                        <input type="hidden" name="sponsor_<%= sp.n %>_img_current" value="<%= sp.img %>" id="sp-current-<%= sp.n %>">
+                                                        <% } else { %>
+                                                        <input type="hidden" name="sponsor_<%= sp.n %>_img_current" value="" id="sp-current-<%= sp.n %>">
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                                <button type="button" id="add-sponsor-btn" onclick="addSponsor()"
+                                        class="w-full mt-2 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm font-bold text-gray-400 hover:border-brand-blue hover:text-brand-blue transition-all flex items-center justify-center gap-2 <%= sponsorData.length >= 8 ? 'hidden' : '' %>">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                                    Agregar sponsor
+                                </button>
+
+                                <% } else if (isExtraFaqSection) { %>
+                                <!-- EXTRA FAQ dynamic list -->
+                                <div id="extrafaq-list" class="space-y-3">
+                                    <% for (let efi = 1; efi <= 5; efi++) {
+                                        const efq = settingsMap['text_home_faq_extra' + efi + '_q'] || '';
+                                        const efa = settingsMap['text_home_faq_extra' + efi + '_a'] || '';
+                                        if (!efq && efi > 1) continue;
+                                    %>
+                                    <div class="extrafaq-card border border-gray-100 rounded-xl overflow-hidden" data-index="<%= efi %>">
+                                        <div class="flex items-center justify-between px-4 py-2.5 bg-gray-50 border-b border-gray-100">
+                                            <span class="text-xs font-black text-gray-500">Pregunta extra <%= efi %></span>
+                                            <button type="button" onclick="removeExtraFaq(this)"
+                                                    class="w-6 h-6 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                                            </button>
+                                        </div>
+                                        <div class="p-4 space-y-3">
+                                            <div>
+                                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Pregunta</label>
+                                                <input type="text" name="text_home_faq_extra<%= efi %>_q" value="<%= efq %>"
+                                                       class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700"
+                                                       placeholder="¿Tu pregunta aquí?">
+                                            </div>
+                                            <div>
+                                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Respuesta</label>
+                                                <textarea name="text_home_faq_extra<%= efi %>_a" rows="3"
+                                                          class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 resize-none"
+                                                          placeholder="Tu respuesta aquí..."><%= efa %></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                </div>
+                                <% const efCount = [1,2,3,4,5].filter(i => settingsMap['text_home_faq_extra' + i + '_q']).length; %>
+                                <button type="button" id="add-extrafaq-btn" onclick="addExtraFaq()"
+                                        class="w-full mt-2 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm font-bold text-gray-400 hover:border-red-300 hover:text-red-400 transition-all flex items-center justify-center gap-2 <%= efCount >= 5 ? 'hidden' : '' %>">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                                    Agregar pregunta
+                                </button>
+
+                                <% } else if (section.dynamicImages) { %>
+                                <!-- DYNAMIC IMAGES section -->
+                                <%
+                                const dynPrefix = section.dynamicImages.prefix;
+                                const dynLabel  = section.dynamicImages.label || 'Foto';
+                                const dynImages = (typeof dynamicImagesMap !== 'undefined' && dynamicImagesMap[section.id]) || [];
+                                // Get next available index
+                                const usedIdxs = dynImages.map(img => {
+                                    const n = parseInt(img.key.replace(dynPrefix, ''));
+                                    return isNaN(n) ? 0 : n;
+                                });
+                                const nextIdx = usedIdxs.length > 0 ? Math.max(...usedIdxs) + 1 : 1;
+                                %>
+                                <!-- Static text fields (badge, title, desc) -->
+                                <% section.keys.forEach((field) => {
+                                    const value = settingsMap[field.key] || '';
+                                    const fieldId = field.key + '_field';
+                                %>
+                                <div class="field-wrapper mb-4" id="<%= fieldId %>" data-section="<%= section.id %>">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="dirty-dot w-1.5 h-1.5 rounded-full bg-yellow-400 inline-block"></span>
+                                            <%= field.label %>
+                                        </label>
+                                    </div>
+                                    <% if (field.type === 'textarea') { %>
+                                    <textarea name="<%= field.key %>" rows="2"
+                                              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 resize-none transition-all"
+                                              oninput="markDirty('<%= fieldId %>','<%= section.id %>')"
+                                              data-original="<%= value %>"><%= value %></textarea>
+                                    <% } else { %>
+                                    <input type="text" name="<%= field.key %>" value="<%= value %>"
+                                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all"
+                                           oninput="markDirty('<%= fieldId %>','<%= section.id %>')"
+                                           data-original="<%= value %>">
+                                    <% } %>
+                                </div>
+                                <% }); %>
+
+                                <!-- Dynamic image grid -->
+                                <div class="border-t border-gray-100 pt-4 mt-2">
+                                    <p class="text-[11px] font-black text-slate-500 uppercase tracking-wider mb-3">
+                                        Fotos del carrusel — <span id="dyn-count-<%= section.id %>"><%= dynImages.length %></span> foto<%= dynImages.length !== 1 ? 's' : '' %>
+                                    </p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="dyn-grid-<%= section.id %>">
+                                        <% dynImages.forEach((img, idx) => { %>
+                                        <div class="dyn-img-card relative group rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-video"
+                                             data-key="<%= img.key %>">
+                                            <img src="<%= img.value %>" class="w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
+                                                <button type="button"
+                                                        onclick="removeDynImage(this, '<%= section.id %>')"
+                                                        class="opacity-0 group-hover:opacity-100 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center transition-all hover:bg-red-600">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                </button>
+                                            </div>
+                                            <input type="hidden" name="<%= img.key %>" value="<%= img.value %>">
+                                        </div>
+                                        <% }); %>
+                                        <!-- Upload new slot -->
+                                        <label class="dyn-upload-slot flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:border-orange-300 hover:bg-orange-50 transition-all cursor-pointer aspect-video"
+                                               id="dyn-upload-<%= section.id %>">
+                                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/></svg>
+                                            <span class="text-[10px] font-black text-gray-300 uppercase tracking-wider">Agregar foto</span>
+                                            <input type="file" accept="image/*" multiple class="hidden"
+                                                   onchange="addDynImages(this, '<%= section.id %>', '<%= dynPrefix %>', <%= nextIdx %>)">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <% } else { // normal fields %>
+                                <% section.keys.forEach((field, fIdx) => {
+                                    const value = settingsMap[field.key] || '';
+                                    const fieldId = field.key + '_field';
+                                %>
+
+                                <div class="field-wrapper" id="<%= fieldId %>" data-section="<%= section.id %>">
+
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label for="<%= field.key %>"
+                                               class="flex items-center gap-1.5 text-[11px] font-black text-slate-600 uppercase tracking-wider">
+                                            <span class="dirty-dot w-1.5 h-1.5 rounded-full bg-yellow-400 inline-block"></span>
+                                            <%= field.label %>
+                                            <% if (field.type === 'url') { %>
+                                            <span class="preview-badge px-1.5 py-0.5 rounded-md"
+                                                  style="background:#E8F5FB; color:#3D8AB5;">URL</span>
+                                            <% } else if (field.type === 'image') { %>
+                                            <span class="preview-badge px-1.5 py-0.5 rounded-md"
+                                                  style="background:#EDF5E8; color:#3D7A26;">IMAGEN</span>
+                                            <% } else if (field.type === 'datetime-local') { %>
+                                            <span class="preview-badge px-1.5 py-0.5 rounded-md"
+                                                  style="background:#FEF6E0; color:#B8860B;">FECHA</span>
+                                            <% } %>
+                                        </label>
+                                        <% if (field.type === 'text' || field.type === 'textarea') { %>
+                                        <span class="char-counter text-gray-300" id="counter-<%= field.key %>">
+                                            <%= value.length %> car.
+                                        </span>
+                                        <% } %>
+                                    </div>
+
+                                    <!-- FILE field (documentos biblioteca) -->
+                                    <% if (field.type === 'file') { %>
+                                    <div class="flex items-center gap-4 p-4 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50">
+                                        <% if (value) { %>
+                                        <a href="<%= value %>" target="_blank"
+                                           class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold flex-shrink-0"
+                                           style="background:#E8F5FB; color:#3D8AB5;">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                            Ver archivo actual
+                                        </a>
+                                        <% } %>
+                                        <div class="flex-1 min-w-0">
+                                            <input type="file" name="<%= field.key %>" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+                                                   class="w-full text-xs text-gray-500">
+                                            <p class="text-[10px] text-gray-400 font-medium mt-1.5">PDF, Word, Excel · Dejá vacío para mantener el archivo actual</p>
+                                        </div>
+                                        <% if (value) { %>
+                                        <button type="button"
+                                                onclick="clearFileField(this, '<%= field.key %>')"
+                                                class="text-[10px] font-bold text-red-400 hover:text-red-600 flex-shrink-0 transition-colors">
+                                            × Quitar
+                                        </button>
+                                        <input type="hidden" name="<%= field.key %>_current" value="<%= value %>" id="fc-<%= field.key %>">
+                                        <% } else { %>
+                                        <input type="hidden" name="<%= field.key %>_current" value="" id="fc-<%= field.key %>">
+                                        <% } %>
+                                    </div>
+
+                                    <% } else if (field.type === 'icon') { %>
+                                    <!-- ICON picker field -->
+                                    <%
+                                    const iconOptions = [
+                                        { value: 'mic',        label: 'Micrófono',     path: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
+                                        { value: 'lightbulb',  label: 'Bombilla',      path: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
+                                        { value: 'users',      label: 'Equipo',        path: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                                        { value: 'globe',      label: 'Globo',         path: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                                        { value: 'star',       label: 'Estrella',      path: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+                                        { value: 'heart',      label: 'Corazón',       path: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+                                        { value: 'academic',   label: 'Diploma',       path: 'M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z' },
+                                        { value: 'chart',      label: 'Estadística',   path: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+                                        { value: 'shield',     label: 'Escudo',        path: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+                                        { value: 'chat',       label: 'Debate',        path: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' },
+                                        { value: 'pencil',     label: 'Escritura',     path: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' },
+                                        { value: 'flag',       label: 'Meta',          path: 'M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9' },
+                                    ];
+                                    %>
+                                    <input type="hidden" name="<%= field.key %>" id="hidden-<%= field.key %>" value="<%= value || 'mic' %>">
+                                    <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                                        <% iconOptions.forEach(ico => { %>
+                                        <button type="button"
+                                                onclick="selectIcon('<%= field.key %>', '<%= ico.value %>', this)"
+                                                title="<%= ico.label %>"
+                                                class="icon-opt flex flex-col items-center gap-1 p-2.5 rounded-xl border transition-all <%= (value || 'mic') === ico.value ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:border-gray-300 hover:bg-white' %>">
+                                            <svg class="w-5 h-5 <%= (value || 'mic') === ico.value ? 'text-brand-blue' : 'text-gray-400' %>"
+                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= ico.path %>"/>
+                                            </svg>
+                                            <span class="text-[9px] font-bold <%= (value || 'mic') === ico.value ? 'text-brand-blue' : 'text-gray-400' %> text-center leading-tight"><%= ico.label %></span>
+                                        </button>
+                                        <% }); %>
+                                    </div>
+
+                                    <% } else if (field.type === 'image') { %>
+                                    <!-- IMAGE field -->
+                                    <div class="drop-zone border-2 border-dashed border-gray-200 rounded-xl p-4 flex items-center gap-4 bg-gray-50"
+                                         id="drop-<%= field.key %>">
+                                        <div class="flex-shrink-0" id="preview-container-<%= field.key %>">
+                                            <% if (value) { %>
+                                            <div class="relative group w-28 h-20">
+                                                <img src="<%= value %>" alt="Preview"
+                                                     class="w-full h-full object-cover rounded-lg border border-gray-200 shadow-sm"
+                                                     id="preview-img-<%= field.key %>">
+                                                <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span class="text-white text-[9px] font-black uppercase tracking-wider">Actual</span>
+                                                </div>
+                                            </div>
+                                            <% } else { %>
+                                            <div class="w-28 h-20 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 bg-white"
+                                                 id="preview-img-<%= field.key %>">
+                                                <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                </svg>
+                                                <span class="text-[9px] text-gray-300 font-bold">Sin foto</span>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <input type="file"
+                                                   id="<%= field.key %>"
+                                                   name="<%= field.key %>"
+                                                   accept="image/*"
+                                                   class="w-full text-xs text-gray-500"
+                                                   onchange="previewImage(this, '<%= field.key %>')">
+                                            <p class="text-[10px] text-gray-400 font-medium mt-2">
+                                                JPG, PNG o WEBP · Dejá vacío para mantener la foto actual
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="<%= field.key %>_current" value="<%= value %>">
+
+                                    <!-- CHECKBOX field -->
+                                    <% } else if (field.type === 'checkbox') { %>
+                                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50/80 hover:bg-gray-50 transition-colors">
+                                        <div>
+                                            <p class="text-sm font-semibold text-slate-700">
+                                                Mostrar contador de cuenta regresiva
+                                            </p>
+                                            <p class="text-[11px] text-gray-400 font-medium mt-0.5">
+                                                Desactivado → aparecen <strong>??</strong> en la página
+                                            </p>
+                                        </div>
+                                        <input type="hidden" name="<%= field.key %>" value="false">
+                                        <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
+                                            <input type="checkbox"
+                                                   id="<%= field.key %>"
+                                                   name="<%= field.key %>"
+                                                   value="true"
+                                                   <%= value === 'true' ? 'checked' : '' %>
+                                                   class="sr-only peer"
+                                                   onchange="markDirty('<%= field.key %>_field', '<%= section.id %>')">
+                                            <div class="toggle-track w-12 h-6 rounded-full peer-checked:bg-green-500 bg-gray-200 relative">
+                                                <div class="toggle-thumb absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm peer-checked:translate-x-6"
+                                                     id="thumb-<%= field.key %>"></div>
+                                            </div>
+                                            <span class="ml-2.5 text-xs font-black uppercase tracking-wider"
+                                                  id="toggle-label-<%= field.key %>"
+                                                  style="color: <%= value === 'true' ? '#3D7A26' : '#94A3B8' %>">
+                                                <%= value === 'true' ? 'ON' : 'OFF' %>
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                    <!-- TEXTAREA field -->
+                                    <% } else if (field.type === 'textarea') { %>
+                                    <textarea id="<%= field.key %>"
+                                              name="<%= field.key %>"
+                                              rows="3"
+                                              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 resize-none transition-all leading-relaxed"
+                                              oninput="markDirty('<%= fieldId %>', '<%= section.id %>'); updateCounter(this, '<%= field.key %>')"
+                                              data-original="<%= value %>"><%= value %></textarea>
+
+                                    <!-- TEXT / URL / DATETIME field -->
+                                    <% } else { %>
+                                    <div class="relative">
+                                        <% if (field.type === 'url') { %>
+                                        <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                            </svg>
+                                        </div>
+                                        <% } else if (field.type === 'datetime-local') { %>
+                                        <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                        <% } %>
+                                        <%
+                                        let inputValue = value;
+                                        if (field.type === 'datetime-local' && value && value.includes(' ')) {
+                                            inputValue = value.replace(' ', 'T');
+                                        }
+                                        %>
+                                        <input type="<%= field.type %>"
+                                               id="<%= field.key %>"
+                                               name="<%= field.key %>"
+                                               value="<%= inputValue %>"
+                                               class="w-full py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all <%= (field.type === 'url' || field.type === 'datetime-local') ? 'pl-10 pr-4' : 'px-4' %>"
+                                               oninput="markDirty('<%= fieldId %>', '<%= section.id %>'); <% if (field.type === 'text') { %>updateCounter(this, '<%= field.key %>')<% } %>"
+                                               data-original="<%= inputValue %>">
+                                    </div>
+                                    <% } %>
+
+                                </div>
+                                <% }); %>
+                        <% } // end else normal fields %>
+
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+
+                    <!-- Spacer for save bar -->
+                    <div class="h-24"></div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Sticky save bar -->
+        <div class="fixed bottom-0 left-0 right-0 md:left-64 z-40 save-bar bg-white/90 border-t border-gray-100 px-6 lg:px-10 py-4">
+            <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div id="save-status" class="flex items-center gap-2 text-xs font-bold text-gray-400">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Sin cambios pendientes
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="button"
+                            id="reset-btn"
+                            onclick="resetForm()"
+                            class="hidden px-4 py-2.5 rounded-xl text-xs font-black text-gray-500 border border-gray-200 hover:bg-gray-50 transition-all">
+                        Descartar cambios
+                    </button>
+                    <button type="submit"
+                            form="pages-form"
+                            id="save-btn"
+                            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-xs font-black shadow-lg transition-all hover:brightness-110 active:scale-95"
+                            style="background:#A02140; box-shadow: 0 4px 14px -2px rgba(160,33,64,0.4);">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+// ── Icon picker ──────────────────────────────────────────────────────────────
+function selectIcon(fieldKey, iconValue, btn) {
+    // Update hidden input
+    document.getElementById('hidden-' + fieldKey).value = iconValue;
+    // Reset all buttons in this picker
+    btn.closest('.grid').querySelectorAll('.icon-opt').forEach(b => {
+        b.classList.remove('border-blue-400', 'bg-blue-50');
+        b.classList.add('border-gray-200', 'bg-gray-50');
+        b.querySelector('svg').classList.remove('text-brand-blue');
+        b.querySelector('svg').classList.add('text-gray-400');
+        b.querySelector('span').classList.remove('text-brand-blue');
+        b.querySelector('span').classList.add('text-gray-400');
+    });
+    // Highlight selected
+    btn.classList.remove('border-gray-200', 'bg-gray-50');
+    btn.classList.add('border-blue-400', 'bg-blue-50');
+    btn.querySelector('svg').classList.remove('text-gray-400');
+    btn.querySelector('svg').classList.add('text-brand-blue');
+    btn.querySelector('span').classList.remove('text-gray-400');
+    btn.querySelector('span').classList.add('text-brand-blue');
+    // Mark dirty
+    const wrapper = btn.closest('.field-wrapper');
+    if (wrapper) {
+        wrapper.classList.add('field-dirty');
+        dirtyFields.add(wrapper.id);
+        updateSectionDirtyCount(wrapper.dataset.section);
+        updateGlobalDirtyState();
+    }
+}
+
+// ── Dirty tracking ──────────────────────────────────────────────────────────
+let dirtyFields = new Set();
+
+function markDirty(fieldId, sectionId) {
+    const wrapper = document.getElementById(fieldId);
+    if (!wrapper) return;
+    const input = wrapper.querySelector('input, textarea');
+    if (!input) return;
+
+    const original = input.dataset.original || '';
+    const current  = input.value;
+    const isDirty  = current !== original;
+
+    if (isDirty) {
+        wrapper.classList.add('field-dirty');
+        dirtyFields.add(fieldId);
+    } else {
+        wrapper.classList.remove('field-dirty');
+        dirtyFields.delete(fieldId);
+    }
+
+    updateSectionDirtyCount(sectionId);
+    updateGlobalDirtyState();
+}
+
+function updateSectionDirtyCount(sectionId) {
+    const badge = document.getElementById('dirty-count-' + sectionId);
+    if (!badge) return;
+    const sectionFields = document.querySelectorAll(`[data-section="${sectionId}"].field-dirty`);
+    const count = sectionFields.length;
+    if (count > 0) {
+        badge.textContent = count + (count === 1 ? ' cambio' : ' cambios');
+        badge.classList.remove('hidden');
+    } else {
+        badge.classList.add('hidden');
+    }
+}
+
+function updateGlobalDirtyState() {
+    const dirty = dirtyFields.size > 0;
+    const badge   = document.getElementById('unsaved-badge');
+    const status  = document.getElementById('save-status');
+    const resetBtn = document.getElementById('reset-btn');
+
+    if (dirty) {
+        badge.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
+        status.innerHTML = `<svg class="w-3.5 h-3.5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-yellow-600">${dirtyFields.size} campo${dirtyFields.size > 1 ? 's' : ''} modificado${dirtyFields.size > 1 ? 's' : ''}</span>`;
+    } else {
+        badge.classList.add('hidden');
+        resetBtn.classList.add('hidden');
+        status.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Sin cambios pendientes`;
+    }
+}
+
+function resetForm() {
+    document.querySelectorAll('[data-original]').forEach(input => {
+        input.value = input.dataset.original;
+        const wrapper = input.closest('.field-wrapper');
+        if (wrapper) wrapper.classList.remove('field-dirty');
+    });
+    dirtyFields.clear();
+    document.querySelectorAll('[id^="dirty-count-"]').forEach(el => el.classList.add('hidden'));
+    updateGlobalDirtyState();
+}
+
+// ── Char counter ─────────────────────────────────────────────────────────────
+function updateCounter(input, key) {
+    const counter = document.getElementById('counter-' + key);
+    if (!counter) return;
+    const len = input.value.length;
+    counter.textContent = len + ' car.';
+    counter.classList.toggle('char-warn', len > 120);
+}
+
+// ── Image preview ─────────────────────────────────────────────────────────────
+function previewImage(input, key) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const container = document.getElementById('preview-container-' + key);
+        if (!container) return;
+        container.innerHTML = `
+            <div class="relative group w-28 h-20">
+                <img src="${e.target.result}" class="w-full h-full object-cover rounded-lg border border-gray-200 shadow-sm">
+                <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white text-[9px] font-black uppercase tracking-wider">Nueva</span>
+                </div>
+            </div>`;
+    };
+    reader.readAsDataURL(input.files[0]);
+
+    // Mark dirty visually
+    const wrapper = input.closest('.field-wrapper');
+    if (wrapper) {
+        wrapper.classList.add('field-dirty');
+        const sectionId = wrapper.dataset.section;
+        dirtyFields.add(wrapper.id);
+        updateSectionDirtyCount(sectionId);
+        updateGlobalDirtyState();
+    }
+}
+
+// ── Checkbox toggle visual ───────────────────────────────────────────────────
+document.querySelectorAll('input[type="checkbox"].sr-only').forEach(cb => {
+    cb.addEventListener('change', function() {
+        const key = this.id;
+        const thumb = document.getElementById('thumb-' + key);
+        const label = document.getElementById('toggle-label-' + key);
+        const track = this.nextElementSibling;
+
+        if (this.checked) {
+            if (thumb) { thumb.style.transform = 'translateX(24px)'; }
+            if (track) track.style.background = '#22c55e';
+            if (label) { label.textContent = 'ON'; label.style.color = '#3D7A26'; }
+        } else {
+            if (thumb) { thumb.style.transform = 'translateX(0)'; }
+            if (track) track.style.background = '#e5e7eb';
+            if (label) { label.textContent = 'OFF'; label.style.color = '#94A3B8'; }
+        }
+    });
+});
+
+// ── Section collapse ─────────────────────────────────────────────────────────
+document.querySelectorAll('.section-toggle').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const targetId = this.dataset.target;
+        const body = document.getElementById(targetId);
+        const card = this.closest('.section-card');
+        const chevron = this.querySelector('.toggle-chevron');
+        const isCollapsed = body.classList.contains('collapsed');
+
+        if (isCollapsed) {
+            body.style.maxHeight = '2000px';
+            body.style.opacity = '1';
+            body.classList.remove('collapsed');
+            card.classList.remove('collapsed-section');
+        } else {
+            body.style.maxHeight = '0';
+            body.style.opacity = '0';
+            body.classList.add('collapsed');
+            card.classList.add('collapsed-section');
+        }
+    });
+});
+
+// ── Keyboard shortcut Ctrl+S ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        document.getElementById('pages-form').submit();
+    }
+});
+
+// ── Submit feedback ──────────────────────────────────────────────────────────
+document.getElementById('pages-form').addEventListener('submit', function() {
+    const btn = document.getElementById('save-btn');
+    btn.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Guardando...`;
+    btn.disabled = true;
+});
+
+// ── File field clear ─────────────────────────────────────────────────────────
+function clearFileField(btn, key) {
+    const hidden = document.getElementById('fc-' + key);
+    if (hidden) hidden.value = '';
+    // Add clear signal
+    const del = document.createElement('input');
+    del.type = 'hidden';
+    del.name = key + '_file_clear';
+    del.value = '1';
+    btn.closest('.flex').appendChild(del);
+    btn.previousElementSibling?.remove(); // remove hidden current
+    btn.remove();
+    markGlobalDirty();
+}
+
+// ── Dynamic images (galería) ─────────────────────────────────────────────────
+function addDynImages(input, sectionId, prefix, startIdx) {
+    if (!input.files || !input.files.length) return;
+    const grid = document.getElementById('dyn-grid-' + sectionId);
+    const uploadSlot = document.getElementById('dyn-upload-' + sectionId);
+    let nextIdx = startIdx;
+
+    Array.from(input.files).forEach(file => {
+        const key = prefix + nextIdx;
+        nextIdx++;
+        const reader = new FileReader();
+        reader.onload = e => {
+            const card = document.createElement('div');
+            card.className = 'dyn-img-card relative group rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-video';
+            card.dataset.key = key;
+            card.innerHTML = `
+                <img src="${e.target.result}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
+                    <button type="button" onclick="removeDynImage(this,'${sectionId}')"
+                            class="opacity-0 group-hover:opacity-100 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center transition-all hover:bg-red-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>`;
+            // Hidden file input carrying the actual file
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = key;
+            fileInput.style.display = 'none';
+            // Transfer file to a new DataTransfer
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            fileInput.files = dt.files;
+            card.appendChild(fileInput);
+            grid.insertBefore(card, uploadSlot);
+            updateDynCount(sectionId);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Update upload slot's next index
+    input.onchange = null;
+    setTimeout(() => {
+        input.onchange = e => addDynImages(e.target, sectionId, prefix, nextIdx);
+    }, 100);
+
+    markGlobalDirty();
+}
+
+function removeDynImage(btn, sectionId) {
+    const card = btn.closest('.dyn-img-card');
+    // Disable ALL inputs inside so they don't submit
+    card.querySelectorAll('input').forEach(i => {
+        i.disabled = true;
+        i.name = '';
+    });
+    card.style.transition = 'opacity 0.2s, transform 0.2s';
+    card.style.opacity = '0';
+    card.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+        card.remove();
+        updateDynCount(sectionId);
+    }, 200);
+    markGlobalDirty();
+}
+
+function updateDynCount(sectionId) {
+    const grid = document.getElementById('dyn-grid-' + sectionId);
+    const count = grid ? grid.querySelectorAll('.dyn-img-card').length : 0;
+    const el = document.getElementById('dyn-count-' + sectionId);
+    if (el) el.textContent = count;
+}
+
+// ── Sponsor add/remove ───────────────────────────────────────────────────────
+function getNextSponsorIndex() {
+    const cards = document.querySelectorAll('.sponsor-card');
+    const used = Array.from(cards).map(c => parseInt(c.dataset.index));
+    for (let i = 1; i <= 8; i++) { if (!used.includes(i)) return i; }
+    return null;
+}
+
+function addSponsor() {
+    const idx = getNextSponsorIndex();
+    if (!idx) return;
+    const list = document.getElementById('sponsors-list');
+    const num = list.querySelectorAll('.sponsor-card').length + 1;
+    const card = document.createElement('div');
+    card.className = 'sponsor-card border border-gray-100 rounded-xl overflow-hidden';
+    card.dataset.index = idx;
+    card.innerHTML = `
+        <div class="flex items-center justify-between gap-2 px-4 py-2.5 bg-gray-50 border-b border-gray-100">
+            <div class="flex items-center gap-2">
+                <div class="w-5 h-5 rounded bg-gray-200 flex items-center justify-center">
+                    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>
+                </div>
+                <span class="text-xs font-black text-gray-500">Sponsor ${num}</span>
+                <span class="text-xs text-gray-400 font-medium sponsor-name-preview"></span>
+            </div>
+            <button type="button" onclick="removeSponsor(this)"
+                    class="w-6 h-6 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all flex-shrink-0">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Nombre</label>
+                <input type="text" name="sponsor_${idx}_name" value=""
+                       class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700"
+                       oninput="updateSponsorNamePreview(this)"
+                       placeholder="Ej: Mi Sponsor">
+            </div>
+            <div>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Link web</label>
+                <div class="relative">
+                    <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg class="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                    </div>
+                    <input type="url" name="sponsor_${idx}_url" value=""
+                           class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700"
+                           placeholder="https://...">
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Logo</label>
+                <div class="flex items-center gap-3 p-3 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50">
+                    <div id="sp-prev-${idx}" class="flex-shrink-0">
+                        <div class="h-12 w-20 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center bg-white">
+                            <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <input type="file" name="sponsor_${idx}_img" accept="image/*"
+                               class="w-full text-xs text-gray-500"
+                               onchange="previewSponsorLogo(this, '${idx}')">
+                        <input type="hidden" name="sponsor_${idx}_img_current" value="" id="sp-current-${idx}">
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    list.appendChild(card);
+    // Hide add button if max reached
+    if (getNextSponsorIndex() === null) {
+        document.getElementById('add-sponsor-btn')?.classList.add('hidden');
+    }
+    markGlobalDirty();
+}
+
+function removeSponsor(btn) {
+    const card = btn.closest('.sponsor-card');
+    const idx = card.dataset.index;
+    // Clear all fields so they save as empty
+    card.querySelectorAll('input[type="text"], input[type="url"]').forEach(i => i.value = '');
+    const hiddenCurrent = document.getElementById('sp-current-' + idx);
+    if (hiddenCurrent) hiddenCurrent.value = '';
+    // Add hidden clear field
+    const clearInput = document.createElement('input');
+    clearInput.type = 'hidden';
+    clearInput.name = 'sponsor_' + idx + '_img_clear';
+    clearInput.value = '1';
+    card.appendChild(clearInput);
+    card.style.transition = 'opacity 0.2s, max-height 0.3s';
+    card.style.opacity = '0';
+    setTimeout(() => {
+        card.remove();
+        renumberSponsors();
+        document.getElementById('add-sponsor-btn')?.classList.remove('hidden');
+    }, 250);
+    markGlobalDirty();
+}
+
+function renumberSponsors() {
+    document.querySelectorAll('.sponsor-card').forEach((card, i) => {
+        const label = card.querySelector('.text-xs.font-black.text-gray-500');
+        if (label) label.textContent = 'Sponsor ' + (i + 1);
+    });
+}
+
+function previewSponsorLogo(input, idx) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const prev = document.getElementById('sp-prev-' + idx);
+        if (prev) prev.innerHTML = `<img src="${e.target.result}" class="h-12 w-20 object-contain rounded-lg border border-gray-200 bg-white p-1">`;
+    };
+    reader.readAsDataURL(input.files[0]);
+    markGlobalDirty();
+}
+
+function clearSponsorLogo(btn, idx) {
+    const prev = document.getElementById('sp-prev-' + idx);
+    if (prev) prev.innerHTML = `<div class="h-12 w-20 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center bg-white"><svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>`;
+    const hiddenCurrent = document.getElementById('sp-current-' + idx);
+    if (hiddenCurrent) hiddenCurrent.value = '';
+    const clearInput = document.createElement('input');
+    clearInput.type = 'hidden';
+    clearInput.name = 'sponsor_' + idx + '_img_clear';
+    clearInput.value = '1';
+    btn.closest('.sponsor-card').appendChild(clearInput);
+    btn.remove();
+    markGlobalDirty();
+}
+
+function updateSponsorNamePreview(input) {
+    const card = input.closest('.sponsor-card');
+    const preview = card.querySelector('.sponsor-name-preview');
+    if (preview) preview.textContent = input.value ? '— ' + input.value : '';
+    markGlobalDirty();
+}
+
+// ── Extra FAQ add/remove ──────────────────────────────────────────────────────
+function getNextFaqIndex() {
+    const cards = document.querySelectorAll('.extrafaq-card');
+    const used = Array.from(cards).map(c => parseInt(c.dataset.index));
+    for (let i = 1; i <= 5; i++) { if (!used.includes(i)) return i; }
+    return null;
+}
+
+function addExtraFaq() {
+    const idx = getNextFaqIndex();
+    if (!idx) return;
+    const list = document.getElementById('extrafaq-list');
+    const num = list.querySelectorAll('.extrafaq-card').length + 1;
+    const card = document.createElement('div');
+    card.className = 'extrafaq-card border border-gray-100 rounded-xl overflow-hidden';
+    card.dataset.index = idx;
+    card.innerHTML = `
+        <div class="flex items-center justify-between px-4 py-2.5 bg-gray-50 border-b border-gray-100">
+            <span class="text-xs font-black text-gray-500">Pregunta extra ${num}</span>
+            <button type="button" onclick="removeExtraFaq(this)"
+                    class="w-6 h-6 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="p-4 space-y-3">
+            <div>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Pregunta</label>
+                <input type="text" name="text_home_faq_extra${idx}_q" value=""
+                       class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700"
+                       placeholder="¿Tu pregunta aquí?">
+            </div>
+            <div>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5 block">Respuesta</label>
+                <textarea name="text_home_faq_extra${idx}_a" rows="3"
+                          class="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 resize-none"
+                          placeholder="Tu respuesta aquí..."></textarea>
+            </div>
+        </div>`;
+    list.appendChild(card);
+    if (getNextFaqIndex() === null) {
+        document.getElementById('add-extrafaq-btn')?.classList.add('hidden');
+    }
+    markGlobalDirty();
+}
+
+function removeExtraFaq(btn) {
+    const card = btn.closest('.extrafaq-card');
+    const idx = card.dataset.index;
+    // Clear fields so they save as empty
+    card.querySelectorAll('input, textarea').forEach(i => i.value = '');
+    card.style.opacity = '0';
+    card.style.transition = 'opacity 0.2s';
+    setTimeout(() => {
+        card.remove();
+        renumberFaqs();
+        document.getElementById('add-extrafaq-btn')?.classList.remove('hidden');
+    }, 250);
+    markGlobalDirty();
+}
+
+function renumberFaqs() {
+    document.querySelectorAll('.extrafaq-card').forEach((card, i) => {
+        const label = card.querySelector('.text-xs.font-black.text-gray-500');
+        if (label) label.textContent = 'Pregunta extra ' + (i + 1);
+    });
+}
+
+function markGlobalDirty() {
+    dirtyFields.add('dynamic-field');
+    updateGlobalDirtyState();
+}
+
+// ── Auto-dismiss flash after 4s
+setTimeout(() => {
+    const flash = document.querySelector('[style*="EDF5E8"], [style*="F9E8EC"]');
+    if (flash && flash.classList.contains('flex')) {
+        flash.style.transition = 'opacity 0.4s ease';
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 400);
+    }
+}, 4000);
+</script>
+
+</body>
+</html>

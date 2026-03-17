@@ -104,4 +104,15 @@ router.get('/ejemplos/autoridad', authMiddleware, adminExamplesController.autori
 router.get('/ejemplos/escuela', authMiddleware, adminExamplesController.escuelasExample);
 router.get('/ejemplos/voluntario', authMiddleware, adminExamplesController.voluntariosExample);
 
+
+// Pages Management (CMS por página)
+const adminPagesController = require('../controllers/adminPagesController');
+router.get('/paginas/:page',  authMiddleware, adminPagesController.show);
+router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesController.update);
+
+router.get('/paginas/:page', authMiddleware, (req, res, next) => {
+    console.log('>>> RUTA PAGINAS ALCANZADA:', req.params.page);
+    next();
+}, adminPagesController.show);
+
 module.exports = router;

@@ -22,36 +22,12 @@
                     </svg>
                     <span class="text-sm">Dashboard</span>
                 </a>
-
-                <a href="/admin/configuracion"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Configuración')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Configuración')) { %> style="background:#F9E8EC; color:#A02140;" <% } %>>
-                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         class="<%= (typeof title !== 'undefined' && title.includes('Configuración')) ? '' : 'text-gray-300 group-hover:text-gray-500' %>"
-                         <% if (typeof title !== 'undefined' && title.includes('Configuración')) { %> style="color:#A02140;" <% } %>>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <span class="text-sm">Configuración</span>
-                </a>
-
-                <a href="/admin/fotos"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Fotos')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Fotos')) { %> style="background:#E8F5FB; color:#1D6FA4;" <% } %>>
-                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         class="<%= (typeof title !== 'undefined' && title.includes('Fotos')) ? '' : 'text-gray-300 group-hover:text-gray-500' %>"
-                         <% if (typeof title !== 'undefined' && title.includes('Fotos')) { %> style="color:#61B4E4;" <% } %>>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span class="text-sm">Galería Fotos</span>
-                </a>
             </div>
         </div>
 
-        <!-- GESTIÓN WEB -->
+        <!-- GESTIÓN -->
         <div>
-            <p class="text-[9px] font-black text-gray-300 uppercase tracking-[0.22em] px-3 mb-2">Gestión Web</p>
+            <p class="text-[9px] font-black text-gray-300 uppercase tracking-[0.22em] px-3 mb-2">Gestión</p>
             <div class="space-y-0.5">
 
                 <a href="/admin/equipodevoluntarios"
@@ -62,16 +38,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                     <span class="text-sm">Equipo Staff</span>
-                </a>
-
-                <a href="/admin/textos"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
-                          <%= (typeof title !== 'undefined' && title.includes('Textos')) ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
-                   <% if (typeof title !== 'undefined' && title.includes('Textos')) { %> style="background:#E8F5FB; color:#1D6FA4;" <% } %>>
-                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-gray-300 group-hover:text-gray-500">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                    </svg>
-                    <span class="text-sm">Textos</span>
                 </a>
 
                 <a href="/admin/organos"
@@ -93,6 +59,32 @@
                     </svg>
                     <span class="text-sm">Cronograma</span>
                 </a>
+            </div>
+        </div>
+
+
+        <!-- PÁGINAS DEL SITIO -->
+        <div>
+            <p class="text-[9px] font-black text-gray-300 uppercase tracking-[0.22em] px-3 mb-2">Páginas del Sitio</p>
+            <div class="space-y-0.5">
+                <% [
+                    { href: '/admin/paginas/inicio',        label: 'Inicio',         match: 'Página de Inicio',         dot: '#A02140' },
+                    { href: '/admin/paginas/autoridades',   label: 'Autoridades',    match: 'Página de Autoridades',    dot: '#61B4E4' },
+                    { href: '/admin/paginas/voluntarios',   label: 'Voluntarios',    match: 'Página de Voluntarios',    dot: '#73A950' },
+                    { href: '/admin/paginas/cronograma',    label: 'Cronograma',     match: 'Página de Cronograma',     dot: '#E15829' },
+                    { href: '/admin/paginas/participacion', label: 'Participación',  match: 'Página de Participación',  dot: '#FFB819' },
+                    { href: '/admin/paginas/global',        label: 'Navbar & Footer',match: 'Global',                  dot: '#8A8A8D' },
+                ].forEach(item => {
+                    const isActive = typeof title !== 'undefined' && title.includes(item.match);
+                %>
+                <a href="<%= item.href %>"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
+                          <%= isActive ? 'font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>"
+                   <% if (isActive) { %> style="background:<%= item.dot %>15; color:<%= item.dot %>;" <% } %>>
+                    <span class="w-2 h-2 rounded-full flex-shrink-0 ml-1" style="background:<%= item.dot %>; opacity:<%= isActive ? 1 : 0.35 %>;"></span>
+                    <span class="text-sm"><%= item.label %></span>
+                </a>
+                <% }); %>
             </div>
         </div>
 
