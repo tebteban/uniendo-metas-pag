@@ -32,6 +32,13 @@ if (isProduction) {
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
+        // Allow PDFs and docs for document fields (bib_, par_doc_, reglamento, archivo_*)
+        const docFields = ['reglamento', 'archivo_dinamicas', 'archivo_topico'];
+        const isDocField = docFields.includes(file.fieldname)
+            || file.fieldname.match(/^(bib_|par_doc_).*_file$/);
+        if (isDocField) {
+            return cb(null, true); // handled by pdfUpload middleware, just pass through
+        }
         const filetypes = /jpeg|jpg|png|webp/;
         const mimetype = filetypes.test(file.mimetype);
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());

@@ -15,6 +15,10 @@ const Schedule = sequelize.define('Schedule', {
         type: DataTypes.STRING, // '4 de Octubre'
         allowNull: false
     },
+    sort_date: {
+        type: DataTypes.DATEONLY, // fecha real para ordenar: '2026-10-04'
+        allowNull: true
+    },
     time: {
         type: DataTypes.STRING, // '08:00 HS'
         allowNull: false

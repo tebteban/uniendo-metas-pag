@@ -375,6 +375,252 @@
                                     Agregar pregunta
                                 </button>
 
+                                <% } else if (section.crudType === 'cronograma') { %>
+                                <!-- ══ CRUD CRONOGRAMA ══ -->
+                                <%
+                                const cEvents = (typeof crudData !== 'undefined' && crudData.cronograma) || [];
+                                const editEvt = (typeof editingCrud !== 'undefined' && editingCrud && editingCrud.type === 'cronograma') ? editingCrud.item : null;
+                                %>
+                                <!-- Formulario crear / editar -->
+                                <div class="mb-6 p-5 rounded-xl border border-gray-200 bg-gray-50">
+                                    <h3 class="text-sm font-black text-slate-700 mb-4"><%= editEvt ? '✏️ Editar Evento' : '＋ Nueva Actividad' %></h3>
+                                    <div id="crud-cron-form" class="space-y-4" data-action="<%= editEvt ? '/admin/paginas/cronograma/update/' + editEvt.id : '/admin/paginas/cronograma/store' %>">
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Día</label>
+                                                <input type="text" name="day" value="<%= editEvt ? editEvt.day : '' %>" placeholder="Viernes"
+                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                            </div>
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Fecha (texto)</label>
+                                                <input type="text" name="date" value="<%= editEvt ? editEvt.date : '' %>" placeholder="4 de Octubre"
+                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                            </div>
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Fecha real (para orden)</label>
+                                                <input type="date" name="sort_date" value="<%= editEvt && editEvt.sort_date ? editEvt.sort_date : '' %>"
+                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Horario</label>
+                                                <input type="text" name="time" value="<%= editEvt ? editEvt.time : '' %>" placeholder="08:00 HS"
+                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                            </div>
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Tipo</label>
+                                                <select name="type" class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                                    <% ['cap_autoridades','cap_delegados','sorteo','examen','convivencia','modelo','general'].forEach(t => { %>
+                                                    <option value="<%= t %>" <%= editEvt && editEvt.type === t ? 'selected' : '' %>>
+                                                        <%= {cap_autoridades:'Cap. Autoridades',cap_delegados:'Cap. Delegados',sorteo:'Sorteo',examen:'Examen',convivencia:'Convivencia',modelo:'Día de Modelo',general:'General'}[t] %>
+                                                    </option>
+                                                    <% }); %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Actividad</label>
+                                            <input type="text" name="activity" value="<%= editEvt ? editEvt.activity : '' %>"
+                                                   class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                        </div>
+                                        <div>
+                                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Lugar</label>
+                                            <input type="text" name="location" value="<%= editEvt ? editEvt.location : '' %>"
+                                                   class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                        </div>
+                                        <div class="flex gap-3 pt-1">
+                                            <button type="button"
+                                                    onclick="submitCrudDiv('crud-cron-form')"
+                                                    class="px-6 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition shadow-sm shadow-blue-200">
+                                                <%= editEvt ? 'Actualizar' : 'Guardar Actividad' %>
+                                            </button>
+                                            <% if (editEvt) { %>
+                                            <a href="/admin/paginas/cronograma"
+                                               class="px-6 py-2.5 rounded-xl bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">
+                                                Cancelar
+                                            </a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tabla de eventos -->
+                                <% if (cEvents.length > 0) { %>
+                                <div class="rounded-xl border border-gray-200 overflow-hidden">
+                                    <table class="w-full text-left">
+                                        <thead class="bg-gray-50 border-b border-gray-200">
+                                            <tr class="text-[11px] font-black text-gray-500 uppercase tracking-wider">
+                                                <th class="px-4 py-3">Día</th>
+                                                <th class="px-4 py-3">Fecha</th>
+                                                <th class="px-4 py-3">Horario</th>
+                                                <th class="px-4 py-3">Actividad</th>
+                                                <th class="px-4 py-3">Tipo</th>
+                                                <th class="px-4 py-3 text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-100">
+                                            <% cEvents.forEach(ev => { %>
+                                            <tr class="hover:bg-slate-50 transition text-sm">
+                                                <td class="px-4 py-3 font-bold text-slate-700"><%= ev.day %></td>
+                                                <td class="px-4 py-3 text-xs text-gray-500"><%= ev.date %></td>
+                                                <td class="px-4 py-3 font-bold text-blue-600 text-xs"><%= ev.time %></td>
+                                                <td class="px-4 py-3 font-medium text-slate-700"><%= ev.activity %></td>
+                                                <td class="px-4 py-3">
+                                                    <span class="px-2 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-500"><%= ev.type %></span>
+                                                </td>
+                                                <td class="px-4 py-3 text-right space-x-2">
+                                                    <a href="/admin/paginas/cronograma/editar/<%= ev.id %>"
+                                                       class="text-indigo-600 hover:text-indigo-900 font-bold text-xs">Editar</a>
+                                                    <a href="/admin/paginas/cronograma/eliminar/<%= ev.id %>"
+                                                       onclick="return confirm('¿Eliminar esta actividad?')"
+                                                       class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</a>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <% } else { %>
+                                <p class="text-center py-8 text-sm text-gray-400 font-medium">No hay eventos todavía. ¡Agregá el primero arriba!</p>
+                                <% } %>
+
+                                <% } else if (section.crudType === 'organos') { %>
+                                <!-- ══ CRUD ÓRGANOS ══ -->
+                                <%
+                                const cOrgans = (typeof crudData !== 'undefined' && crudData.organos) || [];
+                                const editOrg = (typeof editingCrud !== 'undefined' && editingCrud && editingCrud.type === 'organos') ? editingCrud.item : null;
+                                %>
+                                <!-- Formulario crear / editar -->
+                                <div class="mb-6 p-5 rounded-xl border border-gray-200 bg-gray-50">
+                                    <h3 class="text-sm font-black text-slate-700 mb-4"><%= editOrg ? '✏️ Editar Órgano' : '＋ Nuevo Órgano' %></h3>
+                                    <div id="crud-org-form" class="space-y-4" data-action="<%= editOrg ? '/admin/paginas/organos/update/' + editOrg.id : '/admin/paginas/organos/store' %>" data-multipart="true">
+                                        <div>
+                                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Nombre del Órgano</label>
+                                            <input type="text" name="name" value="<%= editOrg ? editOrg.name : '' %>"
+                                                   class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                        </div>
+                                        <div>
+                                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Descripción</label>
+                                            <textarea name="description" rows="2"
+                                                      class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 resize-none focus:outline-none focus:border-blue-400"><%= editOrg ? editOrg.description : '' %></textarea>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Color (ej: #A02140)</label>
+                                                <input type="text" name="color" value="<%= editOrg ? editOrg.color : '' %>" placeholder="#A02140"
+                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                            </div>
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Tópico</label>
+                                                <input type="text" name="topic" value="<%= editOrg ? editOrg.topic : '' %>"
+                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Reglamento (PDF)</label>
+                                                <% if (editOrg && editOrg.link_reglamento) { %>
+                                                <a href="<%= editOrg.link_reglamento %>" target="_blank" class="block text-xs text-blue-500 mb-1 truncate">Ver actual</a>
+                                                <% } %>
+                                                <input type="file" name="reglamento" accept=".pdf,.doc,.docx"
+                                                       class="w-full mt-1 text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 file:font-bold hover:file:bg-blue-100">
+                                            </div>
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Dinámicas (PDF)</label>
+                                                <% if (editOrg && editOrg.link_dinamicas) { %>
+                                                <a href="<%= editOrg.link_dinamicas %>" target="_blank" class="block text-xs text-blue-500 mb-1 truncate">Ver actual</a>
+                                                <% } %>
+                                                <input type="file" name="archivo_dinamicas" accept=".pdf,.doc,.docx"
+                                                       class="w-full mt-1 text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 file:font-bold hover:file:bg-blue-100">
+                                            </div>
+                                            <div>
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Tópico (PDF)</label>
+                                                <% if (editOrg && editOrg.link_topico) { %>
+                                                <a href="<%= editOrg.link_topico %>" target="_blank" class="block text-xs text-blue-500 mb-1 truncate">Ver actual</a>
+                                                <% } %>
+                                                <input type="file" name="archivo_topico" accept=".pdf,.doc,.docx"
+                                                       class="w-full mt-1 text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 file:font-bold hover:file:bg-blue-100">
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-3 pt-1">
+                                            <button type="button"
+                                                    onclick="submitCrudDiv('crud-org-form')"
+                                                    class="px-6 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition shadow-sm shadow-blue-200">
+                                                <%= editOrg ? 'Actualizar' : 'Guardar Órgano' %>
+                                            </button>
+                                            <% if (editOrg) { %>
+                                            <a href="/admin/paginas/organos"
+                                               class="px-6 py-2.5 rounded-xl bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">
+                                                Cancelar
+                                            </a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tabla de órganos -->
+                                <% if (cOrgans.length > 0) { %>
+                                <div class="rounded-xl border border-gray-200 overflow-hidden">
+                                    <table class="w-full text-left">
+                                        <thead class="bg-gray-50 border-b border-gray-200">
+                                            <tr class="text-[11px] font-black text-gray-500 uppercase tracking-wider">
+                                                <th class="px-4 py-3">Nombre</th>
+                                                <th class="px-4 py-3">Tópico</th>
+                                                <th class="px-4 py-3">Archivos</th>
+                                                <th class="px-4 py-3 text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-100">
+                                            <% cOrgans.forEach(org => { %>
+                                            <tr class="hover:bg-slate-50 transition text-sm">
+                                                <td class="px-4 py-3">
+                                                    <div class="flex items-center gap-2">
+                                                        <% if (org.color) { %>
+                                                        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:<%= org.color %>"></span>
+                                                        <% } %>
+                                                        <span class="font-bold text-slate-700"><%= org.name %></span>
+                                                    </div>
+                                                    <% if (org.description) { %>
+                                                    <p class="text-xs text-gray-400 mt-0.5 line-clamp-1"><%= org.description %></p>
+                                                    <% } %>
+                                                </td>
+                                                <td class="px-4 py-3 text-xs text-gray-500"><%= org.topic || '—' %></td>
+                                                <td class="px-4 py-3">
+                                                    <div class="flex gap-1 flex-wrap">
+                                                        <% if (org.link_reglamento) { %>
+                                                        <a href="<%= org.link_reglamento %>" target="_blank"
+                                                           class="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-bold">Reglamento</a>
+                                                        <% } %>
+                                                        <% if (org.link_dinamicas) { %>
+                                                        <a href="<%= org.link_dinamicas %>" target="_blank"
+                                                           class="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-bold">Dinámicas</a>
+                                                        <% } %>
+                                                        <% if (org.link_topico) { %>
+                                                        <a href="<%= org.link_topico %>" target="_blank"
+                                                           class="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-bold">Tópico</a>
+                                                        <% } %>
+                                                        <% if (!org.link_reglamento && !org.link_dinamicas && !org.link_topico) { %>
+                                                        <span class="text-xs text-gray-300">—</span>
+                                                        <% } %>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-3 text-right space-x-2">
+                                                    <a href="/admin/paginas/organos/editar/<%= org.id %>"
+                                                       class="text-indigo-600 hover:text-indigo-900 font-bold text-xs">Editar</a>
+                                                    <a href="/admin/paginas/organos/eliminar/<%= org.id %>"
+                                                       onclick="return confirm('¿Eliminar este órgano?')"
+                                                       class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</a>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <% } else { %>
+                                <p class="text-center py-8 text-sm text-gray-400 font-medium">No hay órganos todavía. ¡Agregá el primero arriba!</p>
+                                <% } %>
+
                                 <% } else if (section.dynamicImages) { %>
                                 <!-- DYNAMIC IMAGES section -->
                                 <%
@@ -1196,6 +1442,69 @@ setTimeout(() => {
         setTimeout(() => flash.remove(), 400);
     }
 }, 4000);
+</script>
+
+<script>
+// Submit CRUD forms independently (bypassing the outer settings form to avoid siteUpload filter)
+function submitCrudDiv(divId) {
+    const div = document.getElementById(divId);
+    if (!div) { console.error('CRUD div not found:', divId); return; }
+    const action = div.dataset.action;
+
+    // Validar campos requeridos
+    const requiredMap = { 'crud-cron-form': ['day','date','time','activity'], 'crud-org-form': ['name'] };
+    for (const fieldName of (requiredMap[divId] || [])) {
+        const el = div.querySelector('[name="' + fieldName + '"]');
+        if (el && !el.value.trim()) {
+            el.focus();
+            el.style.borderColor = '#ef4444';
+            el.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+            setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2500);
+            return;
+        }
+    }
+
+    // Crear un form real fuera del DOM y hacer submit nativo
+    // (evita problemas de forms anidados y de fetch con multipart)
+    const tmpForm = document.createElement('form');
+    tmpForm.method = 'POST';
+    tmpForm.action = action;
+    tmpForm.style.display = 'none';
+
+    const hasFiles = div.querySelectorAll('input[type="file"]').length > 0;
+    if (hasFiles) tmpForm.enctype = 'multipart/form-data';
+
+    div.querySelectorAll('input, select, textarea').forEach(el => {
+        if (!el.name) return;
+        if (el.type === 'file') {
+            // Para archivos: mover el input al form temporal
+            // (clonar no funciona para files, hay que moverlo y reponerlo)
+            const clone = el.cloneNode(true);
+            // Transferir los archivos via DataTransfer si es posible
+            if (el.files && el.files.length > 0 && typeof DataTransfer !== 'undefined') {
+                const dt = new DataTransfer();
+                Array.from(el.files).forEach(f => dt.items.add(f));
+                clone.files = dt.files;
+            }
+            tmpForm.appendChild(clone);
+        } else if (el.type === 'checkbox') {
+            const hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = el.name;
+            hidden.value = el.checked ? 'true' : 'false';
+            tmpForm.appendChild(hidden);
+        } else {
+            const hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = el.name;
+            hidden.value = el.value;
+            tmpForm.appendChild(hidden);
+        }
+    });
+
+    document.body.appendChild(tmpForm);
+    tmpForm.submit();
+}
 </script>
 
 </body>

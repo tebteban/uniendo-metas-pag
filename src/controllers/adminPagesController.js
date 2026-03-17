@@ -525,11 +525,11 @@ const PAGE_KEYS = {
     },
 
     cronograma: {
-        title: 'Página de Cronograma',
+        title: 'Cronograma',
         sections: [
             {
                 id: 'hero_sch',
-                title: 'Hero Cronograma',
+                title: '1. Hero',
                 desc: 'Textos del encabezado de la página de cronograma.',
                 color: '#E15829', bg: '#FCEEE9',
                 icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
@@ -538,6 +538,15 @@ const PAGE_KEYS = {
                     { key: 'text_sch_hero_title', label: 'Título',      type: 'text'     },
                     { key: 'text_sch_hero_desc',  label: 'Descripción', type: 'textarea' },
                 ]
+            },
+            {
+                id: 'crud_sch',
+                title: '2. Eventos del Cronograma',
+                desc: 'Agregá, editá o eliminá las actividades del cronograma.',
+                color: '#61B4E4', bg: '#E8F5FB',
+                icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+                keys: [],
+                crudType: 'cronograma'
             },
         ]
     },
@@ -615,6 +624,33 @@ const PAGE_KEYS = {
                     { key: 'link_inscripcion_general',       label: 'Link Inscripción General',  type: 'url' },
                     { key: 'link_participacion_inscribirse', label: 'Botón "Inscribirme Ahora"', type: 'url' },
                 ]
+            },
+        ]
+    },
+
+    organos: {
+        title: 'Órganos',
+        sections: [
+            {
+                id: 'hero_org',
+                title: '1. Hero',
+                desc: 'Textos del encabezado de la página de órganos.',
+                color: '#73A950', bg: '#EDF5E8',
+                icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+                keys: [
+                    { key: 'text_org_hero_badge', label: 'Badge',      type: 'text'     },
+                    { key: 'text_org_hero_title', label: 'Título',      type: 'text'     },
+                    { key: 'text_org_hero_desc',  label: 'Descripción', type: 'textarea' },
+                ]
+            },
+            {
+                id: 'crud_org',
+                title: '2. Órganos',
+                desc: 'Agregá, editá o eliminá los órganos con sus archivos y tópicos.',
+                color: '#A02140', bg: '#F9E8EC',
+                icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+                keys: [],
+                crudType: 'organos'
             },
         ]
     },
@@ -942,6 +978,9 @@ const ALL_DEFAULTS = {
     vol_slider_4:                { label: 'Voluntarios - Slider 4',         type: 'image',         value: '' },
     vol_slider_5:                { label: 'Voluntarios - Slider 5',         type: 'image',         value: '' },
     link_voluntarios_sumate:     { label: 'Voluntarios - Link Sumate',      type: 'url',           value: '#' },
+    text_org_hero_badge:         { label: 'Órganos - Badge',             type: 'text',          value: 'Órganos 2026' },
+    text_org_hero_title:         { label: 'Órganos - Título',            type: 'text',          value: 'Los Órganos del Modelo' },
+    text_org_hero_desc:          { label: 'Órganos - Descripción',       type: 'textarea',      value: '' },
     text_sch_hero_badge:         { label: 'Cronograma - Badge',             type: 'text',          value: 'Agenda 2026' },
     text_sch_hero_title:         { label: 'Cronograma - Título',            type: 'text',          value: 'Cronograma de Actividades' },
     text_sch_hero_desc:          { label: 'Cronograma - Descripción',       type: 'textarea',      value: '' },
@@ -1196,6 +1235,201 @@ const controller = {
             res.redirect(`/admin/paginas/${page}?saved=0`);
         }
     },
+};
+
+// ─── CRUD Controllers ───────────────────────────────────────────────────────
+const Schedule = require('../database/models/Schedule');
+const Organ    = require('../database/models/Organ');
+
+// Cronograma CRUD
+controller.storeCronograma = async (req, res) => {
+    try {
+        const data = {
+            day:      req.body.day,
+            date:     req.body.date,
+            time:     req.body.time,
+            activity: req.body.activity,
+            location: req.body.location || null,
+            type:     req.body.type || 'general',
+            sort_date: req.body.sort_date || null,
+        };
+        await Schedule.create(data);
+        res.redirect('/admin/paginas/cronograma?saved=1');
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/cronograma?saved=0');
+    }
+};
+
+controller.updateCronograma = async (req, res) => {
+    try {
+        const data = {
+            day:      req.body.day,
+            date:     req.body.date,
+            time:     req.body.time,
+            activity: req.body.activity,
+            location: req.body.location || null,
+            type:     req.body.type || 'general',
+            sort_date: req.body.sort_date || null,
+        };
+        await Schedule.update(data, { where: { id: req.params.id } });
+        res.redirect('/admin/paginas/cronograma?saved=1');
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/cronograma?saved=0');
+    }
+};
+
+controller.destroyCronograma = async (req, res) => {
+    try {
+        await Schedule.destroy({ where: { id: req.params.id } });
+        res.redirect('/admin/paginas/cronograma');
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/cronograma');
+    }
+};
+
+controller.editCronograma = async (req, res) => {
+    try {
+        const event = await Schedule.findByPk(req.params.id);
+        if (!event) return res.redirect('/admin/paginas/cronograma');
+        const pageDef = PAGE_KEYS['cronograma'];
+        const allKeys = pageDef.sections.flatMap(s => s.keys.map(k => k.key));
+        const settingsMap = await getSettingsMap(allKeys);
+        const events = await Schedule.findAll({ order: [['sort_date', 'ASC'], ['time', 'ASC'], ['id', 'ASC']] });
+        res.render('admin/pages/show', {
+            title: pageDef.title,
+            user: req.session.user,
+            page: 'cronograma',
+            pageDef,
+            settingsMap,
+            dynamicImagesMap: {},
+            flash: null,
+            editingCrud: { type: 'cronograma', item: event },
+            crudData: { cronograma: events }
+        });
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/cronograma');
+    }
+};
+
+// Organos CRUD
+controller.storeOrgano = async (req, res) => {
+    try {
+        const data = { name: req.body.name, description: req.body.description, color: req.body.color, topic: req.body.topic };
+        if (req.files) {
+            if (req.files['reglamento']?.[0])    data.link_reglamento = '/uploads/documents/' + req.files['reglamento'][0].filename;
+            if (req.files['archivo_dinamicas']?.[0]) data.link_dinamicas = '/uploads/documents/' + req.files['archivo_dinamicas'][0].filename;
+            if (req.files['archivo_topico']?.[0])    data.link_topico    = '/uploads/documents/' + req.files['archivo_topico'][0].filename;
+        }
+        await Organ.create(data);
+        res.redirect('/admin/paginas/organos?saved=1');
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/organos?saved=0');
+    }
+};
+
+controller.updateOrgano = async (req, res) => {
+    try {
+        const organ = await Organ.findByPk(req.params.id);
+        if (!organ) return res.redirect('/admin/paginas/organos');
+        const data = { name: req.body.name, description: req.body.description, color: req.body.color, topic: req.body.topic };
+        if (req.files) {
+            if (req.files['reglamento']?.[0])    data.link_reglamento = '/uploads/documents/' + req.files['reglamento'][0].filename;
+            if (req.files['archivo_dinamicas']?.[0]) data.link_dinamicas = '/uploads/documents/' + req.files['archivo_dinamicas'][0].filename;
+            if (req.files['archivo_topico']?.[0])    data.link_topico    = '/uploads/documents/' + req.files['archivo_topico'][0].filename;
+        }
+        await organ.update(data);
+        res.redirect('/admin/paginas/organos?saved=1');
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/organos?saved=0');
+    }
+};
+
+controller.destroyOrgano = async (req, res) => {
+    try {
+        await Organ.destroy({ where: { id: req.params.id } });
+        res.redirect('/admin/paginas/organos');
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/organos');
+    }
+};
+
+controller.editOrgano = async (req, res) => {
+    try {
+        const organ = await Organ.findByPk(req.params.id);
+        if (!organ) return res.redirect('/admin/paginas/organos');
+        const pageDef = PAGE_KEYS['organos'];
+        const allKeys = pageDef.sections.flatMap(s => s.keys.map(k => k.key));
+        const settingsMap = await getSettingsMap(allKeys);
+        const organs = await Organ.findAll({ order: [['name', 'ASC']] });
+        res.render('admin/pages/show', {
+            title: pageDef.title,
+            user: req.session.user,
+            page: 'organos',
+            pageDef,
+            settingsMap,
+            dynamicImagesMap: {},
+            flash: null,
+            editingCrud: { type: 'organos', item: organ },
+            crudData: { organos: organs }
+        });
+    } catch (e) {
+        console.error(e);
+        res.redirect('/admin/paginas/organos');
+    }
+};
+
+// Override show to inject crudData for cronograma/organos pages
+const originalShow = controller.show;
+controller.show = async (req, res) => {
+    const page = req.params.page;
+    if (page === 'cronograma') {
+        try {
+            const pageDef = PAGE_KEYS['cronograma'];
+            const allKeys = pageDef.sections.flatMap(s => s.keys.map(k => k.key));
+            await ensureDefaults(allKeys);
+            const settingsMap = await getSettingsMap(allKeys);
+            const events = await Schedule.findAll({ order: [['sort_date', 'ASC'], ['time', 'ASC'], ['id', 'ASC']] });
+            const flash = req.query.saved === '1' ? { type: 'success', message: 'Cambios guardados correctamente.' }
+                        : req.query.saved === '0' ? { type: 'error', message: 'No se pudieron guardar los cambios.' }
+                        : null;
+            return res.render('admin/pages/show', {
+                title: pageDef.title, user: req.session.user, page, pageDef,
+                settingsMap, dynamicImagesMap: {}, flash,
+                editingCrud: null, crudData: { cronograma: events }
+            });
+        } catch (e) {
+            console.error(e);
+            return res.status(500).render('500', { title: 'Error' });
+        }
+    }
+    if (page === 'organos') {
+        try {
+            const pageDef = PAGE_KEYS['organos'];
+            const allKeys = pageDef.sections.flatMap(s => s.keys.map(k => k.key));
+            await ensureDefaults(allKeys);
+            const settingsMap = await getSettingsMap(allKeys);
+            const organs = await Organ.findAll({ order: [['name', 'ASC']] });
+            const flash = req.query.saved === '1' ? { type: 'success', message: 'Cambios guardados correctamente.' }
+                        : req.query.saved === '0' ? { type: 'error', message: 'No se pudieron guardar los cambios.' }
+                        : null;
+            return res.render('admin/pages/show', {
+                title: pageDef.title, user: req.session.user, page, pageDef,
+                settingsMap, dynamicImagesMap: {}, flash,
+                editingCrud: null, crudData: { organos: organs }
+            });
+        } catch (e) {
+            console.error(e);
+            return res.status(500).render('500', { title: 'Error' });
+        }
+    }
+    return originalShow(req, res);
 };
 
 module.exports = controller;

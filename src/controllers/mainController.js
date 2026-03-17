@@ -11,7 +11,7 @@ const controller = {
             // Fetch dynamically from DB
             const organs = await Organ.findAll();
             const rawSchedule = await Schedule.findAll({
-                order: [['id', 'ASC']]
+                order: [['sort_date', 'ASC'], ['time', 'ASC'], ['id', 'ASC']]
             });
 
             // Group schedule by day: [{ dia: "Agosto", actividades: [...] }]
@@ -57,7 +57,7 @@ const controller = {
     cronograma: async (req, res) => {
         try {
             const rawSchedule = await Schedule.findAll({
-                order: [['id', 'ASC']]
+                order: [['sort_date', 'ASC'], ['time', 'ASC'], ['id', 'ASC']]
             });
 
             const scheduleMap = new Map();

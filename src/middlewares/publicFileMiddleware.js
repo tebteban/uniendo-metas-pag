@@ -23,9 +23,13 @@ if (isProduction) {
             cb(null, uploadDir);
         },
         filename: (req, file, cb) => {
-            // Sanitize filename or use unique id
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            cb(null, uniqueSuffix + path.extname(file.originalname));
+            // Keep original name sanitized + fieldname prefix to avoid collisions
+            const ext = path.extname(file.originalname).toLowerCase();
+            const baseName = path.basename(file.originalname, ext)
+                .replace(/[^a-zA-Z0-9_\-\.]/g, '_')
+                .substring(0, 60);
+            const unique = Date.now() + '-' + Math.round(Math.random() * 1E5);
+            cb(null, file.fieldname + '_' + baseName + '_' + unique + ext);
         }
     });
 }
