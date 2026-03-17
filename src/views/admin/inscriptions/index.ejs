@@ -138,7 +138,24 @@
                         <% if (type === 'autoridad') { %>
                         <div>
                             <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Rol / Cargo</label>
-                            <input type="text" name="rol" placeholder="ej: Presidencia, Ujier..."
+                            <input type="text" name="rol" placeholder="ej: Presidente, Ujier..."
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Órgano</label>
+                            <input type="text" name="organo" placeholder="ej: Consejo de Seguridad..."
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                        </div>
+                        <% } %>
+                        <% if (type === 'delegado') { %>
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Colegio / Institución</label>
+                            <input type="text" name="colegio" placeholder="ej: Escuela N°1 Rep. Argentina"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Órgano</label>
+                            <input type="text" name="organo_delegado" placeholder="ej: Consejo de Seguridad, ECOSOC..."
                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
                         </div>
                         <% } %>
@@ -146,6 +163,11 @@
                         <div>
                             <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Docente responsable</label>
                             <input type="text" name="docente"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Cantidad de alumnos</label>
+                            <input type="number" name="cantidad_alumnos" min="1"
                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
                         </div>
                         <% } %>
@@ -244,9 +266,11 @@
                                 <% } %>
                                 <% if (type === 'autoridad') { %>
                                 <th class="px-6 py-4 sortable" onclick="sortBy('rol')">Rol</th>
+                                <th class="px-6 py-4 sortable" onclick="sortBy('organo')">Órgano</th>
                                 <% } %>
                                 <% if (type === 'escuela') { %>
                                 <th class="px-6 py-4">Docente</th>
+                                <th class="px-6 py-4">Alumnos</th>
                                 <% } %>
                                 <% if (type === 'delegado') { %>
                                 <th class="px-6 py-4">Colegio</th>
@@ -272,13 +296,14 @@
                                 let rol = item.data ? (item.data.normalized_role || item.data.rol || item.data.cargo || '') : '';
                                 let docente = item.data ? (item.data.normalized_teacher || item.data.docente || item.data.profesor || '') : '';
                                 let colegio = item.data ? (item.data.colegio || item.data.escuela || item.data.institución || item.data.institucion || '') : '';
-                                let organo = item.data ? (item.data.organo || item.data.órgano || item.data['órgano'] || item.data.comision || '') : '';
+                                let organo = item.data ? (item.data.organo || item.data.órgano || item.data['órgano'] || item.data.comision || item.data.organ || '') : '';
                             %>
                             <tr class="hover:bg-slate-50/50 transition inscription-row"
                                 data-name="<%= item.name.toLowerCase() %>"
                                 data-email="<%= (item.email || '').toLowerCase() %>"
                                 data-interes="<%= interes.toLowerCase() %>"
                                 data-rol="<%= rol.toLowerCase() %>"
+                                data-organo="<%= organo.toLowerCase() %>"
                                 data-date="<%= new Date(item.createdAt).getTime() %>">
 
                                 <!-- Nombre -->
@@ -332,21 +357,76 @@
                                 </td>
                                 <% } %>
 
-                                <!-- Rol (autoridad) -->
+                                <!-- Rol + Órgano (autoridad) -->
                                 <% if (type === 'autoridad') { %>
                                 <td class="px-6 py-4">
                                     <% if (rol) { %>
-                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700"><%= rol %></span>
+                                    <%
+                                    const rolLower = rol.toLowerCase();
+                                    let rolBg, rolText, rolBorder;
+                                    if (rolLower.includes('president') || rolLower.includes('secretari') && rolLower.includes('general')) {
+                                        rolBg='#F9E8EC'; rolText='#A02140'; rolBorder='#F2C4CF'; // bordó — máxima jerarquía
+                                    } else if (rolLower.includes('vicepresiden') || rolLower.includes('subsecretar')) {
+                                        rolBg='#FCEEE9'; rolText='#C0461A'; rolBorder='#F5C9B8'; // naranja oscuro
+                                    } else if (rolLower.includes('secretari')) {
+                                        rolBg='#FEF6E0'; rolText='#A07000'; rolBorder='#FDEDB8'; // amarillo
+                                    } else if (rolLower.includes('consejero') || rolLower.includes('relator')) {
+                                        rolBg='#EDF5E8'; rolText='#4A8A2A'; rolBorder='#C8E3BC'; // verde
+                                    } else if (rolLower.includes('ujier') || rolLower.includes('logistic')) {
+                                        rolBg='#E8F5FB'; rolText='#1A7AAF'; rolBorder='#B8DCF0'; // celeste
+                                    } else {
+                                        rolBg='#F3F4F6'; rolText='#4B5563'; rolBorder='#E5E7EB'; // gris
+                                    }
+                                    %>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap"
+                                          style="background:<%= rolBg %>; color:<%= rolText %>; border:1px solid <%= rolBorder %>">
+                                        <%= rol %>
+                                    </span>
+                                    <% } else { %>
+                                    <span class="text-xs text-gray-300">—</span>
+                                    <% } %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <% if (organo) { %>
+                                    <%
+                                    const orgLower = organo.toLowerCase();
+                                    let orgBg, orgText, orgBorder;
+                                    if (orgLower.includes('ecosoc')) {
+                                        orgBg='#FEF3E2'; orgText='#C2690A'; orgBorder='#FDE4BB';
+                                    } else if (orgLower.includes('sala') || orgLower.includes('tratado')) {
+                                        orgBg='#FEF9E0'; orgText='#A07800'; orgBorder='#FDEDB8';
+                                    } else if (orgLower.includes('seguridad')) {
+                                        orgBg='#F9E8EC'; orgText='#A02140'; orgBorder='#F2C4CF';
+                                    } else if (orgLower.includes('asamblea')) {
+                                        orgBg='#EDF5E8'; orgText='#4A8A2A'; orgBorder='#C8E3BC';
+                                    } else if (orgLower.includes('derecho') || orgLower.includes('humano') || orgLower.includes('cdh') || orgLower.includes('chd')) {
+                                        orgBg='#E8F5FB'; orgText='#1A7AAF'; orgBorder='#B8DCF0';
+                                    } else {
+                                        orgBg='#F3F4F6'; orgText='#4B5563'; orgBorder='#E5E7EB';
+                                    }
+                                    %>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap"
+                                          style="background:<%= orgBg %>; color:<%= orgText %>; border:1px solid <%= orgBorder %>">
+                                        <%= organo %>
+                                    </span>
                                     <% } else { %>
                                     <span class="text-xs text-gray-300">—</span>
                                     <% } %>
                                 </td>
                                 <% } %>
 
-                                <!-- Docente (escuela) -->
+                                <!-- Docente + alumnos (escuela) -->
                                 <% if (type === 'escuela') { %>
                                 <td class="px-6 py-4">
                                     <p class="text-sm font-bold text-slate-700"><%= docente || '—' %></p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <% const cantAlumnos = item.data ? (item.data.cantidad_alumnos || item.data.alumnos || '') : ''; %>
+                                    <% if (cantAlumnos) { %>
+                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-50 text-orange-700"><%= cantAlumnos %> alumnos</span>
+                                    <% } else { %>
+                                    <span class="text-xs text-gray-300">—</span>
+                                    <% } %>
                                 </td>
                                 <% } %>
 
@@ -392,7 +472,10 @@
                                                 data-phone="<%= rawPhone.toString().replace(/"/g, '&quot;') %>"
                                                 data-interes="<%= interes.replace(/"/g, '&quot;') %>"
                                                 data-rol="<%= rol.replace(/"/g, '&quot;') %>"
-                                                data-docente="<%= docente.replace(/"/g, '&quot;') %>">
+                                                data-docente="<%= docente.replace(/"/g, '&quot;') %>"
+                                                data-colegio="<%= colegio.replace(/"/g, '&quot;') %>"
+                                                data-cantidad="<%= (item.data ? (item.data.cantidad_alumnos || item.data.alumnos || '') : '').toString().replace(/"/g, '&quot;') %>"
+                                                data-organo="<%= organo.replace(/"/g, '&quot;') %>">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                             </svg>
@@ -613,17 +696,51 @@
                 <input type="text" name="interes" value="${interes}"
                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
             </div>`;
+        } else if (TYPE === 'delegado') {
+            const delBtn = document.querySelector(`.edit-btn[data-id="${id}"]`);
+            const colegioVal = delBtn ? (delBtn.dataset.colegio || '') : '';
+            const organoDelVal = delBtn ? (delBtn.dataset.organo || '') : '';
+            extra = `<div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Colegio / Institución</label>
+                    <input type="text" name="colegio" value="${colegioVal}"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                </div>
+                <div>
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Órgano</label>
+                    <input type="text" name="organo" value="${organoDelVal}"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                </div>
+            </div>`;
         } else if (TYPE === 'autoridad') {
-            extra = `<div>
-                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Rol / Cargo</label>
-                <input type="text" name="rol" value="${rol}"
-                       class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+            const organoBtn = document.querySelector(`.edit-btn[data-id="${id}"]`);
+            const organoVal = organoBtn ? (organoBtn.dataset.organo || '') : '';
+            extra = `<div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Rol / Cargo</label>
+                    <input type="text" name="rol" value="${rol}"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                </div>
+                <div>
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Órgano</label>
+                    <input type="text" name="organo" value="${organoVal}"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                </div>
             </div>`;
         } else if (TYPE === 'escuela') {
-            extra = `<div>
-                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Docente responsable</label>
-                <input type="text" name="docente" value="${docente}"
-                       class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+            const cantBtn = document.querySelector(`.edit-btn[data-id="${id}"]`);
+            const cant = cantBtn ? (cantBtn.dataset.cantidad || '') : '';
+            extra = `<div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Docente responsable</label>
+                    <input type="text" name="docente" value="${docente}"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                </div>
+                <div>
+                    <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Cantidad de alumnos</label>
+                    <input type="number" name="cantidad_alumnos" value="${cant}" min="1"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100">
+                </div>
             </div>`;
         }
         document.getElementById('editExtraFields').innerHTML = extra;

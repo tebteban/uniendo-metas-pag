@@ -105,11 +105,15 @@ const controller = {
             const { name, email, telefono, interes, rol, docente } = req.body;
 
             // Clonar el JSON para que Sequelize detecte el cambio (evita bug de referencia)
+            const { cantidad_alumnos, organo, colegio } = req.body;
             const data = JSON.parse(JSON.stringify(item.data || {}));
-            if (telefono !== undefined) { data.telefono = telefono; data.normalized_phone = telefono; }
-            if (interes  !== undefined) data.interes = interes;
-            if (rol      !== undefined) { data.rol = rol; data.normalized_role = rol; }
-            if (docente  !== undefined) { data.docente = docente; data.normalized_teacher = docente; }
+            if (telefono         !== undefined) { data.telefono = telefono; data.normalized_phone = telefono; }
+            if (interes          !== undefined) data.interes = interes;
+            if (rol              !== undefined) { data.rol = rol; data.normalized_role = rol; }
+            if (docente          !== undefined) { data.docente = docente; data.normalized_teacher = docente; }
+            if (cantidad_alumnos !== undefined) data.cantidad_alumnos = cantidad_alumnos;
+            if (organo          !== undefined) data.organo = organo;
+            if (colegio         !== undefined) data.colegio = colegio;
 
             item.name  = (name  || item.name).trim();
             item.email = (email || item.email).trim();
@@ -127,14 +131,18 @@ const controller = {
     uploadManual: async (req, res) => {
         try {
             const { type } = req.params;
-            const { name, email, telefono, interes, rol, docente } = req.body;
+            const { name, email, telefono, interes, rol, organo, organo_delegado, colegio, docente, cantidad_alumnos } = req.body;
             if (!name || !name.trim()) return res.redirect(`/admin/inscripciones/${type}`);
 
             const dataObj = {};
-            if (telefono)  { dataObj.telefono = telefono; dataObj.normalized_phone = telefono; }
-            if (interes)   dataObj.interes = interes;
-            if (rol)       { dataObj.rol = rol; dataObj.normalized_role = rol; }
-            if (docente)   { dataObj.docente = docente; dataObj.normalized_teacher = docente; }
+            if (telefono)        { dataObj.telefono = telefono; dataObj.normalized_phone = telefono; }
+            if (interes)         dataObj.interes = interes;
+            if (rol)             { dataObj.rol = rol; dataObj.normalized_role = rol; }
+            if (organo)          dataObj.organo = organo;
+            if (organo_delegado) { dataObj.organo = organo_delegado; } // delegado usa organo_delegado en form
+            if (colegio)         dataObj.colegio = colegio;
+            if (docente)         { dataObj.docente = docente; dataObj.normalized_teacher = docente; }
+            if (cantidad_alumnos) dataObj.cantidad_alumnos = cantidad_alumnos;
 
             await Inscription.create({
                 type,

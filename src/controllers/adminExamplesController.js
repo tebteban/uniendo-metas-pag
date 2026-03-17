@@ -36,14 +36,15 @@ const controller = {
      */
     delegadosExample: (req, res) => {
         const data = [
-            { nombre: 'Carlos Rodríguez', email: 'carlos@ejemplo.com', telefono: '3854123456', organo: 'Consejo de Seguridad', pais: 'Argentina' },
-            { nombre: 'Sofía Martínez', email: 'sofia@ejemplo.com', telefono: '3854654321', organo: 'Asamblea General', pais: 'Brasil' },
+            { nombre: 'Carlos Rodríguez', email: 'carlos@ejemplo.com', colegio: 'Escuela N°1 Rep. Argentina', organo: 'Consejo de Seguridad' },
+            { nombre: 'Sofía Martínez',   email: 'sofia@ejemplo.com',  colegio: 'Colegio San Martín',          organo: 'Asamblea General'     },
+            { nombre: 'Tomás Herrera',     email: 'tomas@ejemplo.com',  colegio: 'Instituto Belgrano',          organo: 'ECOSOC'               },
         ];
 
         const ws = xlsx.utils.json_to_sheet(data);
         const wb = xlsx.utils.book_new();
         xlsx.utils.book_append_sheet(wb, ws, 'Delegados');
-        ws['!cols'] = [{ wch: 25 }, { wch: 30 }, { wch: 15 }, { wch: 25 }, { wch: 15 }];
+        ws['!cols'] = [{ wch: 28 }, { wch: 30 }, { wch: 32 }, { wch: 28 }];
 
         const buffer = xlsx.write(wb, { bookType: 'xlsx', type: 'buffer' });
         res.setHeader('Content-Disposition', 'attachment; filename="ejemplo-delegados.xlsx"');
