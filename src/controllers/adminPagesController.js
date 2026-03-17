@@ -552,8 +552,8 @@ const PAGE_KEYS = {
                 color: '#61B4E4', bg: '#E8F5FB',
                 icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
                 keys: [
-                    { key: 'text_par_hero_title', label: 'Título (podés usar HTML)', type: 'text'     },
-                    { key: 'text_par_hero_desc',  label: 'Descripción',              type: 'textarea' },
+                    { key: 'text_par_hero_highlight', label: 'Palabra destacada (gradiente)', type: 'text'     },
+                    { key: 'text_par_hero_desc',      label: 'Descripción',                   type: 'textarea' },
                 ]
             },
             {
@@ -897,6 +897,7 @@ const ALL_DEFAULTS = {
     text_sch_hero_desc:          { label: 'Cronograma - Descripción',       type: 'textarea',      value: '' },
     text_par_hero_title:         { label: 'Par - Hero Título',      type: 'text',     value: '¿Cómo <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-green">Participar?</span>' },
     text_par_hero_desc:          { label: 'Par - Hero Desc',        type: 'textarea', value: 'Todo lo que necesitas saber para ser parte del encuentro y la documentación necesaria.' },
+    text_par_hero_highlight:     { label: 'Par - Hero Highlight',   type: 'text',     value: 'Participar' },
     text_par_guia_badge:         { label: 'Par - Guía Badge',       type: 'text',     value: 'Guía de Inscripción' },
     text_par_guia_title:         { label: 'Par - Guía Título',      type: 'text',     value: '¿Cómo sumarte al Encuentro?' },
     text_par_guia_desc:          { label: 'Par - Guía Desc',        type: 'textarea', value: 'La inscripción consta de tres pasos dependientes. Los participantes no podrán inscribirse si los pasos previos no están completos.' },

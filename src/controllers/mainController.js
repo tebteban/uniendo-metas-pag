@@ -33,15 +33,24 @@ const controller = {
             const nosotrosPath = path.join(__dirname, '../data/nosotros.json');
             const nosotros = JSON.parse(fs.readFileSync(nosotrosPath, 'utf-8'));
 
+            
+            // Load all settings from DB
+            const settingsArray = await Setting.findAll();
+            const settings = {};
+            settingsArray.forEach(s => {
+                settings[s.key] = s.value;
+            });
+
             res.render('index', {
                 title: 'Inicio',
                 organos: organs,
                 cronograma: schedule,
-                nosotros
+                nosotros,
+                settings
             });
         } catch (error) {
             console.error('Error fetching data:', error);
-            res.render('index', { title: 'Uniendo Metas Santiago del Estero', organos: [], cronograma: [], nosotros: [] });
+            res.render('index', { title: 'Uniendo Metas Santiago del Estero', organos: [], cronograma: [], nosotros: [], settings: {} });
         }
     },
 
@@ -107,8 +116,26 @@ const controller = {
         }
     },
 
-    participacion: (req, res) => {
-        res.render('participacion', { title: 'Participación' });
+    participacion: async (req, res) => {
+        try {
+            // Load all settings from DB
+            const settingsArray = await Setting.findAll();
+            const settings = {};
+            settingsArray.forEach(s => {
+                settings[s.key] = s.value;
+            });
+
+            res.render('participacion', {
+                title: 'Participación',
+                settings: settings
+            });
+        } catch (error) {
+            console.error('Error loading participacion settings:', error);
+            res.render('participacion', {
+                title: 'Participación',
+                settings: {}
+            });
+        }
     },
 
     organos: async (req, res) => {
