@@ -148,29 +148,17 @@
                 const name = settings['sponsor_' + si + '_name'] || ('Sponsor ' + si);
                 if (img && img.trim()) allSponsors.push({ img, url, name });
             }
-            const maxGrid = 6;
+            const maxGrid = 6;       // desktop: carrusel a partir del 7mo
+            const maxGridMobile = 3; // mobile: carrusel a partir del 4to
             const useCarousel = allSponsors.length > maxGrid;
+            const useCarouselMobile = allSponsors.length > maxGridMobile;
             %>
             <section class="pt-10 pb-8 bg-white border-t border-gray-100">
                 <div class="max-w-7xl mx-auto px-6 text-center">
                     <h2 class="text-[10px] font-black text-gray-300 uppercase tracking-[0.3em] mb-8">Nos Acompañan</h2>
 
-                    <% if (!useCarousel) { %>
-                    <!-- GRID estático (hasta 6 sponsors) — mismo diseño original -->
-                    <%
-                    const colsClass = allSponsors.length <= 3 ? 'md:grid-cols-' + allSponsors.length : 'md:grid-cols-3 lg:grid-cols-' + Math.min(allSponsors.length, 6);
-                    %>
-                    <div class="grid grid-cols-2 <%= colsClass %> gap-8 items-center justify-items-center max-w-5xl mx-auto opacity-80">
-                        <% allSponsors.forEach(sp => { %>
-                        <a href="<%= sp.url %>" target="_blank" rel="noopener noreferrer" class="group transition">
-                            <img src="<%= sp.img %>" alt="<%= sp.name %>"
-                                 class="h-20 md:h-28 w-auto object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
-                        </a>
-                        <% }); %>
-                    </div>
-
-                    <% } else { %>
-                    <!-- CARRUSEL automático (más de 6 sponsors) -->
+                    <% if (useCarousel) { %>
+                    <!-- CARRUSEL desktop Y mobile (más de 6 en desktop) -->
                     <div class="relative overflow-hidden" id="sponsors-carousel">
                         <div class="sponsors-scroll-track" id="sponsors-track">
                             <% [allSponsors, allSponsors].forEach(group => { group.forEach(sp => { %>
@@ -181,9 +169,53 @@
                             </a>
                             <% }); }); %>
                         </div>
-                        <!-- Fades laterales -->
                         <div class="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
                         <div class="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <% } else if (useCarouselMobile) { %>
+                    <!-- GRID en desktop / CARRUSEL en mobile (4-6 sponsors) -->
+
+                    <!-- Mobile: carrusel -->
+                    <div class="block md:hidden relative overflow-hidden" id="sponsors-carousel-mobile">
+                        <div class="sponsors-scroll-track">
+                            <% [allSponsors, allSponsors].forEach(group => { group.forEach(sp => { %>
+                            <a href="<%= sp.url %>" target="_blank" rel="noopener noreferrer"
+                               class="group flex-shrink-0 transition opacity-70 hover:opacity-100">
+                                <img src="<%= sp.img %>" alt="<%= sp.name %>"
+                                     class="h-16 w-auto object-contain grayscale group-hover:grayscale-0 transition duration-300">
+                            </a>
+                            <% }); }); %>
+                        </div>
+                        <div class="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+                        <div class="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <!-- Desktop: grid normal -->
+                    <%
+                    const colsClass2 = 'md:grid-cols-3 lg:grid-cols-' + Math.min(allSponsors.length, 6);
+                    %>
+                    <div class="hidden md:grid <%= colsClass2 %> gap-8 items-center justify-items-center max-w-5xl mx-auto opacity-80">
+                        <% allSponsors.forEach(sp => { %>
+                        <a href="<%= sp.url %>" target="_blank" rel="noopener noreferrer" class="group transition">
+                            <img src="<%= sp.img %>" alt="<%= sp.name %>"
+                                 class="h-28 w-auto object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
+                        </a>
+                        <% }); %>
+                    </div>
+
+                    <% } else { %>
+                    <!-- GRID estático en ambos (hasta 3 sponsors) — centrado -->
+                    <%
+                    const colsClass = allSponsors.length === 1 ? 'grid-cols-1' : allSponsors.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
+                    %>
+                    <div class="grid <%= colsClass %> gap-8 items-center justify-items-center max-w-3xl mx-auto opacity-80">
+                        <% allSponsors.forEach(sp => { %>
+                        <a href="<%= sp.url %>" target="_blank" rel="noopener noreferrer" class="group transition">
+                            <img src="<%= sp.img %>" alt="<%= sp.name %>"
+                                 class="h-20 md:h-28 w-auto object-contain grayscale group-hover:grayscale-0 transform group-hover:scale-110 transition duration-300">
+                        </a>
+                        <% }); %>
                     </div>
 
                     <% } %>
