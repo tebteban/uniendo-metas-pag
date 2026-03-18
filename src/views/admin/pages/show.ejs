@@ -1046,7 +1046,7 @@
                                             inputValue = value.replace(' ', 'T');
                                         }
                                         %>
-                                        <input type="<%= field.type %>"
+                                        <input type="<%= field.type === 'url' ? 'text' : field.type %>"
                                                id="<%= field.key %>"
                                                name="<%= field.key %>"
                                                value="<%= inputValue %>"
