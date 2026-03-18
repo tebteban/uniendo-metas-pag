@@ -48,17 +48,20 @@ const controller = {
             if (req.files) {
                 // 1. Reglamento
                 if (req.files.reglamento && req.files.reglamento.length > 0) {
-                    dataToUpdate.link_reglamento = '/uploads/documents/' + req.files.reglamento[0].filename;
+                    const file = req.files.reglamento[0];
+                    dataToUpdate.link_reglamento = process.env.NODE_ENV === 'production' && file.path ? file.path : '/uploads/documents/' + file.filename;
                 }
 
                 // 2. Dinámicas
                 if (req.files.archivo_dinamicas && req.files.archivo_dinamicas.length > 0) {
-                    dataToUpdate.link_dinamicas = '/uploads/documents/' + req.files.archivo_dinamicas[0].filename;
+                    const file = req.files.archivo_dinamicas[0];
+                    dataToUpdate.link_dinamicas = process.env.NODE_ENV === 'production' && file.path ? file.path : '/uploads/documents/' + file.filename;
                 }
 
                 // 3. Tópico
                 if (req.files.archivo_topico && req.files.archivo_topico.length > 0) {
-                    dataToUpdate.link_topico = '/uploads/documents/' + req.files.archivo_topico[0].filename;
+                    const file = req.files.archivo_topico[0];
+                    dataToUpdate.link_topico = process.env.NODE_ENV === 'production' && file.path ? file.path : '/uploads/documents/' + file.filename;
                 }
             }
 
@@ -101,17 +104,20 @@ const controller = {
             if (req.files) {
                 // 1. Reglamento
                 if (req.files.reglamento && req.files.reglamento.length > 0) {
-                    dataToCreate.link_reglamento = '/uploads/documents/' + req.files.reglamento[0].filename;
+                    const file = req.files.reglamento[0];
+                    dataToCreate.link_reglamento = process.env.NODE_ENV === 'production' && file.path ? file.path : '/uploads/documents/' + file.filename;
                 }
 
                 // 2. Dinámicas
                 if (req.files.archivo_dinamicas && req.files.archivo_dinamicas.length > 0) {
-                    dataToCreate.link_dinamicas = '/uploads/documents/' + req.files.archivo_dinamicas[0].filename;
+                    const file = req.files.archivo_dinamicas[0];
+                    dataToCreate.link_dinamicas = process.env.NODE_ENV === 'production' && file.path ? file.path : '/uploads/documents/' + file.filename;
                 }
 
                 // 3. Tópico
                 if (req.files.archivo_topico && req.files.archivo_topico.length > 0) {
-                    dataToCreate.link_topico = '/uploads/documents/' + req.files.archivo_topico[0].filename;
+                    const file = req.files.archivo_topico[0];
+                    dataToCreate.link_topico = process.env.NODE_ENV === 'production' && file.path ? file.path : '/uploads/documents/' + file.filename;
                 }
             }
 

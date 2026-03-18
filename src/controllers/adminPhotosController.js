@@ -62,7 +62,7 @@ const controller = {
                 const file = req.files[0];
                 // En producción con Cloudinary, file.path es la URL completa (https://res.cloudinary.com/...)
                 // En desarrollo local, construimos la ruta relativa
-                const value = file.path || ('/img/site/' + file.filename);
+                const value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
 
                 await Setting.update(
                     { value: value },

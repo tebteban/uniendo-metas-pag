@@ -1124,7 +1124,7 @@ async function saveBody(body, files) {
         for (const file of (files || [])) {
             if (!file.fieldname.startsWith(prefix)) continue;
             const key   = file.fieldname;
-            const value = '/img/site/' + file.filename;
+            const value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
             const [setting, created] = await Setting.findOrCreate({
                 where: { key },
                 defaults: { key, value, type: 'image' }
@@ -1161,9 +1161,14 @@ async function saveBody(body, files) {
             if (dynamicPrefixes.some(p => key.startsWith(p))) continue;
             // Biblioteca document files go to /documents/site/
             const isDocFile = key.startsWith('bib_') && key.endsWith('_file');
-            const value = isDocFile
-                ? '/documents/site/' + file.filename
-                : '/img/site/' + file.filename;
+            
+            let value;
+            if (isDocFile) {
+                value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/documents/site/' + file.filename;
+            } else {
+                value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
+            }
+
             const [setting, created] = await Setting.findOrCreate({
                 where: { key },
                 defaults: { key, value, type: isDocFile ? 'file' : 'image' }
