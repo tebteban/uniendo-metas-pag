@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> — Admin</title>
     
-    <!-- Quill.js WYSIWYG Editor -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -136,104 +132,119 @@
             background: #E2E8F0;
         }
 
-        /* Quill Editor Customization */
-        .quill-wrapper {
+        /* ── Custom WYSIWYG Editor ── */
+        .rte-wrapper {
+            border: 1px solid #E5E7EB;
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #E5E7EB;
-        }
-        .ql-toolbar {
             background: #F9FAFB;
-            border: none !important;
-            border-bottom: 1px solid #E5E7EB !important;
-            border-radius: 12px 12px 0 0;
-            padding: 12px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .rte-wrapper:focus-within {
+            border-color: #61B4E4;
+            box-shadow: 0 0 0 3px rgba(97,180,228,0.15);
+        }
+        .rte-toolbar {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 2px;
+            padding: 8px 10px;
+            background: #F1F5F9;
+            border-bottom: 1px solid #E5E7EB;
         }
-        .ql-container {
-            border: none !important;
-            background: #F9FAFB;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            border-radius: 0 0 12px 12px;
-        }
-        .ql-editor {
-            min-height: 100px;
-            padding: 16px;
-            color: #334155;
-            font-weight: 500;
-        }
-        .ql-editor.ql-blank::before {
-            color: #94A3B8;
-            font-style: normal;
-            font-weight: 400;
-        }
-        .ql-snow .ql-stroke {
-            stroke: #64748B;
-        }
-        .ql-snow .ql-fill {
-            fill: #64748B;
-        }
-        .ql-snow .ql-picker-label {
+        .rte-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
             color: #64748B;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            transition: background 0.15s, color 0.15s;
+            flex-shrink: 0;
         }
-        .ql-toolbar button:hover,
-        .ql-toolbar button.ql-active {
-            color: #61B4E4 !important;
+        .rte-btn:hover { background: #E2E8F0; color: #334155; }
+        .rte-btn.active { background: #DBEAFE; color: #2563EB; }
+        .rte-sep {
+            width: 1px;
+            height: 20px;
+            background: #E2E8F0;
+            margin: 5px 3px;
+            flex-shrink: 0;
         }
-        .ql-toolbar button:hover .ql-stroke,
-        .ql-toolbar button.ql-active .ql-stroke {
-            stroke: #61B4E4 !important;
+        .rte-color-btn {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1px;
+            background: transparent;
+            transition: background 0.15s;
+            padding: 4px;
         }
-        .ql-toolbar button:hover .ql-fill,
-        .ql-toolbar button.ql-active .ql-fill {
-            fill: #61B4E4 !important;
+        .rte-color-btn:hover { background: #E2E8F0; }
+        .rte-color-btn svg { width: 14px; height: 14px; color: #64748B; flex-shrink: 0; }
+        .rte-color-bar {
+            height: 3px;
+            width: 18px;
+            border-radius: 2px;
         }
-        
-        /* Hide original textarea when Quill is active */
-        textarea.quill-hidden {
-            display: none;
+        .rte-color-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            cursor: pointer;
+        }
+        .rte-editor {
+            min-height: 90px;
+            padding: 12px 14px;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            line-height: 1.6;
+        }
+        .rte-editor:empty::before {
+            content: attr(data-placeholder);
+            color: #94A3B8;
+            font-weight: 400;
+            pointer-events: none;
+        }
+        .rte-editor b, .rte-editor strong { font-weight: 800; }
+        .rte-editor i, .rte-editor em { font-style: italic; }
+        .rte-editor u { text-decoration: underline; }
+        .rte-editor s { text-decoration: line-through; }
+        textarea.rte-hidden { display: none !important; }
+        .field-dirty .rte-wrapper {
+            border-color: #FFB819 !important;
+            box-shadow: 0 0 0 3px rgba(255,184,25,0.15) !important;
         }
 
         /* Mobile Responsive Adjustments */
         @media (max-width: 768px) {
-            /* Toolbar más compacta en mobile */
-            .ql-toolbar {
-                padding: 8px;
-                gap: 2px;
-            }
-            
-            /* Botones del toolbar más pequeños pero tocables */
-            .ql-toolbar button {
-                width: 32px !important;
-                height: 32px !important;
-                padding: 4px !important;
-            }
-            
-            /* Grupos de formato con mejor wrap */
-            .ql-formats {
-                margin-right: 8px !important;
-                margin-bottom: 4px;
-            }
-            
-            /* Editor con menos padding en mobile */
-            .ql-editor {
-                padding: 12px;
-                font-size: 13px;
-            }
-            
             /* Main content con menos padding */
             main.flex-1 {
                 padding: 12px !important;
             }
-            
             /* Secciones con menos padding */
             .section-body {
                 padding: 16px !important;
             }
-            
             /* Campos de texto más grandes en mobile */
             input[type="text"],
             textarea {
@@ -1659,119 +1670,166 @@ function submitCrudDiv(divId) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// QUILL.JS - WYSIWYG EDITOR INITIALIZATION
+// CUSTOM WYSIWYG EDITOR — sin dependencias externas, HTML limpio
 // ═══════════════════════════════════════════════════════════════════
 
-const quillEditors = new Map();
+// Colores actuales seleccionados para text/highlight
+let rteTextColor = '#334155';
+let rteHighlightColor = '#FFB819';
 
-function initQuillEditors() {
-    // Find all textareas
-    document.querySelectorAll('textarea').forEach(textarea => {
-        // Skip if already initialized
-        if (textarea.classList.contains('quill-hidden')) return;
-        
-        // Skip file input textareas or very small ones
-        if (textarea.rows === 1 || textarea.classList.contains('no-quill')) return;
-        
-        // Create wrapper
-        const wrapper = document.createElement('div');
-        wrapper.className = 'quill-wrapper';
-        
-        // Create editor div
-        const editorDiv = document.createElement('div');
-        editorDiv.innerHTML = textarea.value || '';
-        wrapper.appendChild(editorDiv);
-        
-        // Insert wrapper before textarea
-        textarea.parentNode.insertBefore(wrapper, textarea);
-        
-        // Hide original textarea
-        textarea.classList.add('quill-hidden');
-        
-        // Initialize Quill
-        const quill = new Quill(editorDiv, {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{ 'header': 1 }, { 'header': 2 }],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    [{ 'indent': '-1'}, { 'indent': '+1' }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'align': [] }],
-                    ['link'],
-                    ['clean']
-                ]
-            },
-            placeholder: textarea.placeholder || 'Escribí tu contenido aquí...'
-        });
-        
-        // Store Quill instance
-        quillEditors.set(textarea, quill);
-        
-        // Update data-original to match Quill's HTML format
-        // This ensures markDirty() works correctly
-        const initialHTML = quill.root.innerHTML;
-        textarea.value = initialHTML;
-        textarea.dataset.original = initialHTML;
-        
-        // Sync changes back to textarea
-        quill.on('text-change', function() {
-            const newValue = quill.root.innerHTML;
-            textarea.value = newValue;
-            
-            // Find the wrapper with id and data-section
-            const fieldWrapper = textarea.closest('[data-section]');
-            if (fieldWrapper) {
-                const fieldId = fieldWrapper.id;
-                const sectionId = fieldWrapper.dataset.section;
-                
-                if (fieldId && sectionId && typeof markDirty === 'function') {
-                    markDirty(fieldId, sectionId);
-                }
-            }
-        });
-        
-        // Handle oninput if exists
-        if (textarea.hasAttribute('oninput')) {
-            quill.on('text-change', function() {
-                const onInputAttr = textarea.getAttribute('oninput');
-                try {
-                    eval(onInputAttr);
-                } catch (e) {
-                    console.error('Error executing oninput:', e);
-                }
-            });
+function buildRteToolbar(textarea) {
+    const toolbar = document.createElement('div');
+    toolbar.className = 'rte-toolbar';
+    toolbar.innerHTML = `
+        <button type="button" class="rte-btn" data-cmd="bold" title="Negrita"><b>B</b></button>
+        <button type="button" class="rte-btn" data-cmd="italic" title="Cursiva"><i>I</i></button>
+        <button type="button" class="rte-btn" data-cmd="underline" title="Subrayado"><u>U</u></button>
+        <button type="button" class="rte-btn" data-cmd="strikeThrough" title="Tachado"><s>S</s></button>
+        <div class="rte-sep"></div>
+        <button type="button" class="rte-btn" style="font-size:11px;" data-cmd="formatBlock" data-val="H2" title="Título">H2</button>
+        <button type="button" class="rte-btn" style="font-size:11px;" data-cmd="formatBlock" data-val="H3" title="Subtítulo">H3</button>
+        <button type="button" class="rte-btn" data-cmd="formatBlock" data-val="P" title="Párrafo normal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
+        </button>
+        <div class="rte-sep"></div>
+        <button type="button" class="rte-btn" data-cmd="insertUnorderedList" title="Lista">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+        </button>
+        <div class="rte-sep"></div>
+        <button type="button" class="rte-color-btn" title="Color de texto" data-type="text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h10"/><circle cx="4" cy="8" r="1.5" fill="currentColor"/></svg>
+            <div class="rte-color-bar" id="rte-text-bar-${textarea.id}" style="background:${rteTextColor};"></div>
+            <input type="color" class="rte-color-input" value="${rteTextColor}" id="rte-text-picker-${textarea.id}"
+                   oninput="rteApplyColor('foreColor', this.value, '${textarea.id}', 'text')">
+        </button>
+        <button type="button" class="rte-color-btn" title="Color de resaltado" data-type="highlight">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            <div class="rte-color-bar" id="rte-highlight-bar-${textarea.id}" style="background:${rteHighlightColor};"></div>
+            <input type="color" class="rte-color-input" value="${rteHighlightColor}" id="rte-highlight-picker-${textarea.id}"
+                   oninput="rteApplyColor('backColor', this.value, '${textarea.id}', 'highlight')">
+        </button>
+        <div class="rte-sep"></div>
+        <button type="button" class="rte-btn" data-cmd="removeFormat" title="Limpiar formato">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    `;
+    return toolbar;
+}
+
+function rteApplyColor(cmd, color, textareaId, type) {
+    const editor = document.querySelector(`[data-rte-for="${textareaId}"]`);
+    if (!editor) return;
+    editor.focus();
+    document.execCommand(cmd, false, color);
+    // Update the color bar visual
+    const bar = document.getElementById(type === 'text' ? `rte-text-bar-${textareaId}` : `rte-highlight-bar-${textareaId}`);
+    if (bar) bar.style.background = color;
+    rteSyncToTextarea(editor);
+}
+
+function rteSyncToTextarea(editor) {
+    const textareaId = editor.dataset.rteFor;
+    const textarea = document.getElementById(textareaId);
+    if (!textarea) return;
+    // Get clean HTML — remove empty spans Quill-style artifacts
+    let html = editor.innerHTML;
+    // Normalize: collapse whitespace-only tags
+    html = html.replace(/<span[^>]*>\s*<\/span>/g, '');
+    textarea.value = html;
+    // Trigger markDirty
+    const fieldWrapper = textarea.closest('[data-section]');
+    if (fieldWrapper) {
+        const fieldId = fieldWrapper.id;
+        const sectionId = fieldWrapper.dataset.section;
+        if (fieldId && sectionId && typeof markDirty === 'function') {
+            markDirty(fieldId, sectionId);
         }
+    }
+    // Also update counter if exists
+    if (typeof updateCounter === 'function') updateCounter(textarea, textareaId);
+}
+
+function initRteEditor(textarea) {
+    // Skip already initialized
+    if (textarea.classList.contains('rte-hidden')) return;
+    // Skip textareas marked as no-rte, or inside CRUD forms (those are structural forms)
+    if (textarea.classList.contains('no-rte')) return;
+    if (textarea.closest('#crud-cron-form, #crud-org-form')) return;
+    // Skip rows=1 (single line)
+    if (parseInt(textarea.getAttribute('rows') || 3) < 2) return;
+    // Ensure textarea has an id
+    if (!textarea.id) textarea.id = 'rte_' + Math.random().toString(36).slice(2, 8);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'rte-wrapper';
+
+    const toolbar = buildRteToolbar(textarea);
+    wrapper.appendChild(toolbar);
+
+    const editor = document.createElement('div');
+    editor.className = 'rte-editor';
+    editor.contentEditable = 'true';
+    editor.dataset.rteFor = textarea.id;
+    editor.dataset.placeholder = textarea.placeholder || 'Escribí tu contenido aquí...';
+    // Load existing content — support both plain text and HTML
+    const val = textarea.value || '';
+    editor.innerHTML = val.includes('<') ? val : (val ? `<p>${val}</p>` : '');
+
+    wrapper.appendChild(editor);
+    textarea.parentNode.insertBefore(wrapper, textarea);
+    textarea.classList.add('rte-hidden');
+
+    // Set data-original on textarea to match current HTML for dirty detection
+    textarea.dataset.original = editor.innerHTML;
+    textarea.value = editor.innerHTML;
+
+    // Toolbar button click
+    toolbar.addEventListener('mousedown', e => {
+        const btn = e.target.closest('[data-cmd]');
+        if (!btn) return;
+        e.preventDefault();
+        editor.focus();
+        const cmd = btn.dataset.cmd;
+        const val = btn.dataset.val || null;
+        document.execCommand(cmd, false, val);
+        rteSyncToTextarea(editor);
+        updateToolbarState(toolbar, editor);
+    });
+
+    // Sync on every input/keyup
+    editor.addEventListener('input', () => {
+        rteSyncToTextarea(editor);
+        updateToolbarState(toolbar, editor);
+    });
+    editor.addEventListener('keyup', () => updateToolbarState(toolbar, editor));
+    editor.addEventListener('mouseup', () => updateToolbarState(toolbar, editor));
+
+    // Prevent form submit on Enter in toolbar
+    toolbar.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+}
+
+function updateToolbarState(toolbar, editor) {
+    const cmds = ['bold','italic','underline','strikeThrough'];
+    cmds.forEach(cmd => {
+        const btn = toolbar.querySelector(`[data-cmd="${cmd}"]`);
+        if (btn) btn.classList.toggle('active', document.queryCommandState(cmd));
     });
 }
-                } catch (e) {
-                    console.error('Error executing oninput:', e);
-                }
-            });
-        }
-    });
+
+function initAllRteEditors() {
+    document.querySelectorAll('textarea:not(.rte-hidden):not(.no-rte)').forEach(initRteEditor);
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', initQuillEditors);
+document.addEventListener('DOMContentLoaded', initAllRteEditors);
 
-// Re-initialize when dynamic content is added (for FAQ, sponsors, etc.)
-const originalAddSponsor = window.addSponsor;
-if (typeof originalAddSponsor === 'function') {
-    window.addSponsor = function() {
-        originalAddSponsor();
-        setTimeout(initQuillEditors, 100);
-    };
+// Hook into dynamic additions
+const _origAddSponsor = window.addSponsor;
+if (typeof _origAddSponsor === 'function') {
+    window.addSponsor = function() { _origAddSponsor(); setTimeout(initAllRteEditors, 120); };
 }
-
-const originalAddExtraFaq = window.addExtraFaq;
-if (typeof originalAddExtraFaq === 'function') {
-    window.addExtraFaq = function() {
-        originalAddExtraFaq();
-        setTimeout(initQuillEditors, 100);
-    };
+const _origAddExtraFaq = window.addExtraFaq;
+if (typeof _origAddExtraFaq === 'function') {
+    window.addExtraFaq = function() { _origAddExtraFaq(); setTimeout(initAllRteEditors, 120); };
 }
 
 </script>
