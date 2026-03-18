@@ -15,6 +15,7 @@ const createCloudinaryStorage = (folder, resourceType = 'image', allowedFormats 
         params: {
             folder: `uniendo-metas/${folder}`,
             resource_type: resourceType,
+            access_mode: 'public',
             allowed_formats: allowedFormats,
             // Generar nombre descriptivo y único para cada archivo
             public_id: (req, file) => {
