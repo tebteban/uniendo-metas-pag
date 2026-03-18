@@ -119,6 +119,17 @@
                         </p>
                     </div>
 
+                    <% 
+                        // Helper para forzar descarga en Cloudinary (fl_attachment)
+                        const getDownloadUrl = (url) => {
+                            if (!url) return '#';
+                            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+                                return url.replace('/upload/', '/upload/fl_attachment/');
+                            }
+                            return url;
+                        };
+                    %>
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
                         <div class="group relative bg-white rounded-3xl p-8 transition-all duration-300 hover:shadow-xl border border-gray-100 hover:border-brand-red flex flex-col items-center text-center"
@@ -135,7 +146,7 @@
                             <p class="text-sm text-gray-500 mb-6 leading-relaxed">
                                 <%= settings.par_doc_1_desc || "Autorización de participación y uso de imagen para menores de edad. Debe firmarla padre/tutor y director." %>
                             </p>
-                            <a href="<%= settings.par_doc_1_file || '/documents/Autorizaciones/AUTORIZACIÓN ESTUDIANTES.pdf' %>" download
+                            <a href="<%= getDownloadUrl(settings.par_doc_1_file || '/documents/Autorizaciones/AUTORIZACIÓN ESTUDIANTES.pdf') %>" download
                                 class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-red font-bold rounded-full border-2 border-brand-red hover:bg-brand-red hover:text-white transition-colors duration-300 text-sm shadow-sm">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -159,7 +170,7 @@
                             <p class="text-sm text-gray-500 mb-6 leading-relaxed">
                                 <%= settings.par_doc_2_desc || "Autorización personal para docentes y asesores. Requiere firma del docente y sello de dirección." %>
                             </p>
-                            <a href="<%= settings.par_doc_2_file || '/documents/Autorizaciones/AUTORIZACIÓN DOCENTES.pdf' %>" download
+                            <a href="<%= getDownloadUrl(settings.par_doc_2_file || '/documents/Autorizaciones/AUTORIZACIÓN DOCENTES.pdf') %>" download
                                 class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-blue font-bold rounded-full border-2 border-brand-blue hover:bg-brand-blue hover:text-white transition-colors duration-300 text-sm shadow-sm">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -183,7 +194,7 @@
                             <p class="text-sm text-gray-500 mb-6 leading-relaxed">
                                 <%= settings.par_doc_3_desc || "Nota formal donde el Representante Legal autoriza la participación institucional del colegio en el programa." %>
                             </p>
-                            <a href="<%= settings.par_doc_3_file || '/documents/Autorizaciones/AUTORIZACIÓN ESTABLECIMIENTO.pdf' %>" download
+                            <a href="<%= getDownloadUrl(settings.par_doc_3_file || '/documents/Autorizaciones/AUTORIZACIÓN ESTABLECIMIENTO.pdf') %>" download
                                 class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-green font-bold rounded-full border-2 border-brand-green hover:bg-brand-green hover:text-white transition-colors duration-300 text-sm shadow-sm">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

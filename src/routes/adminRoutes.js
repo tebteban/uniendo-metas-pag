@@ -61,6 +61,8 @@ router.post('/organos/update/:id', authMiddleware, pdfUpload.fields([
     { name: 'archivo_topico', maxCount: 1 }
 ]), adminOrgansController.update);
 
+router.get('/organos/eliminar/:id', authMiddleware, adminOrgansController.destroy);
+
 // Authorities CRUD
 const adminAuthoritiesController = require('../controllers/adminAuthoritiesController');
 const upload = require('../middlewares/uploadMiddleware');
@@ -79,10 +81,11 @@ router.post('/equipodevoluntarios/importar', authMiddleware, excelUpload.single(
 
 // Inscriptions Routes
 const adminInscriptionsController = require('../controllers/adminInscriptionsController');
-const docUpload = require('../middlewares/documentUploadMiddleware');
+// Ya fue requerido excelUpload arriba, pero si no se requiere, podemos re-importarlo
+const excelUploadMiddleware = require('../middlewares/excelUploadMiddleware');
 
 router.get('/inscripciones/:type', authMiddleware, adminInscriptionsController.index);
-router.post('/inscripciones/:type/upload', authMiddleware, docUpload.single('file'), adminInscriptionsController.upload);
+router.post('/inscripciones/:type/upload', authMiddleware, excelUploadMiddleware.single('file'), adminInscriptionsController.upload);
 router.post('/inscripciones/:type/upload-manual', authMiddleware, adminInscriptionsController.uploadManual);
 router.post('/inscripciones/editar/:id',         authMiddleware, adminInscriptionsController.edit);
 router.post('/inscripciones/:type/eliminar-todo', authMiddleware, adminInscriptionsController.destroyAll);

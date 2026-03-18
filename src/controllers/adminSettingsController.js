@@ -108,7 +108,7 @@ const controller = {
             if (req.files && req.files.length > 0) {
                 for (const file of req.files) {
                     const key   = file.fieldname;
-                    const value = '/img/site/' + file.filename;
+                    const value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
                     const [setting, created] = await Setting.findOrCreate({
                         where: { key },
                         defaults: { key, value, type: 'image' }

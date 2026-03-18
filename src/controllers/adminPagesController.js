@@ -1124,7 +1124,7 @@ async function saveBody(body, files) {
         for (const file of (files || [])) {
             if (!file.fieldname.startsWith(prefix)) continue;
             const key   = file.fieldname;
-            const value = '/img/site/' + file.filename;
+            const value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
             const [setting, created] = await Setting.findOrCreate({
                 where: { key },
                 defaults: { key, value, type: 'image' }
@@ -1161,9 +1161,14 @@ async function saveBody(body, files) {
             if (dynamicPrefixes.some(p => key.startsWith(p))) continue;
             // Biblioteca document files go to /documents/site/
             const isDocFile = key.startsWith('bib_') && key.endsWith('_file');
-            const value = isDocFile
-                ? '/documents/site/' + file.filename
-                : '/img/site/' + file.filename;
+            
+            let value;
+            if (isDocFile) {
+                value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/documents/site/' + file.filename;
+            } else {
+                value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
+            }
+
             const [setting, created] = await Setting.findOrCreate({
                 where: { key },
                 defaults: { key, value, type: isDocFile ? 'file' : 'image' }
@@ -1320,9 +1325,18 @@ controller.storeOrgano = async (req, res) => {
     try {
         const data = { name: req.body.name, description: req.body.description, color: req.body.color, topic: req.body.topic };
         if (req.files) {
-            if (req.files['reglamento']?.[0])    data.link_reglamento = '/uploads/documents/' + req.files['reglamento'][0].filename;
-            if (req.files['archivo_dinamicas']?.[0]) data.link_dinamicas = '/uploads/documents/' + req.files['archivo_dinamicas'][0].filename;
-            if (req.files['archivo_topico']?.[0])    data.link_topico    = '/uploads/documents/' + req.files['archivo_topico'][0].filename;
+            if (req.files['reglamento']?.[0]) {
+                const f = req.files['reglamento'][0];
+                data.link_reglamento = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
+            }
+            if (req.files['archivo_dinamicas']?.[0]) {
+                const f = req.files['archivo_dinamicas'][0];
+                data.link_dinamicas = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
+            }
+            if (req.files['archivo_topico']?.[0]) {
+                const f = req.files['archivo_topico'][0];
+                data.link_topico = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
+            }
         }
         await Organ.create(data);
         res.redirect('/admin/paginas/organos?saved=1');
@@ -1338,9 +1352,18 @@ controller.updateOrgano = async (req, res) => {
         if (!organ) return res.redirect('/admin/paginas/organos');
         const data = { name: req.body.name, description: req.body.description, color: req.body.color, topic: req.body.topic };
         if (req.files) {
-            if (req.files['reglamento']?.[0])    data.link_reglamento = '/uploads/documents/' + req.files['reglamento'][0].filename;
-            if (req.files['archivo_dinamicas']?.[0]) data.link_dinamicas = '/uploads/documents/' + req.files['archivo_dinamicas'][0].filename;
-            if (req.files['archivo_topico']?.[0])    data.link_topico    = '/uploads/documents/' + req.files['archivo_topico'][0].filename;
+            if (req.files['reglamento']?.[0]) {
+                const f = req.files['reglamento'][0];
+                data.link_reglamento = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
+            }
+            if (req.files['archivo_dinamicas']?.[0]) {
+                const f = req.files['archivo_dinamicas'][0];
+                data.link_dinamicas = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
+            }
+            if (req.files['archivo_topico']?.[0]) {
+                const f = req.files['archivo_topico'][0];
+                data.link_topico = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
+            }
         }
         await organ.update(data);
         res.redirect('/admin/paginas/organos?saved=1');
