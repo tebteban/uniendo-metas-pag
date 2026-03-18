@@ -16,9 +16,22 @@ const createCloudinaryStorage = (folder, resourceType = 'image', allowedFormats 
             folder: `uniendo-metas/${folder}`,
             resource_type: resourceType,
             allowed_formats: allowedFormats,
-            // Generar nombre único para cada archivo
+            // Generar nombre descriptivo y único para cada archivo
             public_id: (req, file) => {
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                if (file && file.originalname) {
+                    const path = require('path');
+                    const ext = path.extname(file.originalname);
+                    const name = path.basename(file.originalname, ext)
+                        .replace(/[^a-zA-Z0-9_\-]/g, '_')
+                        .substring(0, 60); // Limitar a 60 caracteres
+                        
+                    // Para descargas de documentos correctas (raw), Cloudinary necesita la extensión en el public_id
+                    if (resourceType === 'raw') {
+                        return `${name}_${uniqueSuffix}${ext.toLowerCase()}`;
+                    }
+                    return `${name}_${uniqueSuffix}`;
+                }
                 return uniqueSuffix;
             }
         }
