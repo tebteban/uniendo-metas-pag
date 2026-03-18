@@ -11,7 +11,6 @@ src/database/*.sqlite
 
 # Uploads and user-generated content
 public/uploads/
-public/img/site/
 public/img/Voluntarios/
 
 # Environment variables
