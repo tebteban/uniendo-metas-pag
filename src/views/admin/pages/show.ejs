@@ -1694,15 +1694,24 @@ function initQuillEditors() {
         // Store Quill instance
         quillEditors.set(textarea, quill);
         
+        // Update data-original to match Quill's HTML format
+        // This ensures markDirty() works correctly
+        const initialHTML = quill.root.innerHTML;
+        textarea.value = initialHTML;
+        textarea.dataset.original = initialHTML;
+        
         // Sync changes back to textarea
         quill.on('text-change', function() {
-            textarea.value = quill.root.innerHTML;
+            const newValue = quill.root.innerHTML;
+            textarea.value = newValue;
             
-            // Trigger dirty field detection if function exists
-            if (typeof markDirty === 'function') {
-                const fieldId = textarea.closest('[id]')?.id;
-                const sectionId = textarea.closest('[data-section]')?.dataset.section;
-                if (fieldId && sectionId) {
+            // Find the wrapper with id and data-section
+            const fieldWrapper = textarea.closest('[data-section]');
+            if (fieldWrapper) {
+                const fieldId = fieldWrapper.id;
+                const sectionId = fieldWrapper.dataset.section;
+                
+                if (fieldId && sectionId && typeof markDirty === 'function') {
                     markDirty(fieldId, sectionId);
                 }
             }
@@ -1714,6 +1723,13 @@ function initQuillEditors() {
                 const onInputAttr = textarea.getAttribute('oninput');
                 try {
                     eval(onInputAttr);
+                } catch (e) {
+                    console.error('Error executing oninput:', e);
+                }
+            });
+        }
+    });
+}
                 } catch (e) {
                     console.error('Error executing oninput:', e);
                 }
