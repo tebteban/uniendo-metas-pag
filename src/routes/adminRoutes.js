@@ -61,6 +61,8 @@ router.post('/organos/update/:id', authMiddleware, pdfUpload.fields([
     { name: 'archivo_topico', maxCount: 1 }
 ]), adminOrgansController.update);
 
+router.get('/organos/eliminar/:id', authMiddleware, adminOrgansController.destroy);
+
 // Authorities CRUD
 const adminAuthoritiesController = require('../controllers/adminAuthoritiesController');
 const upload = require('../middlewares/uploadMiddleware');

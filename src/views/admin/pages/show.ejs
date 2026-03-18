@@ -518,7 +518,7 @@
                                 <!-- Formulario crear / editar -->
                                 <div class="mb-6 p-5 rounded-xl border border-gray-200 bg-gray-50">
                                     <h3 class="text-sm font-black text-slate-700 mb-4"><%= editEvt ? '✏️ Editar Evento' : '＋ Nueva Actividad' %></h3>
-                                    <div id="crud-cron-form" class="space-y-4" data-action="<%= editEvt ? '/admin/paginas/cronograma/update/' + editEvt.id : '/admin/paginas/cronograma/store' %>">
+                                    <div id="crud-cron-form" class="space-y-4" data-action="<%= editEvt ? '/admin/cronograma/update/' + editEvt.id : '/admin/cronograma/store' %>">
                                         <div class="grid grid-cols-3 gap-4">
                                             <div>
                                                 <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Día</label>
@@ -604,9 +604,9 @@
                                                     <span class="px-2 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-500"><%= ev.type %></span>
                                                 </td>
                                                 <td class="px-4 py-3 text-right space-x-2">
-                                                    <a href="/admin/paginas/cronograma/editar/<%= ev.id %>"
+                                                    <a href="/admin/cronograma/editar/<%= ev.id %>"
                                                        class="text-indigo-600 hover:text-indigo-900 font-bold text-xs">Editar</a>
-                                                    <a href="/admin/paginas/cronograma/eliminar/<%= ev.id %>"
+                                                    <a href="/admin/cronograma/eliminar/<%= ev.id %>"
                                                        onclick="return confirm('¿Eliminar esta actividad?')"
                                                        class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</a>
                                                 </td>
@@ -628,7 +628,7 @@
                                 <!-- Formulario crear / editar -->
                                 <div class="mb-6 p-5 rounded-xl border border-gray-200 bg-gray-50">
                                     <h3 class="text-sm font-black text-slate-700 mb-4"><%= editOrg ? '✏️ Editar Órgano' : '＋ Nuevo Órgano' %></h3>
-                                    <div id="crud-org-form" class="space-y-4" data-action="<%= editOrg ? '/admin/paginas/organos/update/' + editOrg.id : '/admin/paginas/organos/store' %>" data-multipart="true">
+                                    <div id="crud-org-form" class="space-y-4" data-action="<%= editOrg ? '/admin/organos/update/' + editOrg.id : '/admin/organos/store' %>" data-multipart="true">
                                         <div>
                                             <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Nombre del Órgano</label>
                                             <input type="text" name="name" value="<%= editOrg ? editOrg.name : '' %>"
@@ -641,9 +641,25 @@
                                         </div>
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Color (ej: #A02140)</label>
-                                                <input type="text" name="color" value="<%= editOrg ? editOrg.color : '' %>" placeholder="#A02140"
-                                                       class="w-full mt-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400">
+                                                <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Color del Órgano</label>
+                                                <% const presetColors = ['#A02140', '#73A950', '#E15829', '#FFB819', '#61B4E4'];
+                                                   const editColor = editOrg && editOrg.color ? editOrg.color.toUpperCase() : '';
+                                                %>
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <% presetColors.forEach(c => { %>
+                                                    <button type="button" onclick="document.getElementById('color_input_<%= editOrg ? editOrg.id : 'new' %>').value = '<%= c %>'; document.getElementById('color_picker_<%= editOrg ? editOrg.id : 'new' %>').value = '<%= c %>';"
+                                                            class="w-7 h-7 rounded-full shadow-sm hover:scale-110 transition-transform"
+                                                            style="background-color: <%= c %>;" title="Usar <%= c %>"></button>
+                                                    <% }); %>
+                                                    <div class="w-px h-5 bg-gray-200 mx-1"></div>
+                                                    <div class="relative w-7 h-7 rounded-full overflow-hidden shadow-sm hover:scale-110 transition-transform cursor-pointer border border-gray-200" title="Seleccionar otro color">
+                                                        <input type="color" id="color_picker_<%= editOrg ? editOrg.id : 'new' %>" value="<%= editColor || '#A02140' %>"
+                                                               oninput="document.getElementById('color_input_<%= editOrg ? editOrg.id : 'new' %>').value = this.value.toUpperCase();"
+                                                               class="absolute -top-2 -left-2 w-12 h-12 cursor-pointer">
+                                                    </div>
+                                                </div>
+                                                <input type="text" id="color_input_<%= editOrg ? editOrg.id : 'new' %>" name="color" value="<%= editColor %>" placeholder="#A02140" required
+                                                       class="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:border-blue-400 font-mono uppercase">
                                             </div>
                                             <div>
                                                 <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider">Tópico</label>
@@ -716,7 +732,7 @@
                                                         <span class="font-bold text-slate-700"><%= org.name %></span>
                                                     </div>
                                                     <% if (org.description) { %>
-                                                    <p class="text-xs text-gray-400 mt-0.5 line-clamp-1"><%= org.description %></p>
+                                                    <div class="text-xs text-gray-400 mt-0.5 line-clamp-1"><%- org.description %></div>
                                                     <% } %>
                                                 </td>
                                                 <td class="px-4 py-3 text-xs text-gray-500"><%= org.topic || '—' %></td>
@@ -740,9 +756,9 @@
                                                     </div>
                                                 </td>
                                                 <td class="px-4 py-3 text-right space-x-2">
-                                                    <a href="/admin/paginas/organos/editar/<%= org.id %>"
+                                                    <a href="/admin/organos/editar/<%= org.id %>"
                                                        class="text-indigo-600 hover:text-indigo-900 font-bold text-xs">Editar</a>
-                                                    <a href="/admin/paginas/organos/eliminar/<%= org.id %>"
+                                                    <a href="/admin/organos/eliminar/<%= org.id %>"
                                                        onclick="return confirm('¿Eliminar este órgano?')"
                                                        class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</a>
                                                 </td>

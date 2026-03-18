@@ -127,6 +127,26 @@ const controller = {
             console.error(error);
             res.status(500).send('Error al crear órgano');
         }
+    },
+
+    // Delete organ
+    destroy: async (req, res) => {
+        try {
+            await Organ.destroy({
+                where: { id: req.params.id }
+            });
+            // Try to redirect back where the user came from (likely the CMS pages/organos)
+            // or default to /admin/paginas/organos
+            const referer = req.get('Referrer');
+            if (referer) {
+                res.redirect(referer);
+            } else {
+                res.redirect('/admin/paginas/organos');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al eliminar órgano');
+        }
     }
 };
 
