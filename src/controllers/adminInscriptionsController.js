@@ -38,7 +38,7 @@ const controller = {
                 return res.redirect(`/admin/inscripciones/${type}?msg=imported`);
             }
 
-            const workbook = xlsx.readFile(req.file.path);
+            const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
             const data = xlsx.utils.sheet_to_json(sheet);
@@ -85,9 +85,6 @@ const controller = {
             if (bulkData.length > 0) {
                 await Inscription.bulkCreate(bulkData);
             }
-
-            // Clean up uploaded file
-            fs.unlinkSync(req.file.path);
 
             res.redirect(`/admin/inscripciones/${type}?msg=imported`);
         } catch (error) {
