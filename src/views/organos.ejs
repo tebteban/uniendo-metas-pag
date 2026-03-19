@@ -58,6 +58,18 @@
                                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
                                     <p class="text-gray-900 font-bold text-sm leading-snug">
                                         <%= organ.topic || 'A definir' %>
+                    <% 
+                        // Helper para forzar descarga en Cloudinary (fl_attachment) - igual que participacion.ejs
+                        const getDownloadUrl = (url) => {
+                            if (!url) return '#';
+                            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+                                return url.replace('/upload/', '/upload/fl_attachment/');
+                            }
+                            return url;
+                        };
+                    %>
+
+
                                     </p>
                                 </div>
 
@@ -74,26 +86,16 @@
                                         };
                                     %>
                                     
-                                                                <% if (organ.link_reglamento) { 
-                                // Limpiar URL de Cloudinary - remover fl_attachment y cambiar resource_type
-                                let reglamentoUrl = organ.link_reglamento;
-                                if (reglamentoUrl.includes('cloudinary.com')) {
-                                    // Remover /fl_attachment/ (puede estar en cualquier posición)
-                                    reglamentoUrl = reglamentoUrl.replace(/\/fl_attachment\/?/g, '');
-                                    // Cambiar /raw/ por /image/ para forzar acceso público
-                                    reglamentoUrl = reglamentoUrl.replace('/raw/', '/image/');
-                                }
-                            %>
-                                <a href="<%= reglamentoUrl %>" 
-                                   target="_blank"
-                                   download
-                                   class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    Descargar Reglamento
-                                </a>
-                            <% } %>
+                                    <% if (
+organ.link_reglamento) { %>
+                                        <a href="<%= getDownloadUrl(organ.link_reglamento) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
+                                           style="border-color: var(--organ-color); color: var(--organ-color);"
+                                           onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
+                                           onmouseout="this.style.backgroundColor='white'; this.style.color='<%= organ.color %>'">
+                                            <span>Descargar Reglamento</span>
+                                            <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                        </a>
+                                    <% } %>
 
                                     <% if (organ.link_dinamicas) { %>
                                         <a href="<%= getDownloadUrl(organ.link_dinamicas) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
@@ -105,23 +107,15 @@
                                         </a>
                                     <% } %>
 
-                                                                <% if (organ.link_topico) { 
-                                let topicoUrl = organ.link_topico;
-                                if (topicoUrl.includes('cloudinary.com')) {
-                                    topicoUrl = topicoUrl.replace(/\/fl_attachment\/?/g, '');
-                                    topicoUrl = topicoUrl.replace('/raw/', '/image/');
-                                }
-                            %>
-                                <a href="<%= topicoUrl %>" 
-                                   target="_blank"
-                                   download
-                                   class="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentGraph" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    Descargar Tópico
-                                </a>
-                            <% } %>
+                                    <% if (organ.link_topico) { %>
+                                        <a href="<%= getDownloadUrl(organ.link_topico) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
+                                           style="border-color: var(--organ-color); color: var(--organ-color);"
+                                           onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
+                                           onmouseout="this.style.backgroundColor='white'; this.style.color='<%= organ.color %>'">
+                                            <span>Descargar Tópico</span>
+                                            <svg class="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                        </a>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
