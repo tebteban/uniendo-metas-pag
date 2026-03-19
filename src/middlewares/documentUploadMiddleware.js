@@ -7,8 +7,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 let storage;
 if (isProduction) {
-    // Producción: Usar Cloudinary (raw para Excel/CSV)
-    storage = createCloudinaryStorage('excel', 'raw', ['xlsx', 'csv']);
+    // Producción: Usar Cloudinary (auto en vez de raw para evitar fl_attachment)
+    // El tipo 'auto' permite descarga pública sin autenticación
+    storage = createCloudinaryStorage('documents', 'auto', ['xlsx', 'csv', 'pdf', 'doc', 'docx']);
 } else {
     // Desarrollo: Usar almacenamiento local
     storage = multer.diskStorage({
