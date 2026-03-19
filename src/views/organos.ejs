@@ -27,6 +27,17 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
+            <% 
+                // Helper para forzar descarga en Cloudinary (fl_attachment) - igual que participacion.ejs
+                const getDownloadUrl = (url) => {
+                    if (!url) return '#';
+                    if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+                        return url.replace('/upload/', '/upload/fl_attachment/');
+                    }
+                    return url;
+                };
+            %>
+
             <div class="flex flex-wrap justify-center gap-8">
                 
                 <% if (organos && organos.length > 0) { %>
@@ -39,7 +50,7 @@
 
                             <div class="mb-6 relative z-10">
                                 <div class="w-16 h-16 rounded-2xl text-white flex items-center justify-center text-3xl font-black shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 mb-6"
-                                     style="background-color: var(--organ-color); box-shadow: 0 10px 15px -3px var(--organ-color);">
+                                     style="background-color: var(--organ-color); box-shadow: 0 10px 15px -3px <%= organ.color %>40;">
                                     <%= organ.name.charAt(0) %>
                                 </div>
 
@@ -47,33 +58,22 @@
                                     <%= organ.name %>
                                 </h3>
 
-                                <p class="text-sm md:text-base text-gray-600 mb-6 leading-relaxed">
-                                    <%- organ.description %>
+                                <p class="text-gray-500 text-sm leading-relaxed font-medium">
+                                    <%= organ.description %>
                                 </p>
                             </div>
 
                             <div class="mt-auto relative z-10">
-                                <div class="bg-gray-50 border-l-4 p-4 rounded-r-xl mb-6 bg-opacity-10"
-                                     style="border-color: var(--organ-color); background-color: var(--organ-color);">
+                                <div class="bg-gray-50 border-l-4 p-4 rounded-r-xl mb-6"
+                                     style="border-color: var(--organ-color); background-color: <%= organ.color %>0D;">
                                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Tópico</span>
                                     <p class="text-gray-900 font-bold text-sm leading-snug">
                                         <%= organ.topic || 'A definir' %>
-                    <% 
-                        // Helper para forzar descarga en Cloudinary (fl_attachment) - igual que participacion.ejs
-                        const getDownloadUrl = (url) => {
-                            if (!url) return '#';
-                            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
-                                return url.replace('/upload/', '/upload/fl_attachment/');
-                            }
-                            return url;
-                        };
-                    %>
-
-
                                     </p>
                                 </div>
 
                                 <div class="flex flex-col gap-3">
+                                    
                                     <% if (organ.link_reglamento) { %>
                                         <a href="<%= getDownloadUrl(organ.link_reglamento) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
                                            style="border-color: var(--organ-color); color: var(--organ-color);"
