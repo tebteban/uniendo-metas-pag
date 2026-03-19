@@ -74,20 +74,7 @@
                                 </div>
 
                                 <div class="flex flex-col gap-3">
-                                    <% 
-                                        // Helper para forzar descarga en Cloudinary (fl_attachment)
-                                        const getDownloadUrl = (url) => {
-                                            if (!url) return '#';
-                                            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
-                                                // Insertar fl_attachment justo después de /upload/
-                                                return url.replace('/upload/', '/upload/fl_attachment/');
-                                            }
-                                            return url;
-                                        };
-                                    %>
-                                    
-                                    <% if (
-organ.link_reglamento) { %>
+                                    <% if (organ.link_reglamento) { %>
                                         <a href="<%= getDownloadUrl(organ.link_reglamento) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
                                            style="border-color: var(--organ-color); color: var(--organ-color);"
                                            onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
