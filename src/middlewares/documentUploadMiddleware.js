@@ -7,9 +7,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 let storage;
 if (isProduction) {
-    // Producción: Usar Cloudinary (auto en vez de raw para evitar fl_attachment)
-    // El tipo 'auto' permite descarga pública sin autenticación
-    storage = createCloudinaryStorage('documents', 'auto', ['xlsx', 'csv', 'pdf', 'doc', 'docx']);
+    // Producción: Usar Cloudinary con resource_type 'auto' para evitar problemas de autenticación
+    // El tipo 'auto' detecta automáticamente el tipo de archivo y NO requiere fl_attachment
+    storage = createCloudinaryStorage('documents', 'auto', ['xlsx', 'csv', 'pdf', 'doc', 'docx', 'xls']);
 } else {
     // Desarrollo: Usar almacenamiento local
     storage = multer.diskStorage({
@@ -26,17 +26,12 @@ if (isProduction) {
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-        // Accept excel and csv
-        if (
-            file.mimetype.includes('excel') ||
-            file.mimetype.includes('spreadsheetml') ||
-            file.mimetype.includes('csv') ||
-            path.extname(file.originalname).toLowerCase() === '.xlsx' ||
-            path.extname(file.originalname).toLowerCase() === '.csv'
-        ) {
+        // Accept excel, csv, pdf, word
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (['.xlsx', '.csv', '.pdf', '.doc', '.docx', '.xls'].includes(ext)) {
             return cb(null, true);
         }
-        cb(new Error('Solo se permiten archivos Excel (.xlsx) o CSV'));
+        cb(new Error('Solo se permiten archivos Excel, CSV, PDF o Word'));
     }
 });
 
