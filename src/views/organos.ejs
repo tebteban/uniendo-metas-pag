@@ -75,7 +75,7 @@
                                 <div class="flex flex-col gap-3">
                                     
                                     <% if (organ.link_reglamento) { %>
-                                        <a href="<%= getDownloadUrl(organ.link_reglamento) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
+                                        <a href="<%= getDownloadUrl(organ.link_reglamento) %>" download="Reglamento_<%= organ.name.replace(/[^a-zA-Z0-9]/g, '_') %>.pdf" class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
                                            style="border-color: var(--organ-color); color: var(--organ-color);"
                                            onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
                                            onmouseout="this.style.backgroundColor='white'; this.style.color='<%= organ.color %>'">
@@ -85,7 +85,7 @@
                                     <% } %>
 
                                     <% if (organ.link_dinamicas) { %>
-                                        <a href="<%= getDownloadUrl(organ.link_dinamicas) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
+                                        <a href="<%= getDownloadUrl(organ.link_dinamicas) %>" download="Dinamicas_<%= organ.name.replace(/[^a-zA-Z0-9]/g, '_') %>.pdf" class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
                                            style="border-color: var(--organ-color); color: var(--organ-color);"
                                            onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
                                            onmouseout="this.style.backgroundColor='white'; this.style.color='<%= organ.color %>'">
@@ -95,7 +95,7 @@
                                     <% } %>
 
                                     <% if (organ.link_topico) { %>
-                                        <a href="<%= getDownloadUrl(organ.link_topico) %>" download class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
+                                        <a href="<%= getDownloadUrl(organ.link_topico) %>" download="Topico_<%= organ.name.replace(/[^a-zA-Z0-9]/g, '_') %>.pdf" class="inline-flex items-center justify-between w-full px-6 py-3 bg-white border-2 rounded-2xl font-bold text-sm hover:text-white transition-all duration-300 group/btn"
                                            style="border-color: var(--organ-color); color: var(--organ-color);"
                                            onmouseover="this.style.backgroundColor='<%= organ.color %>'; this.style.color='white'"
                                            onmouseout="this.style.backgroundColor='white'; this.style.color='<%= organ.color %>'">
