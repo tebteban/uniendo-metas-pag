@@ -2,6 +2,18 @@
 <html lang="es" class="scroll-smooth">
 <%- include('./partials/head') %>
 
+<%
+// Helper para limpiar las <p> del editor WYSIWYG sin perder el formato (negritas, br, etc)
+const clean = (str) => {
+    if (!str) return '';
+    // Reemplaza los cierres de párrafo seguidos de aperturas con dos saltos de línea para mantener la separación
+    let cleaned = str.replace(/<\/p>\s*<p[^>]*>/gi, '<br><br>');
+    // Elimina todas las etiquetas <p> y </p> restantes
+    cleaned = cleaned.replace(/<\/?p[^>]*>/gi, '');
+    return cleaned;
+};
+%>
+
 <style>
     @keyframes scroll {
         0%   { transform: translateX(0); }
@@ -22,7 +34,6 @@
 
 <%- include('./partials/navbar') %>
 
-<!-- ===== HERO ===== -->
 <section class="relative pt-36 pb-24 bg-white overflow-hidden">
 
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
@@ -39,18 +50,18 @@
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background:#73A950;"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2" style="background:#73A950;"></span>
             </span>
-            <span class="text-xs font-black tracking-widest text-gray-500 uppercase"><%= settings.text_aut_hero_badge || 'Sumate a la familia' %></span>
+            <span class="text-xs font-black tracking-widest text-gray-500 uppercase"><%- clean(settings.text_aut_hero_badge || 'Sumate a la familia') %></span>
         </div>
 
         <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tight leading-[1.05]" data-aos="fade-up">
-            <%- settings.text_aut_hero_title || 'Viví el modelo<br>' %>
+            <%- clean(settings.text_aut_hero_title || 'Viví el modelo<br>') %>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow">
-                <%= settings.text_aut_hero_highlight || 'desde el corazón.' %>
+                <%- clean(settings.text_aut_hero_highlight || 'desde el corazón.') %>
             </span>
         </h1>
 
         <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-10" data-aos="fade-up" data-aos-delay="100">
-            <%= settings.text_aut_hero_desc || 'Ser autoridad es mucho más que moderar un debate. Es hacer amigos, compartir mates en los recreos y ser parte del equipo que hace magia para que todo salga bien.' %>
+            <%- clean(settings.text_aut_hero_desc || 'Ser autoridad es mucho más que moderar un debate. Es hacer amigos, compartir mates en los recreos y ser parte del equipo que hace magia para que todo salga bien.') %>
         </p>
 
         <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
@@ -67,12 +78,10 @@
     </div>
 </section>
 
-<!-- ===== EXPERIENCIA ===== -->
 <section id="experiencia" class="py-24 bg-gray-50 border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-            <!-- Fotos mosaico -->
             <div class="grid grid-cols-2 gap-4" data-aos="fade-right">
                 <div class="space-y-4 mt-10">
                     <div class="overflow-hidden rounded-2xl shadow-md">
@@ -90,18 +99,17 @@
                 </div>
             </div>
 
-            <!-- Texto -->
             <div data-aos="fade-left">
-                <span class="inline-block text-xs font-black uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style="background:#EDF5E8; color:#73A950;"><%= settings.text_aut_exp_badge || 'La experiencia' %></span>
+                <span class="inline-block text-xs font-black uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style="background:#EDF5E8; color:#73A950;"><%- clean(settings.text_aut_exp_badge || 'La experiencia') %></span>
                 <h2 class="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-                    <%- settings.text_aut_exp_title || 'Un grupo de amigos<br>' %>
-                    <span style="color:#73A950;"><%= settings.text_aut_exp_highlight || 'trabajando juntos.' %></span>
+                    <%- clean(settings.text_aut_exp_title || 'Un grupo de amigos<br>') %>
+                    <span style="color:#73A950;"><%- clean(settings.text_aut_exp_highlight || 'trabajando juntos.') %></span>
                 </h2>
                 <p class="text-gray-500 text-lg mb-5 leading-relaxed">
-                    <%= settings.text_aut_exp_p1 || 'Olvidate de la presión. Acá venimos a pasarla bien. El staff de autoridades es famoso por ser el grupo más unido del modelo.' %>
+                    <%- clean(settings.text_aut_exp_p1 || 'Olvidate de la presión. Acá venimos a pasarla bien. El staff de autoridades es famoso por ser el grupo más unido del modelo.') %>
                 </p>
                 <p class="text-gray-500 text-lg mb-8 leading-relaxed">
-                    <%= settings.text_aut_exp_p2 || 'No importa si te toca ser Presidente, Ujier o Secretario — lo importante son las anécdotas que te llevás, las risas en las capacitaciones y la satisfacción de ayudar a que los delegados brillen.' %>
+                    <%- clean(settings.text_aut_exp_p2 || 'No importa si te toca ser Presidente, Ujier o Secretario — lo importante son las anécdotas que te llevás, las risas en las capacitaciones y la satisfacción de ayudar a que los delegados brillen.') %>
                 </p>
 
                 <%
@@ -135,7 +143,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= iconPath %>"/>
                             </svg>
                         </div>
-                        <span class="text-gray-700 font-semibold text-base"><%= text %></span>
+                        <span class="text-gray-700 font-semibold text-base"><%- clean(text) %></span>
                     </div>
                     <% }); %>
                 </div>
@@ -144,16 +152,14 @@
     </div>
 </section>
 
-<!-- ===== GALERÍA / LEGADO ===== -->
 <section id="legado" class="py-24 bg-white border-t border-gray-100 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center" data-aos="fade-up">
-        <span class="text-xs font-black uppercase tracking-widest" style="color:#61B4E4;"><%= settings.text_aut_legado_badge || 'Nuestra Historia' %></span>
-        <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-3 mb-4"><%= settings.text_aut_legado_title || 'El Legado del Equipo' %></h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-lg"><%= settings.text_aut_legado_desc || 'Miles de historias, un solo espíritu. Así disfrutaron las camadas anteriores.' %></p>
+        <span class="text-xs font-black uppercase tracking-widest" style="color:#61B4E4;"><%- clean(settings.text_aut_legado_badge || 'Nuestra Historia') %></span>
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-3 mb-4"><%- clean(settings.text_aut_legado_title || 'El Legado del Equipo') %></h2>
+        <p class="text-gray-500 max-w-xl mx-auto text-lg"><%- clean(settings.text_aut_legado_desc || 'Miles de historias, un solo espíritu. Así disfrutaron las camadas anteriores.') %></p>
     </div>
 
     <div class="relative w-full">
-        <!-- Fades laterales -->
         <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to right, white, transparent);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to left, white, transparent);"></div>
 
@@ -179,14 +185,13 @@
     </div>
 </section>
 
-<!-- ===== ROLES ===== -->
 <section id="roles" class="py-24 bg-gray-50 border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%= settings.text_aut_roles_badge || 'Tu lugar en el equipo' %></span>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%= settings.text_aut_roles_title || '¿Desde dónde te gustaría participar?' %></h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%= settings.text_aut_roles_desc || 'Todos estos roles forman parte del mismo equipo. En las capacitaciones veremos juntos cuál es el ideal para vos.' %></p>
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%- clean(settings.text_aut_roles_badge || 'Tu lugar en el equipo') %></span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%- clean(settings.text_aut_roles_title || '¿Desde dónde te gustaría participar?') %></h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_aut_roles_desc || 'Todos estos roles forman parte del mismo equipo. En las capacitaciones veremos juntos cuál es el ideal para vos.') %></p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -235,7 +240,7 @@
             <div class="relative bg-white rounded-3xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
                 <% if (rol.badge) { %>
                 <div class="absolute top-0 right-0 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-bl-2xl" style="background:<%= rol.bg %>; color:<%= rol.color %>;">
-                    <%= rol.badge %>
+                    <%- clean(rol.badge) %>
                 </div>
                 <% } %>
                 <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background:<%= rol.bg %>;">
@@ -243,8 +248,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= rol.iconPath %>"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-black text-gray-900 mb-3"><%= rol.title %></h3>
-                <p class="text-sm text-gray-500 leading-relaxed"><%= rol.desc %></p>
+                <h3 class="text-lg font-black text-gray-900 mb-3"><%- clean(rol.title) %></h3>
+                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(rol.desc) %></p>
             </div>
             <% }); %>
 
@@ -252,19 +257,18 @@
     </div>
 </section>
 
-<!-- ===== CAPACITACIÓN ===== -->
 <section class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16 max-w-3xl mx-auto" data-aos="fade-up">
             <span class="inline-block px-4 py-1.5 rounded-full font-bold tracking-widest uppercase text-xs mb-5 border" style="background:#E8F5FB; color:#61B4E4; border-color:#61B4E430;">
-                <%= settings.text_aut_cap_badge || 'Formación y Metodología' %>
+                <%- clean(settings.text_aut_cap_badge || 'Formación y Metodología') %>
             </span>
             <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-5 leading-tight">
-                <%- settings.text_aut_cap_title || 'Aprendemos juntos,<br>a tu ritmo.' %>
+                <%- clean(settings.text_aut_cap_title || 'Aprendemos juntos,<br>a tu ritmo.') %>
             </h2>
             <p class="text-gray-500 text-lg leading-relaxed">
-                <%= settings.text_aut_cap_desc || 'Nuestro sistema de capacitación está diseñado para que disfrutes aprendiendo. No importa si es tu primera vez — te acompañamos hasta que te sentís listo.' %>
+                <%- clean(settings.text_aut_cap_desc || 'Nuestro sistema de capacitación está diseñado para que disfrutes aprendiendo. No importa si es tu primera vez — te acompañamos hasta que te sentís listo.') %>
             </p>
         </div>
 
@@ -286,13 +290,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="<%= item.icon %>"/>
                     </svg>
                 </div>
-                <h3 class="font-black text-lg text-gray-900 mb-2"><%= item.title %></h3>
-                <p class="text-sm text-gray-500 leading-relaxed"><%= item.desc %></p>
+                <h3 class="font-black text-lg text-gray-900 mb-2"><%- clean(item.title) %></h3>
+                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(item.desc) %></p>
             </div>
             <% }); %>
         </div>
 
-        <!-- Biblioteca Digital -->
         <%
         const bibItems = [];
         for (let bi = 1; bi <= 6; bi++) {
@@ -324,9 +327,9 @@
                         </svg>
                     </div>
                     <div>
-                        <h4 class="text-base font-black text-gray-900 mb-1 transition-colors"><%= item.name %></h4>
+                        <h4 class="text-base font-black text-gray-900 mb-1 transition-colors"><%- clean(item.name) %></h4>
                         <% if (item.desc) { %>
-                        <p class="text-sm text-gray-400"><%= item.desc %></p>
+                        <p class="text-sm text-gray-400"><%- clean(item.desc) %></p>
                         <% } %>
                         <span class="inline-flex items-center gap-1 mt-2 text-xs font-bold uppercase tracking-wide" style="color:<%= bColor %>;">
                             Descargar
@@ -341,7 +344,6 @@
     </div>
 </section>
 
-<!-- ===== FAQ ===== -->
 <section class="py-24 bg-gray-50 border-t border-gray-100">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -370,18 +372,17 @@
             <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
                 <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
                         onclick="toggleFaq('afaq<%= i %>')">
-                    <span class="font-bold text-gray-800 text-base leading-snug"><%= item.q %></span>
+                    <span class="font-bold text-gray-800 text-base leading-snug"><%- clean(item.q) %></span>
                     <svg id="icon-afaq<%= i %>" class="w-4 h-4 flex-shrink-0 transform transition-transform duration-300" style="color:#A02140;"
                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
                 <div id="afaq<%= i %>" class="hidden px-6 pb-5 text-gray-500 text-sm leading-relaxed border-t border-gray-50 pt-4">
-                    <%= item.a %>
+                    <%- clean(item.a) %>
                 </div>
             </div>
             <% }); %>
-            <!-- Preguntas extra -->
             <% for (let ei = 1; ei <= 5; ei++) {
                 const eq = settings['aut_faq_extra' + ei + '_q'];
                 const ea = settings['aut_faq_extra' + ei + '_a'];
@@ -390,20 +391,19 @@
             <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
                 <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors"
                         onclick="toggleFaq('afaqex<%= ei %>')">
-                    <span class="font-bold text-gray-800 text-base leading-snug"><%= eq %></span>
+                    <span class="font-bold text-gray-800 text-base leading-snug"><%- clean(eq) %></span>
                     <svg id="icon-afaqex<%= ei %>" class="w-4 h-4 flex-shrink-0 transform transition-transform duration-300" style="color:#A02140;"
                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
                 <div id="afaqex<%= ei %>" class="hidden px-6 pb-5 text-gray-500 text-sm leading-relaxed border-t border-gray-50 pt-4">
-                    <%= ea || '' %>
+                    <%- clean(ea || '') %>
                 </div>
             </div>
             <% } %>
         </div>
 
-        <!-- CTA final -->
         <div class="mt-14 text-center" data-aos="fade-up">
             <p class="text-gray-500 mb-5 text-lg">¿Listo para sumarte?</p>
             <a href="<%= settings.link_autoridades_sumarme || '#' %>" target="_blank"
@@ -421,7 +421,6 @@
 
 <%- include('./partials/footer') %>
 
-<!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-[200] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox()">
     <button class="absolute top-5 right-5 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition z-50" onclick="closeLightbox()">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>

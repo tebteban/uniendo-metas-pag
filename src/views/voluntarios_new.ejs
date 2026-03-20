@@ -2,6 +2,16 @@
 <html lang="es" class="scroll-smooth">
 <%- include('./partials/head') %>
 
+<%
+// Helper para limpiar las <p> del editor WYSIWYG sin perder el formato (negritas, br, etc)
+const clean = (str) => {
+    if (!str) return '';
+    let cleaned = str.replace(/<\/p>\s*<p[^>]*>/gi, '<br><br>');
+    cleaned = cleaned.replace(/<\/?p[^>]*>/gi, '');
+    return cleaned;
+};
+%>
+
 <style>
     @keyframes scroll {
         0%   { transform: translateX(0); }
@@ -18,13 +28,10 @@
     #lightbox:not(.hidden) { opacity: 1; pointer-events: auto; }
 </style>
 
-
-
 <body class="bg-white text-gray-600 antialiased font-sans" style="overflow-x: hidden;">
 
 <%- include('./partials/navbar') %>
 
-<!-- ===== HERO ===== -->
 <section class="relative pt-36 pb-20 bg-white overflow-hidden">
     <div class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, #61B4E410 0%, transparent 70%); transform: translate(30%, -30%);"></div>
     <div class="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, #A0214008 0%, transparent 70%); transform: translate(-30%, 30%);"></div>
@@ -38,7 +45,7 @@
                 <span class="relative inline-flex rounded-full h-2 w-2" style="background:#73A950;"></span>
             </span>
             <span class="text-xs font-black tracking-widest text-gray-500 uppercase">
-                <%= settings.text_vol_hero_badge || 'Equipo de Voluntarios 2026' %>
+                <%- clean(settings.text_vol_hero_badge || 'Equipo de Voluntarios 2026') %>
             </span>
         </div>
 
@@ -50,7 +57,7 @@
         </h1>
 
         <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10 font-medium" data-aos="fade-up" data-aos-delay="100">
-            <%= settings.text_vol_hero_desc || 'Un grupo humano comprometido con la educación y el liderazgo joven. Cada voluntario aporta su tiempo y pasión para construir Uniendo Metas Santiago.' %>
+            <%- clean(settings.text_vol_hero_desc || 'Un grupo humano comprometido con la educación y el liderazgo joven. Cada voluntario aporta su tiempo y pasión para construir Uniendo Metas Santiago.') %>
         </p>
 
         <div data-aos="fade-up" data-aos-delay="200">
@@ -66,7 +73,6 @@
     </div>
 </section>
 
-<!-- ===== POR QUÉ SUMARTE ===== -->
 <section class="py-20 bg-gray-50 border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -74,10 +80,10 @@
             <div data-aos="fade-right">
                 <span class="inline-block text-xs font-black uppercase tracking-widest mb-5 px-3 py-1.5 rounded-full" style="background:#EDF5E8; color:#73A950;">Por qué sumarte</span>
                 <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-6 leading-tight">
-                    <%- settings.text_vol_why_title || '¿Por qué unirte a<br>nuestra familia?' %>
+                    <%- clean(settings.text_vol_why_title || '¿Por qué unirte a<br>nuestra familia?') %>
                 </h2>
                 <p class="text-gray-500 text-lg leading-relaxed mb-8">
-                    <%= settings.text_vol_why_desc || 'Ser voluntario no es solo trabajar; es crecer. Es el lugar donde desarrollás habilidades que no se aprenden en un aula: liderazgo bajo presión, empatía, logística y trabajo en equipo real.' %>
+                    <%- clean(settings.text_vol_why_desc || 'Ser voluntario no es solo trabajar; es crecer. Es el lugar donde desarrollás habilidades que no se aprenden en un aula: liderazgo bajo presión, empatía, logística y trabajo en equipo real.') %>
                 </p>
 
                 <%
@@ -118,13 +124,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= iconPath %>"/>
                             </svg>
                         </div>
-                        <span class="text-gray-700 font-semibold text-base"><%= text %></span>
+                        <span class="text-gray-700 font-semibold text-base"><%- clean(text) %></span>
                     </div>
                     <% }); %>
                 </div>
             </div>
 
-            <!-- Fotos -->
             <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
                 <div class="overflow-hidden rounded-2xl shadow-md mt-8">
                     <img src="<%= settings.vol_hero_1 || '/img/Voluntarios/foto_vol_1.jpg' %>"
@@ -145,7 +150,6 @@
     </div>
 </section>
 
-<!-- ===== EQUIPO ===== -->
 <section class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -173,13 +177,10 @@
             let members = [];
             for (let m = 0; m < team.length; m++) { if (team[m].group === gName) members.push(team[m]); }
             if (members.length === 0) continue;
-
             let displayName = gName === 'Sala de Tratados' ? 'Sala de Tratados Internacionales' : gName;
             let lowerName = gName.toLowerCase();
-
             let accentColor = '#8A8A8D';
             let accentBg    = '#F3F3F4';
-
             if      (lowerName.includes('asamblea'))    { accentColor = '#73A950'; accentBg = '#EDF5E8'; }
             else if (lowerName.includes('económico') || lowerName.includes('ecosoc')) { accentColor = '#E15829'; accentBg = '#FCEEE9'; }
             else if (lowerName.includes('seguridad'))   { accentColor = '#A02140'; accentBg = '#F9E8EC'; }
@@ -190,7 +191,6 @@
         %>
 
         <div class="mb-20" data-aos="fade-up">
-            <!-- Header del grupo -->
             <div class="flex items-center gap-4 mb-10">
                 <div class="w-1 h-8 rounded-full flex-shrink-0" style="background:<%= accentColor %>;"></div>
                 <h3 class="text-2xl font-black" style="color:<%= accentColor %>;"><%= displayName %></h3>
@@ -198,24 +198,19 @@
                 <span class="text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full" style="background:<%= accentBg %>; color:<%= accentColor %>;"><%= members.length %> miembros</span>
             </div>
 
-            <!-- Cards del grupo -->
             <div class="flex flex-wrap justify-center gap-6 md:gap-8">
                 <% for (let k = 0; k < members.length; k++) {
                     let mem = members[k];
                 %>
                 <div class="flex flex-col items-center text-center group w-36 md:w-40">
-                    <!-- Foto -->
                     <div class="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm border border-gray-100 mb-3 relative group-hover:shadow-lg transition-all duration-300">
                         <img src="/img/Voluntarios/<%= mem.image %>"
                              onerror="this.src='https://ui-avatars.com/api/?name=<%= encodeURIComponent(mem.name) %>&background=f8fafc&color=64748b&size=300&bold=true'"
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                              alt="<%= mem.name %>">
-                        <!-- Overlay de color al hover -->
                         <div class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl" style="background:<%= accentColor %>;"></div>
                     </div>
-                    <!-- Nombre -->
                     <h4 class="font-bold text-gray-900 text-sm leading-tight mb-2"><%= mem.name %></h4>
-                    <!-- Rol -->
                     <span class="inline-block text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full" style="background:<%= accentBg %>; color:<%= accentColor %>;">
                         <%= mem.role %>
                     </span>
@@ -241,19 +236,23 @@
     </div>
 </section>
 
-<!-- ===== ADN VOLUNTARIO ===== -->
 <section class="py-24 border-t border-gray-100" style="background:#F8FAFC;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#F9E8EC; color:#A02140; border-color:#A0214030;"><%= settings.text_vol_adn_badge || 'Radiografía 2025' %></span>
-            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight"><%= settings.text_vol_adn_title || 'ADN Voluntario' %></h2>
-            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium"><%= settings.text_vol_adn_desc || 'Un análisis de quienes hacen posible Uniendo Metas.' %></p>
+            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#F9E8EC; color:#A02140; border-color:#A0214030;">
+                <%- clean(settings.text_vol_adn_badge || 'Radiografía 2025') %>
+            </span>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
+                <%- clean(settings.text_vol_adn_title || 'ADN Voluntario') %>
+            </h2>
+            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium">
+                <%- clean(settings.text_vol_adn_desc || 'Un análisis de quienes hacen posible Uniendo Metas.') %>
+            </p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <!-- Efecto Semillero -->
             <div class="lg:col-span-8 bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm relative overflow-hidden" data-aos="fade-right">
                 <div class="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none" style="background: radial-gradient(circle, #61B4E410 0%, transparent 70%); transform: translate(30%, -30%);"></div>
                 <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
@@ -263,10 +262,10 @@
                             Dato de Fidelidad
                         </span>
                         <h3 class="text-3xl md:text-4xl font-black text-gray-900 mb-4 leading-tight">
-                            <%- settings.text_vol_semillero_title || 'El "Efecto <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-blue-600">Semillero"</span>' %>
+                            <%- clean(settings.text_vol_semillero_title || 'El "Efecto <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-blue-600">Semillero"</span>') %>
                         </h3>
                         <p class="text-gray-500 text-lg leading-relaxed mb-8">
-                            <%= settings.text_vol_semillero_desc || 'La experiencia es tan transformadora que los participantes deciden volver. 8 de cada 10 voluntarios comenzaron su camino como delegados.' %>
+                            <%- clean(settings.text_vol_semillero_desc || 'La experiencia es tan transformadora que los participantes deciden volver. 8 de cada 10 voluntarios comenzaron su camino como delegados.') %>
                         </p>
                         <div class="flex items-center justify-center md:justify-start gap-4">
                             <div class="flex -space-x-3">
@@ -292,14 +291,15 @@
                             </svg>
                             <div class="absolute inset-0 flex flex-col items-center justify-center">
                                 <span class="text-4xl font-black text-gray-900"><%= semPct %>%</span>
-                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1"><%= settings.vol_semillero_label || 'Retorno' %></span>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">
+                                    <%- clean(settings.vol_semillero_label || 'Retorno') %>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Paridad + Multidisciplinario -->
             <div class="lg:col-span-4 space-y-5">
                 <div class="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300" data-aos="fade-left" data-aos-delay="100">
                     <div class="flex items-center gap-2 mb-6">
@@ -314,12 +314,16 @@
                         <div class="flex flex-col items-center gap-2 w-20 h-full justify-end group cursor-default">
                             <span class="font-black text-2xl text-gray-300 group-hover:text-brand-red transition-colors"><%= pctF %>%</span>
                             <div class="w-full rounded-t-xl transition-all duration-500" style="height:<%= pctF %>%; background:#A0214020;" onmouseover="this.style.background='#A02140'" onmouseout="this.style.background='#A0214020'"></div>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400"><%= settings.vol_paridad_f_label || 'Mujeres' %></span>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400">
+                                <%- clean(settings.vol_paridad_f_label || 'Mujeres') %>
+                            </span>
                         </div>
                         <div class="flex flex-col items-center gap-2 w-20 h-full justify-end group cursor-default">
                             <span class="font-black text-2xl text-gray-300 group-hover:text-brand-blue transition-colors"><%= pctM %>%</span>
                             <div class="w-full rounded-t-xl transition-all duration-500" style="height:<%= pctM %>%; background:#61B4E420;" onmouseover="this.style.background='#61B4E4'" onmouseout="this.style.background='#61B4E420'"></div>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400"><%= settings.vol_paridad_m_label || 'Varones' %></span>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-400">
+                                <%- clean(settings.vol_paridad_m_label || 'Varones') %>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -337,7 +341,6 @@
                 </div>
             </div>
 
-            <!-- Habilidades -->
             <div class="lg:col-span-12 bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm" data-aos="fade-up">
                 <div class="flex flex-col md:flex-row gap-12 items-start">
                     <div class="md:w-1/3 flex-shrink-0">
@@ -365,7 +368,7 @@
                         %>
                         <div class="space-y-2.5">
                             <div class="flex justify-between items-center">
-                                <span class="font-bold text-gray-700 text-sm uppercase tracking-wide"><%= label %></span>
+                                <span class="font-bold text-gray-700 text-sm uppercase tracking-wide"><%- clean(label) %></span>
                                 <span class="font-black text-sm" style="color:<%= color %>;"><%= pct %>%</span>
                             </div>
                             <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
@@ -381,14 +384,19 @@
     </div>
 </section>
 
-<!-- ===== VOCES DEL EQUIPO ===== -->
 <section class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#EDF5E8; color:#73A950; border-color:#73A95030;"><%= settings.text_vol_test_badge || 'Voces del equipo' %></span>
-            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight"><%= settings.text_vol_test_title || 'Lo que dejó el modelo' %></h2>
-            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium"><%= settings.text_vol_test_desc || 'Palabras reales de quienes vivieron la experiencia desde adentro.' %></p>
+            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 border" style="background:#EDF5E8; color:#73A950; border-color:#73A95030;">
+                <%- clean(settings.text_vol_test_badge || 'Voces del equipo') %>
+            </span>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
+                <%- clean(settings.text_vol_test_title || 'Lo que dejó el modelo') %>
+            </h2>
+            <p class="text-gray-500 mt-4 text-lg max-w-xl mx-auto font-medium">
+                <%- clean(settings.text_vol_test_desc || 'Palabras reales de quienes vivieron la experiencia desde adentro.') %>
+            </p>
         </div>
 
         <%
@@ -416,14 +424,14 @@
             %>
             <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
                 <div class="text-6xl font-black leading-none mb-2 select-none" style="color:<%= color %>; opacity:0.15;">"</div>
-                <p class="text-gray-600 text-base leading-relaxed font-medium flex-1 mb-6"><%= frase %></p>
+                <p class="text-gray-600 text-base leading-relaxed font-medium flex-1 mb-6"><%- clean(frase) %></p>
                 <div class="flex items-center gap-3 pt-5 border-t border-gray-50">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-black text-base" style="background:<%= bg %>; color:<%= color %>;">
-                        <%= nombre.charAt(0) %>
+                        <%- clean(nombre).charAt(0) %>
                     </div>
                     <div>
-                        <p class="text-sm font-black text-gray-900"><%= nombre %></p>
-                        <p class="text-xs text-gray-400 font-medium"><%= rol %></p>
+                        <p class="text-sm font-black text-gray-900"><%- clean(nombre) %></p>
+                        <p class="text-xs text-gray-400 font-medium"><%- clean(rol) %></p>
                     </div>
                 </div>
             </div>
@@ -432,13 +440,18 @@
     </div>
 </section>
 
-<!-- ===== GALERÍA CARRUSEL ===== -->
 <section class="py-24 bg-white border-t border-gray-100">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center" data-aos="fade-up">
-        <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%= settings.text_vol_galeria_badge || 'Momentos' %></span>
-        <h3 class="text-3xl md:text-4xl font-black text-gray-900"><%= settings.text_vol_galeria_title || 'Galería de Voluntariado' %></h3>
-        <p class="text-gray-500 mt-3 text-lg"><%= settings.text_vol_galeria_desc || 'Momentos inolvidables de nuestro equipo.' %></p>
+        <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">
+            <%- clean(settings.text_vol_galeria_badge || 'Momentos') %>
+        </span>
+        <h3 class="text-3xl md:text-4xl font-black text-gray-900">
+            <%- clean(settings.text_vol_galeria_title || 'Galería de Voluntariado') %>
+        </h3>
+        <p class="text-gray-500 mt-3 text-lg">
+            <%- clean(settings.text_vol_galeria_desc || 'Momentos inolvidables de nuestro equipo.') %>
+        </p>
     </div>
 
     <%
@@ -452,7 +465,6 @@
     %>
 
     <div class="relative w-full overflow-hidden">
-        <!-- Fades laterales -->
         <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to right, white, transparent);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to left, white, transparent);"></div>
 
@@ -460,8 +472,7 @@
             <div class="flex animate-scroll gap-5" id="vol-gallery-container" style="will-change: transform;">
                 <% for (let i = 0; i < 2; i++) { %>
                     <% for (const imgSrc of volImages) { %>
-                    <div class="flex-shrink-0 overflow-hidden rounded-2xl shadow-sm relative group cursor-zoom-in" style="min-width:256px;"
-                         onclick="openVolLightbox('<%= imgSrc %>', event)">
+                    <div class="flex-shrink-0 overflow-hidden rounded-2xl shadow-sm relative group cursor-zoom-in" style="min-width:256px;" onclick="openVolLightbox('<%= imgSrc %>', event)">
                         <img src="<%= imgSrc %>"
                              onerror="this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=400&fit=crop'"
                              class="w-64 h-64 object-cover hover:scale-105 transition-transform duration-500"
@@ -477,8 +488,6 @@
 
 <%- include('./partials/footer') %>
 
-<!-- Lightbox -->
-<!-- Lightbox con flechas — igual al de autoridades -->
 <div id="lightbox" class="fixed inset-0 z-[200] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox()">
     <button class="absolute top-5 right-5 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition z-50" onclick="closeLightbox()">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -495,15 +504,12 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init({ once: true, offset: 50, duration: 700, easing: 'ease-out-quart' });
-
     const lightbox    = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-
     // Tomamos solo la primera mitad del carrusel (está duplicado para el loop infinito)
     const allCarouselImgs = Array.from(document.querySelectorAll('#vol-gallery-container img'));
     const uniqueVolImgs   = allCarouselImgs.slice(0, Math.ceil(allCarouselImgs.length / 2));
     let currentVolIdx = 0;
-
     function openVolLightbox(src, e) {
         if (e) e.stopPropagation();
         const idx = uniqueVolImgs.findIndex(img => img.src === src || img.getAttribute('src') === src);

@@ -1039,7 +1039,7 @@ async function getSettingsMap(keys) {
     return map;
 }
 
-async function saveBody(body, files) {
+async function saveBody(body, files, page) { // <--- Agregamos 'page'
     // Collect keys to clear (logo removed by user)
     const clearKeys = new Set();
     for (const key of Object.keys(body)) {
@@ -1056,7 +1056,7 @@ async function saveBody(body, files) {
         let value = body[key];
         if (Array.isArray(value)) value = value.includes('true') ? 'true' : 'false';
         if (key === 'proxima_edicion_fecha' && typeof value === 'string') value = value.replace('T', ' ');
-        // Always upsert — even empty strings (handles deletions)
+        // Always upsert
         const existing = await Setting.findOne({ where: { key } });
         if (existing) {
             await existing.update({ value });
@@ -1065,62 +1065,62 @@ async function saveBody(body, files) {
         }
     }
     
-    // Handle sponsor removals — only clear sponsors whose URL AND name are absent from form
-    for (let i = 1; i <= 8; i++) {
-        const urlKey  = 'sponsor_' + i + '_url';
-        const nameKey = 'sponsor_' + i + '_name';
-        const imgKey  = 'sponsor_' + i + '_img';
-        const currentKey = 'sponsor_' + i + '_img_current';
-        const bodyKeys = Object.keys(body);
+    // SOLO limpiar sponsors y FAQs extra si estamos guardando la página de 'inicio'
+    if (page === 'inicio') {
+        for (let i = 1; i <= 8; i++) {
+            const urlKey  = 'sponsor_' + i + '_url';
+            const nameKey = 'sponsor_' + i + '_name';
+            const imgKey  = 'sponsor_' + i + '_img';
+            const bodyKeys = Object.keys(body);
 
-        // Sponsor was removed (its card was deleted = none of its fields submitted)
-        if (!bodyKeys.includes(urlKey) && !bodyKeys.includes(nameKey)) {
-            for (const k of [urlKey, nameKey, imgKey]) {
-                const existing = await Setting.findOne({ where: { key: k } });
-                if (existing) await existing.update({ value: '' });
+            if (!bodyKeys.includes(urlKey) && !bodyKeys.includes(nameKey)) {
+                for (const k of [urlKey, nameKey, imgKey]) {
+                    const existing = await Setting.findOne({ where: { key: k } });
+                    if (existing) await existing.update({ value: '' });
+                }
             }
         }
-        // Sponsor exists but no new image uploaded — preserve current image in DB (do nothing)
-        // The image field is only updated when a new file is uploaded (handled in Image fields block above)
+
+        for (let i = 1; i <= 5; i++) {
+            const qKey = 'text_home_faq_extra' + i + '_q';
+            const aKey = 'text_home_faq_extra' + i + '_a';
+            if (!Object.keys(body).includes(qKey)) {
+                for (const k of [qKey, aKey]) {
+                    const existing = await Setting.findOne({ where: { key: k } });
+                    if (existing) await existing.update({ value: '' });
+                }
+            }
+        }
     }
 
-    // Handle dynamic image sections (vol_slider_*, etc.)
+    // SOLO limpiar imágenes dinámicas si estamos en la página correcta
     const { Op } = require('sequelize');
-    const dynamicPrefixes = ['vol_slider_', 'auth_legacy_'];
+    const dynamicPrefixes = [];
+    if (page === 'voluntarios') dynamicPrefixes.push('vol_slider_');
+    if (page === 'autoridades') dynamicPrefixes.push('auth_legacy_');
 
     for (const prefix of dynamicPrefixes) {
-        // Get all existing keys in DB for this prefix
         const existingRows = await Setting.findAll({
             where: { key: { [Op.like]: prefix + '%' } }
         });
 
-        // Keys submitted in form (hidden inputs from preserved cards)
-        const submittedKeys = new Set(
-            Object.keys(body).filter(k => k.startsWith(prefix))
-        );
-        // Keys uploaded as new files
-        const uploadedKeys = new Set(
-            (files || []).filter(f => f.fieldname.startsWith(prefix)).map(f => f.fieldname)
-        );
+        const submittedKeys = new Set(Object.keys(body).filter(k => k.startsWith(prefix)));
+        const uploadedKeys = new Set((files || []).filter(f => f.fieldname.startsWith(prefix)).map(f => f.fieldname));
 
         for (const row of existingRows) {
             if (!submittedKeys.has(row.key) && !uploadedKeys.has(row.key)) {
-                // Not in form and no new upload = was deleted by user
                 await row.update({ value: '' });
             }
         }
 
-        // Save hidden inputs (preserved existing images)
         for (const key of submittedKeys) {
             const value = body[key];
             if (value && value.startsWith('/')) {
                 const existing = await Setting.findOne({ where: { key } });
                 if (existing) await existing.update({ value });
-                // Don't create new — hidden inputs only preserve existing ones
             }
         }
 
-        // Save new file uploads
         for (const file of (files || [])) {
             if (!file.fieldname.startsWith(prefix)) continue;
             const key   = file.fieldname;
@@ -1133,41 +1133,22 @@ async function saveBody(body, files) {
         }
     }
 
-    // Handle extra FAQ removals
-    for (let i = 1; i <= 5; i++) {
-        const qKey = 'text_home_faq_extra' + i + '_q';
-        const aKey = 'text_home_faq_extra' + i + '_a';
-        if (!Object.keys(body).includes(qKey)) {
-            for (const k of [qKey, aKey]) {
-                const existing = await Setting.findOne({ where: { key: k } });
-                if (existing) await existing.update({ value: '' });
-            }
-        }
-    }
-
     // Clear logos marked for removal
     for (const imgKey of clearKeys) {
         const setting = await Setting.findOne({ where: { key: imgKey } });
         if (setting) await setting.update({ value: '' });
     }
 
-    // Image and file uploads
+    // Image and file uploads (Ignoramos los prefijos dinámicos porque ya los procesamos)
+    const allDynamicPrefixes = ['vol_slider_', 'auth_legacy_']; 
     if (files && files.length > 0) {
         for (const file of files) {
             const key = file.fieldname;
-            // Skip if user also marked it for clear (clear wins)
             if (clearKeys.has(key)) continue;
-            // Skip dynamic image prefixes (handled above)
-            if (dynamicPrefixes.some(p => key.startsWith(p))) continue;
-            // Biblioteca document files go to /documents/site/
-            const isDocFile = key.startsWith('bib_') && key.endsWith('_file');
+            if (allDynamicPrefixes.some(p => key.startsWith(p))) continue;
             
-            let value;
-            if (isDocFile) {
-                value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/documents/site/' + file.filename;
-            } else {
-                value = process.env.NODE_ENV === 'production' && file.path ? file.path : '/img/site/' + file.filename;
-            }
+            const isDocFile = key.startsWith('bib_') && key.endsWith('_file');
+            let value = process.env.NODE_ENV === 'production' && file.path ? file.path : (isDocFile ? '/documents/site/' : '/img/site/') + file.filename;
 
             const [setting, created] = await Setting.findOrCreate({
                 where: { key },
@@ -1233,7 +1214,7 @@ const controller = {
     update: async (req, res) => {
         const page = req.params.page;
         try {
-            await saveBody(req.body, req.files);
+            await saveBody(req.body, req.files, page); // <--- ACÁ AGREGÁS LA VARIABLE 'page'
             res.redirect(`/admin/paginas/${page}?saved=1`);
         } catch (error) {
             console.error('Error guardando página:', error);
