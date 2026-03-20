@@ -1,21 +1,6 @@
 const Organ = require('../database/models/Organ');
 
 const controller = {
-    // List all organs
-    index: async (req, res) => {
-        try {
-            const organs = await Organ.findAll();
-            res.render('admin/organos/index', {
-                title: 'Administrar Órganos',
-                user: req.session.user,
-                organs
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('Error al cargar órganos');
-        }
-    },
-
     // Show edit form
     edit: async (req, res) => {
         try {
@@ -68,7 +53,7 @@ const controller = {
             await Organ.update(dataToUpdate, {
                 where: { id: req.params.id }
             });
-            res.redirect('/admin/organos');
+            res.redirect('/admin/paginas/organos');
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al actualizar órgano');
@@ -122,7 +107,7 @@ const controller = {
             }
 
             await Organ.create(dataToCreate);
-            res.redirect('/admin/organos');
+            res.redirect('/admin/paginas/organos');
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al crear órgano');
