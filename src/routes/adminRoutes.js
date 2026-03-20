@@ -44,7 +44,6 @@ router.get('/cronograma/eliminar/:id', authMiddleware, adminScheduleController.d
 const adminOrgansController = require('../controllers/adminOrgansController');
 const pdfUpload = require('../middlewares/publicFileMiddleware');
 
-router.get('/organos', authMiddleware, adminOrgansController.index);
 router.get('/organos/crear', authMiddleware, adminOrgansController.create);
 
 router.post('/organos/store', authMiddleware, pdfUpload.fields([
