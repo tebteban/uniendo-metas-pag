@@ -1,5 +1,14 @@
+/**
+ * UNIENDO METAS - Panel de Administración
+ * 
+ * Desarrollado por: Ezequiel "Talleres" Rossetti y Esteban Cejas.
+ * Fecha: Marzo 2026
+ * Stack: Node.js + Express + EJS + Tailwind + SQLite
+ * 
+ * "El código que hizo posible que miles de jóvenes debatan el futuro"
+ */
 // Cargar variables de entorno
-require('dotenv').config();
+require('dotenv').config();S
 
 const express = require('express');
 const path = require('path');

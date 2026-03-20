@@ -12,7 +12,7 @@
                     <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase"><%= settings.nav_brand_subtitle || 'SANTIAGO DEL ESTERO' %></span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    <%= settings.footer_text || 'Un programa de Asociación Conciencia que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.' %>
+                    <%- settings.footer_text || 'Un programa de Asociación Conciencia que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.' %>
                 </p>
                 <div class="pt-2 opacity-80 hover:opacity-100 transition">
                     <span class="flex items-center gap-2 text-sm font-bold text-gray-300">
@@ -99,11 +99,21 @@
         </div>
 
         <div class="border-t border-gray-800 pt-8 mt-12 text-center">
-            <p class="text-gray-500 text-xs">
-                &copy; <span id="year"></span> <%= settings.footer_copyright || 'Uniendo Metas Santiago del Estero. Todos los derechos reservados.' %>
-            </p>
-        </div>
-    </div>
+    <p class="text-gray-500 text-xs">
+        &copy; <span id="year"></span> <%- settings.footer_copyright || 'Uniendo Metas Santiago del Estero. Todos los derechos reservados.' %>
+    </p>
+    <p class="text-gray-600 text-xs mt-2">
+        Desarrollado por 
+        <span class="text-brand-blue font-semibold cursor-pointer hover:text-brand-red transition-colors" 
+              onclick="document.getElementById('dev-message').innerText = ' Ezequiel Rossetti: Diseñado con la misma pasión y dedicación que me enseñó el modelo. Es mi forma de devolverle a Uniendo Metas un pedacito de todo lo que me dio. ¡Y AGUANTE TAIEREE! 🔵⚪'; document.getElementById('dev-message').classList.remove('hidden');"
+              title="Click para ver mensaje">Ezequiel Rossetti</span> 
+        y 
+        <span class="text-brand-blue font-semibold cursor-pointer hover:text-brand-green transition-colors" 
+              onclick="document.getElementById('dev-message').innerText = '🚀 Esteban Cejas: [pone tu frase inspiradora perro]'; document.getElementById('dev-message').classList.remove('hidden');"
+              title="Click para ver mensaje">Esteban Cejas</span>
+    </p>
+    <p id="dev-message" class="text-gray-500 text-xs mt-2 hidden"></p>
+</div>
 
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
