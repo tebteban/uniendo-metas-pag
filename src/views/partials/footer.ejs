@@ -7,18 +7,28 @@
 
             <div class="space-y-4">
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black leading-none tracking-tighter text-white"><%= settings.nav_brand_main || 'UNIENDO' %> <span
-                            class="text-brand-red"><%= settings.nav_brand_highlight || 'METAS' %></span></span>
-                    <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase"><%= settings.nav_brand_subtitle || 'SANTIAGO DEL ESTERO' %></span>
+                    <span class="text-2xl font-black leading-none tracking-tighter text-white">
+                        <%= settings.nav_brand_main || 'UNIENDO' %> <span class="text-brand-red">
+                                <%= settings.nav_brand_highlight || 'METAS' %>
+                            </span>
+                    </span>
+                    <span class="text-[0.65rem] font-bold tracking-widest text-gray-400 uppercase">
+                        <%= settings.nav_brand_subtitle || 'SANTIAGO DEL ESTERO' %>
+                    </span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    <%- settings.footer_text || 'Un programa de Asociación Conciencia que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.' %>
+                    <%- settings.footer_text
+                        || 'Un programa de Asociación Conciencia que empodera a los jóvenes para liderar el cambio a través del debate y el consenso.'
+                        %>
                 </p>
                 <div class="pt-2 opacity-80 hover:opacity-100 transition">
                     <span class="flex items-center gap-2 text-sm font-bold text-gray-300">
                         <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center text-[10px]">C
                         </div>
-                        <a href="<%= settings.footer_conciencia_url || 'https://conciencia.org/' %>" target="_blank" class="hover:text-white transition"><%= settings.footer_conciencia_text || 'Asociación Conciencia' %></a>
+                        <a href="<%= settings.footer_conciencia_url || 'https://conciencia.org/' %>" target="_blank"
+                            class="hover:text-white transition">
+                            <%= settings.footer_conciencia_text || 'Asociación Conciencia' %>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -77,7 +87,8 @@
                 </ul>
 
                 <div class="flex space-x-4">
-                    <a href="<%= settings.footer_instagram_url || 'https://www.instagram.com/umsantiagodelestero' %>" target="_blank"
+                    <a href="<%= settings.footer_instagram_url || 'https://www.instagram.com/umsantiagodelestero' %>"
+                        target="_blank"
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-red hover:text-white transition duration-300 group"
                         aria-label="Instagram">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -86,7 +97,8 @@
                         </svg>
                     </a>
 
-                    <a href="<%= settings.footer_youtube_url || 'https://youtube.com/@uniendometassde' %>" target="_blank"
+                    <a href="<%= settings.footer_youtube_url || 'https://youtube.com/@uniendometassde' %>"
+                        target="_blank"
                         class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition duration-300 group"
                         aria-label="YouTube">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -99,24 +111,25 @@
         </div>
 
         <div class="border-t border-gray-800 pt-8 mt-12 text-center">
-    <p class="text-gray-500 text-xs">
-        &copy; <span id="year"></span> <%- settings.footer_copyright || 'Uniendo Metas Santiago del Estero. Todos los derechos reservados.' %>
-    </p>
-    <p class="text-gray-600 text-xs mt-2">
-        Desarrollado por 
-        <span class="text-brand-blue font-semibold cursor-pointer hover:text-brand-red transition-colors" 
-              onclick="document.getElementById('dev-message').innerText = 'Ezequiel Rossetti: Diseñado con la misma pasión y dedicación que me enseñó el modelo. Es mi forma de devolverle a Uniendo Metas un pedacito de todo lo que me dio. ¡Y AGUANTE TAIEEERES! 🔵⚪'; document.getElementById('dev-message').classList.remove('hidden');"
-              title="Click para ver mensaje">Ezequiel Rossetti</span> 
-        y 
-        <span class="text-brand-blue font-semibold cursor-pointer hover:text-brand-green transition-colors" 
-              onclick="document.getElementById('dev-message').innerText = 'Esteban Cejas: [pone tu frase inspiradora perro]'; document.getElementById('dev-message').classList.remove('hidden');"
-              title="Click para ver mensaje">Esteban Cejas</span>
-    </p>
-    <p id="dev-message" class="text-gray-500 text-xs mt-2 hidden"></p>
-</div>
+            <p class="text-gray-500 text-xs">
+                &copy; <span id="year"></span> <%- settings.footer_copyright
+                    || 'Uniendo Metas Santiago del Estero. Todos los derechos reservados.' %>
+            </p>
+            <p class="text-gray-600 text-xs mt-2">
+                Desarrollado por
+                <span class="text-brand-blue font-semibold cursor-pointer hover:text-brand-red transition-colors"
+                    onclick="document.getElementById('dev-message').innerText = 'Ezequiel Rossetti: Diseñado con la misma pasión y dedicación que me enseñó el modelo. Es mi forma de devolverle a Uniendo Metas un pedacito de todo lo que me dio. ¡Y AGUANTE TAIEEERES! 🔵⚪'; document.getElementById('dev-message').classList.remove('hidden');"
+                    title="Click para ver mensaje">Ezequiel Rossetti</span>
+                y
+                <span class="text-brand-blue font-semibold cursor-pointer hover:text-brand-green transition-colors"
+                    onclick="document.getElementById('dev-message').innerText = 'Esteban Cejas: Hice esto para ayudarlos a ustedes y a todos los que vendran despues. Simplemente gracias a uninedo metas por estos años y por favor no pregunten que es un aval!!! '; document.getElementById('dev-message').classList.remove('hidden');"
+                    title="Click para ver mensaje">Esteban Cejas</span>
+            </p>
+            <p id="dev-message" class="text-gray-500 text-xs mt-2 hidden"></p>
+        </div>
 
-    <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+        <script>
+            document.getElementById("year").textContent = new Date().getFullYear();
+        </script>
 
 </footer>
