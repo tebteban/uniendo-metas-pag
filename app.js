@@ -8,7 +8,7 @@
  * "El código que hizo posible que miles de jóvenes debatan el futuro"
  */
 // Cargar variables de entorno
-require('dotenv').config();S
+require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
