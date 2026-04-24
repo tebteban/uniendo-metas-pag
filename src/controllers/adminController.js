@@ -20,7 +20,21 @@ const controller = {
                 return res.render('admin/login', { title: 'Admin Login', error: 'Usuario no encontrado' });
             }
 
-            const match = await bcrypt.compare(password, user.password);
+            let match = false;
+            try {
+                // If the stored password is a valid bcrypt hash, this will work
+                match = await bcrypt.compare(password, user.password);
+            } catch (bcryptError) {
+                // If bcrypt.compare throws (e.g. invalid hash format), check if it's plain text
+                if (password === user.password) {
+                    match = true;
+                    // Opcional: Re-hashear y guardar el password aquí
+                    // user.password = await bcrypt.hash(password, 10);
+                    // await user.save();
+                } else {
+                    console.error('Bcrypt compare error:', bcryptError);
+                }
+            }
 
             if (match) {
                 req.session.user = { id: user.id, username: user.username, role: user.role };
