@@ -1108,6 +1108,8 @@ async function saveBody(body, files, page) { // <--- Agregamos 'page'
         const uploadedKeys = new Set((files || []).filter(f => f.fieldname.startsWith(prefix)).map(f => f.fieldname));
 
         for (const row of existingRows) {
+            // Solo limpiar si el usuario NO envió ninguna clave para esta imagen
+            // (ni campo de formulario ni archivo nuevo)
             if (!submittedKeys.has(row.key) && !uploadedKeys.has(row.key)) {
                 await row.update({ value: '' });
             }
@@ -1115,7 +1117,9 @@ async function saveBody(body, files, page) { // <--- Agregamos 'page'
 
         for (const key of submittedKeys) {
             const value = body[key];
-            if (value && value.startsWith('/')) {
+            // Preservar la URL existente: puede ser local ('/img/...') o Cloudinary ('https://...')
+            // Si el campo está vacío, no sobreescribir (significa que no se cambió)
+            if (value && value.trim() !== '') {
                 const existing = await Setting.findOne({ where: { key } });
                 if (existing) await existing.update({ value });
             }

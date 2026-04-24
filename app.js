@@ -3,9 +3,11 @@
  * 
  * Desarrollado por: Ezequiel "Talleres" Rossetti y Esteban Cejas.
  * Fecha: Marzo 2026
- * Stack: Node.js + Express + EJS + Tailwind + SQLite
+ * Stack: Node.js + Express + EJS + PostgreSQL (Railway)
  * 
  * "El código que hizo posible que miles de jóvenes debatan el futuro"
+ * 
+ * v1.1.0 — Fix: las fotos de Cloudinary ya no se borran al hacer deploy.
  */
 // Cargar variables de entorno
 require('dotenv').config();
