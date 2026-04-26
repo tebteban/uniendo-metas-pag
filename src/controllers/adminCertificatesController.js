@@ -66,6 +66,11 @@ function generarHTML({ name, rol, imagenBase64 }) {
         ? `background-image: url('${imagenBase64}'); background-size: cover; background-position: center;`
         : `background: #fff; border: 2px solid #ccc;`;
 
+    let nombreFontSize = 36;
+    if (name.length > 38) nombreFontSize = 24;
+    else if (name.length > 32) nombreFontSize = 28;
+    else if (name.length > 26) nombreFontSize = 32;
+
     return `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,53 +80,31 @@ function generarHTML({ name, rol, imagenBase64 }) {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { width: 1123px; height: 794px; font-family: 'Montserrat', sans-serif; overflow: hidden; }
     .cert { width: 1123px; height: 794px; position: relative; ${fondo} }
-
-    /* Nombre — encima de la línea horizontal del certificado */
     .nombre {
-      position: absolute;
-      top: 44%;
-      left: 50%;
+      position: absolute; top: 49%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 62%;
-      text-align: center;
-      font-size: 36px;
-      font-weight: 900;
-      color: #1A3A6B;
-      letter-spacing: 0.01em;
-      line-height: 1.15;
+      width: 64%; text-align: center;
+      font-size: ${nombreFontSize}px; font-weight: 900; color: #1A3A6B;
+      letter-spacing: 0.01em; line-height: 1.15;
+      white-space: nowrap;
     }
-
-    /* Texto de participación — debajo de la línea horizontal */
     .descripcion {
-      position: absolute;
-      top: 59%;
-      left: 50%;
+      position: absolute; top: 61%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 58%;
-      text-align: center;
-      font-size: 13.5px;
-      font-weight: 400;
-      color: #444;
-      line-height: 1.75;
+      width: 56%; text-align: center;
+      font-size: 15px; font-weight: 400; color: #444; line-height: 1.75;
     }
-
-    .descripcion strong {
-      font-weight: 800;
-      color: #1A3A6B;
-    }
+    .descripcion strong { font-weight: 800; color: #1A3A6B; }
   </style>
 </head>
 <body>
   <div class="cert">
-
     <div class="nombre">${name}</div>
-
     <div class="descripcion">
       Por su participación en el &ldquo;XII Encuentro Provincial Uniendo Metas
       Santiago del Estero&rdquo; llevado a cabo los días 8 y 9 de Octubre del año 2025,
       desempeñando el rol de <strong>${rol.toUpperCase()}.</strong>
     </div>
-
   </div>
 </body>
 </html>`;
