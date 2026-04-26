@@ -41,10 +41,16 @@ function extraerDatos(inscripcion) {
 }
 
 function imagenABase64(filePath) {
-    if (!fs.existsSync(filePath)) return null;
-    const ext  = path.extname(filePath).replace('.', '');
-    const data = fs.readFileSync(filePath).toString('base64');
-    return `data:image/${ext};base64,${data}`;
+    try {
+        if (!fs.existsSync(filePath)) return null;
+        const ext  = path.extname(filePath).replace('.', '') || 'jpeg';
+        const mime = ext === 'jpg' ? 'jpeg' : ext;
+        const data = fs.readFileSync(filePath).toString('base64');
+        return `data:image/${mime};base64,${data}`;
+    } catch (e) {
+        console.error('Error leyendo imagen:', e.message);
+        return null;
+    }
 }
 
 function obtenerImagenFondo(tipo, appDir) {
@@ -61,10 +67,65 @@ function obtenerImagenFondo(tipo, appDir) {
     return null;
 }
 
-function generarHTML({ name, rol, imagenBase64 }) {
+async function obtenerImagenDB() {
+    try {
+        const s = await Setting.findOne({ where: { key: 'cert_imagen_base' } });
+        return (s && s.value) ? s.value : null;
+    } catch {
+        return null;
+    }
+}
+
+async function urlABase64(urlOrPath) {
+    // Si es ruta local (Windows C:\ o Unix /path), leer del disco directamente
+    if (!urlOrPath.startsWith('http://') && !urlOrPath.startsWith('https://')) {
+        return imagenABase64(urlOrPath);
+    }
+    try {
+        const https = require('https');
+        const http  = require('http');
+        const lib   = urlOrPath.startsWith('https') ? https : http;
+        const safeUrl = urlOrPath.replace(/ /g, '%20');
+        return await new Promise((resolve, reject) => {
+            lib.get(safeUrl, (res) => {
+                // Seguir redirecciones
+                if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+                    urlABase64(res.headers.location).then(resolve).catch(reject);
+                    return;
+                }
+                const chunks = [];
+                res.on('data', c => chunks.push(c));
+                res.on('end', () => {
+                    const buf  = Buffer.concat(chunks);
+                    const mime = (res.headers['content-type'] || 'image/jpeg').split(';')[0];
+                    resolve(`data:${mime};base64,${buf.toString('base64')}`);
+                });
+                res.on('error', reject);
+            }).on('error', reject);
+        });
+    } catch (e) {
+        console.error('Error descargando imagen:', e.message);
+        return null;
+    }
+}
+
+async function resolverImagenFondo(tipo, appDir) {
+    const urlDB = await obtenerImagenDB();
+    if (urlDB && (urlDB.startsWith('http://') || urlDB.startsWith('https://'))) {
+        // Producción: URL de Cloudinary → descargar y convertir a base64
+        const b64 = await urlABase64(urlDB);
+        if (b64) return b64;
+    }
+    // Local o fallback: buscar cert_base.png / cert_<tipo>.png en public/img
+    return obtenerImagenFondo(tipo, appDir);
+}
+
+function generarHTML({ name, rol, imagenBase64, subtitulo }) {
     const fondo = imagenBase64
         ? `background-image: url('${imagenBase64}'); background-size: cover; background-position: center;`
         : `background: #fff; border: 2px solid #ccc;`;
+
+    const texto = subtitulo || SUBTITULO_DEFAULT;
 
     let nombreFontSize = 36;
     if (name.length > 38) nombreFontSize = 24;
@@ -101,9 +162,7 @@ function generarHTML({ name, rol, imagenBase64 }) {
   <div class="cert">
     <div class="nombre">${name}</div>
     <div class="descripcion">
-      Por su participación en el &ldquo;XII Encuentro Provincial Uniendo Metas
-      Santiago del Estero&rdquo; llevado a cabo los días 8 y 9 de Octubre del año 2025,
-      desempeñando el rol de <strong>${rol.toUpperCase()}.</strong>
+      ${texto} <strong>${rol.toUpperCase()}.</strong>
     </div>
   </div>
 </body>
@@ -179,6 +238,17 @@ function cuerpoMail(name) {
 // ─── CONTROLADOR ─────────────────────────────────────────────────────────────
 
 const TIPOS = ['delegado', 'autoridad', 'voluntario'];
+const Setting = require('../database/models/Setting');
+const SUBTITULO_DEFAULT = 'Por su participación en el "XII Encuentro Provincial Uniendo Metas Santiago del Estero" llevado a cabo los días 8 y 9 de Octubre del año 2025, desempeñando el rol de';
+
+async function obtenerSubtitulo() {
+    try {
+        const s = await Setting.findOne({ where: { key: 'cert_subtitulo' } });
+        return (s && s.value) ? s.value : SUBTITULO_DEFAULT;
+    } catch {
+        return SUBTITULO_DEFAULT;
+    }
+}
 
 exports.index = async (req, res) => {
     try {
@@ -186,17 +256,39 @@ exports.index = async (req, res) => {
         for (const tipo of TIPOS) {
             counts[tipo] = await Inscription.count({ where: { type: tipo } });
         }
+        const subtitulo = await obtenerSubtitulo();
+        const imagenBase = await obtenerImagenDB();
         res.render('admin/certificados/index', {
             title: 'Certificados | Panel Admin',
             counts,
             tipos: TIPOS,
             user: req.session.user,
+            subtitulo,
+            imagenBase,
             flash: req.session.flash || null,
         });
         delete req.session.flash;
     } catch (err) {
         console.error(err);
         res.status(500).send('Error cargando certificados');
+    }
+};
+
+exports.guardarSubtitulo = async (req, res) => {
+    try {
+        const { subtitulo } = req.body;
+        if (!subtitulo || !subtitulo.trim()) {
+            return res.status(400).json({ ok: false, msg: 'El texto no puede estar vacío' });
+        }
+        const [setting, created] = await Setting.findOrCreate({
+            where: { key: 'cert_subtitulo' },
+            defaults: { key: 'cert_subtitulo', value: subtitulo.trim(), type: 'textarea', label: 'Certificados - Texto subtítulo' },
+        });
+        if (!created) await setting.update({ value: subtitulo.trim() });
+        res.json({ ok: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ ok: false, msg: 'Error guardando el texto' });
     }
 };
 
@@ -225,9 +317,10 @@ exports.preview = async (req, res) => {
         const ins = await Inscription.findByPk(req.params.id);
         if (!ins) return res.status(404).send('No encontrado');
         const appDir = path.join(__dirname, '../..');
-        const imagenBase64 = obtenerImagenFondo(ins.type, appDir);
+        const imagenBase64 = await resolverImagenFondo(ins.type, appDir);
         const { name, rol } = extraerDatos(ins);
-        res.send(generarHTML({ name, rol, imagenBase64 }));
+        const subtitulo = await obtenerSubtitulo();
+        res.send(generarHTML({ name, rol, imagenBase64, subtitulo }));
     } catch (err) {
         console.error(err);
         res.status(500).send('Error');
@@ -240,10 +333,11 @@ exports.descargar = async (req, res) => {
         const ins = await Inscription.findByPk(req.params.id);
         if (!ins) return res.status(404).send('No encontrado');
         const appDir = path.join(__dirname, '../..');
-        const imagenBase64 = obtenerImagenFondo(ins.type, appDir);
+        const imagenBase64 = await resolverImagenFondo(ins.type, appDir);
         const { name, rol } = extraerDatos(ins);
+        const subtitulo = await obtenerSubtitulo();
         browser = await lanzarBrowser();
-        const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64 }));
+        const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64, subtitulo }));
         await browser.close();
         const safeName = name.replace(/[^a-z0-9áéíóúñ ]/gi, '_').trim();
         res.setHeader('Content-Type', 'application/pdf');
@@ -267,7 +361,8 @@ exports.descargarTodos = async (req, res) => {
             return res.redirect('/admin/certificados');
         }
         const appDir = path.join(__dirname, '../..');
-        const imagenBase64 = obtenerImagenFondo(tipo, appDir);
+        const imagenBase64 = await resolverImagenFondo(tipo, appDir);
+        const subtitulo = await obtenerSubtitulo();
         browser = await lanzarBrowser();
         res.setHeader('Content-Type', 'application/zip');
         res.setHeader('Content-Disposition', `attachment; filename="certificados_${tipo}.zip"`);
@@ -275,7 +370,7 @@ exports.descargarTodos = async (req, res) => {
         archive.pipe(res);
         for (const ins of items) {
             const { name, rol } = extraerDatos(ins);
-            const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64 }));
+            const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64, subtitulo }));
             const safeName = name.replace(/[^a-z0-9áéíóúñ ]/gi, '_').trim();
             archive.append(pdf, { name: `${safeName}.pdf` });
         }
@@ -300,11 +395,12 @@ exports.enviarMail = async (req, res) => {
         if (!email) return res.status(400).json({ ok: false, msg: 'Este inscripto no tiene email cargado' });
 
         const appDir = path.join(__dirname, '../..');
-        const imagenBase64 = obtenerImagenFondo(ins.type, appDir);
+        const imagenBase64 = await resolverImagenFondo(ins.type, appDir);
         const { name, rol } = extraerDatos(ins);
+        const subtitulo = await obtenerSubtitulo();
 
         browser = await lanzarBrowser();
-        const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64 }));
+        const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64, subtitulo }));
         await browser.close();
 
         const transporter = crearTransporter();
@@ -342,7 +438,8 @@ exports.enviarMailTodos = async (req, res) => {
         if (!items.length) return res.status(400).json({ ok: false, msg: 'No hay inscriptos' });
 
         const appDir = path.join(__dirname, '../..');
-        const imagenBase64 = obtenerImagenFondo(tipo, appDir);
+        const imagenBase64 = await resolverImagenFondo(tipo, appDir);
+        const subtitulo = await obtenerSubtitulo();
         const transporter = crearTransporter();
         browser = await lanzarBrowser();
 
@@ -356,7 +453,7 @@ exports.enviarMailTodos = async (req, res) => {
 
             const { name, rol } = extraerDatos(ins);
             try {
-                const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64 }));
+                const pdf = await htmlAPDF(browser, generarHTML({ name, rol, imagenBase64, subtitulo }));
                 const safeName = name.replace(/[^a-z0-9áéíóúñ ]/gi, '_').trim();
                 await transporter.sendMail({
                     from: `"Uniendo Metas SDE" <${process.env.MAIL_USER}>`,
@@ -385,5 +482,43 @@ exports.enviarMailTodos = async (req, res) => {
         if (browser) await browser.close().catch(() => {});
         console.error('Error enviando mails:', err);
         res.status(500).json({ ok: false, msg: 'Error en el proceso de envío' });
+    }
+};
+
+// ─── GUARDAR IMAGEN BASE ──────────────────────────────────────────────────────
+
+exports.guardarImagenBase = async (req, res) => {
+    try {
+        const file = req.files && req.files[0];
+        if (!file) return res.status(400).json({ ok: false, msg: 'No se recibió ninguna imagen' });
+
+        const isProduction = process.env.NODE_ENV === 'production';
+        let urlAGuardar;
+
+        if (isProduction) {
+            // En producción: Cloudinary devuelve file.path como URL https://
+            urlAGuardar = file.path;
+        } else {
+            // En local: copiar el archivo a public/img/cert_base.png (nombre fijo)
+            const ext  = path.extname(file.originalname).toLowerCase() || '.png';
+            const dest = path.join(__dirname, '../..', 'public', 'img', `cert_base${ext}`);
+            fs.copyFileSync(file.path, dest);
+            urlAGuardar = dest;
+        }
+
+        if (!urlAGuardar) return res.status(400).json({ ok: false, msg: 'No se pudo obtener la URL de la imagen' });
+
+        const [setting, created] = await Setting.findOrCreate({
+            where: { key: 'cert_imagen_base' },
+            defaults: { key: 'cert_imagen_base', value: urlAGuardar, type: 'image', label: 'Certificados - Imagen base' },
+        });
+        if (!created) await setting.update({ value: urlAGuardar });
+
+        // Para el preview en el panel: devolver URL relativa si es local
+        const urlPreview = isProduction ? urlAGuardar : null;
+        res.json({ ok: true, url: urlPreview });
+    } catch (err) {
+        console.error('Error guardando imagen base:', err);
+        res.status(500).json({ ok: false, msg: 'Error guardando la imagen' });
     }
 };

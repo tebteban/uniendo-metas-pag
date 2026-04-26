@@ -29,7 +29,8 @@ const controller = {
                 { key: 'vol_slider_1', label: 'Voluntarios - Slider 1', type: 'image', value: '' },
                 { key: 'vol_slider_2', label: 'Voluntarios - Slider 2', type: 'image', value: '' },
                 { key: 'vol_slider_3', label: 'Voluntarios - Slider 3', type: 'image', value: '' },
-                { key: 'banner_voluntarios', label: 'Banner Sección Voluntarios (Inicio)', type: 'image', value: '' }
+                { key: 'banner_voluntarios', label: 'Banner Sección Voluntarios (Inicio)', type: 'image', value: '' },
+                { key: 'cert_subtitulo', label: 'Certificados - Texto del subtítulo', type: 'textarea', value: 'Por su participación en el "XII Encuentro Provincial Uniendo Metas Santiago del Estero" llevado a cabo los días 8 y 9 de Octubre del año 2025, desempeñando el rol de' }
             ];
 
             for (const def of defaults) {
