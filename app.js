@@ -9,7 +9,7 @@
  * 
  * v1.1.0 — Fix: las fotos de Cloudinary ya no se borran al hacer deploy.
  */
-// Cargar variables de entorno
+
 require('dotenv').config();
 
 const express = require('express');
@@ -18,18 +18,18 @@ const session = require('express-session');
 
 const app = express();
 
-// --- CONFIGURACIÓN ---
-// 1. Definimos el puerto (usará el 3000 por defecto)
 const PORT = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === 'production';
 
-// Middleware
-// Hacemos pública la carpeta 'public' para que el navegador acceda al CSS y las imágenes
+// --- MIDDLEWARE ---
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: false })); // Para procesar datos de formularios
-app.use(express.json()); // Para procesar JSON
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-// Necesario para que las cookies de sesión funcionen detrás del proxy HTTPS de Railway
-app.set('trust proxy', 1);
+// Trust proxy solo en producción (Railway usa HTTPS con proxy)
+if (isProduction) {
+    app.set('trust proxy', 1);
+}
 
 // Configuración de Sesión
 app.use(session({
@@ -37,14 +37,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // true en producción con HTTPS
+        secure: isProduction, // true en Railway (HTTPS), false en localhost (HTTP)
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 horas
     }
 }));
 
-// 2. Configuración del Motor de Plantillas (EJS)
-// Le decimos a Express dónde están las vistas y qué motor usar
+// --- MOTOR DE PLANTILLAS ---
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
@@ -52,25 +51,19 @@ const globalSettingsMiddleware = require('./src/middlewares/globalSettingsMiddle
 app.use(globalSettingsMiddleware);
 
 // --- RUTAS ---
-// Importamos los archivos de rutas
 const mainRoutes = require('./src/routes/mainRoutes');
-const adminRoutes = require('./src/routes/adminRoutes'); // Importar rutas de admin
+const adminRoutes = require('./src/routes/adminRoutes');
 
-// Usamos las rutas
-// IMPORTANTE: Las rutas más específicas deben ir primero
-app.use('/admin', adminRoutes); // Rutas de admin primero
-app.use('/', mainRoutes); // Rutas principales (con catch-all 404) al final
+app.use('/admin', adminRoutes);
+app.use('/', mainRoutes);
 
-// Manejador de Error 500 (Debe tener 4 argumentos: err, req, res, next)
+// --- ERROR 500 ---
 app.use((err, req, res, next) => {
-    console.error(err.stack); // Esto te muestra el error en tu consola para que lo arregles
+    console.error(err.stack);
     res.status(500).render('500', { title: 'Error del Servidor' });
 });
 
-// app.listen(...)
-
-// --- SERVIDOR ---
-// Inicializar base de datos y luego iniciar el servidor
+// --- BASE DE DATOS ---
 const sequelize = require('./src/database/config');
 const User = require('./src/database/models/User');
 const Setting = require('./src/database/models/Setting');
@@ -82,11 +75,9 @@ const Inscription = require('./src/database/models/Inscription');
 
 async function initializeDatabase() {
     try {
-        // Sincronizar modelos (crear tablas si no existen)
         await sequelize.sync();
         console.log('✅ Base de datos sincronizada');
 
-        // Verificar si ya hay un usuario admin
         const adminUsername = process.env.ADMIN_USERNAME || 'admin';
         const adminExists = await User.findOne({ where: { username: adminUsername } });
         if (!adminExists) {
@@ -102,10 +93,8 @@ async function initializeDatabase() {
     }
 }
 
-// Inicializar base de datos
 initializeDatabase();
 
-// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
     console.log(`🚀 Presiona Ctrl + C para detenerlo`);

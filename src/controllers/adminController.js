@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 
 const controller = {
     login: (req, res) => {
-        // If already logged in, redirect to dashboard
         if (req.session.user) {
             return res.redirect('/admin/dashboard');
         }
@@ -22,26 +21,31 @@ const controller = {
 
             let match = false;
             try {
-                // If the stored password is a valid bcrypt hash, this will work
                 match = await bcrypt.compare(password, user.password);
             } catch (bcryptError) {
-                // If bcrypt.compare throws (e.g. invalid hash format), check if it's plain text
                 if (password === user.password) {
                     match = true;
-                    // Opcional: Re-hashear y guardar el password aquí
-                    // user.password = await bcrypt.hash(password, 10);
-                    // await user.save();
                 } else {
                     console.error('Bcrypt compare error:', bcryptError);
                 }
             }
 
             if (match) {
+                console.log('✅ Contraseña correcta, guardando sesión...');
                 req.session.user = { id: user.id, username: user.username, role: user.role };
-                return res.redirect('/admin/dashboard');
+                console.log('Session antes de save:', req.session);
+                req.session.save((err) => {
+                    if (err) {
+                        console.error('❌ Error guardando sesión:', err);
+                        return res.render('admin/login', { title: 'Admin Login', error: 'Error del servidor' });
+                    }
+                    console.log('✅ Sesión guardada, redirigiendo...');
+                    return res.redirect('/admin/dashboard');
+                });
             } else {
                 return res.render('admin/login', { title: 'Admin Login', error: 'Contraseña incorrecta' });
             }
+
         } catch (error) {
             console.error('Login error:', error);
             res.render('admin/login', { title: 'Admin Login', error: 'Error del servidor' });
@@ -53,7 +57,6 @@ const controller = {
             const Organ       = require('../database/models/Organ');
             const Inscription = require('../database/models/Inscription');
 
-            // Tipos exactos usados por adminInscriptionsController
             const delegatesCount   = await Inscription.count({ where: { type: 'delegado'   } });
             const authoritiesCount = await Inscription.count({ where: { type: 'autoridad'  } });
             const schoolsCount     = await Inscription.count({ where: { type: 'escuela'    } });
@@ -76,7 +79,7 @@ const controller = {
             res.render('admin/dashboard', {
                 title: 'Panel de Administración',
                 user: req.session.user,
-                metrics: { volunteers: 0, organs: 0, delegates: 0, authorities: 0, schools: 0, typeMap: {} }
+                metrics: { volunteers: 0, organs: 0, delegates: 0, authorities: 0, schools: 0 }
             });
         }
     },

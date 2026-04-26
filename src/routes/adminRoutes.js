@@ -111,4 +111,21 @@ const adminPagesController = require('../controllers/adminPagesController');
 router.get('/paginas/:page',  authMiddleware, adminPagesController.show);
 router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesController.update);
 
+// ─── PEGAR EN adminRoutes.js ANTES de module.exports = router ───────────────
+
+const adminCertificatesController = require('../controllers/adminCertificatesController');
+router.get('/certificados',                        authMiddleware, adminCertificatesController.index);
+router.get('/certificados/lista/:tipo',            authMiddleware, adminCertificatesController.lista);
+router.get('/certificados/preview/:tipo/:id',      authMiddleware, adminCertificatesController.preview);
+router.get('/certificados/descargar/:tipo/:id',    authMiddleware, adminCertificatesController.descargar);
+router.get('/certificados/descargar-todos/:tipo',  authMiddleware, adminCertificatesController.descargarTodos);
+router.get('/certificados',                          adminCertificatesController.index);
+router.get('/certificados/lista/:tipo',              adminCertificatesController.lista);
+router.get('/certificados/preview/:id',              adminCertificatesController.preview);
+router.get('/certificados/descargar/:id',            adminCertificatesController.descargar);
+router.get('/certificados/descargar-todos/:tipo',    adminCertificatesController.descargarTodos);
+router.post('/certificados/mail/:id',                adminCertificatesController.enviarMail);
+router.post('/certificados/mail-todos/:tipo',        adminCertificatesController.enviarMailTodos);
+
+
 module.exports = router;
