@@ -129,7 +129,21 @@
                                     currentGroup = auth.group; %>
                             <tr class="bg-slate-50/80">
                                 <td colspan="6" class="px-6 py-2.5">
-                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest"><%= currentGroup || 'General' %></span>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest"><%= currentGroup || 'General' %></span>
+                                        <div class="flex gap-2">
+                                            <form action="/admin/equipodevoluntarios/toggle-group" method="POST" class="inline">
+                                                <input type="hidden" name="group" value="<%= currentGroup %>">
+                                                <input type="hidden" name="status" value="false">
+                                                <button type="submit" class="text-[10px] bg-white border border-gray-200 text-gray-500 px-2 py-1 rounded hover:bg-gray-50 transition font-bold shadow-sm" onclick="return confirm('¿Estás seguro de que querés OCULTAR todo el equipo de <%= currentGroup || `General` %>?')">Ocultar Equipo</button>
+                                            </form>
+                                            <form action="/admin/equipodevoluntarios/toggle-group" method="POST" class="inline">
+                                                <input type="hidden" name="group" value="<%= currentGroup %>">
+                                                <input type="hidden" name="status" value="true">
+                                                <button type="submit" class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-1 rounded hover:bg-emerald-100 transition font-bold shadow-sm">Publicar Equipo</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <% } %>
