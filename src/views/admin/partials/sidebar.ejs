@@ -18,6 +18,15 @@
                     </svg>
                     <span class="text-sm">Dashboard</span>
                 </a>
+                <a href="/admin/configuracion"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group
+                          <%= (typeof title !== 'undefined' && title.includes('Configuración')) ? 'bg-gray-100 text-gray-900 font-bold' : 'text-gray-500 font-medium hover:bg-gray-50 hover:text-slate-800' %>">
+                    <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         class="<%= (typeof title !== 'undefined' && title.includes('Configuración')) ? 'text-gray-700' : 'text-gray-300 group-hover:text-gray-500' %>">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                    </svg>
+                    <span class="text-sm">Configuración</span>
+                </a>
             </div>
         </div>
 

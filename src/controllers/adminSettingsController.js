@@ -8,6 +8,7 @@ const controller = {
                 { key: 'link_fotos', label: 'Link Galería de Fotos (OneDrive)', type: 'url', value: '#' },
                 { key: 'link_instagram', label: 'Link Instagram', type: 'url', value: 'https://instagram.com/umsantiagodelestero' },
                 { key: 'link_inscripcion_general', label: 'Link Inscripción General', type: 'url', value: '#' },
+                { key: 'nav_show_button', label: 'Mostrar botón Inscribirse en navbar', type: 'checkbox', value: 'true' },
                 { key: 'mostrar_fecha_modelo', label: 'Mostrar Contador (activado = muestra ??, desactivado = Fecha a Confirmar)', type: 'checkbox', value: 'false' },
                 { key: 'link_autoridades_sumarme', label: 'Autoridades - Botón "Quiero Sumarme"', type: 'url', value: '#' },
                 { key: 'link_autoridades_fotos', label: 'Autoridades - Botón "Ver Fotos Edición Anterior"', type: 'url', value: '#' },
