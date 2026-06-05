@@ -164,7 +164,7 @@ const clean = (str) => {
             let unique = {};
             for (let i = 0; i < team.length; i++) { unique[team[i].group] = true; }
             let keys = Object.keys(unique);
-            let manualOrder = ['Coordinación General','Consejo de Seguridad','Asamblea General','Sala de Tratados Internacionales','Sala de Tratados','Tratados','Consejo Económico y Social','ECOSOC','Consejo de Derechos Humanos','Derechos Humanos','CDH','Logística','Capacitación'];
+            let manualOrder = ['Coordinación General','Administración','Búsqueda de Sponsors','Consejo de Seguridad','Consejo de Seguridad Histórico','Asamblea General','Sala de Tratados Internacionales','Sala de Tratados','Tratados','Consejo Económico y Social','ECOSOC','Consejo de Derechos Humanos','Derechos Humanos','CDH','Oficina de las Naciones Unidas contra la Droga y el Delito','Logística','Logístico-Organizativo','Capacitación'];
             let prensaGroups = keys.filter(k => k.toLowerCase().includes('prensa') || k.toLowerCase().includes('comunicación'));
             for (let i = 0; i < manualOrder.length; i++) { if (unique[manualOrder[i]]) { groupList.push(manualOrder[i]); unique[manualOrder[i]] = false; } }
             for (let i = 0; i < keys.length; i++) { if (unique[keys[i]] && !prensaGroups.includes(keys[i])) { groupList.push(keys[i]); unique[keys[i]] = false; } }
@@ -185,7 +185,7 @@ const clean = (str) => {
             else if (lowerName.includes('económico') || lowerName.includes('ecosoc')) { accentColor = '#E15829'; accentBg = '#FCEEE9'; }
             else if (lowerName.includes('seguridad'))   { accentColor = '#A02140'; accentBg = '#F9E8EC'; }
             else if (lowerName.includes('tratado'))     { accentColor = '#FFB819'; accentBg = '#FEF6E0'; }
-            else if (lowerName.includes('derechos') || lowerName.includes('cdh')) { accentColor = '#61B4E4'; accentBg = '#E8F5FB'; }
+            else if (lowerName.includes('derechos') || lowerName.includes('cdh') || lowerName.includes('droga y el delito')) { accentColor = '#61B4E4'; accentBg = '#E8F5FB'; }
             else if (lowerName.includes('prensa') || lowerName.includes('comunicación')) { accentColor = '#C026D3'; accentBg = '#FDF4FF'; }
             else if (lowerName.includes('coordinación')) { accentColor = '#1E293B'; accentBg = '#F1F5F9'; }
         %>

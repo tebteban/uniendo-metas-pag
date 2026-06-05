@@ -99,7 +99,7 @@
                             <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Área / Grupo</label>
                             <select name="group"
                                     class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
-                                <% const groups = ['Coordinación General','Asamblea General','Consejo de Seguridad','ECOSOC','Sala de Tratados','Derechos Humanos','Prensa y Comunicación','Logística','Capacitación']; %>
+                                <% const groups = ['Coordinación General','Administración','Búsqueda de Sponsors','Asamblea General','Consejo de Seguridad','Consejo de Seguridad Histórico','ECOSOC','Sala de Tratados','Oficina de las Naciones Unidas contra la Droga y el Delito','Derechos Humanos','Prensa y Comunicación','Logística','Logístico-Organizativo','Capacitación']; %>
                                 <% groups.forEach(g => { %>
                                 <option value="<%= g %>" <%= authority.group === g ? 'selected' : '' %>><%= g %></option>
                                 <% }); %>

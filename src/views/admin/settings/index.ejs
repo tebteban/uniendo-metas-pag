@@ -87,12 +87,12 @@
                         desc: 'Controlá la fecha del próximo modelo y si mostrar el countdown en el sitio.'
                     },
                     {
-                        title: 'Links de Inscripción',
+                        title: 'Botón de Inscripción',
                         icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
                         color: '#61B4E4',
                         bg: '#E8F5FB',
-                        keys: ['link_inscripcion_general', 'link_participacion_inscribirse'],
-                        desc: 'Links a los formularios de inscripción que aparecen en los botones del sitio.'
+                        keys: ['nav_show_button', 'link_inscripcion_general', 'link_participacion_inscribirse'],
+                        desc: 'Configura el botón de inscripción visible en el navbar y los links de inscripción del sitio.'
                     },
                     {
                         title: 'Links de Autoridades',
@@ -173,7 +173,7 @@
                                            <%= setting.value === 'true' ? 'checked' : '' %>
                                            class="w-5 h-5 rounded cursor-pointer" style="accent-color: #A02140;">
                                     <label for="<%= setting.key %>" class="text-sm font-semibold text-gray-600 cursor-pointer select-none flex-1">
-                                        <%= setting.value === 'true' ? 'Activado — el countdown aparece en el sitio' : 'Desactivado — no se muestra el countdown' %>
+                                        <%= setting.label || setting.key %>
                                     </label>
                                     <span class="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full <%= setting.value === 'true' ? '' : 'bg-gray-200 text-gray-500' %>"
                                           style="<%= setting.value === 'true' ? 'background:#EDF5E8; color:#3D7A26;' : '' %>">

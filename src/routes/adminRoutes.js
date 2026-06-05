@@ -74,6 +74,7 @@ router.get('/equipodevoluntarios/editar/:id', authMiddleware, adminAuthoritiesCo
 router.post('/equipodevoluntarios/update/:id', authMiddleware, upload.single('image'), adminAuthoritiesController.update);
 router.get('/equipodevoluntarios/eliminar/:id', authMiddleware, adminAuthoritiesController.destroy);
 router.post('/equipodevoluntarios/toggle/:id', authMiddleware, adminAuthoritiesController.toggleStatus);
+router.post('/equipodevoluntarios/toggle-group', authMiddleware, adminAuthoritiesController.toggleGroup);
 router.post('/equipodevoluntarios/publicar-todos', authMiddleware, adminAuthoritiesController.publishAll);
 router.post('/equipodevoluntarios/vaciar', authMiddleware, adminAuthoritiesController.deleteAll);
 router.post('/equipodevoluntarios/importar', authMiddleware, excelUpload.single('file'), adminAuthoritiesController.importExcel);
@@ -86,7 +87,7 @@ const excelUploadMiddleware = require('../middlewares/excelUploadMiddleware');
 router.get('/inscripciones/:type', authMiddleware, adminInscriptionsController.index);
 router.post('/inscripciones/:type/upload', authMiddleware, excelUploadMiddleware.single('file'), adminInscriptionsController.upload);
 router.post('/inscripciones/:type/upload-manual', authMiddleware, adminInscriptionsController.uploadManual);
-router.post('/inscripciones/editar/:id',         authMiddleware, adminInscriptionsController.edit);
+router.post('/inscripciones/editar/:id', authMiddleware, adminInscriptionsController.edit);
 router.post('/inscripciones/:type/eliminar-todo', authMiddleware, adminInscriptionsController.destroyAll);
 router.get('/inscripciones/eliminar/:id', authMiddleware, adminInscriptionsController.destroy);
 
@@ -108,7 +109,7 @@ router.post('/cuentas/eliminar/:id', authMiddleware, adminOnlyMiddleware, adminU
 
 // Pages Management (CMS por página)
 const adminPagesController = require('../controllers/adminPagesController');
-router.get('/paginas/:page',  authMiddleware, adminPagesController.show);
+router.get('/paginas/:page', authMiddleware, adminPagesController.show);
 router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesController.update);
 
 // ─── Certificados ────────────────────────────────────────────────────────────

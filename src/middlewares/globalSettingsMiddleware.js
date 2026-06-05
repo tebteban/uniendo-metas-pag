@@ -13,6 +13,7 @@ const globalSettingsMiddleware = async (req, res, next) => {
         // Set defaults if missing (fallback)
         if (!settings.link_fotos) settings.link_fotos = '#';
         if (!settings.proxima_edicion_fecha) settings.proxima_edicion_fecha = '2026-10-01';
+        if (!settings.nav_show_button) settings.nav_show_button = 'true';
 
         res.locals.settings = settings;
         next();

@@ -148,6 +148,22 @@ const controller = {
         }
     },
 
+    // Toggle entire group
+    toggleGroup: async (req, res) => {
+        try {
+            const { group, status } = req.body;
+            const isActive = status === 'true';
+            await Authority.update(
+                { active: isActive },
+                { where: { group: group || 'General' } }
+            );
+            res.redirect('/admin/equipodevoluntarios?msg=toggled');
+        } catch (error) {
+            console.error(error);
+            res.redirect('/admin/equipodevoluntarios');
+        }
+    },
+
     deleteAll: async (req, res) => {
         try {
             await Authority.destroy({
