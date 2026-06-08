@@ -138,6 +138,23 @@ const controller = {
         }
     },
 
+    delegados: async (req, res) => {
+        try {
+            // Load settings for the delegados page
+            const settingsArray = await Setting.findAll();
+            const settings = {};
+            settingsArray.forEach(s => { settings[s.key] = s.value; });
+
+            res.render('delegados', {
+                title: 'Delegados | Uniendo Metas',
+                settings
+            });
+        } catch (error) {
+            console.error('Error loading delegados page:', error);
+            res.render('delegados', { title: 'Delegados | Uniendo Metas', settings: {} });
+        }
+    },
+
     organos: async (req, res) => {
         try {
             const organs = await Organ.findAll();

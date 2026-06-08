@@ -16,6 +16,9 @@ router.get('/voluntarios', mainController.voluntarios);
 // Ruta Órganos
 router.get('/organos', mainController.organos);
  
+// Ruta Delegados
+router.get('/delegados', mainController.delegados);
+
 // Ruta Participación
 router.get('/participacion', mainController.participacion);
  
