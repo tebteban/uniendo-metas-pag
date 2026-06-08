@@ -19,6 +19,87 @@
         #lightbox { transition: opacity 0.3s ease; }
         #lightbox.hidden { opacity: 0; pointer-events: none; }
         #lightbox:not(.hidden) { opacity: 1; pointer-events: auto; }
+
+        /* Mapa interactivo */
+        .world-map-container { position: relative; }
+        .country-pin {
+            position: absolute;
+            width: 28px; height: 28px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg) scale(0.9);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .country-pin:hover {
+            transform: rotate(-45deg) scale(1.2);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .country-pin .flag-inner {
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transform: rotate(45deg);
+            background: white;
+            overflow: hidden;
+        }
+        .map-tooltip {
+            position: absolute;
+            background: #1A365D;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 100;
+            bottom: 38px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px);
+        }
+        .map-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #1A365D;
+        }
+        .country-pin:hover .map-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Progreso habilidades */
+        .skill-bar-fill {
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Recursos tab */
+        .resource-tab.active { 
+            background: #A02140; 
+            color: white; 
+            border-color: #A02140;
+        }
+
+        /* Strip colegios */
+        @keyframes scroll-schools {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-schools {
+            animation: scroll-schools 30s linear infinite;
+        }
     </style>
 </head>
 
@@ -35,8 +116,8 @@ const clean = (str) => {
 
 <%- include('./partials/navbar') %>
 
-<!-- 1. Hero Section -->
-<section class="relative pt-36 pb-24 bg-white overflow-hidden py-24 flex items-center">
+<!-- 1. Hero -->
+<section class="relative pt-36 pb-24 bg-white overflow-hidden flex items-center">
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
         <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-50 blur-3xl" style="background:#61B4E415;"></div>
         <div class="absolute top-0 right-1/4 w-96 h-96 rounded-full opacity-40 blur-2xl" style="background:#1A365D10;"></div>
@@ -61,7 +142,7 @@ const clean = (str) => {
         </h1>
 
         <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-10" data-aos="fade-up" data-aos-delay="100">
-            <%- clean(settings.text_del_hero_desc || 'Participá como delegado en el Modelo de Naciones Unidas y descubrí tu potencial para debatir, negociar y transformar el mundo. Tu voz hace la diferencia.') %>
+            <%- clean(settings.text_del_hero_desc || 'Participá como delegado en el Modelo de Naciones Unidas. Investigá, debatí y colaborá junto a jóvenes de toda la provincia en una experiencia que transforma.') %>
         </p>
 
         <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
@@ -76,21 +157,44 @@ const clean = (str) => {
     </div>
 </section>
 
-<!-- 2. ¿Qué es un Delegado? -->
-<section id="que-es" class="py-24 bg-gray-50 border-t border-gray-100">
+<!-- 2. Strip Colegios -->
+<% if (settings.show_trust_strip !== 'false') { %>
+<div class="py-5 bg-gray-50 border-y border-gray-100 overflow-hidden">
+    <p class="text-center text-xs font-black uppercase tracking-widest text-gray-400 mb-4">Colegios que ya participaron</p>
+    <div class="flex overflow-hidden w-full">
+        <div class="flex animate-schools gap-8 items-center whitespace-nowrap">
+            <% 
+            const defaultSchools = ['Colegio Nacional','Instituto Belgrano','E.N.S.I.','I.P.E.A. N°287','Colegio Jesús María','Instituto Domingo F. Sarmiento','Escuela Normal Superior','Instituto María Auxiliadora','Colegio Santa Catalina','I.P.E.A. N°202','Instituto San José','Escuela de Educación Técnica','Colegio Privado Parroquial','Instituto Comercial','Colegio San Martín','E.N.E.T. N°1','Escuela Secundaria N°5','Bachillerato Provincial'];
+            const schoolKeys = Object.keys(settings).filter(k => k.startsWith('trust_school_') && settings[k]).sort();
+            const schools = schoolKeys.length > 0 ? schoolKeys.map(k => settings[k]) : defaultSchools;
+            for (let j = 0; j < 2; j++) {
+                for (const school of schools) {
+            %>
+            <span class="text-sm font-bold text-gray-500 flex items-center gap-2 flex-shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full inline-block" style="background:#61B4E4;"></span>
+                <%= school %>
+            </span>
+            <% } } %>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<!-- 3. ¿Qué es un Delegado? -->
+<section id="que-es" class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16" data-aos="fade-up">
             <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">El Rol</span>
             <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%- clean(settings.text_del_what_title || '¿Qué es un Delegado?') %></h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_del_what_desc || 'Un delegado es un estudiante que asume el rol de un diplomático, representando los intereses, políticas y cultura de un país asignado ante la ONU.') %></p>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_del_what_desc || 'Un delegado es un estudiante que asume el rol de un diplomático, representando los intereses, políticas y cultura de un país asignado ante los órganos de la ONU.') %></p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <% const rolDefs = [
-                { tKey: 'text_del_rol_1_title', dKey: 'text_del_rol_1_desc', defT: 'Representación', defD: 'Sos la voz de toda una nación. Defendés su cultura, historia e intereses globales ante el mundo.', color: '#61B4E4', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0110.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-                { tKey: 'text_del_rol_2_title', dKey: 'text_del_rol_2_desc', defT: 'Debate', defD: 'Exponés tus posturas mediante discursos y argumentos sólidos frente a las otras naciones participantes.', color: '#E15829', icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
-                { tKey: 'text_del_rol_3_title', dKey: 'text_del_rol_3_desc', defT: 'Negociación', defD: 'Buscás acuerdos estratégicos y puntos en común para resolver crisis internacionales pacíficamente.', color: '#FFB819', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
-                { tKey: 'text_del_rol_4_title', dKey: 'text_del_rol_4_desc', defT: 'Trabajo en Equipo', defD: 'Construís alianzas dentro de tu bloque regional para redactar proyectos de resolución conjuntos.', color: '#73A950', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' }
+                { tKey: 'text_del_rol_1_title', dKey: 'text_del_rol_1_desc', defT: 'Representación', defD: 'Sos la voz de toda una nación. Investigás su historia, cultura e intereses para defenderlos en el debate.', color: '#61B4E4', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0110.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                { tKey: 'text_del_rol_2_title', dKey: 'text_del_rol_2_desc', defT: 'Oratoria', defD: 'Aprendés a expresarte con seguridad frente a otros. El 84% de los participantes se sintió más confiado para hablar en público.', color: '#E15829', icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
+                { tKey: 'text_del_rol_3_title', dKey: 'text_del_rol_3_desc', defT: 'Colaboración', defD: 'Trabajás junto a jóvenes de otras escuelas para construir propuestas colectivas. La diversidad de miradas enriquece el debate.', color: '#FFB819', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
+                { tKey: 'text_del_rol_4_title', dKey: 'text_del_rol_4_desc', defT: 'Pensamiento Crítico', defD: 'Analizás problemáticas globales reales desde distintas perspectivas, aprendiendo a buscar fuentes confiables y a argumentar con datos.', color: '#73A950', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' }
             ]; %>
 
             <% rolDefs.forEach((rol, i) => {
@@ -111,7 +215,35 @@ const clean = (str) => {
     </div>
 </section>
 
-<!-- 3. Habilidades -->
+<!-- 4. Impacto real (stats del PDF Conciencia) -->
+<section class="py-20 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest mb-3 block" style="color:#1A365D;">Datos reales 2025</span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-3">Lo que dicen los que lo vivieron</h2>
+            <p class="text-gray-500 max-w-xl mx-auto">Resultados del Informe 2025 elaborado por el Equipo de Investigación de Asociación Conciencia (EIAC).</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+            <% const stats = [
+                { num: '84%', label: 'se sintió más confiado para hablar en público', color: '#61B4E4' },
+                { num: '76,7%', label: 'considera muy útil lo aprendido para su vida cotidiana', color: '#FFB819' },
+                { num: '70%', label: 'dice que UM los ayudó a definir su proyecto académico', color: '#E15829' },
+                { num: '87,7%', label: 'proyecta continuar estudios universitarios', color: '#73A950' }
+            ]; %>
+            <% stats.forEach((s, i) => { %>
+            <div class="bg-white border border-gray-100 rounded-2xl p-7 text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
+                <div class="text-4xl font-black mb-3" style="color:<%= s.color %>"><%= s.num %></div>
+                <p class="text-gray-500 text-sm leading-snug"><%= s.label %></p>
+            </div>
+            <% }); %>
+        </div>
+
+        <p class="text-center text-gray-400 text-xs mt-8">Fuente: Encuesta a estudiantes 2025 — Asociación Conciencia (EIAC). N = 1.986 casos.</p>
+    </div>
+</section>
+
+<!-- 5. Habilidades con barras de progreso -->
 <section id="habilidades" class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -122,23 +254,31 @@ const clean = (str) => {
                     <%- clean(settings.text_del_skills_title || 'Habilidades para<br>') %>
                     <span style="color:#E15829;"><%- clean(settings.text_del_skills_highlight || 'toda tu vida.') %></span>
                 </h2>
-                <p class="text-gray-500 text-lg mb-5 leading-relaxed">
-                    <%- clean(settings.text_del_skills_desc || 'Participar en Uniendo Metas no es solo un juego de roles. Es adquirir herramientas que usarás en la universidad, en tu carrera profesional y en tu vida diaria.') %>
+                <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+                    <%- clean(settings.text_del_skills_desc || 'Participar en Uniendo Metas es desarrollar herramientas que vas a usar en la universidad, en tu carrera y en tu vida diaria. Son 2 días de experiencia que dejan huella.') %>
                 </p>
                 
-                <div class="space-y-4 mt-8">
-                    <% ['del_skill_1', 'del_skill_2', 'del_skill_3'].forEach((key, i) => {
-                        const text = settings[key];
-                        if (!text) return;
-                    %>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#E8F5FB; color:#61B4E4;">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <!-- Barras de progreso animadas -->
+                <div class="space-y-5" id="skill-bars">
+                    <% const skillBars = [
+                        { label: 'Oratoria y confianza para hablar en público', pct: 84, color: '#61B4E4' },
+                        { label: 'Capacidad argumentativa', pct: 70, color: '#E15829' },
+                        { label: 'Alfabetización mediática e informacional', pct: 71, color: '#FFB819' },
+                        { label: 'Apertura a la diversidad de ideas', pct: 75, color: '#73A950' }
+                    ]; %>
+                    <% skillBars.forEach((bar, i) => { %>
+                    <div data-aos="fade-up" data-aos-delay="<%= i * 60 %>">
+                        <div class="flex justify-between mb-1.5">
+                            <span class="text-sm font-bold text-gray-700"><%= bar.label %></span>
+                            <span class="text-sm font-black" style="color:<%= bar.color %>"><%= bar.pct %>%</span>
                         </div>
-                        <span class="text-gray-700 font-semibold text-base"><%- clean(text) %></span>
+                        <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full" style="background:<%= bar.color %>;" data-pct="<%= bar.pct %>"></div>
+                        </div>
                     </div>
                     <% }); %>
                 </div>
+                <p class="text-xs text-gray-400 mt-4">Basado en encuesta de cierre 2025. Fuente: EIAC / Asociación Conciencia.</p>
             </div>
 
             <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
@@ -149,6 +289,11 @@ const clean = (str) => {
                              class="lightbox-trigger w-full h-64 object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in" 
                              alt="Delegados debatiendo">
                     </div>
+                    <!-- Badge stat -->
+                    <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 text-center">
+                        <div class="text-3xl font-black mb-1" style="color:#A02140;">2 días</div>
+                        <p class="text-xs text-gray-500 font-semibold">de simulación intensa<br>en el encuentro local</p>
+                    </div>
                 </div>
                 <div class="space-y-4">
                     <div class="overflow-hidden rounded-2xl shadow-md border border-gray-100">
@@ -157,6 +302,10 @@ const clean = (str) => {
                              class="lightbox-trigger w-full h-80 object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in" 
                              alt="Negociación">
                     </div>
+                    <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 text-center">
+                        <div class="text-3xl font-black mb-1" style="color:#61B4E4;">532</div>
+                        <p class="text-xs text-gray-500 font-semibold">escuelas participaron<br>en la edición 2025</p>
+                    </div>
                 </div>
             </div>
 
@@ -164,9 +313,9 @@ const clean = (str) => {
     </div>
 </section>
 
-<!-- 4. Timeline (Camino del Delegado) -->
+<!-- 6. Camino del Delegado (Timeline vertical) -->
 <section class="py-24 bg-gray-50 border-t border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 max-w-3xl mx-auto" data-aos="fade-up">
             <span class="inline-block px-4 py-1.5 rounded-full font-bold tracking-widest uppercase text-xs mb-5 border" style="background:#E8F5FB; color:#61B4E4; border-color:rgba(97, 180, 228, 0.3);">
                 <%- clean(settings.text_del_path_badge || 'Metodología') %>
@@ -175,62 +324,150 @@ const clean = (str) => {
                 <%- clean(settings.text_del_path_title || 'El camino<br>del Delegado') %>
             </h2>
             <p class="text-gray-500 text-lg leading-relaxed">
-                <%- clean(settings.text_del_path_desc || 'Prepararse y participar en el modelo conlleva una serie de etapas secuenciales que te forman como un verdadero líder internacional.') %>
+                <%- clean(settings.text_del_path_desc || 'El proceso arranca meses antes del modelo. Cada etapa te prepara para vivir una simulación de 2 días que concentra todo lo aprendido.') %>
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <% const pathSteps = [
-                { num: '1', t: 'del_step_1_title', d: 'del_step_1_desc', deft: 'Investiga', defd: 'Aprende sobre la cultura, política y economía de la nación asignada para representarla fielmente.', color: '#61B4E4' },
-                { num: '2', t: 'del_step_2_title', d: 'del_step_2_desc', deft: 'Analiza', defd: 'Estudia profundamente los problemas globales a tratar en tu comisión, desde la perspectiva de tu país.', color: '#FFB819' },
-                { num: '3', t: 'del_step_3_title', d: 'del_step_3_desc', deft: 'Redacta', defd: 'Elabora documentos de posición y colabora en proyectos de resolución con formalidad diplomática.', color: '#E15829' }
+        <div class="relative">
+            <!-- línea vertical -->
+            <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 -translate-x-1/2 z-0"></div>
+
+            <% const timelineSteps = [
+                { num: '1', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', t: 'del_step_1_title', d: 'del_step_1_desc', deft: 'Capacitación', defd: 'Recibís materiales de estudio y charlas formativas sobre protocolo diplomático, técnicas de oratoria y el país que vas a representar.', color: '#61B4E4', side: 'right' },
+                { num: '2', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', t: 'del_step_2_title', d: 'del_step_2_desc', deft: 'Investigación', defd: 'Estudiás en profundidad la cultura, política exterior y posición de tu país frente al tema de tu comisión. Buscás fuentes confiables y construís tu postura.', color: '#FFB819', side: 'left' },
+                { num: '3', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z', t: 'del_step_3_title', d: 'del_step_3_desc', deft: 'Documento de Posición', defd: 'Redactás tu postura oficial. Es el primer paso en la práctica de escritura formal y la síntesis de ideas complejas.', color: '#E15829', side: 'right' },
+                { num: '4', icon: 'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z', t: 'del_step_4_title', d: 'del_step_4_desc', deft: 'Debate (Día 1)', defd: 'Durante el primer día de simulación exponés discursos formales, respondés preguntas y comenzás a explorar alianzas con otros países.', color: '#A02140', side: 'left' },
+                { num: '5', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', t: 'del_step_5_title', d: 'del_step_5_desc', deft: 'Resolución (Día 2)', defd: 'El segundo día construís alianzas, negociás enmiendas y colaborás en la redacción de una resolución final. El proceso es colaborativo, no competitivo.', color: '#73A950', side: 'right' }
             ]; %>
-            <% pathSteps.forEach((step, i) => {
+
+            <div class="space-y-10">
+            <% timelineSteps.forEach((step, i) => {
                 const title = settings[step.t] || step.deft;
                 const desc = settings[step.d] || step.defd;
+                const isRight = i % 2 === 0;
             %>
-            <div class="bg-white rounded-2xl p-7 text-center border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
-                <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform" style="background:<%= step.color %>15; color:<%= step.color %>;">
-                    <span class="font-black text-xl"><%= step.num %></span>
+            <div class="relative flex items-center gap-6 md:gap-0" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
+
+                <!-- Ícono central -->
+                <div class="relative z-10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2 border-4 border-white shadow-md" style="background:<%= step.color %>;">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= step.icon %>"/>
+                    </svg>
                 </div>
-                <h3 class="font-black text-lg text-gray-900 mb-2"><%- clean(title) %></h3>
-                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(desc) %></p>
+
+                <!-- Contenido -->
+                <div class="flex-1 md:w-1/2 <%= isRight ? 'md:pr-16 md:text-right md:ml-0 md:mr-auto' : 'md:pl-16 md:ml-auto md:mr-0' %> bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                    <div class="flex items-center gap-3 mb-2 <%= isRight ? 'md:justify-end' : '' %>">
+                        <span class="text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded-full" style="background:<%= step.color %>20; color:<%= step.color %>;">Paso <%= step.num %></span>
+                    </div>
+                    <h3 class="font-black text-lg text-gray-900 mb-2"><%- clean(title) %></h3>
+                    <p class="text-sm text-gray-500 leading-relaxed"><%- clean(desc) %></p>
+                </div>
+
             </div>
             <% }); %>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <% const pathSteps45 = [
-                { num: '4', t: 'del_step_4_title', d: 'del_step_4_desc', deft: 'Debate', defd: 'Utiliza la oratoria para exponer tus ideas, interpelar a otras delegaciones y defender tus posturas en el recinto.', color: '#A02140' },
-                { num: '5', t: 'del_step_5_title', d: 'del_step_5_desc', deft: 'Consensa', defd: 'Negocia cediendo posiciones estratégicas para lograr soluciones integrales y reales junto a otros bloques.', color: '#73A950' }
-            ]; %>
-            <% pathSteps45.forEach((step, i) => {
-                const title = settings[step.t] || step.deft;
-                const desc = settings[step.d] || step.defd;
-            %>
-            <div class="bg-white rounded-2xl p-7 text-center border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group" data-aos="fade-up" data-aos-delay="<%= (i + 3) * 80 %>">
-                <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform" style="background:<%= step.color %>15; color:<%= step.color %>;">
-                    <span class="font-black text-xl"><%= step.num %></span>
-                </div>
-                <h3 class="font-black text-lg text-gray-900 mb-2"><%- clean(title) %></h3>
-                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(desc) %></p>
             </div>
-            <% }); %>
         </div>
     </div>
 </section>
 
-<!-- 5. Galería -->
-<section id="legado" class="py-24 bg-white border-t border-gray-100 overflow-hidden">
+<!-- 7. Mapa interactivo Leaflet: ¿Qué país podrías representar? -->
+<% if (settings.show_countries_section !== 'false') { %>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<section class="py-24 bg-white border-t border-gray-100 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">Representación</span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">¿Qué país podrías representar?</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg">Cada delegado recibe un país asignado por sorteo. Hacé clic en cualquier marcador para conocer más.</p>
+        </div>
+
+        <div class="relative w-full max-w-5xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            <div id="world-map" class="w-full rounded-3xl overflow-hidden border border-gray-100 shadow-lg" style="height: 420px; z-index: 0;"></div>
+            <p class="text-center text-xs text-gray-400 mt-4">El país se asigna por sorteo. Cada participante defiende la postura de la nación que le toca, independientemente de su opinión personal.</p>
+        </div>
+    </div>
+</section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(function() {
+    var map = L.map('world-map', {
+        center: [20, 10],
+        zoom: 2,
+        minZoom: 1,
+        maxZoom: 5,
+        scrollWheelZoom: false,
+        zoomControl: true,
+        attributionControl: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(map);
+
+    var countries = [
+        { name: 'Argentina',     flag: '🇦🇷', lat: -34.6,  lng: -58.4  },
+        { name: 'Brasil',        flag: '🇧🇷', lat: -15.8,  lng: -47.9  },
+        { name: 'México',        flag: '🇲🇽', lat: 19.4,   lng: -99.1  },
+        { name: 'Alemania',      flag: '🇩🇪', lat: 52.5,   lng: 13.4   },
+        { name: 'Francia',       flag: '🇫🇷', lat: 48.9,   lng: 2.3    },
+        { name: 'China',         flag: '🇨🇳', lat: 39.9,   lng: 116.4  },
+        { name: 'India',         flag: '🇮🇳', lat: 28.6,   lng: 77.2   },
+        { name: 'EE.UU.',        flag: '🇺🇸', lat: 38.9,   lng: -77.0  },
+        { name: 'Rusia',         flag: '🇷🇺', lat: 55.8,   lng: 37.6   },
+        { name: 'Japón',         flag: '🇯🇵', lat: 35.7,   lng: 139.7  },
+        { name: 'Nigeria',       flag: '🇳🇬', lat: 9.1,    lng: 7.5    },
+        { name: 'Sudáfrica',     flag: '🇿🇦', lat: -25.7,  lng: 28.2   },
+        { name: 'Cuba',          flag: '🇨🇺', lat: 23.1,   lng: -82.4  },
+        { name: 'Pakistán',      flag: '🇵🇰', lat: 33.7,   lng: 73.1   },
+        { name: 'Países Bajos',  flag: '🇳🇱', lat: 52.4,   lng: 4.9    },
+        { name: 'Bélgica',       flag: '🇧🇪', lat: 50.8,   lng: 4.4    },
+        { name: 'Colombia',      flag: '🇨🇴', lat: 4.7,    lng: -74.1  },
+        { name: 'Kenia',         flag: '🇰🇪', lat: -1.3,   lng: 36.8   },
+        { name: 'Turquía',       flag: '🇹🇷', lat: 39.9,   lng: 32.9   },
+        { name: 'Gambia',        flag: '🇬🇲', lat: 13.5,   lng: -16.6  },
+        { name: 'Omán',          flag: '🇴🇲', lat: 23.6,   lng: 58.6   },
+        { name: 'Vietnam',       flag: '🇻🇳', lat: 21.0,   lng: 105.8  },
+        { name: 'Perú',          flag: '🇵🇪', lat: -12.0,  lng: -77.0  },
+        { name: 'Chile',         flag: '🇨🇱', lat: -33.5,  lng: -70.6  }
+    ];
+
+    var flagIcon = function(flag) {
+        return L.divIcon({
+            html: '<div style="font-size:22px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));">' + flag + '</div>',
+            className: '',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+            popupAnchor: [0, -18]
+        });
+    };
+
+    countries.forEach(function(c) {
+        L.marker([c.lat, c.lng], { icon: flagIcon(c.flag) })
+            .addTo(map)
+            .bindPopup(
+                '<div style="font-size:14px;font-weight:800;color:#1A365D;padding:2px 4px;">' +
+                c.flag + ' ' + c.name + '</div>',
+                { maxWidth: 160, closeButton: false }
+            );
+    });
+})();
+</script>
+<% } %>
+
+<!-- 8. Galería -->
+<section id="galeria" class="py-24 bg-gray-50 border-t border-gray-100 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center" data-aos="fade-up">
-        <span class="text-xs font-black uppercase tracking-widest" style="color:#61B4E4;"><%- clean(settings.text_del_gallery_badge || 'Momentos Inolvidables') %></span>
+        <span class="text-xs font-black uppercase tracking-widest" style="color:#61B4E4;"><%- clean(settings.text_del_gallery_badge || 'Momentos') %></span>
         <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-3 mb-4"><%- clean(settings.text_del_gallery_title || 'La experiencia en imágenes') %></h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-lg"><%- clean(settings.text_del_gallery_desc || 'Miles de historias y amistades generadas. Así vivimos las ediciones anteriores.') %></p>
+        <p class="text-gray-500 max-w-xl mx-auto text-lg"><%- clean(settings.text_del_gallery_desc || 'Así vivimos las ediciones anteriores.') %></p>
     </div>
 
     <div class="relative w-full">
-        <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to right, white, transparent);"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to left, white, transparent);"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to right, #f9fafb, transparent);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to left, #f9fafb, transparent);"></div>
 
         <div class="flex overflow-hidden w-full">
             <div class="flex animate-scroll-infinite gap-5" id="gallery-container">
@@ -250,50 +487,179 @@ const clean = (str) => {
     </div>
 </section>
 
-<!-- 6. Testimonios -->
-<section class="py-24 bg-gray-50 border-t border-gray-100">
+<!-- 9. Voces de la experiencia (sin estrellas) -->
+<section class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16" data-aos="fade-up">
             <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%- clean(settings.text_del_testimonials_badge || 'Comunidad') %></span>
             <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%- clean(settings.text_del_testimonials_title || 'Voces de la experiencia') %></h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_del_testimonials_desc || 'Lo que opinan los delegados que ya vivieron el Modelo de Naciones Unidas.') %></p>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_del_testimonials_desc || 'Lo que dicen quienes ya participaron, en sus propias palabras.') %></p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <% const testimonials = [
-                { tKey: 'text_del_test_1_name', qKey: 'text_del_test_1_quote', defN: 'Martina Gómez', defQ: 'El Modelo me enseñó a perder el miedo a hablar en público y a entender que mi voz, aunque sea joven, importa para cambiar la realidad.', color: '#61B4E4' },
-                { tKey: 'text_del_test_2_name', qKey: 'text_del_test_2_quote', defN: 'Tomás Medina', defQ: 'Conocí a chicos de toda la provincia y aprendí a negociar soluciones pacíficas. Entendí cómo funciona realmente la política internacional.', color: '#FFB819' },
-                { tKey: 'text_del_test_3_name', qKey: 'text_del_test_3_quote', defN: 'Lucía Varela', defQ: 'Es mucho más que un juego de rol. Te hace investigar, cuestionar todo y construir amistades increíbles con personas que piensan distinto.', color: '#A02140' }
+                { tKey: 'text_del_test_1_name', qKey: 'text_del_test_1_quote', roleKey: 'text_del_test_1_role', defN: 'Martina, 17 años', defQ: 'Lo que más destaco es que pude desempeñarme con más entusiasmo en un ámbito donde todos compartían el mismo ideal, por puro gusto y no por obligación.', defR: 'Escuela privada, Chajarí', color: '#61B4E4' },
+                { tKey: 'text_del_test_2_name', qKey: 'text_del_test_2_quote', roleKey: 'text_del_test_2_role', defN: 'Tomás, 16 años', defQ: 'Me tocó un país con una ideología completamente distinta a la mía. Te abre la mente conocer otras culturas. Siento que mi conocimiento sobre el mundo se expandió muchísimo.', defR: 'Escuela privada, Santiago del Estero', color: '#FFB819' },
+                { tKey: 'text_del_test_3_name', qKey: 'text_del_test_3_quote', roleKey: 'text_del_test_3_role', defN: 'Lucía, 15 años', defQ: 'Fue muy desafiante y con muchos nervios, pero me di cuenta de que soy capaz, y eso me enorgullece.', defR: 'Escuela privada, Bahía Blanca', color: '#A02140' }
             ]; %>
 
             <% testimonials.forEach((test, i) => {
                 const name = settings[test.tKey] || test.defN;
                 const quote = settings[test.qKey] || test.defQ;
+                const role = settings[test.roleKey] || test.defR;
             %>
             <div class="relative bg-white rounded-3xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
-                <div class="text-4xl absolute top-6 right-6 text-gray-100 group-hover:opacity-100 opacity-50 group-hover:text-[<%= test.color %>] transition-colors">"</div>
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-14 h-14 rounded-full border-2 border-gray-100 flex items-center justify-center" style="background:<%= test.color %>15;">
-                        <span class="font-black text-lg" style="color:<%= test.color %>;"><%- name.charAt(0) %></span>
-                    </div>
-                    <div>
-                        <h3 class="font-black text-gray-900"><%- name %></h3>
-                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Delegado</span>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-500 leading-relaxed italic">
+                <div class="text-5xl font-black absolute top-4 right-6 text-gray-100 group-hover:opacity-100 opacity-40 leading-none select-none">"</div>
+                <p class="text-gray-600 leading-relaxed italic mb-6 relative z-10">
                     "<%- clean(quote) %>"
                 </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background:<%= test.color %>20;">
+                        <span class="font-black text-sm" style="color:<%= test.color %>;"><%- name.charAt(0) %></span>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-gray-900 text-sm"><%- clean(name) %></h3>
+                        <span class="text-xs text-gray-400"><%- clean(role) %></span>
+                    </div>
+                </div>
             </div>
             <% }); %>
         </div>
     </div>
 </section>
 
-<!-- 7. FAQ -->
+<!-- 10. Recursos y Capacitaciones -->
+<section id="recursos" class="py-24 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">Material</span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">Recursos y Capacitaciones</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg">Accedé a los materiales de las capacitaciones: presentaciones, videos explicativos y guías para prepararte antes del modelo.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10" data-aos="fade-up">
+            <button class="resource-tab active px-5 py-2.5 rounded-full text-sm font-bold border border-gray-200 transition-all inline-flex items-center gap-2" onclick="switchTab('videos')">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Videos
+            </button>
+            <button class="resource-tab px-5 py-2.5 rounded-full text-sm font-bold border border-gray-200 bg-white text-gray-600 transition-all inline-flex items-center gap-2" onclick="switchTab('presentaciones')">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                Presentaciones
+            </button>
+            <button class="resource-tab px-5 py-2.5 rounded-full text-sm font-bold border border-gray-200 bg-white text-gray-600 transition-all inline-flex items-center gap-2" onclick="switchTab('guias')">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Guías y Documentos
+            </button>
+        </div>
+
+        <!-- Panel Videos -->
+        <div id="tab-videos" class="tab-panel" data-aos="fade-up">
+            <% const videoKeys = Object.keys(settings).filter(k => k.startsWith('resource_video_') && k.endsWith('_url') && settings[k]).sort(); %>
+            <% if (videoKeys.length > 0) { %>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% videoKeys.forEach(vKey => {
+                    const id = vKey.replace('resource_video_', '').replace('_url', '');
+                    const url = settings[vKey];
+                    const title = settings[`resource_video_${id}_title`] || 'Video de capacitación';
+                    const desc = settings[`resource_video_${id}_desc`] || '';
+                    const isYt = url.includes('youtube.com') || url.includes('youtu.be');
+                    const embedUrl = isYt ? url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/') : url;
+                %>
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all">
+                    <div class="relative aspect-video bg-gray-100">
+                        <iframe src="<%= embedUrl %>" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-black text-gray-900 mb-1"><%= title %></h3>
+                        <% if (desc) { %><p class="text-sm text-gray-500"><%= desc %></p><% } %>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+            <% } else { %>
+            <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200">
+                <svg class="w-10 h-10 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="text-gray-400 font-semibold">Los videos de capacitación aparecerán aquí.</p>
+                <p class="text-gray-400 text-sm mt-1">Podés cargarlos desde el panel de administración.</p>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Panel Presentaciones -->
+        <div id="tab-presentaciones" class="tab-panel hidden" data-aos="fade-up">
+            <% const pptKeys = Object.keys(settings).filter(k => k.startsWith('resource_ppt_') && k.endsWith('_url') && settings[k]).sort(); %>
+            <% if (pptKeys.length > 0) { %>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <% pptKeys.forEach(pKey => {
+                    const id = pKey.replace('resource_ppt_', '').replace('_url', '');
+                    const url = settings[pKey];
+                    const title = settings[`resource_ppt_${id}_title`] || 'Presentación';
+                    const desc = settings[`resource_ppt_${id}_desc`] || '';
+                %>
+                <a href="<%= url %>" target="_blank" rel="noopener" class="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#E1582915;">
+                        <svg class="w-6 h-6" style="color:#E15829;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-black text-gray-900 group-hover:text-red-700 transition-colors"><%= title %></h3>
+                        <% if (desc) { %><p class="text-sm text-gray-500 mt-1"><%= desc %></p><% } %>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold mt-2" style="color:#E15829;">
+                            Ver presentación
+                            <svg class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        </span>
+                    </div>
+                </a>
+                <% }); %>
+            </div>
+            <% } else { %>
+            <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200">
+                <svg class="w-10 h-10 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                <p class="text-gray-400 font-semibold">Las presentaciones aparecerán aquí.</p>
+                <p class="text-gray-400 text-sm mt-1">Podés cargarlas desde el panel de administración.</p>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Panel Guías -->
+        <div id="tab-guias" class="tab-panel hidden" data-aos="fade-up">
+            <% const docKeys = Object.keys(settings).filter(k => k.startsWith('resource_doc_') && k.endsWith('_url') && settings[k]).sort(); %>
+            <% if (docKeys.length > 0) { %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <% docKeys.forEach(dKey => {
+                    const id = dKey.replace('resource_doc_', '').replace('_url', '');
+                    const url = settings[dKey];
+                    const title = settings[`resource_doc_${id}_title`] || 'Documento';
+                    const desc = settings[`resource_doc_${id}_desc`] || '';
+                    const type = settings[`resource_doc_${id}_type`] || 'PDF';
+                %>
+                <a href="<%= url %>" target="_blank" rel="noopener" class="group bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black text-xs" style="background:#61B4E415; color:#61B4E4;"><%= type %></div>
+                    <div>
+                        <h3 class="font-black text-gray-900 text-sm group-hover:text-blue-600 transition-colors"><%= title %></h3>
+                        <% if (desc) { %><p class="text-xs text-gray-400 mt-0.5"><%= desc %></p><% } %>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-300 ml-auto group-hover:text-blue-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                </a>
+                <% }); %>
+            </div>
+            <% } else { %>
+            <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200">
+                <svg class="w-10 h-10 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <p class="text-gray-400 font-semibold">Las guías y documentos aparecerán aquí.</p>
+                <p class="text-gray-400 text-sm mt-1">Podés cargarlos desde el panel de administración.</p>
+            </div>
+            <% } %>
+        </div>
+
+    </div>
+</section>
+
+<!-- 11. FAQ -->
 <section class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div class="text-center mb-14" data-aos="fade-up">
             <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">Ayuda</span>
             <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-3"><%- clean(settings.text_del_faq_title || 'Preguntas Frecuentes') %></h2>
@@ -301,13 +667,13 @@ const clean = (str) => {
         </div>
 
         <div class="space-y-3" data-aos="fade-up">
-            
             <% const faqDefs = [
-                { q: 'text_del_faq_1_q', a: 'text_del_faq_1_a', defQ: '¿Necesito experiencia previa para participar?', defA: 'No, no necesitas experiencia previa. Antes del modelo realizamos capacitaciones donde te enseñamos todo: desde cómo buscar información del país hasta cómo redactar un discurso.' },
-                { q: 'text_del_faq_2_q', a: 'text_del_faq_2_a', defQ: '¿Qué pasa si me equivoco al hablar o en el protocolo?', defA: '¡Absolutamente nada! El Modelo es un espacio de aprendizaje. Todos se equivocan (incluso los más experimentados). Las Autoridades de mesa están para guiarte, no para castigarte.' },
-                { q: 'text_del_faq_3_q', a: 'text_del_faq_3_a', defQ: '¿Debo saber hablar en inglés fluido?', defA: 'No es obligatorio. La inmensa mayoría de las comisiones se desarrollan íntegramente en español. A veces existe una comisión específica en inglés, pero es optativa.' },
-                { q: 'text_del_faq_4_q', a: 'text_del_faq_4_a', defQ: '¿Cómo se asignan los países?', defA: 'Se realiza un sorteo previo al encuentro. Tu docente asesor inscribe al colegio y la organización asigna las delegaciones equitativamente.' },
-                { q: 'text_del_faq_5_q', a: 'text_del_faq_5_a', defQ: '¿Cómo hago para inscribirme?', defA: 'La inscripción se realiza a través de tu colegio. Debés hablar con algún profesor o directivo. Si tu colegio no participa aún, contactanos y te ayudamos a armar el grupo.' }
+                { q: 'text_del_faq_1_q', a: 'text_del_faq_1_a', defQ: '¿Necesito experiencia previa para participar?', defA: 'No, no necesitás experiencia previa. Antes del modelo realizamos capacitaciones donde aprendés todo: desde cómo buscar información del país hasta cómo redactar un discurso.' },
+                { q: 'text_del_faq_2_q', a: 'text_del_faq_2_a', defQ: '¿Qué pasa si me equivoco al hablar o en el protocolo?', defA: '¡Nada! El Modelo es un espacio de aprendizaje. Todos se equivocan. Las Autoridades de mesa están para guiarte, no para sancionarte.' },
+                { q: 'text_del_faq_3_q', a: 'text_del_faq_3_a', defQ: '¿Debo saber hablar en inglés?', defA: 'No. La gran mayoría de las comisiones se desarrollan íntegramente en español.' },
+                { q: 'text_del_faq_4_q', a: 'text_del_faq_4_a', defQ: '¿Cómo se asignan los países?', defA: 'Se realiza un sorteo previo al encuentro. Tu docente inscribe al colegio y la organización asigna las delegaciones equitativamente entre todas las escuelas.' },
+                { q: 'text_del_faq_5_q', a: 'text_del_faq_5_a', defQ: '¿Tiene algún costo participar?', defA: 'No. Uniendo Metas es un programa gratuito. El único requisito es la inscripción a través del colegio.' },
+                { q: 'text_del_faq_6_q', a: 'text_del_faq_6_a', defQ: '¿Cómo me inscribo?', defA: 'La inscripción se realiza a través de tu colegio. Hablá con algún profesor o directivo. Si tu colegio no participa aún, contactanos y te ayudamos.' }
             ]; %>
 
             <% faqDefs.forEach((faq, i) => {
@@ -326,18 +692,18 @@ const clean = (str) => {
                 </div>
             </div>
             <% }); %>
-
         </div>
 
-        <!-- CTA Final -->
-        <div class="mt-20 text-center" id="cta" data-aos="fade-up">
-            <p class="text-gray-500 mb-5 text-lg">¿Listo para dejar tu huella?</p>
+        <!-- CTA inscripción -->
+        <div class="mt-16 text-center bg-gray-50 rounded-3xl p-10 border border-gray-100" id="cta" data-aos="fade-up">
+            <h3 class="text-2xl font-black text-gray-900 mb-3">¿Listo para sumarte?</h3>
+            <p class="text-gray-500 mb-7 max-w-md mx-auto">Hablá con tu docente o completá el formulario de inscripción. El proceso es simple y gratuito.</p>
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
                 <a href="<%= settings.text_del_cta_link || '#' %>" class="inline-flex items-center gap-3 w-full sm:w-auto px-9 py-4 text-white font-bold rounded-full hover:scale-105 hover:brightness-110 transition-all duration-300 text-base" style="background:#E15829; box-shadow: 0 8px 24px -4px rgba(225, 88, 41, 0.4);">
                     <%- clean(settings.text_del_cta_button || 'Formulario de Inscripción') %>
                 </a>
-                <a href="#" class="inline-flex items-center gap-3 w-full sm:w-auto px-9 py-4 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-300 text-base">
-                    Ver Reglamentos
+                <a href="#recursos" class="inline-flex items-center gap-3 w-full sm:w-auto px-9 py-4 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-300 text-base">
+                    Ver recursos
                 </a>
             </div>
         </div>
@@ -363,38 +729,57 @@ const clean = (str) => {
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    // Initialize AOS
-    AOS.init({ 
-        once: false, 
-        offset: 50, 
-        duration: 700, 
-        easing: 'ease-out-quart' 
-    });
+    AOS.init({ once: false, offset: 50, duration: 700, easing: 'ease-out-quart' });
 
-    // FAQ logic
+    // FAQ
     function toggleFaq(id) {
         const content = document.getElementById(id);
         const icon = document.getElementById('icon-' + id);
         if (!content) return;
-        
         const isHidden = content.classList.contains('hidden');
-        
         document.querySelectorAll('[id^="faq"]').forEach(el => {
             if(el.id && el.id.match(/^faq\d+$/)) el.classList.add('hidden');
         });
         document.querySelectorAll('[id^="icon-faq"]').forEach(el => el.classList.remove('rotate-180'));
-        
-        if (isHidden) { 
-            content.classList.remove('hidden'); 
-            icon.classList.add('rotate-180'); 
-        }
+        if (isHidden) { content.classList.remove('hidden'); icon.classList.add('rotate-180'); }
     }
 
-    // Lightbox logic
-    const lightbox     = document.getElementById('lightbox');
-    const lightboxImg  = document.getElementById('lightbox-img');
-    const allImgs      = Array.from(document.querySelectorAll('.lightbox-trigger'));
-    let currentIndex   = 0;
+    // Skill bars animadas al hacer scroll
+    const skillBarsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const fills = entry.target.querySelectorAll('.skill-bar-fill');
+                fills.forEach(fill => {
+                    const pct = fill.getAttribute('data-pct');
+                    fill.style.width = pct + '%';
+                });
+                skillBarsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    const skillSection = document.getElementById('skill-bars');
+    if (skillSection) skillBarsObserver.observe(skillSection);
+
+    // Tabs recursos
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.resource-tab').forEach(btn => {
+            btn.classList.remove('active');
+            btn.classList.add('bg-white', 'text-gray-600');
+            btn.classList.remove('text-white');
+        });
+        document.getElementById('tab-' + tab)?.classList.remove('hidden');
+        event.currentTarget.classList.add('active');
+        event.currentTarget.classList.remove('bg-white', 'text-gray-600');
+        event.currentTarget.classList.add('text-white');
+    }
+
+    // Lightbox
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const allImgs     = Array.from(document.querySelectorAll('.lightbox-trigger'));
+    let currentIndex  = 0;
 
     allImgs.forEach((img, index) => {
         img.addEventListener('click', e => {
@@ -410,13 +795,11 @@ const clean = (str) => {
         lightboxImg.classList.replace('scale-100', 'scale-95');
         setTimeout(() => lightbox.classList.add('hidden'), 200);
     }
-
     function nextImage(e) { if (e) e.stopPropagation(); currentIndex = (currentIndex + 1) % allImgs.length; lightboxImg.src = allImgs[currentIndex].src; }
     function prevImage(e) { if (e) e.stopPropagation(); currentIndex = (currentIndex - 1 + allImgs.length) % allImgs.length; lightboxImg.src = allImgs[currentIndex].src; }
 
     document.getElementById('lightbox-next')?.addEventListener('click', nextImage);
     document.getElementById('lightbox-prev')?.addEventListener('click', prevImage);
-    
     document.addEventListener('keydown', e => {
         if (!lightbox.classList.contains('hidden')) {
             if (e.key === 'Escape')     closeLightbox();
