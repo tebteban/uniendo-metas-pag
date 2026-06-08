@@ -1,71 +1,114 @@
-# 🇺🇳 Uniendo Metas Santiago del Estero - Sitio Web Oficial
+﻿# Uniendo Metas Santiago del Estero - Sitio Web Oficial
 
-![Estado del Proyecto](https://img.shields.io/badge/Estado-En_Desarrollo-green?style=for-the-badge)
-![Versión](https://img.shields.io/badge/Versión-XI_Edición-blue?style=for-the-badge)
-
-Plataforma web oficial para la **XI Edición del Modelo de Naciones Unidas "Uniendo Metas"** en Santiago del Estero, un programa de **Asociación Conciencia**. 
-
-Este proyecto sirve como el centro de información, inscripción y gestión de recursos para alumnos, docentes y voluntarios participantes del modelo.
+Plataforma web oficial para el Modelo de Naciones Unidas "Uniendo Metas" en Santiago del Estero,
+un programa de Asociacion Conciencia.
 
 ---
 
-## 📸 Galería del Proyecto
+## Tecnologias
 
-### 🖥️ Vista de Escritorio (Inicio)
-Una interfaz moderna y limpia diseñada para captar la atención de los jóvenes.
-![Vista Escritorio](screenshots/home-desktop.png)
-
-### 📱 Diseño Responsivo (Móvil)
-Adaptado 100% a dispositivos móviles con menú de navegación flotante y optimización táctil.
-<p align="center">
-  <img src="screenshots/home-mobile.png" alt="Vista Móvil" width="300">
-</p>
-
-### ❤️ Sección Voluntarios y Staff
-Página dedicada al equipo organizador con muro de honor y organigrama interactivo.
-![Sección Voluntarios](screenshots/voluntarios.png)
+- **Backend:** Node.js + Express.js
+- **Motor de Plantillas:** EJS
+- **Base de datos:** PostgreSQL (Railway, produccion) / SQLite (desarrollo local)
+- **Almacenamiento:** Cloudinary (produccion) / local (desarrollo)
+- **Estilos:** Tailwind CSS (CDN)
+- **Deploy:** Railway
 
 ---
 
-## 🚀 Características Principales
+## Estructura del Proyecto
 
-* **Diseño UI/UX Moderno:** Utilizando Tailwind CSS para una estética limpia, profesional y vibrante (colores institucionales).
-* **Galerías Interactivas:** Implementación de *Lightbox* personalizado para visualizar fotos de ediciones anteriores con navegación por teclado y botones.
-* **Cronograma Dinámico:** Visualización de eventos con scroll horizontal e indicadores de estado.
-* **Gestión de Documentos:** Botones de descarga directa para Reglamentos, Dinámicas y Tópicos organizados por órgano.
-* **Sección de Voluntariado:** Organigrama jerárquico visual, muro de legado histórico y carrusel infinito de fotos.
-* **Inscripción:** Integración con modales para redirigir a formularios de Google Forms.
+```
+uniendo-metas/
+|-- app.js                   # Punto de entrada
+|-- package.json
+|-- .env                     # Variables de entorno (NO subir a git)
+|-- DEPLOYMENT_RAILWAY.md    # Guia de deploy paso a paso
+|
+|-- backend/
+|   |-- config/
+|   |   \-- cloudinary.js
+|   |-- controllers/
+|   |   |-- adminAuthoritiesController.js
+|   |   |-- adminCertificatesController.js
+|   |   |-- adminController.js
+|   |   |-- adminExamplesController.js
+|   |   |-- adminInscriptionsController.js
+|   |   |-- adminPagesController.js
+|   |   |-- adminPhotosController.js
+|   |   |-- adminSettingsController.js
+|   |   |-- adminUsersController.js
+|   |   \-- mainController.js
+|   |-- database/
+|   |   |-- config.js
+|   |   \-- models/
+|   |       |-- Authority.js
+|   |       |-- Inscription.js
+|   |       |-- Organ.js
+|   |       |-- Schedule.js
+|   |       |-- Setting.js
+|   |       \-- User.js
+|   |-- middlewares/
+|   |   |-- authMiddleware.js
+|   |   |-- excelUploadMiddleware.js
+|   |   |-- globalSettingsMiddleware.js
+|   |   |-- publicFileMiddleware.js
+|   |   |-- siteUploadMiddleware.js
+|   |   \-- uploadMiddleware.js
+|   \-- routes/
+|       |-- adminRoutes.js
+|       \-- mainRoutes.js
+|
+\-- frontend/
+    |-- public/
+    |   |-- css/
+    |   |-- img/
+    |   |   |-- logos/
+    |   |   |-- site/         # imagenes subidas dinamicamente
+    |   |   \-- Voluntarios/  # fotos de voluntarios
+    |   |-- documents/
+    |   |   |-- Autorizaciones/
+    |   |   |-- Dinamicas/
+    |   |   |-- Reglamentos/
+    |   |   \-- Topicos/
+    |   \-- uploads/
+    |       \-- documents/    # PDFs subidos dinamicamente
+    \-- views/
+        |-- index.ejs
+        |-- autoridades.ejs
+        |-- cronograma.ejs
+        |-- organos.ejs
+        |-- participacion.ejs
+        |-- voluntarios_new.ejs
+        |-- 404.ejs
+        |-- 500.ejs
+        |-- partials/
+        \-- admin/
+            |-- dashboard.ejs
+            |-- login.ejs
+            |-- autoridades/
+            |-- certificados/
+            |-- inscriptions/
+            |-- pages/
+            |-- photos/
+            |-- settings/
+            |-- users/
+            \-- voluntarios/
+```
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Desarrollo Local
 
-El proyecto está construido utilizando tecnologías web robustas y modernas:
+```bash
+npm install
+npm start
+```
 
-* **Backend:** [Node.js](https://nodejs.org/) con [Express.js](https://expressjs.com/).
-* **Motor de Plantillas:** [EJS](https://ejs.co/) (Embedded JavaScript) para renderizado dinámico de vistas y componentes reutilizables (partials).
-* **Estilos:** [Tailwind CSS](https://tailwindcss.com/) (vía CDN para desarrollo rápido) para el diseño responsivo y utilitario.
-* **Scripts:** JavaScript (Vanilla) para la lógica del frontend (menús, modales, galerías).
-* **Animaciones:** [AOS](https://michalsnik.github.io/aos/) (Animate On Scroll) para efectos de entrada.
+Corre en http://localhost:3000. Usa SQLite automaticamente, no requiere PostgreSQL local.
 
 ---
 
-## 📂 Estructura del Proyecto
+## Deploy
 
-```text
-/
-├── public/
-│   ├── css/            # Estilos personalizados
-│   ├── img/            # Imágenes (Logos, Equipo, Fondos)
-│   │   ├── Voluntarios/
-│   │   └── logos/
-│   └── documents/      # PDFs (Reglamentos, Tópicos)
-├── src/
-│   ├── routes/         # Rutas de Express (mainRoutes.js)
-│   ├── controllers/    # Lógica del controlador (mainController.js)
-│   └── views/          # Plantillas EJS
-│       ├── index.ejs   # Página Principal
-│       ├── voluntarios.ejs
-│       └── partials/   # Componentes (navbar, footer, head)
-├── app.js              # Punto de entrada de la aplicación
-└── package.json        # Dependencias
+Ver DEPLOYMENT_RAILWAY.md para instrucciones completas.

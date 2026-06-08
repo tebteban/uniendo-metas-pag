@@ -47,3 +47,17 @@ temp/
 
 # Brain/Antigravity artifacts (optional - uncomment if you don't want to track)
 # .gemini/
+
+excel/
+
+public/img/site/
+
+public/img.rar
+
+public/documents.rar
+
+src/database/uniendom.sqlite
+
+*.bak
+
+DEPLOYMENT_RAILWAY.md
