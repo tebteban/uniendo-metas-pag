@@ -490,6 +490,47 @@ const clean = (str) => {
     </div>
 </section>
 
+<% if (settings.vol_video_url) { 
+    let videoId = '';
+    let urlStr = settings.vol_video_url;
+    try {
+        if (urlStr.includes('youtu.be/')) {
+            videoId = urlStr.split('youtu.be/')[1].split('?')[0];
+        } else if (urlStr.includes('youtube.com/watch')) {
+            const urlObj = new URL(urlStr);
+            videoId = urlObj.searchParams.get('v');
+        } else if (urlStr.includes('youtube.com/embed/')) {
+            videoId = urlStr.split('youtube.com/embed/')[1].split('?')[0];
+        }
+    } catch(e) {}
+    if (videoId) {
+%>
+<section class="py-24 bg-white border-t border-gray-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block" data-aos="fade-up">
+            <%- clean(settings.text_vol_video_badge || 'Cierre de Año') %>
+        </span>
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4" data-aos="fade-up" data-aos-delay="50">
+            <%- clean(settings.text_vol_video_title || 'Reviví nuestro último modelo') %>
+        </h2>
+        <p class="text-gray-500 text-lg mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            <%- clean(settings.text_vol_video_desc || 'Un resumen de todo lo vivido en la última edición.') %>
+        </p>
+        
+        <div class="rounded-3xl overflow-hidden shadow-2xl border border-gray-100 bg-black aspect-video relative" data-aos="zoom-in" data-aos-delay="200">
+            <iframe 
+                class="absolute top-0 left-0 w-full h-full"
+                src="https://www.youtube.com/embed/<%= videoId %>?rel=0&modestbranding=1" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</section>
+<% } } %>
+
 <%- include('./partials/footer') %>
 
 <div id="lightbox" class="fixed inset-0 z-[200] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox()">

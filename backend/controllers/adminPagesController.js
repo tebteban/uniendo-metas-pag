@@ -689,8 +689,21 @@ const PAGE_KEYS = {
                 dynamicImages: { prefix: 'vol_slider_', label: 'Foto de galería' }
             },
             {
+                id: 'video_vol',
+                title: '10. Video de Fin de Año',
+                desc: 'Video incrustado de YouTube para el cierre o resumen del año.',
+                color: '#A02140', bg: '#F9E8EC',
+                icon: 'M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                keys: [
+                    { key: 'text_vol_video_badge', label: 'Badge', type: 'text' },
+                    { key: 'text_vol_video_title', label: 'Título', type: 'text' },
+                    { key: 'text_vol_video_desc',  label: 'Descripción', type: 'textarea' },
+                    { key: 'vol_video_url',        label: 'URL de YouTube (vaciá para ocultar)', type: 'url' },
+                ]
+            },
+            {
                 id: 'links_vol',
-                title: '10. Links',
+                title: '11. Links',
                 desc: 'El botón de inscripción al equipo.',
                 color: '#FFB819', bg: '#FEF6E0',
                 icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
@@ -1234,6 +1247,10 @@ const ALL_DEFAULTS = {
     text_vol_galeria_badge:      { label: 'Vol - Galería Badge',      type: 'text',     value: 'Momentos' },
     text_vol_galeria_title:      { label: 'Vol - Galería Título',     type: 'text',     value: 'Galería de Voluntariado' },
     text_vol_galeria_desc:       { label: 'Vol - Galería Desc',       type: 'textarea', value: 'Momentos inolvidables de nuestro equipo.' },
+    text_vol_video_badge:        { label: 'Vol - Video Badge',        type: 'text',     value: 'Cierre de Año' },
+    text_vol_video_title:        { label: 'Vol - Video Título',       type: 'text',     value: 'Reviví nuestro último modelo' },
+    text_vol_video_desc:         { label: 'Vol - Video Desc',         type: 'textarea', value: 'Un resumen de todo lo vivido en la última edición.' },
+    vol_video_url:               { label: 'Vol - Video URL',          type: 'url',      value: '' },
     text_vol_hero_badge:         { label: 'Voluntarios - Badge',            type: 'text',          value: 'Equipo de Voluntarios 2026' },
     text_vol_hero_title:         { label: 'Voluntarios - Título',           type: 'text',          value: 'El equipo detrás de la experiencia.' },
     text_vol_hero_desc:          { label: 'Voluntarios - Descripción',      type: 'textarea',      value: '' },
