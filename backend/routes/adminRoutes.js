@@ -74,6 +74,18 @@ const adminPagesController = require('../controllers/adminPagesController');
 router.get('/paginas/:page', authMiddleware, adminPagesController.show);
 router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesController.update);
 
+// Rutas CRUD para Cronograma (administradas dentro del CMS)
+router.post('/cronograma/store', authMiddleware, adminPagesController.storeCronograma);
+router.post('/cronograma/update/:id', authMiddleware, adminPagesController.updateCronograma);
+router.get('/cronograma/editar/:id', authMiddleware, adminPagesController.editCronograma);
+router.get('/cronograma/eliminar/:id', authMiddleware, adminPagesController.destroyCronograma);
+
+// Rutas CRUD para Organos (administradas dentro del CMS)
+router.post('/organos/store', authMiddleware, siteUpload.any(), adminPagesController.storeOrgano);
+router.post('/organos/update/:id', authMiddleware, siteUpload.any(), adminPagesController.updateOrgano);
+router.get('/organos/editar/:id', authMiddleware, adminPagesController.editOrgano);
+router.get('/organos/eliminar/:id', authMiddleware, adminPagesController.destroyOrgano);
+
 // ─── Certificados ────────────────────────────────────────────────────────────
 
 const adminCertificatesController = require('../controllers/adminCertificatesController');
