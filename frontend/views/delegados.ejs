@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delegados | Uniendo Metas SDE</title>
+    <%- include('./partials/head') %>
+    <style>
+        @keyframes scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-scroll-infinite {
+            animation: scroll 40s linear infinite;
+        }
+        .animate-scroll-infinite:hover {
+            animation-play-state: paused;
+        }
+        #lightbox { transition: opacity 0.3s ease; }
+        #lightbox.hidden { opacity: 0; pointer-events: none; }
+        #lightbox:not(.hidden) { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
+
+<%
+const clean = (str) => {
+    if (!str) return '';
+    let cleaned = str.replace(/<\/p>\s*<p[^>]*>/gi, '<br><br>');
+    cleaned = cleaned.replace(/<\/?p[^>]*>/gi, '');
+    return cleaned;
+};
+%>
+
+<body class="bg-white text-gray-600 antialiased font-sans overflow-x-hidden">
+
+<%- include('./partials/navbar') %>
+
+<!-- 1. Hero Section -->
+<section class="relative pt-36 pb-24 bg-white overflow-hidden py-24 flex items-center">
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-50 blur-3xl" style="background:#61B4E415;"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 rounded-full opacity-40 blur-2xl" style="background:#1A365D10;"></div>
+        <div class="absolute bottom-0 left-1/3 w-80 h-80 rounded-full opacity-40 blur-2xl" style="background:#FFB81915;"></div>
+        <div class="absolute inset-0 opacity-[0.025]" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 60px 60px;"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center mt-10">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm mb-8 cursor-default hover:shadow-md transition-all" data-aos="fade-down">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background:#61B4E4;"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2" style="background:#61B4E4;"></span>
+            </span>
+            <span class="text-xs font-black tracking-widest text-gray-500 uppercase"><%- clean(settings.text_del_badge || 'Programa Educativo') %></span>
+        </div>
+
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tight leading-[1.05]" data-aos="fade-up">
+            <%- clean(settings.text_del_hero_title || 'Sé el protagonista<br>') %>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow">
+                <%- clean(settings.text_del_hero_highlight || 'de tu futuro.') %>
+            </span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-10" data-aos="fade-up" data-aos-delay="100">
+            <%- clean(settings.text_del_hero_desc || 'Participá como delegado en el Modelo de Naciones Unidas y descubrí tu potencial para debatir, negociar y transformar el mundo. Tu voz hace la diferencia.') %>
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
+            <a href="#cta" class="px-9 py-4 text-white font-bold rounded-full hover:-translate-y-1 transition-all duration-300 text-center text-base"
+               style="background:#A02140; box-shadow: 0 12px 30px -6px rgba(160, 33, 64, 0.4);">
+                <%- clean(settings.text_del_cta_main || 'Quiero participar') %>
+            </a>
+            <a href="#que-es" class="px-9 py-4 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-300 text-center text-base">
+                <%- clean(settings.text_del_cta_secondary || 'Conocé más') %>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 2. ¿Qué es un Delegado? -->
+<section id="que-es" class="py-24 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">El Rol</span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%- clean(settings.text_del_what_title || '¿Qué es un Delegado?') %></h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_del_what_desc || 'Un delegado es un estudiante que asume el rol de un diplomático, representando los intereses, políticas y cultura de un país asignado ante la ONU.') %></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <% const rolDefs = [
+                { tKey: 'text_del_rol_1_title', dKey: 'text_del_rol_1_desc', defT: 'Representación', defD: 'Sos la voz de toda una nación. Defendés su cultura, historia e intereses globales ante el mundo.', color: '#61B4E4', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0110.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                { tKey: 'text_del_rol_2_title', dKey: 'text_del_rol_2_desc', defT: 'Debate', defD: 'Exponés tus posturas mediante discursos y argumentos sólidos frente a las otras naciones participantes.', color: '#E15829', icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
+                { tKey: 'text_del_rol_3_title', dKey: 'text_del_rol_3_desc', defT: 'Negociación', defD: 'Buscás acuerdos estratégicos y puntos en común para resolver crisis internacionales pacíficamente.', color: '#FFB819', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
+                { tKey: 'text_del_rol_4_title', dKey: 'text_del_rol_4_desc', defT: 'Trabajo en Equipo', defD: 'Construís alianzas dentro de tu bloque regional para redactar proyectos de resolución conjuntos.', color: '#73A950', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' }
+            ]; %>
+
+            <% rolDefs.forEach((rol, i) => {
+                rol.title = settings[rol.tKey] || rol.defT;
+                rol.desc = settings[rol.dKey] || rol.defD;
+            %>
+            <div class="relative bg-white rounded-3xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" style="background:<%= rol.color %>15;">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:<%= rol.color %>;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= rol.icon %>"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-black text-gray-900 mb-3"><%- clean(rol.title) %></h3>
+                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(rol.desc) %></p>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Habilidades -->
+<section id="habilidades" class="py-24 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div data-aos="fade-right">
+                <span class="inline-block text-xs font-black uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style="background:#E1582915; color:#E15829;"><%- clean(settings.text_del_skills_badge || 'Desarrollo Personal') %></span>
+                <h2 class="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
+                    <%- clean(settings.text_del_skills_title || 'Habilidades para<br>') %>
+                    <span style="color:#E15829;"><%- clean(settings.text_del_skills_highlight || 'toda tu vida.') %></span>
+                </h2>
+                <p class="text-gray-500 text-lg mb-5 leading-relaxed">
+                    <%- clean(settings.text_del_skills_desc || 'Participar en Uniendo Metas no es solo un juego de roles. Es adquirir herramientas que usarás en la universidad, en tu carrera profesional y en tu vida diaria.') %>
+                </p>
+                
+                <div class="space-y-4 mt-8">
+                    <% ['del_skill_1', 'del_skill_2', 'del_skill_3'].forEach((key, i) => {
+                        const text = settings[key];
+                        if (!text) return;
+                    %>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#E8F5FB; color:#61B4E4;">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <span class="text-gray-700 font-semibold text-base"><%- clean(text) %></span>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <div class="space-y-4 mt-10">
+                    <div class="overflow-hidden rounded-2xl shadow-md border border-gray-100">
+                        <img src="<%= settings.del_skills_img_1 || 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' %>" 
+                             onerror="this.src='https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'"
+                             class="lightbox-trigger w-full h-64 object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in" 
+                             alt="Delegados debatiendo">
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="overflow-hidden rounded-2xl shadow-md border border-gray-100">
+                        <img src="<%= settings.del_skills_img_2 || 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' %>" 
+                             onerror="this.src='https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'"
+                             class="lightbox-trigger w-full h-80 object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in" 
+                             alt="Negociación">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 4. Timeline (Camino del Delegado) -->
+<section class="py-24 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 max-w-3xl mx-auto" data-aos="fade-up">
+            <span class="inline-block px-4 py-1.5 rounded-full font-bold tracking-widest uppercase text-xs mb-5 border" style="background:#E8F5FB; color:#61B4E4; border-color:rgba(97, 180, 228, 0.3);">
+                <%- clean(settings.text_del_path_badge || 'Metodología') %>
+            </span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-5 leading-tight">
+                <%- clean(settings.text_del_path_title || 'El camino<br>del Delegado') %>
+            </h2>
+            <p class="text-gray-500 text-lg leading-relaxed">
+                <%- clean(settings.text_del_path_desc || 'Prepararse y participar en el modelo conlleva una serie de etapas secuenciales que te forman como un verdadero líder internacional.') %>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <% const pathSteps = [
+                { num: '1', t: 'del_step_1_title', d: 'del_step_1_desc', deft: 'Investiga', defd: 'Aprende sobre la cultura, política y economía de la nación asignada para representarla fielmente.', color: '#61B4E4' },
+                { num: '2', t: 'del_step_2_title', d: 'del_step_2_desc', deft: 'Analiza', defd: 'Estudia profundamente los problemas globales a tratar en tu comisión, desde la perspectiva de tu país.', color: '#FFB819' },
+                { num: '3', t: 'del_step_3_title', d: 'del_step_3_desc', deft: 'Redacta', defd: 'Elabora documentos de posición y colabora en proyectos de resolución con formalidad diplomática.', color: '#E15829' }
+            ]; %>
+            <% pathSteps.forEach((step, i) => {
+                const title = settings[step.t] || step.deft;
+                const desc = settings[step.d] || step.defd;
+            %>
+            <div class="bg-white rounded-2xl p-7 text-center border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
+                <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform" style="background:<%= step.color %>15; color:<%= step.color %>;">
+                    <span class="font-black text-xl"><%= step.num %></span>
+                </div>
+                <h3 class="font-black text-lg text-gray-900 mb-2"><%- clean(title) %></h3>
+                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(desc) %></p>
+            </div>
+            <% }); %>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <% const pathSteps45 = [
+                { num: '4', t: 'del_step_4_title', d: 'del_step_4_desc', deft: 'Debate', defd: 'Utiliza la oratoria para exponer tus ideas, interpelar a otras delegaciones y defender tus posturas en el recinto.', color: '#A02140' },
+                { num: '5', t: 'del_step_5_title', d: 'del_step_5_desc', deft: 'Consensa', defd: 'Negocia cediendo posiciones estratégicas para lograr soluciones integrales y reales junto a otros bloques.', color: '#73A950' }
+            ]; %>
+            <% pathSteps45.forEach((step, i) => {
+                const title = settings[step.t] || step.deft;
+                const desc = settings[step.d] || step.defd;
+            %>
+            <div class="bg-white rounded-2xl p-7 text-center border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group" data-aos="fade-up" data-aos-delay="<%= (i + 3) * 80 %>">
+                <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform" style="background:<%= step.color %>15; color:<%= step.color %>;">
+                    <span class="font-black text-xl"><%= step.num %></span>
+                </div>
+                <h3 class="font-black text-lg text-gray-900 mb-2"><%- clean(title) %></h3>
+                <p class="text-sm text-gray-500 leading-relaxed"><%- clean(desc) %></p>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Galería -->
+<section id="legado" class="py-24 bg-white border-t border-gray-100 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center" data-aos="fade-up">
+        <span class="text-xs font-black uppercase tracking-widest" style="color:#61B4E4;"><%- clean(settings.text_del_gallery_badge || 'Momentos Inolvidables') %></span>
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-3 mb-4"><%- clean(settings.text_del_gallery_title || 'La experiencia en imágenes') %></h2>
+        <p class="text-gray-500 max-w-xl mx-auto text-lg"><%- clean(settings.text_del_gallery_desc || 'Miles de historias y amistades generadas. Así vivimos las ediciones anteriores.') %></p>
+    </div>
+
+    <div class="relative w-full">
+        <div class="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to right, white, transparent);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to left, white, transparent);"></div>
+
+        <div class="flex overflow-hidden w-full">
+            <div class="flex animate-scroll-infinite gap-5" id="gallery-container">
+                <% const galleryKeys = Object.keys(settings).filter(k => k.startsWith('del_legacy_') && settings[k]).sort(); %>
+                <% const fallbackGallery = ['https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80','https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80','https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80','https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80','https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']; %>
+                <% const galleryImages = galleryKeys.length > 0 ? galleryKeys.map(k => settings[k]) : fallbackGallery; %>
+                
+                <% for (let j = 0; j < 2; j++) { %>
+                    <% for (const img of galleryImages) { %>
+                    <div class="flex-shrink-0 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
+                        <img src="<%= img %>" onerror="this.src='https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'" class="lightbox-trigger w-72 h-64 object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in" alt="Galería">
+                    </div>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. Testimonios -->
+<section class="py-24 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%- clean(settings.text_del_testimonials_badge || 'Comunidad') %></span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%- clean(settings.text_del_testimonials_title || 'Voces de la experiencia') %></h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_del_testimonials_desc || 'Lo que opinan los delegados que ya vivieron el Modelo de Naciones Unidas.') %></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <% const testimonials = [
+                { tKey: 'text_del_test_1_name', qKey: 'text_del_test_1_quote', defN: 'Martina Gómez', defQ: 'El Modelo me enseñó a perder el miedo a hablar en público y a entender que mi voz, aunque sea joven, importa para cambiar la realidad.', color: '#61B4E4' },
+                { tKey: 'text_del_test_2_name', qKey: 'text_del_test_2_quote', defN: 'Tomás Medina', defQ: 'Conocí a chicos de toda la provincia y aprendí a negociar soluciones pacíficas. Entendí cómo funciona realmente la política internacional.', color: '#FFB819' },
+                { tKey: 'text_del_test_3_name', qKey: 'text_del_test_3_quote', defN: 'Lucía Varela', defQ: 'Es mucho más que un juego de rol. Te hace investigar, cuestionar todo y construir amistades increíbles con personas que piensan distinto.', color: '#A02140' }
+            ]; %>
+
+            <% testimonials.forEach((test, i) => {
+                const name = settings[test.tKey] || test.defN;
+                const quote = settings[test.qKey] || test.defQ;
+            %>
+            <div class="relative bg-white rounded-3xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
+                <div class="text-4xl absolute top-6 right-6 text-gray-100 group-hover:opacity-100 opacity-50 group-hover:text-[<%= test.color %>] transition-colors">"</div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 rounded-full border-2 border-gray-100 flex items-center justify-center" style="background:<%= test.color %>15;">
+                        <span class="font-black text-lg" style="color:<%= test.color %>;"><%- name.charAt(0) %></span>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-gray-900"><%- name %></h3>
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Delegado</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 leading-relaxed italic">
+                    "<%- clean(quote) %>"
+                </p>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- 7. FAQ -->
+<section class="py-24 bg-white border-t border-gray-100">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center mb-14" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">Ayuda</span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-3"><%- clean(settings.text_del_faq_title || 'Preguntas Frecuentes') %></h2>
+            <p class="text-gray-500 text-lg"><%- clean(settings.text_del_faq_desc || 'Resolvé tus dudas y animate a participar.') %></p>
+        </div>
+
+        <div class="space-y-3" data-aos="fade-up">
+            
+            <% const faqDefs = [
+                { q: 'text_del_faq_1_q', a: 'text_del_faq_1_a', defQ: '¿Necesito experiencia previa para participar?', defA: 'No, no necesitas experiencia previa. Antes del modelo realizamos capacitaciones donde te enseñamos todo: desde cómo buscar información del país hasta cómo redactar un discurso.' },
+                { q: 'text_del_faq_2_q', a: 'text_del_faq_2_a', defQ: '¿Qué pasa si me equivoco al hablar o en el protocolo?', defA: '¡Absolutamente nada! El Modelo es un espacio de aprendizaje. Todos se equivocan (incluso los más experimentados). Las Autoridades de mesa están para guiarte, no para castigarte.' },
+                { q: 'text_del_faq_3_q', a: 'text_del_faq_3_a', defQ: '¿Debo saber hablar en inglés fluido?', defA: 'No es obligatorio. La inmensa mayoría de las comisiones se desarrollan íntegramente en español. A veces existe una comisión específica en inglés, pero es optativa.' },
+                { q: 'text_del_faq_4_q', a: 'text_del_faq_4_a', defQ: '¿Cómo se asignan los países?', defA: 'Se realiza un sorteo previo al encuentro. Tu docente asesor inscribe al colegio y la organización asigna las delegaciones equitativamente.' },
+                { q: 'text_del_faq_5_q', a: 'text_del_faq_5_a', defQ: '¿Cómo hago para inscribirme?', defA: 'La inscripción se realiza a través de tu colegio. Debés hablar con algún profesor o directivo. Si tu colegio no participa aún, contactanos y te ayudamos a armar el grupo.' }
+            ]; %>
+
+            <% faqDefs.forEach((faq, i) => {
+                const q = settings[faq.q] || faq.defQ;
+                const a = settings[faq.a] || faq.defA;
+            %>
+            <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+                <button class="w-full px-6 py-5 text-left flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors" onclick="toggleFaq('faq<%= i + 1 %>')">
+                    <span class="font-bold text-gray-800 text-base leading-snug"><%- clean(q) %></span>
+                    <svg id="icon-faq<%= i + 1 %>" class="w-4 h-4 flex-shrink-0 transform transition-transform duration-300" style="color:#A02140;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div id="faq<%= i + 1 %>" class="hidden px-6 pb-5 text-gray-500 text-sm leading-relaxed border-t border-gray-50 pt-4">
+                    <%- clean(a) %>
+                </div>
+            </div>
+            <% }); %>
+
+        </div>
+
+        <!-- CTA Final -->
+        <div class="mt-20 text-center" id="cta" data-aos="fade-up">
+            <p class="text-gray-500 mb-5 text-lg">¿Listo para dejar tu huella?</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="<%= settings.text_del_cta_link || '#' %>" class="inline-flex items-center gap-3 w-full sm:w-auto px-9 py-4 text-white font-bold rounded-full hover:scale-105 hover:brightness-110 transition-all duration-300 text-base" style="background:#E15829; box-shadow: 0 8px 24px -4px rgba(225, 88, 41, 0.4);">
+                    <%- clean(settings.text_del_cta_button || 'Formulario de Inscripción') %>
+                </a>
+                <a href="#" class="inline-flex items-center gap-3 w-full sm:w-auto px-9 py-4 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-300 text-base">
+                    Ver Reglamentos
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<%- include('./partials/footer') %>
+
+<!-- Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-[200] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox()">
+    <button class="absolute top-5 right-5 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition z-50" onclick="closeLightbox()">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <button id="lightbox-prev" class="absolute left-2 md:left-4 text-white/70 hover:text-white p-2 md:p-3 rounded-full bg-black/20 hover:bg-white/20 transition z-50 flex items-center justify-center">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <img id="lightbox-img" src="" class="max-w-full max-h-screen rounded-xl shadow-2xl transform transition-transform duration-300 scale-95" alt="Full screen">
+    <button id="lightbox-next" class="absolute right-2 md:right-4 text-white/70 hover:text-white p-2 md:p-3 rounded-full bg-black/20 hover:bg-white/20 transition z-50 flex items-center justify-center">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS
+    AOS.init({ 
+        once: false, 
+        offset: 50, 
+        duration: 700, 
+        easing: 'ease-out-quart' 
+    });
+
+    // FAQ logic
+    function toggleFaq(id) {
+        const content = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+        if (!content) return;
+        
+        const isHidden = content.classList.contains('hidden');
+        
+        document.querySelectorAll('[id^="faq"]').forEach(el => {
+            if(el.id && el.id.match(/^faq\d+$/)) el.classList.add('hidden');
+        });
+        document.querySelectorAll('[id^="icon-faq"]').forEach(el => el.classList.remove('rotate-180'));
+        
+        if (isHidden) { 
+            content.classList.remove('hidden'); 
+            icon.classList.add('rotate-180'); 
+        }
+    }
+
+    // Lightbox logic
+    const lightbox     = document.getElementById('lightbox');
+    const lightboxImg  = document.getElementById('lightbox-img');
+    const allImgs      = Array.from(document.querySelectorAll('.lightbox-trigger'));
+    let currentIndex   = 0;
+
+    allImgs.forEach((img, index) => {
+        img.addEventListener('click', e => {
+            e.stopPropagation();
+            currentIndex = index;
+            lightboxImg.src = allImgs[currentIndex].src;
+            lightbox.classList.remove('hidden');
+            setTimeout(() => lightboxImg.classList.replace('scale-95', 'scale-100'), 10);
+        });
+    });
+
+    function closeLightbox() {
+        lightboxImg.classList.replace('scale-100', 'scale-95');
+        setTimeout(() => lightbox.classList.add('hidden'), 200);
+    }
+
+    function nextImage(e) { if (e) e.stopPropagation(); currentIndex = (currentIndex + 1) % allImgs.length; lightboxImg.src = allImgs[currentIndex].src; }
+    function prevImage(e) { if (e) e.stopPropagation(); currentIndex = (currentIndex - 1 + allImgs.length) % allImgs.length; lightboxImg.src = allImgs[currentIndex].src; }
+
+    document.getElementById('lightbox-next')?.addEventListener('click', nextImage);
+    document.getElementById('lightbox-prev')?.addEventListener('click', prevImage);
+    
+    document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('hidden')) {
+            if (e.key === 'Escape')     closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft')  prevImage();
+        }
+    });
+</script>
+
+</body>
+</html>
