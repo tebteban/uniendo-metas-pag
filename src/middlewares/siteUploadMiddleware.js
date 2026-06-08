@@ -8,8 +8,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 let storage;
 if (isProduction) {
-    // Producción: Usar Cloudinary
-    storage = createCloudinaryStorage('site', 'image', ['jpg', 'jpeg', 'png', 'webp']);
+    // Producción: Usar Cloudinary para imágenes y documentos del sitio.
+    // 'auto' permite que Cloudinary maneje los tipos de archivo según su extensión.
+    storage = createCloudinaryStorage('site', 'auto', ['jpg', 'jpeg', 'png', 'webp', 'pdf', 'doc', 'docx', 'xlsx', 'xls', 'csv']);
 } else {
     // Desarrollo: Usar almacenamiento local
     // Ensure directory exists
@@ -32,20 +33,13 @@ if (isProduction) {
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-        // Allow PDFs and docs for document fields (bib_, par_doc_, reglamento, archivo_*)
-        const docFields = ['reglamento', 'archivo_dinamicas', 'archivo_topico'];
-        const isDocField = docFields.includes(file.fieldname)
-            || file.fieldname.match(/^(bib_|par_doc_).*_file$/);
-        if (isDocField) {
-            return cb(null, true); // handled by pdfUpload middleware, just pass through
-        }
-        const filetypes = /jpeg|jpg|png|webp/;
-        const mimetype = filetypes.test(file.mimetype);
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const allowedExtensions = /jpeg|jpg|png|webp|pdf|doc|docx|xlsx|xls|csv/;
+        const mimetype = allowedExtensions.test(file.mimetype);
+        const extname = allowedExtensions.test(path.extname(file.originalname).toLowerCase());
         if (mimetype && extname) {
             return cb(null, true);
         }
-        cb(new Error('Solo se permiten imágenes (jpg, jpeg, png, webp)'));
+        cb(new Error('Solo se permiten imágenes o documentos compatibles (jpg, jpeg, png, webp, pdf, doc, docx, xlsx, xls, csv)'));
     }
 });
 
