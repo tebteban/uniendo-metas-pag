@@ -379,199 +379,26 @@ const clean = (str) => {
 </section>
 
 
-<!-- 7. Mapa coroplético: países coloreados con descripción al click -->
-<% if (settings.show_countries_section !== 'false') { %>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-<style>
-    #map-info-panel {
-        transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-    #map-info-panel.hidden-panel {
-        opacity: 0;
-        transform: translateY(6px);
-        pointer-events: none;
-    }
-    .leaflet-container { background: #f0f4f8; }
-</style>
-<section class="py-24 bg-white border-t border-gray-100 overflow-hidden">
+<!-- 7. CTA inscripción (Movido desde abajo) -->
+<section class="py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-14" data-aos="fade-up">
-            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block">Representación</span>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">¿Qué país podrías representar?</h2>
-            <p class="text-gray-500 max-w-2xl mx-auto text-lg">Hacé clic en cualquier país del mapa para conocer su perfil diplomático.</p>
-        </div>
-
-        <div class="flex flex-col lg:flex-row gap-6 items-start max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-            <!-- Mapa -->
-            <div class="flex-1 w-full">
-                <div id="world-map" class="w-full rounded-3xl overflow-hidden border border-gray-100 shadow-lg" style="height: 460px; z-index: 0;"></div>
-                <p class="text-center text-xs text-gray-400 mt-3">Los países coloreados son los que se han representado en ediciones anteriores de Uniendo Metas SDE. El asignado se decide por sorteo.</p>
+        <div class="mt-16 text-center bg-blue-50 rounded-3xl p-10 border border-blue-100" id="cta" data-aos="fade-up">
+            <div class="w-14 h-14 mx-auto mb-5 rounded-2xl flex items-center justify-center" style="background:#61B4E420;">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#61B4E4;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </div>
-
-            <!-- Panel de info lateral -->
-            <div id="map-info-panel" class="hidden-panel lg:w-72 w-full bg-white rounded-3xl border border-gray-100 shadow-lg p-7 flex-shrink-0">
-                <div class="text-4xl mb-3" id="map-info-flag">🌍</div>
-                <h3 class="text-xl font-black text-gray-900 mb-1" id="map-info-name">Seleccioná un país</h3>
-                <span class="text-xs font-bold uppercase tracking-widest mb-4 block" id="map-info-region" style="color:#61B4E4;">—</span>
-                <p class="text-sm text-gray-500 leading-relaxed mb-5" id="map-info-desc">Hacé clic sobre cualquier país coloreado en el mapa para ver su perfil diplomático y datos relevantes para el debate.</p>
-                <div id="map-info-facts" class="space-y-2 hidden">
-                    <div class="flex items-center gap-2 text-xs text-gray-500">
-                        <svg class="w-3.5 h-3.5 flex-shrink-0" style="color:#61B4E4;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        <span id="map-info-pop"></span>
-                    </div>
-                    <div class="flex items-center gap-2 text-xs text-gray-500">
-                        <svg class="w-3.5 h-3.5 flex-shrink-0" style="color:#FFB819;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
-                        <span id="map-info-system"></span>
-                    </div>
-                    <div class="flex items-start gap-2 text-xs text-gray-500">
-                        <svg class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style="color:#E15829;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 3H3c-1.1 0-2 .9-2 2v14l4-4h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                        <span id="map-info-onu"></span>
-                    </div>
-                </div>
-                <div id="map-info-hint" class="mt-5 pt-4 border-t border-gray-50">
-                    <p class="text-xs text-gray-300 font-medium">💡 Hacé clic en cualquier país coloreado del mapa</p>
-                </div>
-            </div>
+            <h3 class="text-2xl font-black text-gray-900 mb-3">¿Querés participar como delegado?</h3>
+            <p class="text-gray-600 mb-4 max-w-lg mx-auto text-base leading-relaxed">
+                La inscripción de delegados se hace <strong>a través del colegio</strong>. Primero el establecimiento educativo tiene que inscribirse en el programa. Una vez que tu colegio esté inscripto, la organización te asigna un país y podés comenzar tu preparación.
+            </p>
+            <p class="text-gray-500 max-w-md mx-auto text-sm">
+                Hablá con tu docente o directivos para que gestionen la inscripción institucional. <strong>Las inscripciones para la próxima edición se habilitarán próximamente.</strong>
+            </p>
         </div>
     </div>
 </section>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script>
-(function() {
-    // Base de datos de países representados en UM SDE
-    var countryData = {
-        'Argentina':        { flag:'🇦🇷', region:'América del Sur',    pop:'46 millones de hab.',  system:'República federal presidencialista', onu:'Miembro fundador de la ONU (1945). Activo en temas de derechos humanos y cooperación regional.', desc:'Fundadora de la ONU y protagonista clave en debates sobre derechos humanos, integración latinoamericana y cooperación Sur-Sur. Su posición en la agenda internacional está marcada por una fuerte tradición diplomática multilateral.' },
-        'Brazil':           { flag:'🇧🇷', region:'América del Sur',    pop:'215 millones de hab.', system:'República federal presidencialista', onu:'Candidato histórico a miembro permanente del Consejo de Seguridad. Liderazgo en el G20.', desc:'La mayor economía de América Latina y una voz influyente en el G20. Brasil lidera debates sobre medio ambiente, agricultura global y el rol de los países emergentes en la gobernanza mundial.' },
-        'Mexico':           { flag:'🇲🇽', region:'América del Norte',  pop:'130 millones de hab.', system:'República federal presidencialista', onu:'Activo en la Asamblea General. Promueve el desarme nuclear y los derechos de los migrantes.', desc:'Puente entre América del Norte y Latina, México impulsa agendas de migración, seguridad regional y libre comercio. Su política exterior se rige por los principios de no intervención y autodeterminación.' },
-        'Germany':          { flag:'🇩🇪', region:'Europa Occidental',  pop:'84 millones de hab.',  system:'República federal parlamentaria', onu:'Miembro no permanente frecuente del CS. Impulsor del multilateralismo y la cooperación al desarrollo.', desc:'Motor económico de la Unión Europea y referente en cooperación climática. Alemania defiende el orden multilateral, la integración europea y los estándares de derechos humanos en la agenda global.' },
-        'France':           { flag:'🇫🇷', region:'Europa Occidental',  pop:'68 millones de hab.',  system:'República semipresidencialista', onu:'Miembro permanente del Consejo de Seguridad. Derecho a veto.', desc:'Con asiento permanente en el Consejo de Seguridad, Francia tiene influencia directa en las decisiones más críticas de la ONU. Lidera iniciativas en cultura, derechos humanos y acción climática.' },
-        'China':            { flag:'🇨🇳', region:'Asia Oriental',      pop:'1.400 millones de hab.',system:'República Popular (partido único)', onu:'Miembro permanente del Consejo de Seguridad. Creciente influencia en organismos especializados.', desc:'Segunda economía mundial y miembro permanente del Consejo de Seguridad. China impulsa la iniciativa "Franja y Ruta" y reivindica un modelo de desarrollo propio frente al consenso occidental.' },
-        'India':            { flag:'🇮🇳', region:'Asia del Sur',       pop:'1.430 millones de hab.',system:'República federal parlamentaria', onu:'Candidata a miembro permanente del CS. Voz del Sur Global.', desc:'La democracia más grande del mundo y portavoz del Sur Global. India equilibra alianzas con Occidente y Rusia, e impulsa la agenda de desarrollo sostenible desde la perspectiva de los países emergentes.' },
-        'United States of America': { flag:'🇺🇸', region:'América del Norte', pop:'335 millones de hab.', system:'República federal presidencialista', onu:'Miembro permanente del Consejo de Seguridad. Principal financiador de la ONU.', desc:'Principal financiador de la ONU y miembro permanente del Consejo de Seguridad. Su política exterior define gran parte de la agenda de seguridad, comercio y derechos humanos a nivel global.' },
-        'Russia':           { flag:'🇷🇺', region:'Europa del Este / Asia',pop:'145 millones de hab.',system:'República federal semipresidencialista', onu:'Miembro permanente del Consejo de Seguridad. Derecho a veto.', desc:'Con poder de veto en el Consejo de Seguridad, Rusia es protagonista inevitable de cualquier debate sobre seguridad global. Defiende un orden multipolar frente al unilateralismo occidental.' },
-        'Japan':            { flag:'🇯🇵', region:'Asia Oriental',      pop:'124 millones de hab.',  system:'Monarquía constitucional parlamentaria', onu:'Candidata a miembro permanente del CS. Activa en temas de desarme y desarrollo.', desc:'Referente mundial en tecnología y desarrollo humano. Japón impulsa el desarme nuclear con autoridad moral única, dado su historia, y es uno de los mayores donantes de cooperación al desarrollo.' },
-        'Nigeria':          { flag:'🇳🇬', region:'África Occidental',  pop:'220 millones de hab.', system:'República federal presidencialista', onu:'Liderazgo en la Unión Africana y el G77.', desc:'La economía más grande de África y su país más poblado. Nigeria lidera la agenda africana en la ONU y es voz central en debates sobre seguridad en el Sahel, desarrollo y migración.' },
-        'South Africa':     { flag:'🇿🇦', region:'África del Sur',     pop:'60 millones de hab.',  system:'República presidencialista', onu:'Miembro frecuente del CS no permanente. Liderazgo en el G20 y la UA.', desc:'Puerta de entrada al continente africano y miembro del BRICS. Sudáfrica promueve la paz, la reconciliación y el desarrollo en África, con una potente agenda de derechos humanos forjada en su historia.' },
-        'Cuba':             { flag:'🇨🇧', region:'América Central / Caribe', pop:'11 millones de hab.', system:'República socialista de partido único', onu:'Portavoz histórico del Movimiento de Países No Alineados.', desc:'Voz histórica del Sur Global y del Movimiento de Países No Alineados. Cuba defiende en la ONU la soberanía, el fin del bloqueo y la cooperación médica internacional como herramienta diplomática.' },
-        'Pakistan':         { flag:'🇵🇰', region:'Asia del Sur',       pop:'230 millones de hab.', system:'República federal parlamentaria', onu:'Activo en el Consejo de DDHH. Prioridades: Cachemira y terrorismo.', desc:'Actor clave en la seguridad de Asia del Sur y el diálogo islámico internacional. Pakistán lleva al frente de la ONU el debate sobre Cachemira, el extremismo y la estabilidad regional.' },
-        'Netherlands':      { flag:'🇳🇱', region:'Europa Occidental',  pop:'18 millones de hab.',  system:'Monarquía constitucional parlamentaria', onu:'Sede de la Corte Internacional de Justicia en La Haya. Impulsor del Derecho Internacional.', desc:'Sede de la Corte Internacional de Justicia, los Países Bajos son un baluarte del Derecho Internacional. Lideran debates sobre justicia, comercio global e innovación en la agenda climática.' },
-        'Belgium':          { flag:'🇧🇪', region:'Europa Occidental',  pop:'11 millones de hab.',  system:'Monarquía constitucional parlamentaria federal', onu:'Sede de la OTAN y múltiples organismos de la UE. Activo en misiones de paz.', desc:'Sede de la OTAN y corazón institucional de la Unión Europea. Bélgica participa activamente en misiones de paz de la ONU y defiende el multilateralismo y la integración supranacional.' },
-        'Colombia':         { flag:'🇨🇴', region:'América del Sur',    pop:'52 millones de hab.',  system:'República presidencialista', onu:'Activa en temas de paz, drogas y cooperación regional.', desc:'Referente mundial en procesos de paz tras su acuerdo histórico de 2016. Colombia lleva a la ONU la agenda de reconciliación, lucha contra el narcotráfico y protección de defensores de derechos humanos.' },
-        'Kenya':            { flag:'🇰🇪', region:'África Oriental',    pop:'55 millones de hab.',  system:'República presidencialista', onu:'Sede del PNUMA. Protagonista en temas de cambio climático y refugiados.', desc:'Sede del Programa de la ONU para el Medio Ambiente (PNUMA), Kenia lidera la agenda ambiental africana. También es un actor clave en la gestión de crisis humanitarias y flujos de refugiados en el Cuerno de África.' },
-        'Turkey':           { flag:'🇹🇷', region:'Europa / Asia Menor', pop:'85 millones de hab.', system:'República presidencialista', onu:'Miembro de la OTAN con política exterior autónoma. Mediador frecuente.', desc:'Con un pie en Europa y otro en Asia, Turquía juega un rol de mediador único entre Occidente y el mundo islámico. Su peso geopolítico creció notablemente con su papel en conflictos regionales.' },
-        'Gambia':           { flag:'🇬🇲', region:'África Occidental',  pop:'2,7 millones de hab.', system:'República presidencialista', onu:'Caso histórico en la CIJ: demanda a Myanmar por genocidio rohinyá.', desc:'Pequeño en territorio pero con un enorme impacto diplomático reciente. Gambia llevó ante la Corte Internacional de Justicia el caso del genocidio rohinyá, marcando un hito en la defensa de los DDHH.' },
-        'Oman':             { flag:'🇴🇲', region:'Oriente Medio',      pop:'4,5 millones de hab.', system:'Monarquía absoluta sultanato', onu:'Mediador reconocido entre países árabes e Irán. Neutral en conflictos regionales.', desc:'Omán es el gran mediador silencioso del Golfo Pérsico. Su política exterior neutral le permite tender puentes entre rivales regionales y es sede frecuente de negociaciones diplomáticas discretas.' },
-        'Viet Nam':         { flag:'🇻🇳', region:'Asia del Sudeste',   pop:'98 millones de hab.',  system:'República socialista de partido único', onu:'Miembro no permanente reciente del CS. Promotor de la ASEAN.', desc:'Una de las economías de más rápido crecimiento de Asia. Vietnam equilibra relaciones con China y Occidente, promueve la integración regional en la ASEAN y defiende la soberanía marítima en el Mar del Sur.' },
-        'Peru':             { flag:'🇵🇪', region:'América del Sur',    pop:'33 millones de hab.',  system:'República presidencialista', onu:'Activo en CELAC, OEA y debate sobre recursos naturales.', desc:'Perú impulsa en la ONU la agenda de protección de pueblos indígenas, recursos naturales compartidos y cooperación andina. Su biodiversidad lo convierte en actor relevante en debates climáticos.' },
-        'Chile':            { flag:'🇨🇱', region:'América del Sur',    pop:'19 millones de hab.',  system:'República presidencialista', onu:'Activo en CELAC. Promotor de acuerdos de libre comercio y derechos humanos.', desc:'Con la red de tratados de libre comercio más extensa de Latinoamérica, Chile es un promotor del multilateralismo económico. También lidera debates sobre derechos humanos y medio ambiente en la región.' }
-    };
 
-    // Colores del branding UM para los países del programa
-    var umColors = ['#61B4E4','#FFB819','#E15829','#A02140','#73A950','#1A365D','#61B4E4','#FFB819','#E15829','#A02140','#73A950','#1A365D','#61B4E4','#FFB819','#E15829','#A02140','#73A950','#1A365D','#61B4E4','#FFB819','#E15829','#A02140','#73A950','#1A365D'];
-    var umCountryNames = Object.keys(countryData);
-
-    var map = L.map('world-map', {
-        center: [20, 10],
-        zoom: 2,
-        minZoom: 1,
-        maxZoom: 5,
-        scrollWheelZoom: false,
-        zoomControl: true,
-        attributionControl: false
-    });
-
-    // Fondo limpio sin tiles (mapa vectorial puro)
-    map.getContainer().style.background = '#e8f0f7';
-
-    var selectedLayer = null;
-
-    function updateInfoPanel(name, data, color) {
-        var panel = document.getElementById('map-info-panel');
-        document.getElementById('map-info-flag').textContent = data.flag;
-        document.getElementById('map-info-name').textContent = name === 'United States of America' ? 'Estados Unidos' : name === 'Viet Nam' ? 'Vietnam' : name === 'South Africa' ? 'Sudáfrica' : name;
-        document.getElementById('map-info-region').textContent = data.region;
-        document.getElementById('map-info-region').style.color = color;
-        document.getElementById('map-info-desc').textContent = data.desc;
-        document.getElementById('map-info-pop').textContent = '👥 ' + data.pop;
-        document.getElementById('map-info-system').textContent = '⚖️ ' + data.system;
-        document.getElementById('map-info-onu').textContent = '🇺🇳 ' + data.onu;
-        document.getElementById('map-info-facts').classList.remove('hidden');
-        document.getElementById('map-info-hint').style.display = 'none';
-        panel.classList.remove('hidden-panel');
-    }
-
-    // Cargar GeoJSON de países del mundo
-    fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
-        .then(function(r){ return r.json(); })
-        .then(function(geojson) {
-            L.geoJSON(geojson, {
-                style: function(feature) {
-                    var name = feature.properties.ADMIN;
-                    var idx = umCountryNames.indexOf(name);
-                    if (idx !== -1) {
-                        return {
-                            fillColor: umColors[idx % umColors.length],
-                            fillOpacity: 0.75,
-                            color: '#fff',
-                            weight: 0.8
-                        };
-                    }
-                    return {
-                        fillColor: '#c8d6e0',
-                        fillOpacity: 0.4,
-                        color: '#fff',
-                        weight: 0.5
-                    };
-                },
-                onEachFeature: function(feature, layer) {
-                    var name = feature.properties.ADMIN;
-                    var data = countryData[name];
-                    var idx = umCountryNames.indexOf(name);
-                    var color = idx !== -1 ? umColors[idx % umColors.length] : '#61B4E4';
-
-                    if (data) {
-                        layer.on('click', function() {
-                            // Reset color del anterior
-                            if (selectedLayer && selectedLayer !== layer) {
-                                var prevName = selectedLayer.feature.properties.ADMIN;
-                                var prevIdx = umCountryNames.indexOf(prevName);
-                                selectedLayer.setStyle({
-                                    fillColor: prevIdx !== -1 ? umColors[prevIdx % umColors.length] : '#c8d6e0',
-                                    fillOpacity: prevIdx !== -1 ? 0.75 : 0.4,
-                                    weight: 0.8
-                                });
-                            }
-                            // Highlight
-                            layer.setStyle({ fillOpacity: 1, weight: 2.5, color: '#1A365D' });
-                            layer.bringToFront();
-                            selectedLayer = layer;
-                            updateInfoPanel(name, data, color);
-                        });
-                        layer.on('mouseover', function() {
-                            if (selectedLayer !== layer) {
-                                layer.setStyle({ fillOpacity: 0.95, weight: 1.5 });
-                            }
-                            layer.bringToFront();
-                        });
-                        layer.on('mouseout', function() {
-                            if (selectedLayer !== layer) {
-                                layer.setStyle({ fillOpacity: 0.75, weight: 0.8, color: '#fff' });
-                            }
-                        });
-                    }
-                }
-            }).addTo(map);
-        })
-        .catch(function() {
-            // Fallback si el fetch falla
-            document.getElementById('world-map').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#9ca3af;font-size:14px;">No se pudo cargar el mapa. Verificá tu conexión.</div>';
-        });
-
-    // Mostrar panel al cargar con estado inicial
-    document.getElementById('map-info-panel').classList.remove('hidden-panel');
-})();
-</script>
-<% } %>
 
 <!-- 8. Galería -->
 <section id="galeria" class="py-24 bg-gray-50 border-t border-gray-100 overflow-hidden">
@@ -808,22 +635,6 @@ const clean = (str) => {
                 </div>
             </div>
             <% }); %>
-        </div>
-
-        <!-- CTA inscripción -->
-        <div class="mt-16 text-center bg-blue-50 rounded-3xl p-10 border border-blue-100" id="cta" data-aos="fade-up">
-            <div class="w-14 h-14 mx-auto mb-5 rounded-2xl flex items-center justify-center" style="background:#61B4E420;">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#61B4E4;">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
-            <h3 class="text-2xl font-black text-gray-900 mb-3">¿Querés participar como delegado?</h3>
-            <p class="text-gray-600 mb-4 max-w-lg mx-auto text-base leading-relaxed">
-                La inscripción de delegados se hace <strong>a través del colegio</strong>. Primero el establecimiento educativo tiene que inscribirse en el programa. Una vez que tu colegio esté inscripto, la organización te asigna un país y podés comenzar tu preparación.
-            </p>
-            <p class="text-gray-500 max-w-md mx-auto text-sm">
-                Hablá con tu docente o directivos para que gestionen la inscripción institucional. <strong>Las inscripciones para la próxima edición se habilitarán próximamente.</strong>
-            </p>
         </div>
 
     </div>
