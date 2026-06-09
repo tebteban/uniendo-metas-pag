@@ -344,6 +344,48 @@ const clean = (str) => {
     </div>
 </section>
 
+<!-- 5b. Voces de la experiencia (Testimonios) -->
+<section class="py-24 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3 block"><%- clean(settings.text_aut_testimonials_badge || 'Comunidad') %></span>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4"><%- clean(settings.text_aut_testimonials_title || 'Voces de la experiencia') %></h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg"><%- clean(settings.text_aut_testimonials_desc || 'Lo que dicen quienes ya participaron, en sus propias palabras.') %></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <% const autTestimonials = [
+                { tKey: 'text_aut_test_1_name', qKey: 'text_aut_test_1_quote', roleKey: 'text_aut_test_1_role', defN: 'Autoridad Ejemplo', defQ: 'Me divertí un montón.', defR: 'Ujier', color: '#73A950' },
+                { tKey: 'text_aut_test_2_name', qKey: 'text_aut_test_2_quote', roleKey: 'text_aut_test_2_role', defN: 'Autoridad Ejemplo 2', defQ: 'Aprendí a liderar equipos.', defR: 'Presidencia', color: '#61B4E4' },
+                { tKey: 'text_aut_test_3_name', qKey: 'text_aut_test_3_quote', roleKey: 'text_aut_test_3_role', defN: 'Autoridad Ejemplo 3', defQ: 'Fue una experiencia increíble.', defR: 'Consejeros', color: '#A02140' }
+            ]; %>
+
+            <% autTestimonials.forEach((test, i) => {
+                const name = settings[test.tKey] || test.defN;
+                const quote = settings[test.qKey] || test.defQ;
+                const role = settings[test.roleKey] || test.defR;
+                if (!settings[test.tKey] && !settings[test.qKey] && i > 0) return;
+            %>
+            <div class="relative bg-white rounded-3xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="<%= i * 80 %>">
+                <div class="text-5xl font-black absolute top-4 right-6 text-gray-100 group-hover:opacity-100 opacity-40 leading-none select-none">"</div>
+                <p class="text-gray-600 leading-relaxed italic mb-6 relative z-10">
+                    "<%- clean(quote) %>"
+                </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background:<%= test.color %>20;">
+                        <span class="font-black text-sm" style="color:<%= test.color %>;"><%- name.charAt(0) %></span>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-gray-900 text-sm"><%- clean(name) %></h3>
+                        <span class="text-xs text-gray-400"><%- clean(role) %></span>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
 <section class="py-24 bg-gray-50 border-t border-gray-100">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
