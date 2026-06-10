@@ -57,11 +57,17 @@ const controller = {
                 const teacherKey = findKey(['docente', 'profesor', 'responsable', 'tutor']);
                 const phoneKey = findKey(['telefono', 'teléfono', 'celular', 'whatsapp', 'contacto']);
 
+                // Mapeos adicionales específicos
+                const schoolKey = findKey(['institución educativa', 'institucion educativa', 'escuela', 'colegio']);
+                const localityKey = findKey(['localidad', 'ciudad', 'residencia']);
+
                 const name = nameKey ? row[nameKey] : 'Sin Nombre';
                 const email = emailKey ? row[emailKey] : 'Sin Email';
                 const role = roleKey ? row[roleKey] : null;
                 const teacher = teacherKey ? row[teacherKey] : null;
                 const phone = phoneKey ? row[phoneKey] : null;
+                const school = schoolKey ? row[schoolKey] : null;
+                const locality = localityKey ? row[localityKey] : null;
 
                 // Add normalized role to data object so it's easily accessible even if key varies
                 if (role) {
@@ -72,6 +78,12 @@ const controller = {
                 }
                 if (phone) {
                     row['normalized_phone'] = phone;
+                }
+                if (school) {
+                    row['colegio'] = school;
+                }
+                if (locality) {
+                    row['localidad'] = locality;
                 }
 
                 return {
@@ -102,7 +114,7 @@ const controller = {
             const { name, email, telefono, interes, rol, docente } = req.body;
 
             // Clonar el JSON para que Sequelize detecte el cambio (evita bug de referencia)
-            const { cantidad_alumnos, organo, colegio } = req.body;
+            const { cantidad_alumnos, organo, colegio, localidad } = req.body;
             const data = JSON.parse(JSON.stringify(item.data || {}));
             if (telefono         !== undefined) { data.telefono = telefono; data.normalized_phone = telefono; }
             if (interes          !== undefined) data.interes = interes;
@@ -111,6 +123,7 @@ const controller = {
             if (cantidad_alumnos !== undefined) data.cantidad_alumnos = cantidad_alumnos;
             if (organo          !== undefined) data.organo = organo;
             if (colegio         !== undefined) data.colegio = colegio;
+            if (localidad       !== undefined) data.localidad = localidad;
 
             item.name  = (name  || item.name).trim();
             item.email = (email || item.email).trim();
@@ -128,7 +141,7 @@ const controller = {
     uploadManual: async (req, res) => {
         try {
             const { type } = req.params;
-            const { name, email, telefono, interes, rol, organo, organo_delegado, colegio, docente, cantidad_alumnos } = req.body;
+            const { name, email, telefono, interes, rol, organo, organo_delegado, colegio, docente, cantidad_alumnos, localidad } = req.body;
             if (!name || !name.trim()) return res.redirect(`/admin/inscripciones/${type}`);
 
             const dataObj = {};
@@ -138,6 +151,7 @@ const controller = {
             if (organo)          dataObj.organo = organo;
             if (organo_delegado) { dataObj.organo = organo_delegado; } // delegado usa organo_delegado en form
             if (colegio)         dataObj.colegio = colegio;
+            if (localidad)       dataObj.localidad = localidad;
             if (docente)         { dataObj.docente = docente; dataObj.normalized_teacher = docente; }
             if (cantidad_alumnos) dataObj.cantidad_alumnos = cantidad_alumnos;
 
