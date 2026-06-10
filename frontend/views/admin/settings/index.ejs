@@ -91,8 +91,48 @@
                         icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
                         color: '#61B4E4',
                         bg: '#E8F5FB',
-                        keys: ['nav_show_button', 'nav_button_text', 'link_inscripcion_general', 'link_participacion_inscribirse'],
-                        desc: 'Configura el botón de inscripción visible en el navbar y los links de inscripción del sitio.'
+                        keys: ['nav_show_button', 'link_inscripcion_general', 'link_participacion_inscribirse'],
+                        desc: 'Configura el botón del navbar. Si hay roles activos en el modal, abre el modal. Si no, redirige al link general.'
+                    },
+                    {
+                        title: 'Modal de Inscripción — Textos',
+                        icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z',
+                        color: '#A02140',
+                        bg: '#F9E8EC',
+                        keys: ['modal_inscripcion_titulo', 'modal_inscripcion_subtitulo', 'modal_inscripcion_pie'],
+                        desc: 'Título, subtítulo y texto del pie que aparecen en el modal de selección de rol.'
+                    },
+                    {
+                        title: 'Modal — Rol Delegado/a',
+                        icon: 'M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z',
+                        color: '#A02140',
+                        bg: '#F9E8EC',
+                        keys: ['modal_rol_delegado_activo', 'modal_rol_delegado_label', 'modal_rol_delegado_desc', 'modal_rol_delegado_url'],
+                        desc: 'Activá/desactivá la tarjeta de Delegado/a y configurá su texto y URL de formulario.'
+                    },
+                    {
+                        title: 'Modal — Rol Autoridad',
+                        icon: 'M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.505 5.505 0 01-1.4.269M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443',
+                        color: '#61B4E4',
+                        bg: '#E8F5FB',
+                        keys: ['modal_rol_autoridad_activo', 'modal_rol_autoridad_label', 'modal_rol_autoridad_desc', 'modal_rol_autoridad_url'],
+                        desc: 'Activá/desactivá la tarjeta de Autoridad y configurá su texto y URL de formulario.'
+                    },
+                    {
+                        title: 'Modal — Rol Voluntario/a',
+                        icon: 'M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 000-7.424',
+                        color: '#73A950',
+                        bg: '#EDF5E8',
+                        keys: ['modal_rol_voluntario_activo', 'modal_rol_voluntario_label', 'modal_rol_voluntario_desc', 'modal_rol_voluntario_url'],
+                        desc: 'Activá/desactivá la tarjeta de Voluntario/a y configurá su texto y URL de formulario.'
+                    },
+                    {
+                        title: 'Modal — Rol Docente/Colegio',
+                        icon: 'M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.258 50.55 50.55 0 00-2.658.813',
+                        color: '#FFB819',
+                        bg: '#FFFBEE',
+                        keys: ['modal_rol_docente_activo', 'modal_rol_docente_label', 'modal_rol_docente_desc', 'modal_rol_docente_url'],
+                        desc: 'Activá/desactivá la tarjeta de Docente/Colegio y configurá su texto y URL de formulario.'
                     },
                     {
                         title: 'Links de Autoridades',
@@ -127,7 +167,6 @@
                         desc: 'Texto que aparece debajo del nombre en cada certificado de participación.'
                     },
                 ];
-
                 // Mapear settings por key para acceso rápido
                 const settingMap = {};
                 settings.forEach(s => { settingMap[s.key] = s; });

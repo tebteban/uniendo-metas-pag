@@ -1,3 +1,21 @@
+<%
+/*
+  Lógica del botón Inscribirse:
+  - Si hay al menos un rol activo en el modal → abre el modal (openModalInscripcion)
+  - Si no hay ningún rol activo pero existe link_inscripcion_general → redirige a esa URL
+  - Si no hay nada → el botón no se muestra (nav_show_button lo controla igual)
+*/
+const _rolesActivosNav = [
+    settings.modal_rol_delegado_activo,
+    settings.modal_rol_autoridad_activo,
+    settings.modal_rol_voluntario_activo,
+    settings.modal_rol_docente_activo
+].some(v => (v === undefined ? true : v === 'true'));
+
+const _navBtnText       = settings.nav_button_text        || 'Inscribirse';
+const _navBtnTextMobile = settings.nav_button_text_mobile || settings.nav_button_text || 'Inscribirse Ahora';
+const _navBtnFallback   = settings.link_inscripcion_general || '#';
+%>
 <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300"
     id="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,17 +33,29 @@
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Órganos</a>
                 <a href="/cronograma"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Cronograma</a>
-                <a href="/delegados"
-                        class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Delegados</a>
                 <a href="/autoridades"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Autoridades</a>
+                    <!-- <a href="/delegados"
+                        class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Delegados</a> -->
                 <a href="/voluntarios"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Voluntarios</a>
                 <a href="/participacion"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Participación</a>
+
                 <% if (settings.nav_show_button === 'true') { %>
-                <a href="<%= settings.link_inscripcion_general || '#' %>"
-                    class="ml-2 px-6 py-2.5 bg-brand-red text-white font-bold rounded-full shadow-lg hover:bg-red-700 transition-all text-sm"><%= settings.nav_button_text || "Inscribirse" %></a>
+                    <% if (_rolesActivosNav) { %>
+                    <button type="button"
+                        onclick="openModalInscripcion()"
+                        class="ml-2 px-6 py-2.5 bg-brand-red text-white font-bold rounded-full shadow-lg hover:bg-red-700 transition-all text-sm cursor-pointer">
+                        <%= _navBtnText %>
+                    </button>
+                    <% } else if (_navBtnFallback !== '#') { %>
+                    <a href="<%= _navBtnFallback %>"
+                        target="_blank" rel="noopener noreferrer"
+                        class="ml-2 px-6 py-2.5 bg-brand-red text-white font-bold rounded-full shadow-lg hover:bg-red-700 transition-all text-sm">
+                        <%= _navBtnText %>
+                    </a>
+                    <% } %>
                 <% } %>
             </div>
 
@@ -48,24 +78,37 @@
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Órganos</a>
             <a href="/cronograma"
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Cronograma</a>
-            <a href="/delegados"
-                class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Delegados</a>    
             <a href="/autoridades"
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Autoridades</a>
+            <!-- <a href="/delegados"
+                class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Delegados</a> -->
             <a href="/voluntarios"
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Voluntarios</a>
+            <a href="/#nosotros"
+                class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Nosotros</a>
             <a href="/participacion"
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Participación</a>
+
             <% if (settings.nav_show_button === 'true') { %>
             <div class="pt-4 px-3">
-                <a href="<%= settings.link_inscripcion_general || '#' %>"
+                <% if (_rolesActivosNav) { %>
+                <button type="button"
+                    onclick="openModalInscripcion(); document.getElementById('mobile-menu').classList.add('hidden');"
+                    class="mobile-link block w-full text-center px-6 py-3 bg-brand-red text-white font-bold rounded-xl shadow-md hover:bg-red-700 transition cursor-pointer">
+                    <%= _navBtnTextMobile %>
+                </button>
+                <% } else if (_navBtnFallback !== '#') { %>
+                <a href="<%= _navBtnFallback %>"
+                    target="_blank" rel="noopener noreferrer"
                     class="mobile-link block w-full text-center px-6 py-3 bg-brand-red text-white font-bold rounded-xl shadow-md hover:bg-red-700 transition">
-                    <%= settings.nav_button_text_mobile || settings.nav_button_text || "Inscribirse Ahora" %>
+                    <%= _navBtnTextMobile %>
                 </a>
+                <% } %>
             </div>
             <% } %>
         </div>
     </div>
+
     <script>
         const btn = document.getElementById('mobile-menu-button');
         const menu = document.getElementById('mobile-menu');
@@ -76,7 +119,6 @@
             });
         }
 
-        // Cerrar el menú al hacer clic en un link
         const navLinks = document.querySelectorAll('.mobile-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {

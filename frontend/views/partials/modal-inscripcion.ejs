@@ -1,0 +1,163 @@
+<%
+var _titulo    = settings.modal_inscripcion_titulo    || 'Selecciona tu Rol';
+var _subtitulo = settings.modal_inscripcion_subtitulo || '¿Cómo quieres participar en esta edición?';
+var _pie       = settings.modal_inscripcion_pie       || 'Al inscribirte aceptás los términos y condiciones del Modelo Uniendo Metas Santiago del Estero.';
+
+var _delActivo  = (settings.modal_rol_delegado_activo  === undefined ? 'true' : settings.modal_rol_delegado_activo)  === 'true';
+var _autActivo  = (settings.modal_rol_autoridad_activo === undefined ? 'true' : settings.modal_rol_autoridad_activo) === 'true';
+var _volActivo  = (settings.modal_rol_voluntario_activo=== undefined ? 'true' : settings.modal_rol_voluntario_activo)=== 'true';
+var _docActivo  = (settings.modal_rol_docente_activo   === undefined ? 'true' : settings.modal_rol_docente_activo)  === 'true';
+
+var _hayAlguno  = _delActivo || _autActivo || _volActivo || _docActivo;
+%>
+
+<% if (_hayAlguno) { %>
+<div id="modal-inscripcion" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-rol-title" role="dialog" aria-modal="true">
+
+    <div id="modal-inscripcion-backdrop"
+        class="fixed inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity duration-300 ease-out opacity-0"
+        onclick="closeModalInscripcion()">
+    </div>
+
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 sm:p-0">
+
+            <div id="modal-inscripcion-panel"
+                class="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl transition-all duration-300 ease-out scale-90 opacity-0 sm:my-8 sm:w-full sm:max-w-4xl border-t-8 border-brand-red">
+
+                <div class="absolute top-4 right-4 z-10">
+                    <button type="button" onclick="closeModalInscripcion()"
+                        class="rounded-full bg-gray-100 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition"
+                        aria-label="Cerrar">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-white px-4 pb-4 pt-10 sm:p-10">
+                    <div class="text-center mb-10">
+                        <h3 id="modal-rol-title" class="text-3xl font-black text-brand-dark uppercase tracking-tight mb-2">
+                            <%= _titulo %>
+                        </h3>
+                        <p class="text-gray-500 font-medium"><%- _subtitulo %></p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <% if (_delActivo) { %>
+                        <a href="<%= settings.modal_rol_delegado_url || '#' %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-red hover:shadow-xl transition-all duration-300 bg-white overflow-hidden hover:-translate-y-1">
+                            <div class="h-16 w-16 bg-red-50 rounded-full flex items-center justify-center text-brand-red group-hover:scale-110 transition-transform flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                                </svg>
+                            </div>
+                            <div class="ml-6">
+                                <h4 class="text-xl font-bold text-gray-900 group-hover:text-brand-red transition-colors">
+                                    <%= settings.modal_rol_delegado_label || 'Soy Delegado/a' %>
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1"><%- settings.modal_rol_delegado_desc || 'Participo debatiendo en un órgano.' %></p>
+                            </div>
+                        </a>
+                        <% } %>
+
+                        <% if (_autActivo) { %>
+                        <a href="<%= settings.modal_rol_autoridad_url || '#' %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-blue hover:shadow-xl transition-all duration-300 bg-white overflow-hidden hover:-translate-y-1">
+                            <div class="h-16 w-16 bg-blue-50 rounded-full flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.505 5.505 0 01-1.4.269M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                </svg>
+                            </div>
+                            <div class="ml-6">
+                                <h4 class="text-xl font-bold text-gray-900 group-hover:text-brand-blue transition-colors">
+                                    <%= settings.modal_rol_autoridad_label || 'Soy Autoridad' %>
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1"><%- settings.modal_rol_autoridad_desc || 'Presidente o Ujier de un órgano.' %></p>
+                            </div>
+                        </a>
+                        <% } %>
+
+                        <% if (_volActivo) { %>
+                        <a href="<%= settings.modal_rol_voluntario_url || '#' %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-green hover:shadow-xl transition-all duration-300 bg-white overflow-hidden hover:-translate-y-1">
+                            <div class="h-16 w-16 bg-green-50 rounded-full flex items-center justify-center text-brand-green group-hover:scale-110 transition-transform flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 000-7.424l-1.732-1.732a5.25 5.25 0 00-3.712-1.538H14.25m-7.35 0l.075-5.925m0 0h3" />
+                                </svg>
+                            </div>
+                            <div class="ml-6">
+                                <h4 class="text-xl font-bold text-gray-900 group-hover:text-brand-green transition-colors">
+                                    <%= settings.modal_rol_voluntario_label || 'Soy Voluntario/a' %>
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1"><%- settings.modal_rol_voluntario_desc || 'Staff de organización y logística.' %></p>
+                            </div>
+                        </a>
+                        <% } %>
+
+                        <% if (_docActivo) { %>
+                        <a href="<%= settings.modal_rol_docente_url || '#' %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="group relative flex items-center p-6 rounded-2xl border-2 border-gray-100 hover:border-brand-yellow hover:shadow-xl transition-all duration-300 bg-white overflow-hidden hover:-translate-y-1">
+                            <div class="h-16 w-16 bg-yellow-50 rounded-full flex items-center justify-center text-brand-yellow group-hover:scale-110 transition-transform flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.258 50.55 50.55 0 00-2.658.813m-15.482 0A50.55 50.55 0 0112 13.489a50.55 50.55 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                </svg>
+                            </div>
+                            <div class="ml-6">
+                                <h4 class="text-xl font-bold text-gray-900 group-hover:text-brand-yellow transition-colors">
+                                    <%= settings.modal_rol_docente_label || 'Soy Docente/Colegio' %>
+                                </h4>
+                                <p class="text-sm text-gray-500 mt-1"><%- settings.modal_rol_docente_desc || 'Inscripción institucional.' %></p>
+                            </div>
+                        </a>
+                        <% } %>
+
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 px-6 py-4 text-center">
+                    <p class="text-xs text-gray-400"><%= _pie %></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModalInscripcion() {
+        var modal    = document.getElementById('modal-inscripcion');
+        var backdrop = document.getElementById('modal-inscripcion-backdrop');
+        var panel    = document.getElementById('modal-inscripcion-panel');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function() {
+            backdrop.classList.replace('opacity-0', 'opacity-100');
+            panel.classList.remove('opacity-0', 'scale-90');
+        }, 10);
+    }
+
+    function closeModalInscripcion() {
+        var modal    = document.getElementById('modal-inscripcion');
+        var backdrop = document.getElementById('modal-inscripcion-backdrop');
+        var panel    = document.getElementById('modal-inscripcion-panel');
+        if (!modal) return;
+        backdrop.classList.replace('opacity-100', 'opacity-0');
+        panel.classList.add('opacity-0', 'scale-90');
+        setTimeout(function() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }, 300);
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModalInscripcion();
+    });
+</script>
+<% } %>

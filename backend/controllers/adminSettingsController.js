@@ -4,18 +4,47 @@ const controller = {
     index: async (req, res) => {
         try {
             const defaults = [
-                { key: 'proxima_edicion_fecha', label: 'Fecha Próxima Edición', type: 'datetime-local', value: '2026-10-15T18:00' },
-                { key: 'link_fotos', label: 'Link Galería de Fotos (OneDrive)', type: 'url', value: '#' },
-                { key: 'link_instagram', label: 'Link Instagram', type: 'url', value: 'https://instagram.com/umsantiagodelestero' },
-                { key: 'link_inscripcion_general', label: 'Link Inscripción General', type: 'url', value: '#' },
-                { key: 'nav_show_button', label: 'Mostrar botón Inscribirse en navbar', type: 'checkbox', value: 'true' },
-                { key: 'nav_button_text', label: 'Texto del botón Inscribirse', type: 'text', value: 'Inscribirse' },
-                { key: 'mostrar_fecha_modelo', label: 'Mostrar Contador (activado = muestra ??, desactivado = Fecha a Confirmar)', type: 'checkbox', value: 'false' },
-                { key: 'link_autoridades_sumarme', label: 'Autoridades - Botón "Quiero Sumarme"', type: 'url', value: '#' },
-                { key: 'link_autoridades_fotos', label: 'Autoridades - Botón "Ver Fotos Edición Anterior"', type: 'url', value: '#' },
-                { key: 'link_voluntarios_sumate', label: 'Voluntarios - Botón "Sumate al Equipo"', type: 'url', value: '#' },
-                { key: 'link_participacion_inscribirse', label: 'Participación - Botón "Inscribirme Ahora"', type: 'url', value: '#' },
-                { key: 'cert_subtitulo', label: 'Certificados - Texto del subtÃ­tulo', type: 'textarea', value: 'Por su participaciÃ³n en el "XII Encuentro Provincial Uniendo Metas Santiago del Estero" llevado a cabo los dÃ­as 8 y 9 de Octubre del aÃ±o 2025, desempeÃ±ando el rol de' }
+                // ── Generales ────────────────────────────────────────────────
+                { key: 'proxima_edicion_fecha',       label: 'Fecha Próxima Edición',                              type: 'datetime-local', value: '2026-10-15T18:00' },
+                { key: 'link_fotos',                  label: 'Link Galería de Fotos (OneDrive)',                   type: 'url',            value: '#' },
+                { key: 'link_instagram',              label: 'Link Instagram',                                     type: 'url',            value: 'https://instagram.com/umsantiagodelestero' },
+                { key: 'link_inscripcion_general',    label: 'Link Inscripción General (fallback si modal vacío)', type: 'url',            value: '#' },
+                { key: 'nav_show_button',             label: 'Mostrar botón Inscribirse en navbar',                type: 'checkbox',       value: 'true' },
+                { key: 'mostrar_fecha_modelo',        label: 'Mostrar Contador (activado = muestra ??, desactivado = Fecha a Confirmar)', type: 'checkbox', value: 'false' },
+                { key: 'link_autoridades_sumarme',    label: 'Autoridades - Botón "Quiero Sumarme"',              type: 'url',            value: '#' },
+                { key: 'link_autoridades_fotos',      label: 'Autoridades - Botón "Ver Fotos Edición Anterior"',  type: 'url',            value: '#' },
+                { key: 'link_voluntarios_sumate',     label: 'Voluntarios - Botón "Sumate al Equipo"',            type: 'url',            value: '#' },
+                { key: 'link_participacion_inscribirse', label: 'Participación - Botón "Inscribirme Ahora"',      type: 'url',            value: '#' },
+                { key: 'cert_subtitulo',              label: 'Certificados - Texto del subtítulo',                type: 'textarea',       value: 'Por su participación en el "XII Encuentro Provincial Uniendo Metas Santiago del Estero" llevado a cabo los días 8 y 9 de Octubre del año 2025, desempeñando el rol de' },
+
+                // ── Modal de inscripción — Textos generales ──────────────────
+                { key: 'modal_inscripcion_titulo',    label: 'Modal - Título',                                    type: 'text',           value: 'Selecciona tu Rol' },
+                { key: 'modal_inscripcion_subtitulo', label: 'Modal - Subtítulo',                                 type: 'text',           value: '¿Cómo quieres participar en esta edición?' },
+                { key: 'modal_inscripcion_pie',       label: 'Modal - Texto del pie',                             type: 'text',           value: 'Al inscribirte aceptás los términos y condiciones del Modelo Uniendo Metas Santiago del Estero.' },
+
+                // ── Rol: Delegado ────────────────────────────────────────────
+                { key: 'modal_rol_delegado_activo',   label: 'Delegado/a — Mostrar en modal',                    type: 'checkbox',       value: 'true' },
+                { key: 'modal_rol_delegado_label',    label: 'Delegado/a — Etiqueta',                            type: 'text',           value: 'Soy Delegado/a' },
+                { key: 'modal_rol_delegado_desc',     label: 'Delegado/a — Descripción corta',                   type: 'text',           value: 'Participo debatiendo en un órgano.' },
+                { key: 'modal_rol_delegado_url',      label: 'Delegado/a — URL del formulario',                  type: 'url',            value: '#' },
+
+                // ── Rol: Autoridad ───────────────────────────────────────────
+                { key: 'modal_rol_autoridad_activo',  label: 'Autoridad — Mostrar en modal',                     type: 'checkbox',       value: 'true' },
+                { key: 'modal_rol_autoridad_label',   label: 'Autoridad — Etiqueta',                             type: 'text',           value: 'Soy Autoridad' },
+                { key: 'modal_rol_autoridad_desc',    label: 'Autoridad — Descripción corta',                    type: 'text',           value: 'Presidente o Ujier de un órgano.' },
+                { key: 'modal_rol_autoridad_url',     label: 'Autoridad — URL del formulario',                   type: 'url',            value: '#' },
+
+                // ── Rol: Voluntario ──────────────────────────────────────────
+                { key: 'modal_rol_voluntario_activo', label: 'Voluntario/a — Mostrar en modal',                  type: 'checkbox',       value: 'true' },
+                { key: 'modal_rol_voluntario_label',  label: 'Voluntario/a — Etiqueta',                          type: 'text',           value: 'Soy Voluntario/a' },
+                { key: 'modal_rol_voluntario_desc',   label: 'Voluntario/a — Descripción corta',                 type: 'text',           value: 'Staff de organización y logística.' },
+                { key: 'modal_rol_voluntario_url',    label: 'Voluntario/a — URL del formulario',                type: 'url',            value: '#' },
+
+                // ── Rol: Docente ─────────────────────────────────────────────
+                { key: 'modal_rol_docente_activo',    label: 'Docente/Colegio — Mostrar en modal',               type: 'checkbox',       value: 'true' },
+                { key: 'modal_rol_docente_label',     label: 'Docente/Colegio — Etiqueta',                       type: 'text',           value: 'Soy Docente/Colegio' },
+                { key: 'modal_rol_docente_desc',      label: 'Docente/Colegio — Descripción corta',              type: 'text',           value: 'Inscripción institucional.' },
+                { key: 'modal_rol_docente_url',       label: 'Docente/Colegio — URL del formulario',             type: 'url',            value: '#' },
             ];
 
             for (const def of defaults) {
@@ -42,7 +71,6 @@ const controller = {
                 }
             });
 
-            // Flash via query param — no depende de sesión
             const flash = req.query.saved === '1'
                 ? { type: 'success', message: 'Todos los cambios fueron guardados correctamente.' }
                 : req.query.saved === '0'

@@ -870,8 +870,84 @@ const PAGE_KEYS = {
         title: 'Navbar & Footer',
         sections: [
             {
+                id: 'modal_inscripcion_textos',
+                title: '1. Modal de Inscripción — Textos',
+                desc: 'El título, subtítulo y pie del modal que aparece al hacer clic en "Inscribirse".',
+                color: '#A02140', bg: '#F9E8EC',
+                icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
+                keys: [
+                    { key: 'modal_inscripcion_titulo',    label: 'Título del modal',   type: 'text'     },
+                    { key: 'modal_inscripcion_subtitulo', label: 'Subtítulo',          type: 'textarea' },
+                    { key: 'modal_inscripcion_pie',       label: 'Pie / nota inferior', type: 'text'     },
+                ]
+            },
+            {
+                id: 'modal_rol_delegado',
+                title: '2. Modal — Rol Delegado/a',
+                desc: 'Card del rol Delegado/a en el modal de inscripción.',
+                color: '#61B4E4', bg: '#E8F5FB',
+                icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                keys: [
+                    { key: 'modal_rol_delegado_activo', label: 'Mostrar esta opción', type: 'checkbox' },
+                    { key: 'modal_rol_delegado_label',  label: 'Etiqueta / Nombre',   type: 'text'     },
+                    { key: 'modal_rol_delegado_desc',   label: 'Descripción',         type: 'textarea' },
+                    { key: 'modal_rol_delegado_url',    label: 'URL del formulario',  type: 'url'      },
+                ]
+            },
+            {
+                id: 'modal_rol_autoridad',
+                title: '3. Modal — Rol Autoridad',
+                desc: 'Card del rol Autoridad en el modal de inscripción.',
+                color: '#73A950', bg: '#EDF5E8',
+                icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+                keys: [
+                    { key: 'modal_rol_autoridad_activo', label: 'Mostrar esta opción', type: 'checkbox' },
+                    { key: 'modal_rol_autoridad_label',  label: 'Etiqueta / Nombre',   type: 'text'     },
+                    { key: 'modal_rol_autoridad_desc',   label: 'Descripción',         type: 'textarea' },
+                    { key: 'modal_rol_autoridad_url',    label: 'URL del formulario',  type: 'url'      },
+                ]
+            },
+            {
+                id: 'modal_rol_voluntario',
+                title: '4. Modal — Rol Voluntario/a',
+                desc: 'Card del rol Voluntario/a en el modal de inscripción.',
+                color: '#FFB819', bg: '#FEF6E0',
+                icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+                keys: [
+                    { key: 'modal_rol_voluntario_activo', label: 'Mostrar esta opción', type: 'checkbox' },
+                    { key: 'modal_rol_voluntario_label',  label: 'Etiqueta / Nombre',   type: 'text'     },
+                    { key: 'modal_rol_voluntario_desc',   label: 'Descripción',         type: 'textarea' },
+                    { key: 'modal_rol_voluntario_url',    label: 'URL del formulario',  type: 'url'      },
+                ]
+            },
+            {
+                id: 'modal_rol_docente',
+                title: '5. Modal — Rol Docente/Colegio',
+                desc: 'Card del rol Docente/Colegio en el modal de inscripción.',
+                color: '#E15829', bg: '#FCEEE9',
+                icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                keys: [
+                    { key: 'modal_rol_docente_activo', label: 'Mostrar esta opción', type: 'checkbox' },
+                    { key: 'modal_rol_docente_label',  label: 'Etiqueta / Nombre',   type: 'text'     },
+                    { key: 'modal_rol_docente_desc',   label: 'Descripción',         type: 'textarea' },
+                    { key: 'modal_rol_docente_url',    label: 'URL del formulario',  type: 'url'      },
+                ]
+            },
+            {
+                id: 'navbar_button_toggle',
+                title: '6. Botón Inscribirse — Navbar',
+                desc: 'Activa o desactiva el botón "Inscribirse" que aparece en la barra de navegación.',
+                color: '#61B4E4', bg: '#E8F5FB',
+                icon: 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122',
+                keys: [
+                    { key: 'nav_show_button',        label: 'Mostrar botón Inscribirse', type: 'checkbox' },
+                    { key: 'nav_button_text',        label: 'Texto botón desktop',        type: 'text'     },
+                    { key: 'nav_button_text_mobile', label: 'Texto botón mobile',         type: 'text'     },
+                ]
+            },
+            {
                 id: 'navbar_branding',
-                title: '1. Branding / Logo',
+                title: '7. Branding / Logo',
                 desc: 'El logo y textos que aparecen en navbar y footer.',
                 color: '#A02140', bg: '#F9E8EC',
                 icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
@@ -883,20 +959,8 @@ const PAGE_KEYS = {
                 ]
             },
             {
-                id: 'navbar_buttons',
-                title: '2. Botón Navbar',
-                desc: 'El botón de "Inscribirse" en el navbar (el link ya está en Inicio → Links).',
-                color: '#61B4E4', bg: '#E8F5FB',
-                icon: 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122',
-                keys: [
-                    { key: 'nav_show_button',        label: 'Mostrar botón Inscribirse', type: 'checkbox' },
-                    { key: 'nav_button_text',        label: 'Texto botón desktop',   type: 'text' },
-                    { key: 'nav_button_text_mobile', label: 'Texto botón mobile (opcional)', type: 'text' },
-                ]
-            },
-            {
                 id: 'footer_info',
-                title: '3. Footer / Información',
+                title: '8. Footer / Información',
                 desc: 'Descripción, contacto y copyright del footer.',
                 color: '#73A950', bg: '#EDF5E8',
                 icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z',
@@ -909,7 +973,7 @@ const PAGE_KEYS = {
             },
             {
                 id: 'footer_conciencia',
-                title: '4. Footer / Asociación Conciencia',
+                title: '9. Footer / Asociación Conciencia',
                 desc: 'El link a Asociación Conciencia que aparece en el footer.',
                 color: '#FFB819', bg: '#FEF6E0',
                 icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
@@ -920,7 +984,7 @@ const PAGE_KEYS = {
             },
             {
                 id: 'footer_social',
-                title: '5. Footer / Redes Sociales',
+                title: '10. Footer / Redes Sociales',
                 desc: 'URLs de Instagram y YouTube que aparecen en el footer.',
                 color: '#8A8A8D', bg: '#F3F3F4',
                 icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z',
@@ -935,6 +999,26 @@ const PAGE_KEYS = {
 
 // ─── Defaults para findOrCreate ─────────────────────────────────────────────
 const ALL_DEFAULTS = {
+    // ─── MODAL DE INSCRIPCIÓN ───
+    modal_inscripcion_titulo:        { label: 'Modal - Título',           type: 'text',     value: '¿Cómo querés participar?' },
+    modal_inscripcion_subtitulo:     { label: 'Modal - Subtítulo',        type: 'textarea', value: 'Elegí tu rol y completá el formulario correspondiente.' },
+    modal_inscripcion_pie:           { label: 'Modal - Pie',               type: 'text',     value: 'La inscripción es 100% gratuita.' },
+    modal_rol_delegado_activo:       { label: 'Modal - Delegado Activo',   type: 'checkbox', value: 'true' },
+    modal_rol_delegado_label:        { label: 'Modal - Delegado Label',    type: 'text',     value: 'Delegado/a' },
+    modal_rol_delegado_desc:         { label: 'Modal - Delegado Desc',     type: 'textarea', value: 'Representá a un país en el debate internacional.' },
+    modal_rol_delegado_url:          { label: 'Modal - Delegado URL',      type: 'url',      value: '#' },
+    modal_rol_autoridad_activo:      { label: 'Modal - Autoridad Activo',  type: 'checkbox', value: 'true' },
+    modal_rol_autoridad_label:       { label: 'Modal - Autoridad Label',   type: 'text',     value: 'Autoridad' },
+    modal_rol_autoridad_desc:        { label: 'Modal - Autoridad Desc',    type: 'textarea', value: 'Modera el debate y liderá el modelo desde adentro.' },
+    modal_rol_autoridad_url:         { label: 'Modal - Autoridad URL',     type: 'url',      value: '#' },
+    modal_rol_voluntario_activo:     { label: 'Modal - Voluntario Activo', type: 'checkbox', value: 'true' },
+    modal_rol_voluntario_label:      { label: 'Modal - Voluntario Label',  type: 'text',     value: 'Voluntario/a' },
+    modal_rol_voluntario_desc:       { label: 'Modal - Voluntario Desc',   type: 'textarea', value: 'Sé parte del equipo que hace posible el modelo.' },
+    modal_rol_voluntario_url:        { label: 'Modal - Voluntario URL',    type: 'url',      value: '#' },
+    modal_rol_docente_activo:        { label: 'Modal - Docente Activo',    type: 'checkbox', value: 'true' },
+    modal_rol_docente_label:         { label: 'Modal - Docente Label',     type: 'text',     value: 'Docente / Colegio' },
+    modal_rol_docente_desc:          { label: 'Modal - Docente Desc',      type: 'textarea', value: 'Inscribí a tu escuela y acompañá a tus alumnos.' },
+    modal_rol_docente_url:           { label: 'Modal - Docente URL',       type: 'url',      value: '#' },
     // ─── NAVBAR & FOOTER (GLOBAL) ───
     nav_logo:                    { label: 'Navbar - Logo',                  type: 'image',         value: '/img/logo-um.png' },
     nav_brand_main:              { label: 'Navbar - Texto principal',       type: 'text',          value: 'UNIENDO' },
