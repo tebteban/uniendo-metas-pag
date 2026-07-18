@@ -1,35 +1,72 @@
-﻿/**
+/**
  * UNIENDO METAS - Panel de Administracion
  *
  * Desarrollado por: Ezequiel "Talleres" Rossetti y Esteban Cejas.
  * Fecha: Marzo 2026
- * Stack: Node.js + Express + EJS + PostgreSQL (Railway)
+ * Stack: Node.js + Express + EJS + PostgreSQL
  *
- * v1.1.0 - Fix: las fotos de Cloudinary ya no se borran al hacer deploy.
+ * v1.2.0 - Mejoras de seguridad: helmet, rate limiting, sanitización XSS.
  */
 
 require('dotenv').config();
 
-const express = require('express');
-const path    = require('path');
-const session = require('express-session');
+const express    = require('express');
+const path       = require('path');
+const session    = require('express-session');
+const helmet     = require('helmet');
+const rateLimit  = require('express-rate-limit');
+const sanitizeInputs = require('./backend/middlewares/sanitizeMiddleware');
 
 const app = express();
 
 const PORT         = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
+// --- SEGURIDAD ---------------------------------------------------------------
+// Helmet: agrega headers de seguridad (X-Frame-Options, X-Content-Type, etc.)
+app.use(helmet({
+    contentSecurityPolicy: false, // Desactivado para compatibilidad con EJS inline scripts
+    crossOriginEmbedderPolicy: false
+}));
+
+// Rate Limiting global: máximo 100 peticiones por minuto por IP
+const generalLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minuto
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: 'Demasiadas peticiones desde esta IP. Intentá de nuevo en un momento.'
+});
+app.use(generalLimiter);
+
+// Rate Limiting estricto para login: máximo 5 intentos por minuto
+const loginLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minuto
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: 'Demasiados intentos de inicio de sesión. Esperá un minuto antes de reintentar.',
+    skipSuccessfulRequests: true // No contar peticiones exitosas
+});
+
 // --- MIDDLEWARE --------------------------------------------------------------
 app.use(express.static(path.join(__dirname, 'frontend/public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Sanitización XSS: limpia todos los inputs de texto automáticamente
+app.use(sanitizeInputs);
+
 if (isProduction) {
     app.set('trust proxy', 1);
 }
 
+if (!process.env.SESSION_SECRET) {
+    console.warn('⚠️  ADVERTENCIA: SESSION_SECRET no está definido en .env. Usando clave por defecto (NO USAR EN PRODUCCIÓN).');
+}
+
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'uniendo-metas-sde-secret-key-2026',
+    secret: process.env.SESSION_SECRET || 'dev-only-secret-key-cambiar-en-produccion',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -50,6 +87,9 @@ app.use(globalSettingsMiddleware);
 // --- RUTAS ------------------------------------------------------------------
 const mainRoutes  = require('./backend/routes/mainRoutes');
 const adminRoutes = require('./backend/routes/adminRoutes');
+
+// Aplicar rate limit estricto solo a la ruta de login
+app.use('/admin/login', loginLimiter);
 
 app.use('/admin', adminRoutes);
 app.use('/', mainRoutes);
@@ -75,11 +115,15 @@ async function initializeDatabase() {
         console.log('Servidor: Base de datos sincronizada');
 
         const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+        const adminPassword = process.env.ADMIN_PASSWORD;
         const adminExists   = await User.findOne({ where: { username: adminUsername } });
         if (!adminExists) {
+            if (!adminPassword) {
+                console.warn('⚠️  ADVERTENCIA: ADMIN_PASSWORD no está definido en .env. Creando admin con contraseña temporal. CAMBIALA DESDE EL PANEL.');
+            }
             await User.create({
                 username: adminUsername,
-                password: process.env.ADMIN_PASSWORD || 'admin123',
+                password: adminPassword || 'CambiarEstaContraseña2026!',
                 role: 'admin'
             });
             console.log(`Servidor: Usuario admin creado: ${adminUsername}`);
