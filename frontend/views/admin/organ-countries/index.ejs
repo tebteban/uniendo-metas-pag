@@ -165,19 +165,31 @@
                 <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
 
                     <!-- Importar Excel -->
-                    <form action="/admin/paises-por-organo/upload" method="POST" enctype="multipart/form-data"
-                          class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl border border-gray-200">
-                        <input type="file" name="file" accept=".xlsx,.xls" required
-                               class="text-xs text-gray-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
-                        <button type="submit"
-                                class="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition shadow-sm shadow-blue-200">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                            </svg>
-                            Importar
-                        </button>
-                        <a href="/admin/ejemplos/paises" class="text-[11px] font-bold text-blue-500 hover:underline whitespace-nowrap">ver ejemplo</a>
-                    </form>
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <form action="/admin/paises-por-organo/upload" method="POST" enctype="multipart/form-data"
+                              class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl border border-gray-200">
+                            <input type="file" name="file" accept=".xlsx,.xls" required
+                                   class="text-xs text-gray-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
+                            <button type="submit"
+                                    class="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition shadow-sm shadow-blue-200">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                </svg>
+                                Importar
+                            </button>
+                        </form>
+
+                        <div class="flex items-center gap-2">
+                            <a href="/documents/matriz_paises_organos.xlsx" download
+                               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold hover:bg-emerald-100 transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                Descargar Matriz Completa (.xlsx)
+                            </a>
+                            <a href="/admin/ejemplos/paises" class="text-[11px] font-bold text-blue-500 hover:underline whitespace-nowrap">ver plantilla</a>
+                        </div>
+                    </div>
 
                     <!-- Filtros -->
                     <div class="flex flex-wrap gap-3 items-center">
