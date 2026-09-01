@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> — Admin</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/img/descarga.png">
+    <link rel="shortcut icon" type="image/png" href="/img/descarga.png">
+    <link rel="apple-touch-icon" href="/img/descarga.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #61B4E4;
+            box-shadow: 0 0 0 3px rgba(97,180,228,0.15);
+        }
+        #addPanel { transition: max-height 0.3s ease, opacity 0.25s ease; overflow: hidden; }
+        #addPanel.closed { max-height: 0 !important; opacity: 0; }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+<%- include('../partials/navbar') %>
+
+<div class="pt-20 flex min-h-screen">
+    <%- include('../partials/sidebar') %>
+
+    <main class="flex-1 md:ml-64 p-8">
+        <div class="max-w-7xl mx-auto space-y-6">
+
+            <!-- ── Flash ── -->
+            <% const flashMap = {
+                created:         { type: 'success', icon: 'M5 13l4 4L19 7', text: '¡País agregado correctamente!' },
+                deleted:         { type: 'success', icon: 'M5 13l4 4L19 7', text: 'País eliminado correctamente.' },
+                imported:        { type: 'success', icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12', text: '¡Países importados correctamente desde Excel!' },
+                imported_partial:{ type: 'warning', icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12', text: 'Importación parcial: algunos registros se omitieron (órgano no encontrado o datos incompletos).' },
+                cleared:         { type: 'warning', icon: 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16', text: 'Lista vaciada. Todos los países fueron eliminados.' },
+                cleared_organ:   { type: 'warning', icon: 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16', text: 'Países del órgano eliminados correctamente.' },
+                error:           { type: 'error',   icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', text: 'No se pudo completar la acción. Verificá los datos.' },
+                no_file:         { type: 'error',   icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', text: 'No se seleccionó ningún archivo.' },
+            }; %>
+            <% const flashMsg = query && query.msg ? flashMap[query.msg] : null; %>
+            <% if (flashMsg) { %>
+            <div id="flash-msg" class="flex items-center gap-3 px-5 py-4 rounded-2xl border
+                <%= flashMsg.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-800' :
+                    flashMsg.type === 'warning' ? 'bg-amber-50 border-amber-100 text-amber-800' :
+                    'bg-red-50 border-red-100 text-red-800' %>">
+                <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0
+                    <%= flashMsg.type === 'success' ? 'bg-emerald-100' : flashMsg.type === 'warning' ? 'bg-amber-100' : 'bg-red-100' %>">
+                    <svg class="w-4 h-4 <%= flashMsg.type === 'success' ? 'text-emerald-600' : flashMsg.type === 'warning' ? 'text-amber-600' : 'text-red-500' %>"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="<%= flashMsg.icon %>"/>
+                    </svg>
+                </div>
+                <p class="text-sm font-bold flex-1"><%= flashMsg.text %>
+                    <% if (query.imported) { %> (<%= query.imported %> importados<% if (query.skipped && query.skipped !== '0') { %>, <%= query.skipped %> omitidos<% } %>)<% } %>
+                </p>
+                <button onclick="document.getElementById('flash-msg').remove()"
+                        class="opacity-40 hover:opacity-70 transition text-current">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <script>setTimeout(()=>{const f=document.getElementById('flash-msg');if(f){f.style.transition='opacity 0.4s';f.style.opacity='0';setTimeout(()=>f.remove(),400);}},4500);</script>
+            <% } %>
+
+            <!-- ── Header ── -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Gestión</span>
+                        <span class="text-slate-200">/</span>
+                        <span class="text-[11px] font-black uppercase tracking-widest" style="color:#61B4E4;">Países por Órgano</span>
+                    </div>
+                    <h1 class="text-3xl font-black text-slate-900"><%= title %></h1>
+                    <p class="text-sm text-gray-400 mt-1">
+                        <span class="font-bold text-slate-600"><%= countries.length %></span> países asignados en
+                        <span class="font-bold text-slate-600"><%= organs.filter(o => o.countries && o.countries.length > 0).length %></span> órganos
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 flex-wrap">
+                    <button onclick="toggleAddPanel()"
+                            class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Agregar manual
+                    </button>
+                    <form action="/admin/paises-por-organo/eliminar-todo" method="POST"
+                          onsubmit="return confirm('⚠️ PELIGRO: Esto borrará TODOS los países de todos los órganos. ¿Confirmar?')">
+                        <button type="submit"
+                                class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-red-100 text-red-500 text-sm font-bold hover:bg-red-50 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Vaciar Todo
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ── Panel agregar manual ── -->
+            <div id="addPanel" class="closed" style="max-height: 0;">
+                <div class="bg-white rounded-2xl border border-indigo-100 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-50 flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-sm font-black text-slate-700">Agregar país a un órgano</h2>
+                    </div>
+                    <form action="/admin/paises-por-organo/store" method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Órgano *</label>
+                            <% if (organs.length > 0) { %>
+                            <select name="organ_id" id="selectOrganId"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all mb-2">
+                                <option value="">Seleccionar órgano...</option>
+                                <% organs.forEach(o => { %>
+                                <option value="<%= o.id %>"><%= o.name %></option>
+                                <% }); %>
+                            </select>
+                            <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                                <span>o crear nuevo:</span>
+                                <input type="text" name="new_organ_name" placeholder="Nombre de nuevo órgano..."
+                                       class="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 text-xs text-slate-700">
+                            </div>
+                            <% } else { %>
+                            <input type="text" name="new_organ_name" required placeholder="ej: Consejo de Seguridad"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                            <p class="text-[11px] text-amber-600 mt-1 font-medium">Se creará el órgano automáticamente.</p>
+                            <% } %>
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">País *</label>
+                            <input type="text" name="country_name" required placeholder="ej: Argentina"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-black text-slate-600 uppercase tracking-wider block mb-2">Bandera (emoji opcional)</label>
+                            <input type="text" name="country_flag" placeholder="ej: 🇦🇷"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 transition-all">
+                        </div>
+                        <div class="flex items-end gap-3">
+                            <button type="button" onclick="toggleAddPanel()"
+                                    class="px-6 py-3 rounded-xl text-gray-500 font-bold hover:bg-gray-100 transition text-sm">Cancelar</button>
+                            <button type="submit"
+                                    class="px-8 py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 text-sm">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ── Barra de herramientas ── -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
+
+                    <!-- Importar Excel -->
+                    <form action="/admin/paises-por-organo/upload" method="POST" enctype="multipart/form-data"
+                          class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl border border-gray-200">
+                        <input type="file" name="file" accept=".xlsx,.xls" required
+                               class="text-xs text-gray-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
+                        <button type="submit"
+                                class="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition shadow-sm shadow-blue-200">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                            </svg>
+                            Importar
+                        </button>
+                        <a href="/admin/ejemplos/paises" class="text-[11px] font-bold text-blue-500 hover:underline whitespace-nowrap">ver ejemplo</a>
+                    </form>
+
+                    <!-- Filtros -->
+                    <div class="flex flex-wrap gap-3 items-center">
+                        <!-- Búsqueda -->
+                        <div class="relative">
+                            <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Buscar país..."
+                                   class="pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium text-slate-700 w-52 transition-all">
+                        </div>
+
+                        <!-- Filtro por órgano -->
+                        <select id="filterOrgano" onchange="applyFilters()"
+                                class="px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm font-bold text-slate-600 transition-all">
+                            <option value="">Todos los órganos</option>
+                            <% organs.forEach(o => { %>
+                            <option value="<%= o.id %>"><%= o.name %> (<%= o.countries ? o.countries.length : 0 %>)</option>
+                            <% }); %>
+                        </select>
+
+                        <!-- Contador -->
+                        <span class="text-[11px] font-black text-gray-400 uppercase tracking-wider whitespace-nowrap">
+                            <span id="countBadge" class="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><%= countries.length %></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Listado por órgano ── -->
+            <% if (countries.length === 0) { %>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm py-20 text-center">
+                <div class="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <p class="text-sm font-bold text-gray-400">No hay países asignados todavía.</p>
+                <p class="text-xs text-gray-300 mt-1">Importá un Excel o agregá uno manualmente.</p>
+            </div>
+            <% } else { %>
+
+            <% organs.forEach(organ => { %>
+            <% if (organ.countries && organ.countries.length > 0) { %>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden organ-group" data-organ-id="<%= organ.id %>">
+                <!-- Header del órgano -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: <%= organ.color || '#61B4E4' %>;"></div>
+                        <h3 class="text-sm font-black text-slate-800"><%= organ.name %></h3>
+                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full" style="background: <%= organ.color || '#61B4E4' %>15; color: <%= organ.color || '#61B4E4' %>;">
+                            <%= organ.countries.length %> <%= organ.countries.length === 1 ? 'país' : 'países' %>
+                        </span>
+                    </div>
+                    <form action="/admin/paises-por-organo/eliminar-por-organo/<%= organ.id %>" method="POST"
+                          onsubmit="return confirm('¿Eliminar todos los países de <%= organ.name %>?')">
+                        <button type="submit"
+                                class="text-[11px] font-bold text-red-400 hover:text-red-600 transition flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Vaciar
+                        </button>
+                    </form>
+                </div>
+                <!-- Lista de países -->
+                <div class="p-5">
+                    <div class="flex flex-wrap gap-2">
+                        <% organ.countries.forEach(c => { %>
+                        <div class="country-item inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-gray-100 bg-gray-50 hover:shadow-sm transition group"
+                             data-name="<%= c.country_name.toLowerCase() %>" data-organ="<%= organ.id %>">
+                            <% if (c.country_flag) { %>
+                            <span class="text-base leading-none"><%= c.country_flag %></span>
+                            <% } %>
+                            <span class="text-sm font-bold text-slate-700"><%= c.country_name %></span>
+                            <a href="/admin/paises-por-organo/eliminar/<%= c.id %>"
+                               onclick="return confirm('¿Eliminar <%= c.country_name %>?')"
+                               class="w-5 h-5 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 transition opacity-0 group-hover:opacity-100"
+                               title="Eliminar">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <% }); %>
+
+            <% } %>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    // ── Toggle panel agregar ──
+    function toggleAddPanel() {
+        const p = document.getElementById('addPanel');
+        if (p.classList.contains('closed')) {
+            p.classList.remove('closed');
+            p.style.maxHeight = p.scrollHeight + 'px';
+        } else {
+            p.classList.add('closed');
+            p.style.maxHeight = '0';
+        }
+    }
+
+    // ── Filtros ──
+    function applyFilters() {
+        const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+        const organFilter = document.getElementById('filterOrgano').value;
+        let visible = 0;
+
+        // Filtrar items individuales
+        document.querySelectorAll('.country-item').forEach(item => {
+            const name = item.dataset.name || '';
+            const organ = item.dataset.organ || '';
+            const matchSearch = !search || name.includes(search);
+            const matchOrgan = !organFilter || organ === organFilter;
+            const show = matchSearch && matchOrgan;
+            item.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        // Ocultar grupos de órganos vacíos
+        document.querySelectorAll('.organ-group').forEach(group => {
+            const items = group.querySelectorAll('.country-item');
+            const hasVisible = Array.from(items).some(i => i.style.display !== 'none');
+            group.style.display = hasVisible ? '' : 'none';
+        });
+
+        document.getElementById('countBadge').textContent = visible;
+    }
+</script>
+
+</body>
+</html>

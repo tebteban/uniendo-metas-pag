@@ -107,7 +107,8 @@ const Setting     = require('./backend/database/models/Setting');
 const Organ       = require('./backend/database/models/Organ');
 const Schedule    = require('./backend/database/models/Schedule');
 const Authority   = require('./backend/database/models/Authority');
-const Inscription = require('./backend/database/models/Inscription');
+const Inscription  = require('./backend/database/models/Inscription');
+const OrganCountry = require('./backend/database/models/OrganCountry');
 
 async function initializeDatabase() {
     try {
@@ -127,6 +128,19 @@ async function initializeDatabase() {
                 role: 'admin'
             });
             console.log(`Servidor: Usuario admin creado: ${adminUsername}`);
+        }
+
+        // Crear órganos por defecto si la tabla está vacía
+        const organCount = await Organ.count();
+        if (organCount === 0) {
+            await Organ.bulkCreate([
+                { name: 'Asamblea General (AG)', color: '#73A950', description: 'Principal órgano deliberativo y representativo de la ONU.' },
+                { name: 'Sala de Tratados Internacionales (STI)', color: '#FFB819', description: 'Espacio diplomático de negociación directa y firma de acuerdos bilaterales y multilaterales.' },
+                { name: 'Consejo Económico y Social (ECOSOC)', color: '#E15829', description: 'Órgano de debate y coordinación de asuntos económicos, sociales y ambientales.' },
+                { name: 'ONUDD', color: '#61B4E4', description: 'Oficina de las Naciones Unidas contra la Droga y el Delito.' },
+                { name: 'Consejo de Seguridad Histórico (CSH)', color: '#A02140', description: 'Simulación histórica del Consejo de Seguridad de Naciones Unidas.' }
+            ]);
+            console.log('Servidor: Órganos iniciales creados por defecto');
         }
     } catch (error) {
         console.error('Error inicializando base de datos:', error);
