@@ -26,11 +26,6 @@ const clean = (str) => {
     #lightbox { transition: opacity 0.3s ease; }
     #lightbox.hidden { opacity: 0; pointer-events: none; }
     #lightbox:not(.hidden) { opacity: 1; pointer-events: auto; }
-    @media (max-width: 640px) {
-        body { overflow-x: clip; }
-        main, section { max-width: 100%; }
-        h1, h2, h3, p { overflow-wrap: anywhere; }
-    }
 </style>
 
 <body class="bg-white text-gray-600 antialiased font-sans" style="overflow-x: hidden;">
@@ -276,7 +271,7 @@ const clean = (str) => {
                         <p class="text-gray-500 text-lg leading-relaxed mb-8">
                             <%- clean(settings.text_vol_semillero_desc || 'La experiencia es tan transformadora que los participantes deciden volver. 8 de cada 10 voluntarios comenzaron su camino como delegados.') %>
                         </p>
-                        <div class="flex items-center justify-center md:justify-start gap-4">
+                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                             <div class="flex -space-x-3">
                                 <% for (let i = 0; i < 4; i++) { %>
                                 <div class="w-10 h-10 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center shadow-sm">

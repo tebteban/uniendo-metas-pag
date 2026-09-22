@@ -1,6 +1,5 @@
 const Organ = require('../database/models/Organ');
 const Schedule = require('../database/models/Schedule');
-const Setting = require('../database/models/Setting');
 
 const controller = {
     index: async (req, res) => {
@@ -36,7 +35,7 @@ const controller = {
             });
         } catch (error) {
             console.error('Error fetching data:', error);
-            res.render('index', { title: 'Uniendo Metas Santiago del Estero', organos: [], cronograma: [], settings: {} });
+            res.render('index', { title: 'Uniendo Metas Santiago del Estero', organos: [], cronograma: [], settings: res.locals.settings || {} });
         }
     },
 
@@ -80,12 +79,7 @@ const controller = {
                 order: [['order', 'ASC'], ['name', 'ASC']]
             });
 
-            // Load settings
-            const settingsArray = await Setting.findAll();
-            const settings = {};
-            settingsArray.forEach(s => {
-                settings[s.key] = s.value;
-            });
+            const settings = res.locals.settings;
 
             res.render('voluntarios_new', {
                 title: 'Voluntariado',
@@ -97,7 +91,7 @@ const controller = {
             res.render('voluntarios_new', {
                 title: 'Voluntariado',
                 team: [],
-                settings: {}
+                settings: res.locals.settings || {}
             });
         }
     },
@@ -114,17 +108,14 @@ const controller = {
             console.error('Error loading participacion settings:', error);
             res.render('participacion', {
                 title: 'Participación',
-                settings: {}
+                settings: res.locals.settings || {}
             });
         }
     },
 
     delegados: async (req, res) => {
         try {
-            // Load settings for the delegados page
-            const settingsArray = await Setting.findAll();
-            const settings = {};
-            settingsArray.forEach(s => { settings[s.key] = s.value; });
+            const settings = res.locals.settings;
 
             // Load organs with their countries
             const OrganCountry = require('../database/models/OrganCountry');
@@ -140,7 +131,7 @@ const controller = {
             });
         } catch (error) {
             console.error('Error loading delegados page:', error);
-            res.render('delegados', { title: 'Delegados | Uniendo Metas', settings: {}, organos: [] });
+            res.render('delegados', { title: 'Delegados | Uniendo Metas', settings: res.locals.settings || {}, organos: [] });
         }
     },
 
@@ -170,7 +161,7 @@ const controller = {
             settings
         });
     } catch (error) {
-        res.render('autoridades', { title: 'Autoridades | Uniendo Metas', settings: {} });
+        res.render('autoridades', { title: 'Autoridades | Uniendo Metas', settings: res.locals.settings || {} });
     }
 },
 };

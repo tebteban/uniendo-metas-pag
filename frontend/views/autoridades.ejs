@@ -28,11 +28,6 @@ const clean = (str) => {
     #lightbox { transition: opacity 0.3s ease; }
     #lightbox.hidden { opacity: 0; pointer-events: none; }
     #lightbox:not(.hidden) { opacity: 1; pointer-events: auto; }
-    @media (max-width: 640px) {
-        body { overflow-x: clip; }
-        main, section { max-width: 100%; }
-        h1, h2, h3, p { overflow-wrap: anywhere; }
-    }
 </style>
 
 <body class="bg-white text-gray-600 antialiased font-sans">

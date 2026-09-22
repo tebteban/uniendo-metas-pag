@@ -1,7 +1,7 @@
-<nav class="bg-white border-b border-gray-100 px-6 flex justify-between items-center fixed w-full top-0 z-50 h-16 shadow-sm">
+<nav id="admin-navbar" class="bg-white border-b border-gray-100 px-6 flex justify-between items-center fixed w-full top-0 z-50 h-16 shadow-sm">
 
     <div class="flex items-center gap-4">
-        <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-slate-700 focus:outline-none transition-colors">
+        <button id="mobile-menu-btn" type="button" aria-label="Abrir menú de administración" aria-controls="admin-sidebar" aria-expanded="false" class="md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-slate-700 focus:outline-none transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
@@ -10,7 +10,7 @@
         <!-- Branding -->
         <a href="/admin/dashboard" class="flex items-center gap-3">
             <img src="/img/logo-um.png" alt="Uniendo Metas" class="w-12 h-12 object-contain">
-            <div>
+            <div class="admin-brand-copy">
                 <p class="font-black text-slate-800 text-sm tracking-tight leading-none">UNIENDO METAS</p>
                 <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest leading-none mt-0.5">Panel Admin</p>
             </div>
@@ -51,23 +51,29 @@
         </a>
     </div>
 </nav>
+<button id="sidebar-overlay" type="button" aria-label="Cerrar menú de administración" class="hidden md:hidden fixed inset-0 z-30 bg-black/40 touch-none"></button>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const btn     = document.getElementById('mobile-menu-btn');
         const sidebar = document.getElementById('admin-sidebar');
         const overlay = document.getElementById('sidebar-overlay');
+        const closeSidebar = () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        };
         if (btn && sidebar) {
             btn.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
+                const open = !sidebar.classList.toggle('-translate-x-full');
+                btn.setAttribute('aria-expanded', String(open));
                 if (overlay) overlay.classList.toggle('hidden');
             });
-        }
-        if (overlay) {
-            overlay.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
+            overlay.addEventListener('click', closeSidebar);
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') closeSidebar();
             });
+            window.matchMedia('(min-width: 768px)').addEventListener('change', closeSidebar);
         }
     });
 </script>

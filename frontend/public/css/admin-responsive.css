@@ -1,0 +1,18 @@
+main { min-width: 0; }
+main .grid > *, main .flex > *, main form { min-width: 0; }
+main .flex-col > * { max-width: 100%; }
+main :is(h1, h2, h3, p, label, a) { overflow-wrap: anywhere; }
+main :is(input, select, textarea) { max-width: 100%; min-width: 0; }
+@media (max-width: 767px) {
+    main[class] { padding: 1rem; }
+    main .p-8, main .p-10 { padding: 1.25rem; }
+    main > div > .flex { flex-wrap: wrap; }
+    main form.flex { flex-wrap: wrap; max-width: 100%; }
+    input[type="file"] { width: 100%; }
+    #admin-navbar { padding-left: 0.75rem; padding-right: 0.75rem; gap: 0.5rem; }
+    #admin-navbar > div { gap: 0.5rem; }
+    input[class], select[class], textarea[class] { font-size: 16px; }
+}
+@media (max-width: 399px) {
+    #admin-navbar .admin-brand-copy { display: none; }
+}

@@ -27,12 +27,12 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
 
             <div class="flex-shrink-0 flex items-center pl-0 sm:pl-2">
                 <a href="/" class="group flex items-center">
-                    <img class="h-14 sm:h-16 lg:h-20 w-auto max-w-[32vw] sm:max-w-[190px] lg:max-w-[220px] transition-transform duration-300 ease-in-out group-hover:scale-105"
+                    <img class="h-14 sm:h-16 lg:h-20 w-auto max-w-[180px] sm:max-w-[190px] lg:max-w-[220px] transition-transform duration-300 ease-in-out group-hover:scale-105"
                         src="/img/logo-um.png" alt="Uniendo Metas Santiago del Estero">
                 </a>
             </div>
 
-            <div class="hidden lg:flex items-center gap-5">
+            <div class="hidden xl:flex items-center gap-5">
                 <a href="/organos"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Órganos</a>
                 <a href="/cronograma"
@@ -63,22 +63,8 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
                 <% } %>
             </div>
 
-            <div class="flex items-center lg:hidden">
-                <% if (_navButtonVisible) { %>
-                    <% if (_rolesActivosNav) { %>
-                    <button type="button"
-                        onclick="openModalInscripcion()"
-                        class="mr-2 max-w-[44vw] truncate px-2 sm:px-4 py-2 bg-brand-red text-white font-bold rounded-full shadow-md hover:bg-red-700 transition-all text-xs sm:text-sm whitespace-nowrap cursor-pointer">
-                        <%= _navBtnTextMobile %>
-                    </button>
-                    <% } else if (_navBtnFallback !== '#') { %>
-                    <a href="<%= _navBtnFallback %>" target="_blank" rel="noopener noreferrer"
-                        class="mr-2 max-w-[44vw] truncate px-2 sm:px-4 py-2 bg-brand-red text-white font-bold rounded-full shadow-md hover:bg-red-700 transition-all text-xs sm:text-sm whitespace-nowrap">
-                        <%= _navBtnTextMobile %>
-                    </a>
-                    <% } %>
-                <% } %>
-                <button id="mobile-menu-button" type="button"
+            <div class="flex items-center xl:hidden">
+                <button id="mobile-menu-button" type="button" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-brand-blue focus:outline-none">
                     <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -89,7 +75,7 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
         </div>
     </div>
 
-    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-xl">
+    <div id="mobile-menu" class="hidden xl:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-xl">
         <div class="px-4 pt-2 pb-6 space-y-1">
             <a href="/" class="mobile-link block px-3 py-3 rounded-md text-base font-bold text-gray-700">Inicio</a>
             <a href="/organos"
@@ -131,7 +117,8 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
 
         if (btn && menu) {
             btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
+                const isOpen = !menu.classList.toggle('hidden');
+                btn.setAttribute('aria-expanded', String(isOpen));
             });
         }
 
@@ -139,7 +126,19 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
             });
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+                btn.focus();
+            }
+        });
+        window.matchMedia('(min-width: 1280px)').addEventListener('change', () => {
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
         });
     </script>
 </nav>
