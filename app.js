@@ -19,6 +19,17 @@ const app = express();
 const PORT         = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 
+if (isProduction) {
+    const required = ['DATABASE_URL', 'SESSION_SECRET', 'ADMIN_USERNAME', 'ADMIN_PASSWORD',
+        'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'];
+    const missing = required.filter(key => !process.env[key]?.trim());
+    if (missing.length) {
+        throw new Error(`Faltan variables de producción: ${missing.join(', ')}`);
+    }
+}
+
+app.get('/healthz', (req, res) => res.status(200).json({ status: 'ok' }));
+
 // --- MIDDLEWARE --------------------------------------------------------------
 app.use(express.static(path.join(__dirname, 'frontend/public')));
 app.use(express.urlencoded({ extended: false }));
@@ -86,14 +97,18 @@ async function initializeDatabase() {
         }
     } catch (error) {
         console.error('Error inicializando base de datos:', error);
+        throw error;
     }
 }
 
-initializeDatabase();
-
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`Presiona Ctrl + C para detenerlo`);
+initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en http://localhost:${PORT}`);
+        console.log(`Presiona Ctrl + C para detenerlo`);
+    });
+}).catch(() => {
+    process.exitCode = 1;
+    sequelize.close().catch(() => {});
 });
 
 module.exports = app;
