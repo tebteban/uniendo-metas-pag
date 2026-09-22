@@ -16,6 +16,7 @@ router.get('/dashboard', authMiddleware, adminController.dashboard);
 // General Settings
 const adminSettingsController = require('../controllers/adminSettingsController');
 const siteUpload = require('../middlewares/siteUploadMiddleware');
+const publicFileUpload = require('../middlewares/publicFileMiddleware');
 router.get('/configuracion', authMiddleware, adminSettingsController.index);
 router.post('/configuracion', authMiddleware, siteUpload.any(), adminSettingsController.update);
 
@@ -24,7 +25,7 @@ const adminPhotosController = require('../controllers/adminPhotosController');
 router.get('/fotos', authMiddleware, adminPhotosController.index);
 router.post('/fotos/update/:key', authMiddleware, siteUpload.any(), adminPhotosController.update);
 router.post('/fotos/add', authMiddleware, adminPhotosController.addSlot);
-router.get('/fotos/eliminar/:key', authMiddleware, adminPhotosController.delete);
+router.post('/fotos/eliminar/:key', authMiddleware, adminPhotosController.delete);
 
 // Authorities CRUD
 const adminAuthoritiesController = require('../controllers/adminAuthoritiesController');
@@ -36,7 +37,7 @@ router.get('/equipodevoluntarios/crear', authMiddleware, adminAuthoritiesControl
 router.post('/equipodevoluntarios/store', authMiddleware, upload.single('image'), adminAuthoritiesController.store);
 router.get('/equipodevoluntarios/editar/:id', authMiddleware, adminAuthoritiesController.edit);
 router.post('/equipodevoluntarios/update/:id', authMiddleware, upload.single('image'), adminAuthoritiesController.update);
-router.get('/equipodevoluntarios/eliminar/:id', authMiddleware, adminAuthoritiesController.destroy);
+router.post('/equipodevoluntarios/eliminar/:id', authMiddleware, adminAuthoritiesController.destroy);
 router.post('/equipodevoluntarios/toggle/:id', authMiddleware, adminAuthoritiesController.toggleStatus);
 router.post('/equipodevoluntarios/toggle-group', authMiddleware, adminAuthoritiesController.toggleGroup);
 router.post('/equipodevoluntarios/publicar-todos', authMiddleware, adminAuthoritiesController.publishAll);
@@ -51,7 +52,7 @@ router.post('/inscripciones/:type/upload', authMiddleware, excelUpload.single('f
 router.post('/inscripciones/:type/upload-manual', authMiddleware, adminInscriptionsController.uploadManual);
 router.post('/inscripciones/editar/:id', authMiddleware, adminInscriptionsController.edit);
 router.post('/inscripciones/:type/eliminar-todo', authMiddleware, adminInscriptionsController.destroyAll);
-router.get('/inscripciones/eliminar/:id', authMiddleware, adminInscriptionsController.destroy);
+router.post('/inscripciones/eliminar/:id', authMiddleware, adminInscriptionsController.destroy);
 
 // Example Excel Downloads
 const adminExamplesController = require('../controllers/adminExamplesController');
@@ -67,7 +68,7 @@ const adminOrganCountriesController = require('../controllers/adminOrganCountrie
 router.get('/paises-por-organo', authMiddleware, adminOrganCountriesController.index);
 router.post('/paises-por-organo/store', authMiddleware, adminOrganCountriesController.store);
 router.post('/paises-por-organo/upload', authMiddleware, excelUpload.single('file'), adminOrganCountriesController.upload);
-router.get('/paises-por-organo/eliminar/:id', authMiddleware, adminOrganCountriesController.destroy);
+router.post('/paises-por-organo/eliminar/:id', authMiddleware, adminOrganCountriesController.destroy);
 router.post('/paises-por-organo/eliminar-por-organo/:organId', authMiddleware, adminOrganCountriesController.destroyByOrgan);
 router.post('/paises-por-organo/eliminar-todo', authMiddleware, adminOrganCountriesController.destroyAll);
 
@@ -88,13 +89,18 @@ router.post('/paginas/:page', authMiddleware, siteUpload.any(), adminPagesContro
 router.post('/cronograma/store', authMiddleware, adminPagesController.storeCronograma);
 router.post('/cronograma/update/:id', authMiddleware, adminPagesController.updateCronograma);
 router.get('/cronograma/editar/:id', authMiddleware, adminPagesController.editCronograma);
-router.get('/cronograma/eliminar/:id', authMiddleware, adminPagesController.destroyCronograma);
+router.post('/cronograma/eliminar/:id', authMiddleware, adminPagesController.destroyCronograma);
 
 // Rutas CRUD para Organos (administradas dentro del CMS)
-router.post('/organos/store', authMiddleware, siteUpload.any(), adminPagesController.storeOrgano);
-router.post('/organos/update/:id', authMiddleware, siteUpload.any(), adminPagesController.updateOrgano);
+const organDocumentFields = publicFileUpload.fields([
+    { name: 'reglamento', maxCount: 1 },
+    { name: 'archivo_dinamicas', maxCount: 1 },
+    { name: 'archivo_topico', maxCount: 1 }
+]);
+router.post('/organos/store', authMiddleware, organDocumentFields, adminPagesController.storeOrgano);
+router.post('/organos/update/:id', authMiddleware, organDocumentFields, adminPagesController.updateOrgano);
 router.get('/organos/editar/:id', authMiddleware, adminPagesController.editOrgano);
-router.get('/organos/eliminar/:id', authMiddleware, adminPagesController.destroyOrgano);
+router.post('/organos/eliminar/:id', authMiddleware, adminPagesController.destroyOrgano);
 
 // ─── Certificados ────────────────────────────────────────────────────────────
 

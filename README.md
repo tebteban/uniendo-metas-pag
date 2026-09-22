@@ -31,7 +31,8 @@ Este sitio es la plataforma oficial del evento: gestiona inscripciones, publica 
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
 ### Deploy & Tools
-![Railway](https://img.shields.io/badge/Railway-0B0D0E?style=flat&logo=railway&logoColor=white)
+![Render](https://img.shields.io/badge/Render-000000?style=flat&logo=render&logoColor=white)
+![Neon](https://img.shields.io/badge/Neon-00E599?style=flat&logo=neon&logoColor=black)
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
 
@@ -135,7 +136,7 @@ Corre en `http://localhost:3000`. Usa SQLite automáticamente — no requiere Po
 
 ## ☁️ Deploy
 
-Ver `DEPLOYMENT_RAILWAY.md` para instrucciones completas paso a paso.
+Ver [`DEPLOYMENT_RENDER.md`](DEPLOYMENT_RENDER.md) para configurar Render, Neon y Cloudinary.
 
 ---
 

@@ -1,17 +1,14 @@
 {
   "name": "uniendo-metas-sde",
   "version": "1.0.0",
-  "description": "",
+  "description": "Sitio oficial y panel de administración de Uniendo Metas Santiago del Estero",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "echo 'Build complete'",
-    "postinstall": "npm rebuild sqlite3 --build-from-source"
+    "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Ezequiel Rossetti Carrasco, Esteban Cejas",
+  "license": "UNLICENSED",
   "dependencies": {
     "archiver": "^7.0.1",
     "bcrypt": "^6.0.0",
@@ -28,8 +25,10 @@
     "pg": "^8.18.0",
     "puppeteer": "^22.0.0",
     "sequelize": "^6.37.7",
-    "sqlite3": "^6.0.1",
     "xlsx": "^0.18.5",
     "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "sqlite3": "^6.0.1"
   }
 }

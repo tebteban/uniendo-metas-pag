@@ -622,9 +622,10 @@
                                                 <td class="px-4 py-3 text-right space-x-2">
                                                     <a href="/admin/cronograma/editar/<%= ev.id %>"
                                                        class="text-indigo-600 hover:text-indigo-900 font-bold text-xs">Editar</a>
-                                                    <a href="/admin/cronograma/eliminar/<%= ev.id %>"
-                                                       onclick="return confirm('¿Eliminar esta actividad?')"
-                                                       class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</a>
+                                                    <form action="/admin/cronograma/eliminar/<%= ev.id %>" method="POST" class="inline"
+                                                          onsubmit="return confirm('¿Eliminar esta actividad?')">
+                                                        <button type="submit" class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             <% }); %>
@@ -774,9 +775,10 @@
                                                 <td class="px-4 py-3 text-right space-x-2">
                                                     <a href="/admin/organos/editar/<%= org.id %>"
                                                        class="text-indigo-600 hover:text-indigo-900 font-bold text-xs">Editar</a>
-                                                    <a href="/admin/organos/eliminar/<%= org.id %>"
-                                                       onclick="return confirm('¿Eliminar este órgano?')"
-                                                       class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</a>
+                                                    <form action="/admin/organos/eliminar/<%= org.id %>" method="POST" class="inline"
+                                                          onsubmit="return confirm('¿Eliminar este órgano?')">
+                                                        <button type="submit" class="text-red-500 hover:text-red-700 font-bold text-xs">Eliminar</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             <% }); %>

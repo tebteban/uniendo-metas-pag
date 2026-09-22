@@ -52,6 +52,10 @@ excel/
 
 public/img/site/
 
+# Uploaded files are stored below frontend/public in this repository.
+/frontend/public/uploads/
+/frontend/public/img/Voluntarios/
+
 public/img.rar
 
 public/documents.rar

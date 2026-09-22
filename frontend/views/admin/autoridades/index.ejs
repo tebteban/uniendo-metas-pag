@@ -183,9 +183,10 @@
                                 <td class="px-6 py-4 text-right whitespace-nowrap">
                                     <a href="/admin/equipodevoluntarios/editar/<%= auth.id %>"
                                        class="text-indigo-600 hover:text-indigo-900 font-bold text-xs mr-3 transition">Editar</a>
-                                    <a href="/admin/equipodevoluntarios/eliminar/<%= auth.id %>"
-                                       onclick="return confirm('¿Eliminar a <%= auth.name %>?')"
-                                       class="text-red-400 hover:text-red-600 font-bold text-xs transition">Eliminar</a>
+                                    <form action="/admin/equipodevoluntarios/eliminar/<%= auth.id %>" method="POST" class="inline"
+                                          onsubmit="return confirm('¿Eliminar a <%= auth.name %>?')">
+                                        <button type="submit" class="text-red-400 hover:text-red-600 font-bold text-xs transition">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                             <% }); %>

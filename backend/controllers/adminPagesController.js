@@ -1634,6 +1634,7 @@ const controller = {
 // ─── CRUD Controllers ───────────────────────────────────────────────────────
 const Schedule = require('../database/models/Schedule');
 const Organ    = require('../database/models/Organ');
+const OrganCountry = require('../database/models/OrganCountry');
 
 // Cronograma CRUD
 controller.storeCronograma = async (req, res) => {
@@ -1710,23 +1711,25 @@ controller.editCronograma = async (req, res) => {
 };
 
 // Organos CRUD
+const organDocumentUrl = (file) => process.env.NODE_ENV === 'production' && file.path
+    ? file.path
+    : '/uploads/documents/' + encodeURIComponent(file.filename);
+
+const uploadedOrganDocuments = (files = {}) => ({
+    link_reglamento: files.reglamento?.[0] ? organDocumentUrl(files.reglamento[0]) : undefined,
+    link_dinamicas: files.archivo_dinamicas?.[0] ? organDocumentUrl(files.archivo_dinamicas[0]) : undefined,
+    link_topico: files.archivo_topico?.[0] ? organDocumentUrl(files.archivo_topico[0]) : undefined
+});
+
 controller.storeOrgano = async (req, res) => {
     try {
-        const data = { name: req.body.name, description: req.body.description, color: req.body.color, topic: req.body.topic };
-        if (req.files) {
-            if (req.files['reglamento']?.[0]) {
-                const f = req.files['reglamento'][0];
-                data.link_reglamento = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
-            }
-            if (req.files['archivo_dinamicas']?.[0]) {
-                const f = req.files['archivo_dinamicas'][0];
-                data.link_dinamicas = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
-            }
-            if (req.files['archivo_topico']?.[0]) {
-                const f = req.files['archivo_topico'][0];
-                data.link_topico = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
-            }
-        }
+        const data = {
+            name: req.body.name,
+            description: req.body.description,
+            color: req.body.color,
+            topic: req.body.topic,
+            ...uploadedOrganDocuments(req.files)
+        };
         await Organ.create(data);
         res.redirect('/admin/paginas/organos?saved=1');
     } catch (e) {
@@ -1739,21 +1742,13 @@ controller.updateOrgano = async (req, res) => {
     try {
         const organ = await Organ.findByPk(req.params.id);
         if (!organ) return res.redirect('/admin/paginas/organos');
-        const data = { name: req.body.name, description: req.body.description, color: req.body.color, topic: req.body.topic };
-        if (req.files) {
-            if (req.files['reglamento']?.[0]) {
-                const f = req.files['reglamento'][0];
-                data.link_reglamento = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
-            }
-            if (req.files['archivo_dinamicas']?.[0]) {
-                const f = req.files['archivo_dinamicas'][0];
-                data.link_dinamicas = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
-            }
-            if (req.files['archivo_topico']?.[0]) {
-                const f = req.files['archivo_topico'][0];
-                data.link_topico = process.env.NODE_ENV === 'production' && f.path ? f.path : '/uploads/documents/' + f.filename;
-            }
-        }
+        const data = {
+            name: req.body.name,
+            description: req.body.description,
+            color: req.body.color,
+            topic: req.body.topic,
+            ...uploadedOrganDocuments(req.files)
+        };
         await organ.update(data);
         res.redirect('/admin/paginas/organos?saved=1');
     } catch (e) {
@@ -1764,7 +1759,10 @@ controller.updateOrgano = async (req, res) => {
 
 controller.destroyOrgano = async (req, res) => {
     try {
-        await Organ.destroy({ where: { id: req.params.id } });
+        await Organ.sequelize.transaction(async transaction => {
+            await OrganCountry.destroy({ where: { organ_id: req.params.id }, transaction });
+            await Organ.destroy({ where: { id: req.params.id }, transaction });
+        });
         res.redirect('/admin/paginas/organos');
     } catch (e) {
         console.error(e);
