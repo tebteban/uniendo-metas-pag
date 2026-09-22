@@ -3,10 +3,13 @@ var _titulo    = settings.modal_inscripcion_titulo    || 'Selecciona tu Rol';
 var _subtitulo = settings.modal_inscripcion_subtitulo || '¿Cómo quieres participar en esta edición?';
 var _pie       = settings.modal_inscripcion_pie       || 'Al inscribirte aceptás los términos y condiciones del Modelo Uniendo Metas Santiago del Estero.';
 
-var _delActivo  = (settings.modal_rol_delegado_activo  === undefined ? 'true' : settings.modal_rol_delegado_activo)  === 'true';
-var _autActivo  = (settings.modal_rol_autoridad_activo === undefined ? 'true' : settings.modal_rol_autoridad_activo) === 'true';
-var _volActivo  = (settings.modal_rol_voluntario_activo=== undefined ? 'true' : settings.modal_rol_voluntario_activo)=== 'true';
-var _docActivo  = (settings.modal_rol_docente_activo   === undefined ? 'true' : settings.modal_rol_docente_activo)  === 'true';
+var _roleIsEnabled = value => value === undefined || value === null
+    ? true
+    : value === true || value === 1 || ['true', '1', 'on', 'yes'].includes(String(value).toLowerCase());
+var _delActivo  = _roleIsEnabled(settings.modal_rol_delegado_activo);
+var _autActivo  = _roleIsEnabled(settings.modal_rol_autoridad_activo);
+var _volActivo  = _roleIsEnabled(settings.modal_rol_voluntario_activo);
+var _docActivo  = _roleIsEnabled(settings.modal_rol_docente_activo);
 
 var _hayAlguno  = _delActivo || _autActivo || _volActivo || _docActivo;
 %>

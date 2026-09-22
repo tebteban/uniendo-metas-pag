@@ -26,6 +26,11 @@ const clean = (str) => {
     #lightbox { transition: opacity 0.3s ease; }
     #lightbox.hidden { opacity: 0; pointer-events: none; }
     #lightbox:not(.hidden) { opacity: 1; pointer-events: auto; }
+    @media (max-width: 640px) {
+        body { overflow-x: clip; }
+        main, section { max-width: 100%; }
+        h1, h2, h3, p { overflow-wrap: anywhere; }
+    }
 </style>
 
 <body class="bg-white text-gray-600 antialiased font-sans" style="overflow-x: hidden;">
@@ -49,7 +54,7 @@ const clean = (str) => {
             </span>
         </div>
 
-        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tight leading-[1.05]" data-aos="fade-up">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tight leading-[1.05]" data-aos="fade-up">
             El equipo detrás<br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-red">
                 de la experiencia.

@@ -5,12 +5,16 @@
   - Si no hay ningún rol activo pero existe link_inscripcion_general → redirige a esa URL
   - Si no hay nada → el botón no se muestra (nav_show_button lo controla igual)
 */
+const _settingIsEnabled = value => value === undefined || value === null
+    ? true
+    : value === true || value === 1 || ['true', '1', 'on', 'yes'].includes(String(value).toLowerCase());
 const _rolesActivosNav = [
     settings.modal_rol_delegado_activo,
     settings.modal_rol_autoridad_activo,
     settings.modal_rol_voluntario_activo,
     settings.modal_rol_docente_activo
-].some(v => (v === undefined ? true : v === 'true'));
+].some(_settingIsEnabled);
+const _navButtonVisible = _settingIsEnabled(settings.nav_show_button);
 
 const _navBtnText       = settings.nav_button_text        || 'Inscribirse';
 const _navBtnTextMobile = settings.nav_button_text_mobile || settings.nav_button_text || 'Inscribirse Ahora';
@@ -21,9 +25,9 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
 
-            <div class="flex-shrink-0 flex items-center pl-6">
+            <div class="flex-shrink-0 flex items-center pl-0 sm:pl-2">
                 <a href="/" class="group flex items-center">
-                    <img class="h-20 w-auto max-w-[220px] transition-transform duration-300 ease-in-out group-hover:scale-105"
+                    <img class="h-14 sm:h-16 lg:h-20 w-auto max-w-[32vw] sm:max-w-[190px] lg:max-w-[220px] transition-transform duration-300 ease-in-out group-hover:scale-105"
                         src="/img/logo-um.png" alt="Uniendo Metas Santiago del Estero">
                 </a>
             </div>
@@ -42,7 +46,7 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
                 <a href="/participacion"
                     class="text-sm font-bold text-gray-500 hover:text-brand-blue uppercase tracking-wide">Participación</a>
 
-                <% if (settings.nav_show_button === 'true') { %>
+                <% if (_navButtonVisible) { %>
                     <% if (_rolesActivosNav) { %>
                     <button type="button"
                         onclick="openModalInscripcion()"
@@ -60,6 +64,20 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
             </div>
 
             <div class="flex items-center lg:hidden">
+                <% if (_navButtonVisible) { %>
+                    <% if (_rolesActivosNav) { %>
+                    <button type="button"
+                        onclick="openModalInscripcion()"
+                        class="mr-2 max-w-[44vw] truncate px-2 sm:px-4 py-2 bg-brand-red text-white font-bold rounded-full shadow-md hover:bg-red-700 transition-all text-xs sm:text-sm whitespace-nowrap cursor-pointer">
+                        <%= _navBtnTextMobile %>
+                    </button>
+                    <% } else if (_navBtnFallback !== '#') { %>
+                    <a href="<%= _navBtnFallback %>" target="_blank" rel="noopener noreferrer"
+                        class="mr-2 max-w-[44vw] truncate px-2 sm:px-4 py-2 bg-brand-red text-white font-bold rounded-full shadow-md hover:bg-red-700 transition-all text-xs sm:text-sm whitespace-nowrap">
+                        <%= _navBtnTextMobile %>
+                    </a>
+                    <% } %>
+                <% } %>
                 <button id="mobile-menu-button" type="button"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-brand-blue focus:outline-none">
                     <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -87,7 +105,7 @@ const _navBtnFallback   = settings.link_inscripcion_general || '#';
             <a href="/participacion"
                 class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-500">Participación</a>
 
-            <% if (settings.nav_show_button === 'true') { %>
+            <% if (_navButtonVisible) { %>
             <div class="pt-4 px-3">
                 <% if (_rolesActivosNav) { %>
                 <button type="button"
