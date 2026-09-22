@@ -1,4 +1,4 @@
-﻿const Organ = require('../database/models/Organ');
+const Organ = require('../database/models/Organ');
 const Schedule = require('../database/models/Schedule');
 const Setting = require('../database/models/Setting');
 
@@ -126,13 +126,21 @@ const controller = {
             const settings = {};
             settingsArray.forEach(s => { settings[s.key] = s.value; });
 
+            // Load organs with their countries
+            const OrganCountry = require('../database/models/OrganCountry');
+            const organs = await Organ.findAll({
+                include: [{ model: OrganCountry, as: 'countries' }],
+                order: [['name', 'ASC']]
+            });
+
             res.render('delegados', {
                 title: 'Delegados | Uniendo Metas',
-                settings
+                settings,
+                organos: organs
             });
         } catch (error) {
             console.error('Error loading delegados page:', error);
-            res.render('delegados', { title: 'Delegados | Uniendo Metas', settings: {} });
+            res.render('delegados', { title: 'Delegados | Uniendo Metas', settings: {}, organos: [] });
         }
     },
 

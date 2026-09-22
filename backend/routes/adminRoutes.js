@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
 const { authMiddleware, adminOnlyMiddleware } = require('../middlewares/authMiddleware');
@@ -60,6 +60,16 @@ router.get('/ejemplos/delegado', authMiddleware, adminExamplesController.delegad
 router.get('/ejemplos/autoridad', authMiddleware, adminExamplesController.autoridadesExample);
 router.get('/ejemplos/escuela', authMiddleware, adminExamplesController.escuelasExample);
 router.get('/ejemplos/voluntario', authMiddleware, adminExamplesController.voluntariosExample);
+router.get('/ejemplos/paises', authMiddleware, adminExamplesController.paisesExample);
+
+// Países por Órgano
+const adminOrganCountriesController = require('../controllers/adminOrganCountriesController');
+router.get('/paises-por-organo', authMiddleware, adminOrganCountriesController.index);
+router.post('/paises-por-organo/store', authMiddleware, adminOrganCountriesController.store);
+router.post('/paises-por-organo/upload', authMiddleware, excelUpload.single('file'), adminOrganCountriesController.upload);
+router.get('/paises-por-organo/eliminar/:id', authMiddleware, adminOrganCountriesController.destroy);
+router.post('/paises-por-organo/eliminar-por-organo/:organId', authMiddleware, adminOrganCountriesController.destroyByOrgan);
+router.post('/paises-por-organo/eliminar-todo', authMiddleware, adminOrganCountriesController.destroyAll);
 
 // Gestión de Cuentas (solo para admin)
 router.get('/cuentas', authMiddleware, adminOnlyMiddleware, adminUsersController.index);

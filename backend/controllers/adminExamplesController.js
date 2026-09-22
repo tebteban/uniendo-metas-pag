@@ -111,6 +111,30 @@ const controller = {
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.send(buffer);
     },
+
+    /**
+     * Descarga un Excel de ejemplo para importar Países por Órgano
+     */
+    paisesExample: (req, res) => {
+        const data = [
+            { pais: 'Argentina', organo: 'Consejo de Seguridad', bandera: '🇦🇷' },
+            { pais: 'Brasil', organo: 'Consejo de Seguridad', bandera: '🇧🇷' },
+            { pais: 'Estados Unidos', organo: 'Asamblea General', bandera: '🇺🇸' },
+            { pais: 'Francia', organo: 'Asamblea General', bandera: '🇫🇷' },
+            { pais: 'Japón', organo: 'ECOSOC', bandera: '🇯🇵' },
+            { pais: 'México', organo: 'ECOSOC', bandera: '🇲🇽' },
+        ];
+
+        const ws = xlsx.utils.json_to_sheet(data);
+        const wb = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(wb, ws, 'Países por Órgano');
+        ws['!cols'] = [{ wch: 25 }, { wch: 30 }, { wch: 10 }];
+
+        const buffer = xlsx.write(wb, { bookType: 'xlsx', type: 'buffer' });
+        res.setHeader('Content-Disposition', 'attachment; filename="ejemplo-paises-por-organo.xlsx"');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(buffer);
+    },
 };
 
 module.exports = controller;
